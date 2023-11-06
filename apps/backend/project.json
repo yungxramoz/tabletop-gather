@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "tabletop-gather",
+  "sourceRoot": "apps/backend/src",
+  "tags": [],
+  "targets": {
+    "docker-build": {
+      "command": "docker build --tag tabletop-gather-backend ."
+    }
+  }
+}
