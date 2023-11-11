@@ -1,12 +1,10 @@
 # Backend
 
-This app was created with Bootify.io - tips on working with the code [can be found here](https://bootify.io/next-steps/).
-Feel free to contact us for further questions.
+> This app was created with Bootify.io
+
+To view the Bootify.io Setup, visit [this link](https://bootify.io/app/1AFNHOA9NPO5)
 
 ## Development
-
-When starting the application `docker compose up` is called and the app will connect to the contained services.
-[Docker](https://www.docker.com/get-started/) must be available on the current system.
 
 During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
 added in the VM options of the Run Configuration after enabling this property in "Modify options". Create your own
@@ -17,7 +15,10 @@ Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and
 
 After starting the application it is accessible under `localhost:8080`.
 
-## Build
+## Build locally
+
+It's inteded to run the application (including building it) in a docker container. However, it can also be built
+locally. Follow the instructions below to build the application locally.
 
 The application can be built using the following command:
 
@@ -38,8 +39,75 @@ environment variable when running the container.
 mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=tabletop.gather/backend
 ```
 
+## Docker
+
+<div style="width: 100px">
+
+![Docker Logo](https://logos-world.net/wp-content/uploads/2021/02/Docker-Emblem.png)
+
+</div>
+
+### Building and running the backend locally
+
+The backend is pulled up via docker-compose. The docker-compose file is located in the root directory of the project.
+
+1. Build the backend image. See [Backend Image](#backend-image) on how to build it.
+2. Pull the postgres image. See [Postgres Image](#postgres-image) on how to do this.
+3. Start the backend by running `docker-compose up` in the root directory of the project (/apps/backend).
+
+### General Docker Commands
+
+| Description         | Command         |
+| ------------------- | --------------- |
+| List all containers | `docker ps -a`  |
+| List all images     | `docker images` |
+
+### Backend Image
+
+Build Image:
+
+```shell
+docker build --tag tg-java-backend .
+```
+
+Tag Image:
+
+```shell
+docker tag tg-java-backend:latest tg-java-backend:1.0.0
+```
+
+Run Container:
+
+```shell
+docker run --publish 8080:8080 tg-java-backend:1.0.0
+```
+
+### Postgres Image
+
+Pull Image:
+
+```shell
+docker pull postgres:latest
+```
+
+at the time of writing, this is version 16.0
+
+### Further utility commands
+
+Remove Tag:
+
+```shell
+docker rmi tg-java-backend:1.0.0
+```
+
+### References
+
+- [Docker: Build Java image](https://docs.docker.com/language/java/build-images/)
+- [Docker: Run Java image as a container](https://docs.docker.com/language/java/run-containers/)
+- [Docker: Use containers for Java development](https://docs.docker.com/language/java/develop/)
+
 ## Further readings
 
-* [Maven docs](https://maven.apache.org/guides/index.html)  
-* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)  
-* [Spring Data JPA reference](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)  
+- [Maven docs](https://maven.apache.org/guides/index.html)
+- [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+- [Spring Data JPA reference](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)

@@ -1,9 +1,29 @@
+version: '3.1'
+name: tg-api
 services:
-  postgres:
-    image: postgres:16.0
-    environment:
-    - POSTGRES_DB=backend
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=P4ssword!
+  tg-backend:
+    image: 'tg-java-backend:latest'
     ports:
-    - 5433:5432
+      - '8080:8080'
+    depends_on:
+      tg-postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://tg-postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  tg-postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
