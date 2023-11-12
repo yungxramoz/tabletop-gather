@@ -16,13 +16,15 @@ This will install both Docker and Docker Compose on your machine.
 
 _(All commands are to be run from the root of the repository. Nx specific commands can be run from anywhere in the repository.)_
 
-1. Install dependencies with `npm ci`.
+1. If you haven't already: pull the latest postgres image with `docker pull postgres:latest` at the time of writing, this is version 16.0
 
-2. Start the frontend with `nx serve frontend`. Open your browser and navigate to http://localhost:4200/
+2. Install dependencies with `npm ci`.
+
+3. Start the frontend with `nx serve frontend`. Open your browser and navigate to http://localhost:4200/
 
 > This will launch an angular dev server with hot reloading enabled. Don't worry about building the app, Nx will take care of dependent tasks and build order.
 
-3. Start the backend with `nx serve backend`. The backend will be available at http://localhost:8080/
+4. Start the backend with `nx serve backend`. The backend will be available at http://localhost:8080/
 
 > This will - via `docker-compose` - launch a preconfigured postgres container and the backend application container.
 > It might take a minute or two if you're doing this the first time, especially if you don't have the postgres image locally yet.
