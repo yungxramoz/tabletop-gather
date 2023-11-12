@@ -26,7 +26,6 @@ public class SessionDTO {
     @Schema(type = "string", example = "18:30")
     private LocalTime endTime;
 
-    @NotNull
     private UUID sessionplan;
 
 }

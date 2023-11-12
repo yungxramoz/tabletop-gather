@@ -1,5 +1,6 @@
 package tabletop.gather.backend.model;
 
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,5 +10,6 @@ import lombok.Setter;
 public class SessionUserDTO {
 
     private Long id;
+    private UUID user;
 
 }

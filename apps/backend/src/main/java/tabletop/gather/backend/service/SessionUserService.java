@@ -4,8 +4,10 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.domain.SessionUser;
+import tabletop.gather.backend.domain.User;
 import tabletop.gather.backend.model.SessionUserDTO;
 import tabletop.gather.backend.repos.SessionUserRepository;
+import tabletop.gather.backend.repos.UserRepository;
 import tabletop.gather.backend.util.NotFoundException;
 
 
@@ -13,9 +15,12 @@ import tabletop.gather.backend.util.NotFoundException;
 public class SessionUserService {
 
     private final SessionUserRepository sessionUserRepository;
+    private final UserRepository userRepository;
 
-    public SessionUserService(final SessionUserRepository sessionUserRepository) {
+    public SessionUserService(final SessionUserRepository sessionUserRepository,
+            final UserRepository userRepository) {
         this.sessionUserRepository = sessionUserRepository;
+        this.userRepository = userRepository;
     }
 
     public List<SessionUserDTO> findAll() {
@@ -51,11 +56,15 @@ public class SessionUserService {
     private SessionUserDTO mapToDTO(final SessionUser sessionUser,
             final SessionUserDTO sessionUserDTO) {
         sessionUserDTO.setId(sessionUser.getId());
+        sessionUserDTO.setUser(sessionUser.getUser() == null ? null : sessionUser.getUser().getId());
         return sessionUserDTO;
     }
 
     private SessionUser mapToEntity(final SessionUserDTO sessionUserDTO,
             final SessionUser sessionUser) {
+        final User user = sessionUserDTO.getUser() == null ? null : userRepository.findById(sessionUserDTO.getUser())
+                .orElseThrow(() -> new NotFoundException("user not found"));
+        sessionUser.setUser(user);
         return sessionUser;
     }
 

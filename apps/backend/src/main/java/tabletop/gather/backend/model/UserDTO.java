@@ -1,6 +1,5 @@
 package tabletop.gather.backend.model;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
 import lombok.Getter;
@@ -27,8 +26,5 @@ public class UserDTO {
 
     @Size(max = 128)
     private String passwordSalt;
-
-    @NotNull
-    private Long sessionUser;
 
 }

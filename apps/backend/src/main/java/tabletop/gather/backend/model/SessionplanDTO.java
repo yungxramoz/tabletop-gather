@@ -17,7 +17,6 @@ public class SessionplanDTO {
     @Size(max = 255)
     private String name;
 
-    @NotNull
     private UUID user;
 
 }

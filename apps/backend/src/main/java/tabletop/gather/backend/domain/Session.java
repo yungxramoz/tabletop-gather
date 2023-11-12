@@ -42,7 +42,7 @@ public class Session {
     private LocalTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sessionplan_id", nullable = false)
+    @JoinColumn(name = "sessionplan_id")
     private Sessionplan sessionplan;
 
     @CreatedDate

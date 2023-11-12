@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import tabletop.gather.backend.domain.SessionUser;
 import tabletop.gather.backend.domain.User;
 import tabletop.gather.backend.model.UserDTO;
-import tabletop.gather.backend.repos.SessionUserRepository;
 import tabletop.gather.backend.repos.UserRepository;
 import tabletop.gather.backend.util.NotFoundException;
 
@@ -16,12 +14,9 @@ import tabletop.gather.backend.util.NotFoundException;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final SessionUserRepository sessionUserRepository;
 
-    public UserService(final UserRepository userRepository,
-            final SessionUserRepository sessionUserRepository) {
+    public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.sessionUserRepository = sessionUserRepository;
     }
 
     public List<UserDTO> findAll() {
@@ -61,7 +56,6 @@ public class UserService {
         userDTO.setLastName(user.getLastName());
         userDTO.setPasswordHash(user.getPasswordHash());
         userDTO.setPasswordSalt(user.getPasswordSalt());
-        userDTO.setSessionUser(user.getSessionUser() == null ? null : user.getSessionUser().getId());
         return userDTO;
     }
 
@@ -71,9 +65,6 @@ public class UserService {
         user.setLastName(userDTO.getLastName());
         user.setPasswordHash(userDTO.getPasswordHash());
         user.setPasswordSalt(userDTO.getPasswordSalt());
-        final SessionUser sessionUser = userDTO.getSessionUser() == null ? null : sessionUserRepository.findById(userDTO.getSessionUser())
-                .orElseThrow(() -> new NotFoundException("sessionUser not found"));
-        user.setSessionUser(sessionUser);
         return user;
     }
 
