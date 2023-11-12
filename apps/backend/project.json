@@ -6,8 +6,12 @@
   "sourceRoot": "apps/backend/src",
   "tags": [],
   "targets": {
-    "docker-build": {
-      "command": "docker build --tag tabletop-gather-backend ."
+    "build": {
+      "command": "docker build --tag tg-java-backend apps/backend"
+    },
+    "serve": {
+      "command": "docker compose -f ./apps/backend/docker-compose.yml up --no-build",
+      "dependsOn": ["build"]
     }
   }
 }
