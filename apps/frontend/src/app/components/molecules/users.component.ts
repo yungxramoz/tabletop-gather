@@ -1,35 +1,27 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NbCardModule, NbListModule, NbUserModule } from '@nebular/theme';
 import { UserDto } from '../../api/model/user.dto';
 
 @Component({
   selector: 'tabletop-gather-users',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, JsonPipe, NbCardModule, NbListModule, NbUserModule],
   template: ` <div>
-    <h2>Users</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Session User</th>
-          <th>Password Hash</th>
-          <th>Password Salt</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.username }}</td>
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.sessionUser }}</td>
-          <td>{{ user.passwordHash }}</td>
-          <td>{{ user.passwordSalt }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <nb-card size="small">
+      <nb-card-header>Users</nb-card-header>
+      <nb-list>
+        <nb-list-item style="display:inline-block;" *ngFor="let user of users">
+          <nb-user
+            [shape]="'semi-round'"
+            [name]="user.firstName + ' ' + user.lastName"
+            [title]="'Username - ' + user.username"
+          >
+          </nb-user>
+          <p class="caption">{{ user.id }} <i>(uid)</i></p>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
   </div>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,

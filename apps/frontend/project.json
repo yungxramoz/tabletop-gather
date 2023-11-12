@@ -16,7 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/frontend/tsconfig.app.json",
         "assets": ["apps/frontend/src/favicon.ico", "apps/frontend/src/assets"],
-        "styles": ["apps/frontend/src/styles.scss"],
+        "styles": ["node_modules/@nebular/theme/styles/prebuilt/cosmic.css", "apps/frontend/src/styles.scss"],
         "scripts": []
       },
       "configurations": {

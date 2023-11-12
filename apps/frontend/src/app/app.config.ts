@@ -9,6 +9,7 @@ import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
+import { NbSidebarModule, NbThemeModule } from '@nebular/theme';
 import { appRoutes } from './app.routes';
 
 export const API_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
@@ -24,6 +25,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     importProvidersFrom(HttpClientModule),
+    importProvidersFrom(NbThemeModule.forRoot({ name: 'cosmic' })),
+    importProvidersFrom(NbSidebarModule.forRoot()),
     provideApiBaseUrlForDevelopment(),
   ],
 };

@@ -12,10 +12,10 @@ import { UsersComponent } from '../molecules/users.component';
   standalone: true,
   imports: [CommonModule, AsyncPipe, CreateUserComponent, UsersComponent],
   template: ` <div>
+    <tabletop-gather-users [users]="users$ | async"></tabletop-gather-users>
     <tabletop-gather-create-user
       (userCreated)="onUserCreated($event)"
     ></tabletop-gather-create-user>
-    <tabletop-gather-users [users]="users$ | async"></tabletop-gather-users>
   </div>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,

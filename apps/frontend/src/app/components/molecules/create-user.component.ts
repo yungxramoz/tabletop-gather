@@ -5,55 +5,98 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
 
 @Component({
   selector: 'tabletop-gather-create-user',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, JsonPipe, FormsModule],
-  template: ` <div>
-    <h2>Create User</h2>
-    <input
-      type="text"
-      name="username"
-      [(ngModel)]="username"
-      placeholder="Username"
-    />
-    <input
-      type="text"
-      name="firstName"
-      [(ngModel)]="firstName"
-      placeholder="First Name"
-    />
-    <input
-      type="text"
-      name="lastName"
-      [(ngModel)]="lastName"
-      placeholder="Last Name"
-    />
-    <input
-      type="number"
-      name="sessionUser"
-      [(ngModel)]="sessionUser"
-      placeholder="Session User"
-    />
-    <input
-      type="passwordHash"
-      name="passwordHash"
-      [(ngModel)]="passwordHash"
-      placeholder="PasswordHash"
-    />
-    <input
-      type="passwordSalt"
-      name="passwordSalt"
-      [(ngModel)]="passwordSalt"
-      placeholder="PasswordSalt"
-    />
-    <button (click)="createUser()">Create User</button>
-  </div>`,
-  styles: [],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    JsonPipe,
+    FormsModule,
+    NbCardModule,
+    NbInputModule,
+    NbButtonModule,
+  ],
+  template: `
+    <nb-card>
+      <nb-card-header>Add a new user</nb-card-header>
+      <nb-card-body>
+        <form
+          class="form"
+          #createUserForm="ngForm"
+          (submit)="createUser(createUserForm)"
+        >
+          <input
+            ngModel
+            nbInput
+            required
+            shape="semi-round"
+            type="text"
+            name="username"
+            placeholder="Username"
+          />
+          <input
+            ngModel
+            nbInput
+            required
+            shape="semi-round"
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+          />
+          <input
+            ngModel
+            nbInput
+            required
+            shape="semi-round"
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+          />
+          <input
+            nbInput
+            ngModel
+            shape="semi-round"
+            type="number"
+            name="sessionUser"
+            placeholder="Session User"
+          />
+          <input
+            ngModel
+            nbInput
+            required
+            shape="semi-round"
+            type="passwordHash"
+            name="passwordHash"
+            placeholder="PasswordHash"
+          />
+          <input
+            ngModel
+            nbInput
+            required
+            shape="semi-round"
+            type="passwordSalt"
+            name="passwordSalt"
+            placeholder="PasswordSalt"
+          />
+          <button nbButton shape="semi-round" type="submit">Create User</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  `,
+  styles: [
+    `
+      .form > * {
+        margin-bottom: 1rem;
+        display: block;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent {
@@ -62,6 +105,7 @@ export class CreateUserComponent {
     Model<UserDto>
   >();
 
+  createUserForm!: NgForm;
   username = '';
   firstName = '';
   lastName = '';
@@ -69,7 +113,14 @@ export class CreateUserComponent {
   passwordHash = '';
   passwordSalt = '';
 
-  createUser() {
+  createUser(form: NgForm) {
+    console.log(form);
+
+    if (!form.valid) {
+      alert('Form is not valid!');
+      return;
+    }
+
     this.userCreated.emit({
       username: this.username,
       firstName: this.firstName,
