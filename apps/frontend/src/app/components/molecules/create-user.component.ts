@@ -1,8 +1,13 @@
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { tap } from 'rxjs/operators';
-import { UsersService } from '../../api/services/users.service';
+import { Model } from '../../api/model/model.type';
+import { UserDto } from '../../api/model/user.dto';
 
 @Component({
   selector: 'tabletop-gather-create-user',
@@ -52,6 +57,11 @@ import { UsersService } from '../../api/services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent {
+  @Output()
+  userCreated: EventEmitter<Model<UserDto>> = new EventEmitter<
+    Model<UserDto>
+  >();
+
   username = '';
   firstName = '';
   lastName = '';
@@ -59,19 +69,14 @@ export class CreateUserComponent {
   passwordHash = '';
   passwordSalt = '';
 
-  constructor(private readonly usersService: UsersService) {}
-
   createUser() {
-    this.usersService
-      .createUser({
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        sessionUser: this.sessionUser,
-        passwordHash: this.passwordHash,
-        passwordSalt: this.passwordSalt,
-      })
-      .pipe(tap((response) => alert(response)))
-      .subscribe();
+    this.userCreated.emit({
+      username: this.username,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      sessionUser: this.sessionUser,
+      passwordHash: this.passwordHash,
+      passwordSalt: this.passwordSalt,
+    });
   }
 }

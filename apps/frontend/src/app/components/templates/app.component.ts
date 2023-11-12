@@ -1,12 +1,11 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CreateUserComponent } from '../molecules/create-user.component';
-import { UsersComponent } from '../molecules/user.component';
+import { UserManagementComponent } from '../pages/user-management.component';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, JsonPipe, UsersComponent, CreateUserComponent],
+  imports: [RouterModule, JsonPipe, UserManagementComponent],
   selector: 'tabletop-gather-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

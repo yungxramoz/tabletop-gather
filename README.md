@@ -12,6 +12,9 @@
 The easiest way to get going with docker is to install [Docker Desktop](https://www.docker.com/products/docker-desktop) for your operating system.
 This will install both Docker and Docker Compose on your machine.
 
+You could install Nx globally, but it's not required. If you want to, run `npm install -g nx`. If you don't, you
+have to prefix all Nx commands with `npx` (e.g. `npx nx serve frontend`).
+
 ## Starting the application
 
 _(All commands are to be run from the root of the repository. Nx specific commands can be run from anywhere in the repository.)_

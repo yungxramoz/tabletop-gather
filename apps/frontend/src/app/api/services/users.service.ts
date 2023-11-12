@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { API_BASE_URL } from '../../app.config';
 import { Uid } from '../api.util';
-import { Dto } from '../model/dto.base';
+import { Model } from '../model/model.type';
 import { UserDto } from '../model/user.dto';
 
 @Injectable({
@@ -33,7 +33,7 @@ export class UsersService {
       );
   }
 
-  createUser(user: Omit<UserDto, keyof Dto>): Observable<Uid> {
+  createUser(user: Model<UserDto>): Observable<Uid> {
     return this.http
       .post(`${this.usersUrl}`, user, {
         responseType: 'text',
