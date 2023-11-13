@@ -11,7 +11,7 @@ import { UserDto } from '../../api/model/user.dto';
 import { UserComponent } from '../atoms/user.component';
 
 @Component({
-  selector: 'tabletop-gather-users',
+  selector: 'tg-users',
   standalone: true,
   imports: [CommonModule, JsonPipe, NbCardModule, NbListModule, UserComponent],
   template: ` <div>
@@ -19,10 +19,10 @@ import { UserComponent } from '../atoms/user.component';
       <nb-card-header>Users</nb-card-header>
       <nb-list>
         <nb-list-item style="display:inline-block;" *ngFor="let user of users">
-          <tabletop-gather-user
+          <tg-user
             [user]="user"
             (deleteUser)="deleteUser.emit($event)"
-          ></tabletop-gather-user>
+          ></tg-user>
         </nb-list-item>
       </nb-list>
     </nb-card>

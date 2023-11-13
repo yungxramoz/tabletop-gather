@@ -8,17 +8,15 @@ import { CreateUserComponent } from '../molecules/create-user.component';
 import { UsersComponent } from '../molecules/users.component';
 
 @Component({
-  selector: 'tabletop-gather-user-management',
+  selector: 'tg-user-management',
   standalone: true,
   imports: [CommonModule, AsyncPipe, CreateUserComponent, UsersComponent],
   template: ` <div>
-    <tabletop-gather-users
+    <tg-users
       [users]="users$ | async"
       (deleteUser)="deleteUser($event)"
-    ></tabletop-gather-users>
-    <tabletop-gather-create-user
-      (userCreated)="onUserCreated($event)"
-    ></tabletop-gather-create-user>
+    ></tg-users>
+    <tg-create-user (userCreated)="onUserCreated($event)"></tg-create-user>
   </div>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,

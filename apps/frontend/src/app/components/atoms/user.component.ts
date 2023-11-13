@@ -10,7 +10,7 @@ import { NbButtonModule, NbUserModule } from '@nebular/theme';
 import { UserDto } from '../../api/model/user.dto';
 
 @Component({
-  selector: 'tabletop-gather-user',
+  selector: 'tg-user',
   standalone: true,
   imports: [CommonModule, NbUserModule, NbButtonModule],
   template: ` <div class="row">

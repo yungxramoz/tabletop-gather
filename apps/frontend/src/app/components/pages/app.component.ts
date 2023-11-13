@@ -7,7 +7,7 @@ import { UserManagementComponent } from '../organisms/user-management.component'
 @Component({
   standalone: true,
   imports: [RouterModule, JsonPipe, NbLayoutModule, UserManagementComponent],
-  selector: 'tabletop-gather-root',
+  selector: 'tg-root',
   template: `
     <nb-layout>
       <nb-layout-header fixed>

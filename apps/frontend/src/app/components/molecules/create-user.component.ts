@@ -11,7 +11,7 @@ import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
 
 @Component({
-  selector: 'tabletop-gather-create-user',
+  selector: 'tg-create-user',
   standalone: true,
   imports: [
     CommonModule,
