@@ -12,7 +12,10 @@ import { UsersComponent } from '../molecules/users.component';
   standalone: true,
   imports: [CommonModule, AsyncPipe, CreateUserComponent, UsersComponent],
   template: ` <div>
-    <tabletop-gather-users [users]="users$ | async"></tabletop-gather-users>
+    <tabletop-gather-users
+      [users]="users$ | async"
+      (deleteUser)="deleteUser($event)"
+    ></tabletop-gather-users>
     <tabletop-gather-create-user
       (userCreated)="onUserCreated($event)"
     ></tabletop-gather-create-user>
@@ -29,6 +32,15 @@ export class UserManagementComponent implements OnInit {
   onUserCreated(user: Model<UserDto>) {
     this.usersService
       .createUser(user)
+      .pipe(switchMap(() => this.usersService.getAllUsers()))
+      .subscribe((users) => this.usersSubject.next(users));
+  }
+
+  deleteUser(user: UserDto) {
+    if (!confirm(`Are you sure you want to delete ${user.username}?`)) return;
+
+    this.usersService
+      .deleteUser(user.id)
       .pipe(switchMap(() => this.usersService.getAllUsers()))
       .subscribe((users) => this.usersSubject.next(users));
   }
