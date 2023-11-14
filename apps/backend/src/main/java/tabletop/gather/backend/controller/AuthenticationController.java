@@ -7,14 +7,17 @@ import tabletop.gather.backend.model.LoginResponse;
 import tabletop.gather.backend.repos.UserRepository;
 import tabletop.gather.backend.service.AuthenticationService;
 import tabletop.gather.backend.service.JwtService;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RequestMapping("/auth")
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
