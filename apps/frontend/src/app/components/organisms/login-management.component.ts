@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NbTabsetModule } from '@nebular/theme';
 import {
   CreateUserComponent,
@@ -21,7 +21,7 @@ import {
     CreateUserComponent,
   ],
   template: `
-    <nb-tabset fullWidth>
+    <nb-tabset fullWidth class="tg-max-w-50">
       <nb-tab tabTitle="Login">
         <tg-login
           (credentialsRetrieved)="onCredentialsRetrieved($event)"
