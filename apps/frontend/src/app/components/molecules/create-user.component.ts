@@ -35,67 +35,61 @@ import { InputComponent } from '../atoms/input-text.component';
         >
           <tg-input
             ngModel
-            #username="ngModel"
             required
             minlength="3"
-            name="username"
-            placeholder="Username"
-            label="Username"
             id="username"
+            name="username"
+            label="Username"
+            placeholder="johndoe"
           ></tg-input>
 
           <tg-input
             ngModel
-            #firstName="ngModel"
             required
             minlength="3"
-            name="firstName"
-            placeholder="First Name"
-            label="First Name"
             id="firstName"
+            name="firstName"
+            label="First Name"
+            placeholder="John"
           ></tg-input>
 
           <tg-input
             ngModel
-            #lastName="ngModel"
             required
             minlength="3"
-            name="lastName"
-            placeholder="Last Name"
-            label="Last Name"
             id="lastName"
+            name="lastName"
+            label="Last Name"
+            placeholder="Doe"
           ></tg-input>
 
           <tg-input
             ngModel
-            #sessionUser="ngModel"
             type="number"
-            name="sessionUser"
-            placeholder="Session User"
-            label="Session User"
             id="sessionUser"
+            name="sessionUser"
+            label="Session User"
+            placeholder=""
           ></tg-input>
 
           <tg-input
             ngModel
-            #passwordHash="ngModel"
             required
             minlength="3"
-            name="passwordHash"
-            placeholder="PasswordHash"
-            label="Password Hash"
             id="passwordHash"
+            name="passwordHash"
+            label="Password Hash"
+            placeholder="yxu9s8s09as831w"
           ></tg-input>
 
           <tg-input
             ngModel
-            #passwordSalt="ngModel"
             required
             minlength="3"
-            name="passwordSalt"
-            placeholder="PasswordSalt"
-            label="Password Salt"
             id="passwordSalt"
+            name="passwordSalt"
+            label="Password Salt"
+            placeholder="s9s8s09as831w"
           ></tg-input>
 
           <div class="tg-block tg-mt-2">
@@ -120,27 +114,21 @@ export class CreateUserComponent {
     Model<UserDto>
   >();
 
-  public username = '';
-  public firstName = '';
-  public lastName = '';
-  public sessionUser = 0;
-  public passwordHash = '';
-  public passwordSalt = '';
-
   public createUser(form: NgForm) {
-    throw new Error('Not workign anymore!');
     if (!form.valid) {
       alert('Form is not valid!');
       return;
     }
 
     this.userCreated.emit({
-      username: this.username,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      sessionUser: this.sessionUser,
-      passwordHash: this.passwordHash,
-      passwordSalt: this.passwordSalt,
+      username: form.controls['username'].value,
+      firstName: form.controls['firstName'].value,
+      lastName: form.controls['lastName'].value,
+      sessionUser: form.controls['sessionUser'].value,
+      passwordHash: form.controls['passwordHash'].value,
+      passwordSalt: form.controls['passwordSalt'].value,
     });
+
+    form.resetForm();
   }
 }

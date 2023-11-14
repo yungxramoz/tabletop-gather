@@ -30,7 +30,8 @@ import { getErrors } from '../../utilities/validation-error-map';
       [id]="id"
       [value]="value"
       (input)="valueChange($event)"
-      (blur)="onTouched ? onTouched() : ''"
+      (blur)="onBlur()"
+      [placeholder]="placeholder"
       [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
     />
     <div class="tg-p-1" *ngIf="!ngModel.pristine && ngModel.errors">
@@ -45,6 +46,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() public id: string | undefined;
   @Input() public label: string | undefined;
   @Input() public type: 'text' | 'number' = 'text';
+  @Input() public placeholder: string | undefined;
 
   private _value!: string | number;
 
@@ -72,6 +74,10 @@ export class InputComponent implements ControlValueAccessor {
   public valueChange(event: Event) {
     this.value = (event.target as HTMLInputElement).value;
     if (this.onChange) this.onChange(this.value);
+  }
+
+  public onBlur() {
+    if (this.onTouched) this.onTouched();
   }
 
   public getErrors(errors: ValidationErrors) {
