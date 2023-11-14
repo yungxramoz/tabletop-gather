@@ -1,14 +1,14 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NbTabsetModule } from '@nebular/theme';
+import { LoginUserDto } from '../../api/model/login-user.dto';
+import { Model } from '../../api/model/model.type';
+import { AuthService } from '../../api/services/auth.service';
 import {
   CreateUserComponent,
   UserCreatedEvent,
 } from '../molecules/create-user.component';
-import {
-  LoginComponent,
-  CredentialsRetrievedEvent,
-} from '../molecules/login.component';
+import { LoginComponent } from '../molecules/login.component';
 
 @Component({
   selector: 'tg-login-management',
@@ -36,8 +36,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginManagementComponent {
-  public onCredentialsRetrieved(event: CredentialsRetrievedEvent) {
-    console.log(event);
+  public constructor(private readonly authService: AuthService) {}
+
+  public onCredentialsRetrieved(event: Model<LoginUserDto>) {
+    this.authService.login(event).subscribe((lol) => alert(lol));
+    throw new Error('COMBAK');
+    // - Fix Cors issue with normal /api/ endpoints
+    // - Add error handling (ErrorResponse?)
+    // - Add loading indicator
+    // - Add redirect to home page
+    // - Make new "regsiter user" component
+    // - Probably delete the "create user" component
   }
 
   public onUserCreated(event: UserCreatedEvent) {

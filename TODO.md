@@ -15,6 +15,7 @@
 - [ ] Rename `DTO` to `Dto`. No one uses DTO @Bootify.io!
 - [ ] Rename `service` dir to `services`
 - [ ] Add backend validation on `@RequestBody` objects
+- [ ] Remove `HomeController`
 
 ## Backend Deployment
 
