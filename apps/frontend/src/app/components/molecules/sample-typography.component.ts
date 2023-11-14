@@ -18,23 +18,20 @@ import { NbCardModule } from '@nebular/theme';
         <h6>Heading 6</h6>
         <p class="subtitle">Subtitle 1</p>
         <p class="subtitle-2">Subtitle 2</p>
-        <p>Paragraph 1 Text ... <strong>Bold Text</strong> ... <i>Italic Text</i> ... <a href="#">Link</a></p>
-        <p class="paragraph-2">Paragraph 2 Text ... <strong>Bold Text</strong> ... <i>Italic Text</i> ... <a href="#">Link</a></p>
-        <p class="caption"> Caption 1</p>
-        <p class="caption-2"> Caption 2</p>
-        <p class="label"> Label</p>
+        <p>
+          Paragraph 1 Text ... <strong>Bold Text</strong> ...
+          <i>Italic Text</i> ... <a href="#">Link</a>
+        </p>
+        <p class="paragraph-2">
+          Paragraph 2 Text ... <strong>Bold Text</strong> ...
+          <i>Italic Text</i> ... <a href="#">Link</a>
+        </p>
+        <p class="caption">Caption 1</p>
+        <p class="caption-2">Caption 2</p>
+        <p class="label">Label</p>
       </nb-card-body>
     </nb-card>
   `,
   styles: [],
 })
-export class SampleTypographyComponent {
-  statuses = [
-    'basic',
-    'primary',
-    'success',
-    'info',
-    'warning',
-    'danger',
-  ];
-}
+export class SampleTypographyComponent {}

@@ -7,13 +7,11 @@ import { SampleTypographyComponent } from '../molecules/sample-typography.compon
   selector: 'tabletop-gather-sample-design',
   standalone: true,
   imports: [CommonModule, SampleButtonsComponent, SampleTypographyComponent],
-  template: `
-  <div>
+  template: ` <div>
     <tabletop-gather-sample-buttons></tabletop-gather-sample-buttons>
     <tabletop-gather-sample-typography></tabletop-gather-sample-typography>
   </div>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SampleDesignComponent {
-}
+export class SampleDesignComponent {}

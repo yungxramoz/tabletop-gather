@@ -11,16 +11,39 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
       <nb-card-header>Buttons</nb-card-header>
       <nb-card-body class="card-body">
         <div class="row">
-          <button *ngFor="let status of statuses" nbButton [status]="status">{{ status }}</button>
+          <button *ngFor="let status of statuses" nbButton [status]="status">
+            {{ status }}
+          </button>
         </div>
         <div class="row">
-          <button *ngFor="let status of statuses" nbButton outline [status]="status">{{ status }}</button>
+          <button
+            *ngFor="let status of statuses"
+            nbButton
+            outline
+            [status]="status"
+          >
+            {{ status }}
+          </button>
         </div>
         <div class="row">
-          <button *ngFor="let status of statuses" nbButton hero [status]="status">{{ status }}</button>
+          <button
+            *ngFor="let status of statuses"
+            nbButton
+            hero
+            [status]="status"
+          >
+            {{ status }}
+          </button>
         </div>
         <div class="row">
-          <button *ngFor="let status of statuses" nbButton ghost [status]="status">{{ status }}</button>
+          <button
+            *ngFor="let status of statuses"
+            nbButton
+            ghost
+            [status]="status"
+          >
+            {{ status }}
+          </button>
         </div>
       </nb-card-body>
     </nb-card>
@@ -39,12 +62,5 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
   ],
 })
 export class SampleButtonsComponent {
-  statuses = [
-    'basic',
-    'primary',
-    'success',
-    'info',
-    'warning',
-    'danger',
-  ];
+  statuses = ['basic', 'primary', 'success', 'info', 'warning', 'danger', 'control'];
 }
