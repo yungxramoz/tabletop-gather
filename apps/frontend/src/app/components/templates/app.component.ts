@@ -7,6 +7,7 @@ import {
   NbSidebarModule,
 } from '@nebular/theme';
 import { UserManagementComponent } from '../pages/user-management.component';
+import { SampleDesignComponent } from '../pages/sample-design.component';
 
 @Component({
   standalone: true,
@@ -17,6 +18,7 @@ import { UserManagementComponent } from '../pages/user-management.component';
     NbSidebarModule,
     NbButtonModule,
     UserManagementComponent,
+    SampleDesignComponent,
   ],
   selector: 'tabletop-gather-root',
   template: `
@@ -26,6 +28,7 @@ import { UserManagementComponent } from '../pages/user-management.component';
       </nb-layout-header>
       <nb-sidebar>Sidebar Content</nb-sidebar>
       <nb-layout-column>
+        <tabletop-gather-sample-design></tabletop-gather-sample-design>
         <tabletop-gather-user-management></tabletop-gather-user-management>
         <router-outlet></router-outlet>
         Page Content <button nbButton>Hello World</button>
