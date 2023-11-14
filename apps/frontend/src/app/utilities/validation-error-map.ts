@@ -39,6 +39,11 @@ export const getErrors = (
           errorMessages.push(`${fieldName} must be at most ${errors[key].max}`);
           break;
         default:
+          console.error(
+            `Missing validation error. Add \`${key}\` with value: \`${JSON.stringify(
+              errors[key]
+            )}\` to the mapping.}`
+          );
           errorMessages.push(`${fieldName} is invalid`);
           break;
       }

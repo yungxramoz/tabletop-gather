@@ -24,3 +24,9 @@
 //     expect(app.title).toEqual('frontend');
 //   });
 // });
+
+describe('frontend', () => {
+  it('should work', () => {
+    expect(true).toBeTruthy();
+  });
+});
