@@ -12,12 +12,12 @@ import { UserDto } from '../model/user.dto';
 export class UsersService {
   private readonly usersUrl = `${this.apiBaseUrl}/users`;
 
-  constructor(
+  public constructor(
     @Inject(API_BASE_URL) private readonly apiBaseUrl: string,
     private readonly http: HttpClient
   ) {}
 
-  getAllUsers(): Observable<UserDto[]> {
+  public getAllUsers(): Observable<UserDto[]> {
     return this.http
       .get<string[]>(`${this.usersUrl}`, {
         responseType: 'json',
@@ -32,7 +32,7 @@ export class UsersService {
       );
   }
 
-  createUser(user: Model<UserDto>): Observable<Uid> {
+  public createUser(user: Model<UserDto>): Observable<Uid> {
     return this.http
       .post(`${this.usersUrl}`, user, {
         responseType: 'text',
@@ -49,7 +49,7 @@ export class UsersService {
       );
   }
 
-  deleteUser(id: Uid): Observable<string> {
+  public deleteUser(id: Uid): Observable<string> {
     return this.http.delete(`${this.usersUrl}/${id}`, {
       responseType: 'text',
       headers: {

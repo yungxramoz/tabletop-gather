@@ -23,18 +23,18 @@ import { UsersComponent } from '../molecules/users.component';
 })
 export class UserManagementComponent implements OnInit {
   private readonly usersSubject = new BehaviorSubject<UserDto[]>([]);
-  users$ = this.usersSubject.asObservable();
+  public readonly users$ = this.usersSubject.asObservable();
 
-  constructor(private readonly usersService: UsersService) {}
+  public constructor(private readonly usersService: UsersService) {}
 
-  onUserCreated(user: Model<UserDto>) {
+  public onUserCreated(user: Model<UserDto>) {
     this.usersService
       .createUser(user)
       .pipe(switchMap(() => this.usersService.getAllUsers()))
       .subscribe((users) => this.usersSubject.next(users));
   }
 
-  deleteUser(user: UserDto) {
+  public deleteUser(user: UserDto) {
     if (!confirm(`Are you sure you want to delete ${user.username}?`)) return;
 
     this.usersService
@@ -43,7 +43,7 @@ export class UserManagementComponent implements OnInit {
       .subscribe((users) => this.usersSubject.next(users));
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.usersService.getAllUsers().subscribe((users) => {
       this.usersSubject.next(users);
     });

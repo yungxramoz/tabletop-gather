@@ -13,14 +13,14 @@ import { UserDto } from '../../api/model/user.dto';
   selector: 'tg-user',
   standalone: true,
   imports: [CommonModule, NbUserModule, NbButtonModule],
-  template: ` <div class="row">
+  template: ` <div class="tg-flex-row">
     <nb-user
       [shape]="'semi-round'"
       [name]="user.firstName + ' ' + user.lastName"
       [title]="'Username - ' + user.username"
     >
     </nb-user>
-    <p class="caption">{{ user.id }} <i>(uid)</i></p>
+    <p class="caption tg-m-1">{{ user.id }} <i>(uid)</i></p>
     <button
       nbButton
       shape="semi-round"
@@ -30,26 +30,10 @@ import { UserDto } from '../../api/model/user.dto';
       Delete
     </button>
   </div>`,
-  styles: [
-    `
-      .row {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .row > * {
-        margin: 0 0.5rem;
-      }
-    `,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserComponent {
-  @Input()
-  user!: UserDto;
+  @Input() public user!: UserDto;
 
-  @Output()
-  deleteUser = new EventEmitter<UserDto>();
+  @Output() public deleteUser = new EventEmitter<UserDto>();
 }

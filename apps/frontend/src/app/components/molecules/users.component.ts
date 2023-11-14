@@ -31,9 +31,7 @@ import { UserComponent } from '../atoms/user.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
-  @Input()
-  users: UserDto[] | null = [];
+  @Input() public users: UserDto[] | null = [];
 
-  @Output()
-  deleteUser = new EventEmitter<UserDto>();
+  @Output() public deleteUser = new EventEmitter<UserDto>();
 }

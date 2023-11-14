@@ -9,6 +9,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
+import { InputComponent } from '../atoms/input-text.component';
 
 @Component({
   selector: 'tg-create-user',
@@ -21,6 +22,7 @@ import { UserDto } from '../../api/model/user.dto';
     NbCardModule,
     NbInputModule,
     NbButtonModule,
+    InputComponent,
   ],
   template: `
     <nb-card>
@@ -31,91 +33,102 @@ import { UserDto } from '../../api/model/user.dto';
           #createUserForm="ngForm"
           (submit)="createUser(createUserForm)"
         >
-          <input
+          <tg-input
             ngModel
-            nbInput
+            #username="ngModel"
             required
-            shape="semi-round"
-            type="text"
+            minlength="3"
             name="username"
             placeholder="Username"
-          />
-          <input
+            label="Username"
+            id="username"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
+            #firstName="ngModel"
             required
-            shape="semi-round"
-            type="text"
+            minlength="3"
             name="firstName"
             placeholder="First Name"
-          />
-          <input
+            label="First Name"
+            id="firstName"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
+            #lastName="ngModel"
             required
-            shape="semi-round"
-            type="text"
+            minlength="3"
             name="lastName"
             placeholder="Last Name"
-          />
-          <input
-            nbInput
+            label="Last Name"
+            id="lastName"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            shape="semi-round"
+            #sessionUser="ngModel"
             type="number"
             name="sessionUser"
             placeholder="Session User"
-          />
-          <input
+            label="Session User"
+            id="sessionUser"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
+            #passwordHash="ngModel"
             required
-            shape="semi-round"
-            type="passwordHash"
+            minlength="3"
             name="passwordHash"
             placeholder="PasswordHash"
-          />
-          <input
+            label="Password Hash"
+            id="passwordHash"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
+            #passwordSalt="ngModel"
             required
-            shape="semi-round"
-            type="passwordSalt"
+            minlength="3"
             name="passwordSalt"
             placeholder="PasswordSalt"
-          />
-          <button nbButton shape="semi-round" type="submit">Create User</button>
+            label="Password Salt"
+            id="passwordSalt"
+          ></tg-input>
+
+          <div class="tg-block tg-mt-2">
+            <button
+              nbButton
+              shape="semi-round"
+              type="submit"
+              [disabled]="createUserForm.invalid"
+            >
+              Create User
+            </button>
+          </div>
         </form>
       </nb-card-body>
     </nb-card>
   `,
-  styles: [
-    `
-      .form > * {
-        margin-bottom: 1rem;
-        display: block;
-      }
-    `,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent {
   @Output()
-  userCreated: EventEmitter<Model<UserDto>> = new EventEmitter<
+  public userCreated: EventEmitter<Model<UserDto>> = new EventEmitter<
     Model<UserDto>
   >();
 
-  createUserForm!: NgForm;
-  username = '';
-  firstName = '';
-  lastName = '';
-  sessionUser = 0;
-  passwordHash = '';
-  passwordSalt = '';
+  public username = '';
+  public firstName = '';
+  public lastName = '';
+  public sessionUser = 0;
+  public passwordHash = '';
+  public passwordSalt = '';
 
-  createUser(form: NgForm) {
-    console.log(form);
-
+  public createUser(form: NgForm) {
+    throw new Error('Not workign anymore!');
     if (!form.valid) {
       alert('Form is not valid!');
       return;

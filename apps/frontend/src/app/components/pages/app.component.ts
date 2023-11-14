@@ -21,5 +21,5 @@ import { UserManagementComponent } from '../organisms/user-management.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'frontend';
+  public title = 'Tabletop Gather';
 }
