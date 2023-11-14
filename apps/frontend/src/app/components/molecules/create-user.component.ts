@@ -4,14 +4,18 @@ import {
   Component,
   EventEmitter,
   Output,
+  Input,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
+import { InputComponent } from '../atoms/input.component';
+
+export type UserCreatedEvent = Model<UserDto>;
 
 @Component({
-  selector: 'tabletop-gather-create-user',
+  selector: 'tg-create-user',
   standalone: true,
   imports: [
     CommonModule,
@@ -21,113 +25,113 @@ import { UserDto } from '../../api/model/user.dto';
     NbCardModule,
     NbInputModule,
     NbButtonModule,
+    InputComponent,
   ],
   template: `
     <nb-card>
-      <nb-card-header>Add a new user</nb-card-header>
+      <nb-card-header *ngIf="header">{{ header }}</nb-card-header>
       <nb-card-body>
         <form
           class="form"
           #createUserForm="ngForm"
           (submit)="createUser(createUserForm)"
         >
-          <input
+          <tg-input
             ngModel
-            nbInput
             required
-            shape="semi-round"
-            type="text"
+            minlength="3"
+            pattern="^[a-z0-9.]*$"
+            id="username"
             name="username"
-            placeholder="Username"
-          />
-          <input
+            label="Username"
+            placeholder="johndoe"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
             required
-            shape="semi-round"
-            type="text"
+            minlength="3"
+            id="firstName"
             name="firstName"
-            placeholder="First Name"
-          />
-          <input
+            label="First Name"
+            placeholder="John"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
             required
-            shape="semi-round"
-            type="text"
+            minlength="3"
+            id="lastName"
             name="lastName"
-            placeholder="Last Name"
-          />
-          <input
-            nbInput
+            label="Last Name"
+            placeholder="Doe"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            shape="semi-round"
             type="number"
+            id="sessionUser"
             name="sessionUser"
-            placeholder="Session User"
-          />
-          <input
+            label="Session User"
+            placeholder=""
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
             required
-            shape="semi-round"
-            type="passwordHash"
+            minlength="3"
+            id="passwordHash"
             name="passwordHash"
-            placeholder="PasswordHash"
-          />
-          <input
+            label="Password Hash"
+            placeholder="yxu9s8s09as831w"
+          ></tg-input>
+
+          <tg-input
             ngModel
-            nbInput
             required
-            shape="semi-round"
-            type="passwordSalt"
+            minlength="3"
+            id="passwordSalt"
             name="passwordSalt"
-            placeholder="PasswordSalt"
-          />
-          <button nbButton shape="semi-round" type="submit">Create User</button>
+            label="Password Salt"
+            placeholder="s9s8s09as831w"
+          ></tg-input>
+
+          <div class="tg-block tg-mt-2">
+            <button
+              nbButton
+              shape="semi-round"
+              type="submit"
+              [disabled]="createUserForm.invalid"
+            >
+              Create
+            </button>
+          </div>
         </form>
       </nb-card-body>
     </nb-card>
   `,
-  styles: [
-    `
-      .form > * {
-        margin-bottom: 1rem;
-        display: block;
-      }
-    `,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent {
-  @Output()
-  userCreated: EventEmitter<Model<UserDto>> = new EventEmitter<
-    Model<UserDto>
-  >();
+  @Input() public header: string | undefined;
+  @Output() public userCreated: EventEmitter<UserCreatedEvent> =
+    new EventEmitter<UserCreatedEvent>();
 
-  createUserForm!: NgForm;
-  username = '';
-  firstName = '';
-  lastName = '';
-  sessionUser = 0;
-  passwordHash = '';
-  passwordSalt = '';
-
-  createUser(form: NgForm) {
-    console.log(form);
-
+  public createUser(form: NgForm) {
     if (!form.valid) {
       alert('Form is not valid!');
       return;
     }
 
     this.userCreated.emit({
-      username: this.username,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      sessionUser: this.sessionUser,
-      passwordHash: this.passwordHash,
-      passwordSalt: this.passwordSalt,
+      username: form.controls['username'].value,
+      firstName: form.controls['firstName'].value,
+      lastName: form.controls['lastName'].value,
+      sessionUser: form.controls['sessionUser'].value,
+      passwordHash: form.controls['passwordHash'].value,
+      passwordSalt: form.controls['passwordSalt'].value,
     });
+
+    form.resetForm();
   }
 }

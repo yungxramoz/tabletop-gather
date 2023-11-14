@@ -8,32 +8,46 @@ import { CreateUserComponent } from '../molecules/create-user.component';
 import { UsersComponent } from '../molecules/users.component';
 
 @Component({
-  selector: 'tabletop-gather-user-management',
+  selector: 'tg-user-management',
   standalone: true,
   imports: [CommonModule, AsyncPipe, CreateUserComponent, UsersComponent],
-  template: ` <div>
-    <tabletop-gather-users [users]="users$ | async"></tabletop-gather-users>
-    <tabletop-gather-create-user
+  template: `
+    <tg-users
+      header="Users"
+      [users]="users$ | async"
+      (deleteUser)="deleteUser($event)"
+    ></tg-users>
+    <tg-create-user
+      header="Add a new user"
       (userCreated)="onUserCreated($event)"
-    ></tabletop-gather-create-user>
-  </div>`,
+    ></tg-create-user>
+  `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserManagementComponent implements OnInit {
   private readonly usersSubject = new BehaviorSubject<UserDto[]>([]);
-  users$ = this.usersSubject.asObservable();
+  public readonly users$ = this.usersSubject.asObservable();
 
-  constructor(private readonly usersService: UsersService) {}
+  public constructor(private readonly usersService: UsersService) {}
 
-  onUserCreated(user: Model<UserDto>) {
+  public onUserCreated(user: Model<UserDto>) {
     this.usersService
       .createUser(user)
       .pipe(switchMap(() => this.usersService.getAllUsers()))
       .subscribe((users) => this.usersSubject.next(users));
   }
 
-  ngOnInit() {
+  public deleteUser(user: UserDto) {
+    if (!confirm(`Are you sure you want to delete ${user.username}?`)) return;
+
+    this.usersService
+      .deleteUser(user.id)
+      .pipe(switchMap(() => this.usersService.getAllUsers()))
+      .subscribe((users) => this.usersSubject.next(users));
+  }
+
+  public ngOnInit() {
     this.usersService.getAllUsers().subscribe((users) => {
       this.usersSubject.next(users);
     });

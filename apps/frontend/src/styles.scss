@@ -1,1 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+// import Nebular Theme System and the default theme
+@forward '@nebular/theme/styles/theming';
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/cosmic';
+
+// framework component styles
+@use '@nebular/theme/styles/globals' as *;
+
+// install the framework styles
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+@import url(./styles/vars.scss);
+
+.__emtpy__ {
+  display: none;
+}
+
+p {
+  margin: 0;
+}
+
+/* Paddings */
+
+.tg-p-1 {
+  padding: 0.5rem;
+}
+
+.tg-p-2 {
+  padding: 1rem;
+}
+
+/* Margins */
+
+.tg-m-1 {
+  margin: 0.5rem;
+}
+
+.tg-m-2 {
+  margin: 1rem;
+}
+
+.tg-mt-1 {
+  margin-top: 0.5rem;
+}
+
+.tg-mt-2 {
+  margin-top: 1rem;
+}
+
+/* Display */
+
+.tg-block {
+  display: block;
+}
+
+.tg-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Misc */
+
+.tg-debug {
+  border: 1px solid red;
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: nb-theme(background-basic-color-4);
+  cursor: pointer;
+  border-radius: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background: nb-theme(background-basic-color-2);
+}
