@@ -20,11 +20,12 @@ import { getErrors } from '../../utilities/validation-error-map';
   selector: 'tg-input',
   imports: [NbInputModule, NgIf, NgFor],
   template: `
-    <div class="tg-p-1" *ngIf="id">
+    <div class="tg-p-1" *ngIf="label">
       <label class="label" [for]="id">{{ label }}</label>
     </div>
     <input
       nbInput
+      fullWidth
       shape="semi-round"
       [type]="type"
       [id]="id"
@@ -43,13 +44,11 @@ import { getErrors } from '../../utilities/validation-error-map';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() public id: string | undefined;
   @Input() public label: string | undefined;
-  @Input() public type: 'text' | 'number' = 'text';
+  @Input() public type: 'text' | 'number' | 'password' = 'text';
   @Input() public placeholder: string | undefined;
 
   private _value!: string | number;
-
   public set value(value: string | number) {
     this._value = value;
   }
@@ -58,8 +57,11 @@ export class InputComponent implements ControlValueAccessor {
     return this._value;
   }
 
+  public readonly id = `tg-input-${InputComponent.uniqueId++}`;
   public onChange: undefined | ((event: string | number) => void);
   public onTouched: undefined | (() => void);
+
+  private static uniqueId = 0;
 
   public constructor(
     private changeDetectorRef: ChangeDetectorRef,

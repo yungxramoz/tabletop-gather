@@ -11,13 +11,17 @@ import { UsersComponent } from '../molecules/users.component';
   selector: 'tg-user-management',
   standalone: true,
   imports: [CommonModule, AsyncPipe, CreateUserComponent, UsersComponent],
-  template: ` <div>
+  template: `
     <tg-users
+      header="Users"
       [users]="users$ | async"
       (deleteUser)="deleteUser($event)"
     ></tg-users>
-    <tg-create-user (userCreated)="onUserCreated($event)"></tg-create-user>
-  </div>`,
+    <tg-create-user
+      header="Add a new user"
+      (userCreated)="onUserCreated($event)"
+    ></tg-create-user>
+  `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

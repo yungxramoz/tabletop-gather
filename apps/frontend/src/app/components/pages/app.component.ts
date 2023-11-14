@@ -11,7 +11,14 @@ import { UserManagementComponent } from '../organisms/user-management.component'
   template: `
     <nb-layout>
       <nb-layout-header fixed>
-        <h1>tabletop gather</h1>
+        <img
+          title="Tabletop Gather Logo"
+          src="assets/tg-wizard-no-bg.svg"
+          width="50"
+          height="50"
+          class="tg-m-1"
+        />
+        <h1 class="tg-m-1">tabletop gather</h1>
       </nb-layout-header>
       <nb-layout-column>
         <router-outlet></router-outlet>

@@ -16,7 +16,8 @@ import { UserComponent } from '../atoms/user.component';
   imports: [CommonModule, JsonPipe, NbCardModule, NbListModule, UserComponent],
   template: ` <div>
     <nb-card size="small">
-      <nb-card-header>Users</nb-card-header>
+      <nb-card-header *ngIf="header">{{ header }}</nb-card-header>
+
       <nb-list>
         <nb-list-item style="display:inline-block;" *ngFor="let user of users">
           <tg-user
@@ -31,6 +32,7 @@ import { UserComponent } from '../atoms/user.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
+  @Input() public header: string | undefined;
   @Input() public users: UserDto[] | null = [];
 
   @Output() public deleteUser = new EventEmitter<UserDto>();

@@ -4,12 +4,15 @@ import {
   Component,
   EventEmitter,
   Output,
+  Input,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
-import { InputComponent } from '../atoms/input-text.component';
+import { InputComponent } from '../atoms/input.component';
+
+export type UserCreatedEvent = Model<UserDto>;
 
 @Component({
   selector: 'tg-create-user',
@@ -26,7 +29,7 @@ import { InputComponent } from '../atoms/input-text.component';
   ],
   template: `
     <nb-card>
-      <nb-card-header>Add a new user</nb-card-header>
+      <nb-card-header *ngIf="header">{{ header }}</nb-card-header>
       <nb-card-body>
         <form
           class="form"
@@ -37,6 +40,7 @@ import { InputComponent } from '../atoms/input-text.component';
             ngModel
             required
             minlength="3"
+            pattern="^[a-z0-9.]*$"
             id="username"
             name="username"
             label="Username"
@@ -99,7 +103,7 @@ import { InputComponent } from '../atoms/input-text.component';
               type="submit"
               [disabled]="createUserForm.invalid"
             >
-              Create User
+              Create
             </button>
           </div>
         </form>
@@ -109,10 +113,9 @@ import { InputComponent } from '../atoms/input-text.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent {
-  @Output()
-  public userCreated: EventEmitter<Model<UserDto>> = new EventEmitter<
-    Model<UserDto>
-  >();
+  @Input() public header: string | undefined;
+  @Output() public userCreated: EventEmitter<UserCreatedEvent> =
+    new EventEmitter<UserCreatedEvent>();
 
   public createUser(form: NgForm) {
     if (!form.valid) {

@@ -1,3 +1,16 @@
+// import Nebular Theme System and the default theme
+@forward '@nebular/theme/styles/theming';
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/cosmic';
+
+// framework component styles
+@use '@nebular/theme/styles/globals' as *;
+
+// install the framework styles
+@include nb-install() {
+  @include nb-theme-global();
+}
+
 @import url(./styles/vars.scss);
 
 .__emtpy__ {
@@ -53,4 +66,18 @@ p {
 
 .tg-debug {
   border: 1px solid red;
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: nb-theme(background-basic-color-4);
+  cursor: pointer;
+  border-radius: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background: nb-theme(background-basic-color-2);
 }
