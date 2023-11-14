@@ -42,6 +42,8 @@ export class LoginManagementComponent {
     this.authService.login(event).subscribe((lol) => alert(lol));
     throw new Error('COMBAK');
     // - Fix Cors issue with normal /api/ endpoints
+    // - Remove @CrossOrigin() attrs
+    // - Move /api/auth to /auth. That's just nicer
     // - Add error handling (ErrorResponse?)
     // - Add loading indicator
     // - Add redirect to home page
