@@ -62,5 +62,13 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
   ],
 })
 export class SampleButtonsComponent {
-  statuses = ['basic', 'primary', 'success', 'info', 'warning', 'danger', 'control'];
+  public statuses = [
+    'basic',
+    'primary',
+    'success',
+    'info',
+    'warning',
+    'danger',
+    'control',
+  ];
 }
