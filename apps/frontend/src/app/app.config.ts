@@ -1,16 +1,17 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {
   ApplicationConfig,
+  ErrorHandler,
   InjectionToken,
   Provider,
   importProvidersFrom,
-  ErrorHandler,
 } from '@angular/core';
 import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
 import { NbSidebarModule, NbThemeModule } from '@nebular/theme';
+import { AuthInterceptor } from './api/auth.interceptor';
 import { appRoutes } from './app.routes';
 import { GlobalErrorHandler } from './utilities/error.handler';
 
@@ -38,13 +39,20 @@ const provideErrorHandler = (): Provider => ({
   useClass: GlobalErrorHandler,
 });
 
+const provideAuthInterceptor = (): Provider => ({
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true,
+});
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     importProvidersFrom(HttpClientModule),
     importProvidersFrom(NbThemeModule.forRoot({ name: 'tg-theme' })),
     importProvidersFrom(NbSidebarModule.forRoot()),
-    provideBaseUrlsForDevelopment(),
+    provideAuthInterceptor(),
     provideErrorHandler(),
+    provideBaseUrlsForDevelopment(),
   ],
 };

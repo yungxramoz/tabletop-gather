@@ -8,9 +8,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './services/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   public constructor(private readonly authService: AuthService) {}
 
@@ -18,14 +16,15 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // TODO: Add AccessControlAllowOrigin header to
     const token = this.authService.getToken();
+
     if (token) {
       const authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${token}`),
       });
       return next.handle(authReq);
     }
+
     return next.handle(req);
   }
 }

@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   public getToken(): string | null {
-    return localStorage.getItem(LS_TOKEN_KEY);
+    return this.isLoggedIn() ? localStorage.getItem(LS_TOKEN_KEY) : null;
   }
 
   public logout(): void {
