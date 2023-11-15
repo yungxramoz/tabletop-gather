@@ -12,7 +12,7 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
       <nb-card-body class="card-body">
         <div>
           <button
-            *ngFor="let status of statuses"
+            *ngFor="let status of states"
             nbButton
             [status]="status"
             class="tg-m-1"
@@ -22,7 +22,7 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
         </div>
         <div>
           <button
-            *ngFor="let status of statuses"
+            *ngFor="let status of states"
             nbButton
             outline
             [status]="status"
@@ -33,7 +33,7 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
         </div>
         <div>
           <button
-            *ngFor="let status of statuses"
+            *ngFor="let status of states"
             nbButton
             hero
             [status]="status"
@@ -44,7 +44,7 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
         </div>
         <div>
           <button
-            *ngFor="let status of statuses"
+            *ngFor="let status of states"
             nbButton
             ghost
             [status]="status"
@@ -59,7 +59,7 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SampleButtonsComponent {
-  public readonly statuses = [
+  public readonly states = [
     'basic',
     'primary',
     'success',
