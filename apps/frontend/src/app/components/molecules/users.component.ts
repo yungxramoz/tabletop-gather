@@ -1,24 +1,29 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NbCardModule, NbListModule, NbUserModule } from '@nebular/theme';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { NbCardModule, NbListModule } from '@nebular/theme';
 import { UserDto } from '../../api/model/user.dto';
+import { UserComponent } from '../atoms/user.component';
 
 @Component({
-  selector: 'tabletop-gather-users',
+  selector: 'tg-users',
   standalone: true,
-  imports: [CommonModule, JsonPipe, NbCardModule, NbListModule, NbUserModule],
+  imports: [CommonModule, JsonPipe, NbCardModule, NbListModule, UserComponent],
   template: ` <div>
     <nb-card size="small">
-      <nb-card-header>Users</nb-card-header>
+      <nb-card-header *ngIf="header">{{ header }}</nb-card-header>
+
       <nb-list>
         <nb-list-item style="display:inline-block;" *ngFor="let user of users">
-          <nb-user
-            [shape]="'semi-round'"
-            [name]="user.firstName + ' ' + user.lastName"
-            [title]="'Username - ' + user.username"
-          >
-          </nb-user>
-          <p class="caption">{{ user.id }} <i>(uid)</i></p>
+          <tg-user
+            [user]="user"
+            (deleteUser)="deleteUser.emit($event)"
+          ></tg-user>
         </nb-list-item>
       </nb-list>
     </nb-card>
@@ -27,6 +32,8 @@ import { UserDto } from '../../api/model/user.dto';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent {
-  @Input()
-  users: UserDto[] | null = [];
+  @Input() public header: string | undefined;
+  @Input() public users: UserDto[] | null = [];
+
+  @Output() public deleteUser = new EventEmitter<UserDto>();
 }
