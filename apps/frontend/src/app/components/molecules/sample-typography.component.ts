@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbCardModule } from '@nebular/theme';
 
 @Component({
-  selector: 'tabletop-gather-sample-typography',
+  selector: 'tg-sample-typography',
   standalone: true,
   imports: [CommonModule, NbCardModule],
   template: `
@@ -32,6 +32,6 @@ import { NbCardModule } from '@nebular/theme';
       </nb-card-body>
     </nb-card>
   `,
-  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SampleTypographyComponent {}
