@@ -8,6 +8,7 @@ WORKDIR /app
 # Download dependencies
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
+RUN ls -lhs
 RUN ./mvnw dependency:resolve 
 
 # Copy source code to image

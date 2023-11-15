@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { API_BASE_URL } from '../../app.config';
 import { Uid } from '../api.util';
 import { Model } from '../model/model.type';
@@ -12,28 +12,27 @@ import { UserDto } from '../model/user.dto';
 export class UsersService {
   private readonly usersUrl = `${this.apiBaseUrl}/users`;
 
-  constructor(
+  public constructor(
     @Inject(API_BASE_URL) private readonly apiBaseUrl: string,
     private readonly http: HttpClient
   ) {}
 
-  getAllUsers(): Observable<UserDto[]> {
+  public getAllUsers(): Observable<UserDto[]> {
     return this.http
-      .get(`${this.usersUrl}`, {
+      .get<string[]>(`${this.usersUrl}`, {
         responseType: 'json',
         headers: {
           'Access-Control-Allow-Origin': 'http://localhost:8080',
         },
       })
       .pipe(
-        tap(console.log),
         map((response) =>
           response.map((user: unknown) => UserDto.fromJson(user))
         )
       );
   }
 
-  createUser(user: Model<UserDto>): Observable<Uid> {
+  public createUser(user: Model<UserDto>): Observable<Uid> {
     return this.http
       .post(`${this.usersUrl}`, user, {
         responseType: 'text',
@@ -43,11 +42,20 @@ export class UsersService {
         },
       })
       .pipe(
-        tap(console.log),
         map((response: unknown) => {
           console.assert(typeof response === 'string');
           return response as Uid;
         })
       );
+  }
+
+  public deleteUser(id: Uid): Observable<string> {
+    return this.http.delete(`${this.usersUrl}/${id}`, {
+      responseType: 'text',
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:8080',
+        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      },
+    });
   }
 }
