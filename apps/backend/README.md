@@ -15,6 +15,14 @@ Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and
 
 After starting the application it is accessible under `localhost:8080`.
 
+### Adding a user manually
+
+![image](https://github.com/shoedler/tabletop-gather/assets/38029550/02ea9ab1-7607-4bdb-b0b5-e94fee9a2d56)
+
+### Retrieving a JWT manually
+
+![image](https://github.com/shoedler/tabletop-gather/assets/38029550/adf81b94-33e5-4ae6-a98e-9393cd781c34)
+
 ## Docker
 
 ⚠️ This section is for reference only. See the main workspace [README](../../README.md) for instructions on how to start the application.
