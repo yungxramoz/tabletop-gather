@@ -1,7 +1,6 @@
-// import Nebular Theme System and the default theme
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/cosmic';
+/* You can add global styles to this file, and also import other style files */
+/*Nebular Theme */
+@use 'themes' as *;
 
 // framework component styles
 @use '@nebular/theme/styles/globals' as *;

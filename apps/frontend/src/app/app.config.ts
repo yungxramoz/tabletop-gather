@@ -42,7 +42,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     importProvidersFrom(HttpClientModule),
-    importProvidersFrom(NbThemeModule.forRoot({ name: 'cosmic' })),
+    importProvidersFrom(NbThemeModule.forRoot({ name: 'tg-theme' })),
     importProvidersFrom(NbSidebarModule.forRoot()),
     provideBaseUrlsForDevelopment(),
     provideErrorHandler(),
