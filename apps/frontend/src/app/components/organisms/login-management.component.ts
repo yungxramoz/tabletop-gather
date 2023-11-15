@@ -26,7 +26,7 @@ import { RegisterUserDto } from '../../api/model/register-user.dto';
     <nb-tabset fullWidth class="tg-max-w-50">
       <nb-tab tabTitle="Login">
         <tg-login
-          (credentialsRetrieved)="onCredentialsRetrieved($event)"
+          (credentialsCreated)="onCredentialsCreated($event)"
         ></tg-login>
       </nb-tab>
       <nb-tab tabTitle="Register">
@@ -40,14 +40,11 @@ import { RegisterUserDto } from '../../api/model/register-user.dto';
 export class LoginManagementComponent {
   public constructor(private readonly authService: AuthService) {}
 
-  public onCredentialsRetrieved(event: Model<LoginUserDto>) {
+  public onCredentialsCreated(event: Model<LoginUserDto>) {
     // TODO: Add redirect to home page
     // TODO: Add loading indicator
-    this.authService.login(event).subscribe((lol) => alert(lol));
-    // throw new Error('COMBAK');
-    // TODO: Fix Cors issue with normal /api/ endpoints
-    // TODO: Move /api/auth to /auth. That's just nicer
     // TODO: Add error handling (ErrorResponse?)
+    this.authService.login(event).subscribe((lol) => alert(lol));
   }
 
   public onUserCreated(event: Model<RegisterUserDto>) {

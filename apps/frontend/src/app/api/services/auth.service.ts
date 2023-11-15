@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, shareReplay, tap } from 'rxjs';
-import { API_BASE_URL } from '../../app.config';
+import { AUTH_BASE_URL } from '../../app.config';
 import { LoginUserDto } from '../model/login-user.dto';
 import { Model } from '../model/model.type';
 
@@ -17,16 +17,14 @@ const LS_EXPIRES_AT_KEY = 'expires_at';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly authUrl = `${this.apiBaseUrl}/auth`;
-
   public constructor(
-    @Inject(API_BASE_URL) private readonly apiBaseUrl: string,
+    @Inject(AUTH_BASE_URL) private readonly authBaseUrl: string,
     private readonly http: HttpClient
   ) {}
 
   public login(loginUser: Model<LoginUserDto>): Observable<LoginResult> {
     return this.http
-      .post<LoginResult>(`${this.authUrl}/login`, loginUser, {
+      .post<LoginResult>(`${this.authBaseUrl}/login`, loginUser, {
         responseType: 'json',
         headers: {
           'Access-Control-Allow-Origin': 'http://localhost:8080',

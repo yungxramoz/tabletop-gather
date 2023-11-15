@@ -18,10 +18,20 @@ export const API_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
   'API_BASE_URL'
 );
 
-const provideApiBaseUrlForDevelopment = (): Provider => ({
-  provide: API_BASE_URL,
-  useValue: 'http://localhost:8080/api',
-});
+export const AUTH_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
+  'AUTH_BASE_URL'
+);
+
+const provideBaseUrlsForDevelopment = (): Provider[] => [
+  {
+    provide: API_BASE_URL,
+    useValue: 'http://localhost:8080/api',
+  },
+  {
+    provide: AUTH_BASE_URL,
+    useValue: 'http://localhost:8080/auth',
+  },
+];
 
 const provideErrorHandler = (): Provider => ({
   provide: ErrorHandler,
@@ -34,7 +44,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     importProvidersFrom(NbThemeModule.forRoot({ name: 'cosmic' })),
     importProvidersFrom(NbSidebarModule.forRoot()),
-    provideApiBaseUrlForDevelopment(),
+    provideBaseUrlsForDevelopment(),
     provideErrorHandler(),
   ],
 };

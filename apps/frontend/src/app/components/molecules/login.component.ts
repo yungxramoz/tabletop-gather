@@ -73,7 +73,7 @@ import { InputComponent } from '../atoms/input.component';
 export class LoginComponent {
   @Input() public header: string | undefined;
   @Output()
-  public credentialsRetrieved: EventEmitter<Model<LoginUserDto>> =
+  public credentialsCreated: EventEmitter<Model<LoginUserDto>> =
     new EventEmitter<Model<LoginUserDto>>();
 
   public getUser(form: NgForm) {
@@ -82,7 +82,7 @@ export class LoginComponent {
       return;
     }
 
-    this.credentialsRetrieved.emit({
+    this.credentialsCreated.emit({
       email: form.controls['email'].value,
       password: form.controls['password'].value,
     });
