@@ -18,6 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    // TODO: Add AccessControlAllowOrigin header to
     const token = this.authService.getToken();
     if (token) {
       const authReq = req.clone({

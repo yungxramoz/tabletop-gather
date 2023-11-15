@@ -1,14 +1,16 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbTabsetModule } from '@nebular/theme';
+import {
+  NbSpinnerComponent,
+  NbSpinnerModule,
+  NbTabsetModule,
+} from '@nebular/theme';
 import { LoginUserDto } from '../../api/model/login-user.dto';
 import { Model } from '../../api/model/model.type';
 import { AuthService } from '../../api/services/auth.service';
-import {
-  CreateUserComponent,
-  UserCreatedEvent,
-} from '../molecules/create-user.component';
+import { RegisterComponent } from '../molecules/register.component';
 import { LoginComponent } from '../molecules/login.component';
+import { RegisterUserDto } from '../../api/model/register-user.dto';
 
 @Component({
   selector: 'tg-login-management',
@@ -18,7 +20,7 @@ import { LoginComponent } from '../molecules/login.component';
     AsyncPipe,
     NbTabsetModule,
     LoginComponent,
-    CreateUserComponent,
+    RegisterComponent,
   ],
   template: `
     <nb-tabset fullWidth class="tg-max-w-50">
@@ -28,7 +30,7 @@ import { LoginComponent } from '../molecules/login.component';
         ></tg-login>
       </nb-tab>
       <nb-tab tabTitle="Register">
-        <tg-create-user (userCreated)="onUserCreated($event)"></tg-create-user>
+        <tg-register (userCreated)="onUserCreated($event)"></tg-register>
       </nb-tab>
     </nb-tabset>
   `,
@@ -39,19 +41,16 @@ export class LoginManagementComponent {
   public constructor(private readonly authService: AuthService) {}
 
   public onCredentialsRetrieved(event: Model<LoginUserDto>) {
+    // TODO: Add redirect to home page
+    // TODO: Add loading indicator
     this.authService.login(event).subscribe((lol) => alert(lol));
-    throw new Error('COMBAK');
-    // - Fix Cors issue with normal /api/ endpoints
-    // - Remove @CrossOrigin() attrs
-    // - Move /api/auth to /auth. That's just nicer
-    // - Add error handling (ErrorResponse?)
-    // - Add loading indicator
-    // - Add redirect to home page
-    // - Make new "regsiter user" component
-    // - Probably delete the "create user" component
+    // throw new Error('COMBAK');
+    // TODO: Fix Cors issue with normal /api/ endpoints
+    // TODO: Move /api/auth to /auth. That's just nicer
+    // TODO: Add error handling (ErrorResponse?)
   }
 
-  public onUserCreated(event: UserCreatedEvent) {
+  public onUserCreated(event: Model<RegisterUserDto>) {
     console.log(event);
   }
 }

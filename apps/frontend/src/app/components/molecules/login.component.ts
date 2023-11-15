@@ -56,11 +56,12 @@ import { InputComponent } from '../atoms/input.component';
           <div class="tg-block tg-mt-2">
             <button
               nbButton
+              fullWidth
               shape="semi-round"
               type="submit"
               [disabled]="getUserForm.invalid"
             >
-              Create
+              Login
             </button>
           </div>
         </form>

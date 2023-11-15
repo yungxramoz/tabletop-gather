@@ -8,14 +8,12 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { Model } from '../../api/model/model.type';
-import { UserDto } from '../../api/model/user.dto';
 import { InputComponent } from '../atoms/input.component';
-
-export type UserCreatedEvent = Model<UserDto>;
+import { RegisterUserDto } from '../../api/model/register-user.dto';
+import { Model } from '../../api/model/model.type';
 
 @Component({
-  selector: 'tg-create-user',
+  selector: 'tg-register',
   standalone: true,
   imports: [
     CommonModule,
@@ -40,6 +38,7 @@ export type UserCreatedEvent = Model<UserDto>;
             ngModel
             required
             minlength="3"
+            maxlength="50"
             pattern="^[a-z0-9.]*$"
             id="username"
             name="username"
@@ -51,6 +50,7 @@ export type UserCreatedEvent = Model<UserDto>;
             ngModel
             required
             minlength="3"
+            maxlength="255"
             id="firstName"
             name="firstName"
             label="First Name"
@@ -61,6 +61,7 @@ export type UserCreatedEvent = Model<UserDto>;
             ngModel
             required
             minlength="3"
+            maxlength="255"
             id="lastName"
             name="lastName"
             label="Last Name"
@@ -69,41 +70,49 @@ export type UserCreatedEvent = Model<UserDto>;
 
           <tg-input
             ngModel
-            type="number"
-            id="sessionUser"
-            name="sessionUser"
-            label="Session User"
-            placeholder=""
+            required
+            email
+            minlength="3"
+            maxlength="320"
+            id="email"
+            name="email"
+            label="Email"
+            placeholder="john@doe.com"
           ></tg-input>
 
           <tg-input
             ngModel
             required
             minlength="3"
-            id="passwordHash"
-            name="passwordHash"
-            label="Password Hash"
-            placeholder="yxu9s8s09as831w"
+            maxlength="64"
+            type="password"
+            id="password"
+            name="password"
+            label="Password"
+            placeholder="********"
           ></tg-input>
 
           <tg-input
             ngModel
             required
             minlength="3"
-            id="passwordSalt"
-            name="passwordSalt"
-            label="Password Salt"
-            placeholder="s9s8s09as831w"
+            maxlength="64"
+            type="password"
+            id="password2"
+            name="password2"
+            label="Repeat Password"
+            placeholder="********"
           ></tg-input>
 
           <div class="tg-block tg-mt-2">
             <button
               nbButton
+              fullWidth
               shape="semi-round"
               type="submit"
               [disabled]="createUserForm.invalid"
             >
-              Create
+              Signup
             </button>
           </div>
         </form>
@@ -112,10 +121,10 @@ export type UserCreatedEvent = Model<UserDto>;
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateUserComponent {
+export class RegisterComponent {
   @Input() public header: string | undefined;
-  @Output() public userCreated: EventEmitter<UserCreatedEvent> =
-    new EventEmitter<UserCreatedEvent>();
+  @Output() public userCreated: EventEmitter<Model<RegisterUserDto>> =
+    new EventEmitter<Model<RegisterUserDto>>();
 
   public createUser(form: NgForm) {
     if (!form.valid) {
@@ -123,13 +132,17 @@ export class CreateUserComponent {
       return;
     }
 
+    if (form.controls['password'].value !== form.controls['password2'].value) {
+      alert('Passwords do not match!');
+      return;
+    }
+
     this.userCreated.emit({
       username: form.controls['username'].value,
       firstName: form.controls['firstName'].value,
       lastName: form.controls['lastName'].value,
-      sessionUser: form.controls['sessionUser'].value,
-      passwordHash: form.controls['passwordHash'].value,
-      passwordSalt: form.controls['passwordSalt'].value,
+      email: form.controls['email'].value,
+      password: form.controls['password'].value,
     });
 
     form.resetForm();

@@ -17,6 +17,7 @@ export class UsersService {
     private readonly http: HttpClient
   ) {}
 
+  // TODO: Use LoadingWrapper
   public getAllUsers(): Observable<UserDto[]> {
     return this.http
       .get<string[]>(`${this.usersUrl}`, {
@@ -32,6 +33,7 @@ export class UsersService {
       );
   }
 
+  // TODO: Delete
   public createUser(user: Model<UserDto>): Observable<Uid> {
     return this.http
       .post(`${this.usersUrl}`, user, {
@@ -49,6 +51,7 @@ export class UsersService {
       );
   }
 
+  // TODO: Use LoadingWrapper
   public deleteUser(id: Uid): Observable<string> {
     return this.http.delete(`${this.usersUrl}/${id}`, {
       responseType: 'text',

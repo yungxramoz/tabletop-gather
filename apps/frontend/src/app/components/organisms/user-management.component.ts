@@ -4,23 +4,19 @@ import { BehaviorSubject, switchMap } from 'rxjs';
 import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
 import { UsersService } from '../../api/services/users.service';
-import { CreateUserComponent } from '../molecules/create-user.component';
+import { RegisterComponent } from '../molecules/register.component';
 import { UsersComponent } from '../molecules/users.component';
 
 @Component({
   selector: 'tg-user-management',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, CreateUserComponent, UsersComponent],
+  imports: [CommonModule, AsyncPipe, RegisterComponent, UsersComponent],
   template: `
     <tg-users
       header="Users"
       [users]="users$ | async"
       (deleteUser)="deleteUser($event)"
     ></tg-users>
-    <tg-create-user
-      header="Add a new user"
-      (userCreated)="onUserCreated($event)"
-    ></tg-create-user>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,13 +26,6 @@ export class UserManagementComponent implements OnInit {
   public readonly users$ = this.usersSubject.asObservable();
 
   public constructor(private readonly usersService: UsersService) {}
-
-  public onUserCreated(user: Model<UserDto>) {
-    this.usersService
-      .createUser(user)
-      .pipe(switchMap(() => this.usersService.getAllUsers()))
-      .subscribe((users) => this.usersSubject.next(users));
-  }
 
   public deleteUser(user: UserDto) {
     if (!confirm(`Are you sure you want to delete ${user.username}?`)) return;

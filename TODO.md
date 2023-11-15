@@ -19,4 +19,4 @@
 
 ## Backend Deployment
 
-- [ ] Add `@CrossOrigin(origins = "<host-url>")` to `@RestController` classes
+- [ ] Add deployment url to JwtFilter
