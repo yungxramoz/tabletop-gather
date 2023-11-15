@@ -57,6 +57,7 @@ import { InputComponent } from '../atoms/input.component';
             <button
               nbButton
               fullWidth
+              status="primary"
               shape="semi-round"
               type="submit"
               [disabled]="getUserForm.invalid"

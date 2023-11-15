@@ -47,7 +47,7 @@ public class User implements UserDetails {
     @Column(length = 255)
     private String lastName;
 
-    @Column(length = 320)
+    @Column(length = 320, unique = true)
     private String email;
 
     @Column(length = 255)

@@ -27,8 +27,11 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public boolean isEmailTaken(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
     public User signup(RegisterUserDTO input) {
-        // TODO: ErrorResponse: User already exists if email is already in use
         User user = new User();
         user.setUsername(input.getUsername());
         user.setUsername(input.getUsername());
@@ -48,7 +51,6 @@ public class AuthenticationService {
                 )
         );
 
-        System.out.println("Authentication successful");
         return userRepository.findByEmail(input.getEmail())
                 .orElseThrow();
     }

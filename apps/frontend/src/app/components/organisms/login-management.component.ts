@@ -1,16 +1,12 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  NbSpinnerComponent,
-  NbSpinnerModule,
-  NbTabsetModule,
-} from '@nebular/theme';
+import { NbTabsetModule } from '@nebular/theme';
 import { LoginUserDto } from '../../api/model/login-user.dto';
 import { Model } from '../../api/model/model.type';
-import { AuthService } from '../../api/services/auth.service';
-import { RegisterComponent } from '../molecules/register.component';
-import { LoginComponent } from '../molecules/login.component';
 import { RegisterUserDto } from '../../api/model/register-user.dto';
+import { AuthService } from '../../api/services/auth.service';
+import { LoginComponent } from '../molecules/login.component';
+import { RegisterComponent } from '../molecules/register.component';
 
 @Component({
   selector: 'tg-login-management',
@@ -44,10 +40,14 @@ export class LoginManagementComponent {
     // TODO: Add redirect to home page
     // TODO: Add loading indicator
     // TODO: Add error handling (ErrorResponse?)
-    this.authService.login(event).subscribe((lol) => alert(lol));
+    this.authService
+      .login(event)
+      .subscribe((result) => alert(JSON.stringify(result, null, 2)));
   }
 
   public onUserCreated(event: Model<RegisterUserDto>) {
-    console.log(event);
+    this.authService
+      .signup(event)
+      .subscribe((result) => alert(JSON.stringify(result, null, 2)));
   }
 }

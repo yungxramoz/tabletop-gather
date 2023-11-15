@@ -4,6 +4,8 @@ import { Observable, shareReplay, tap } from 'rxjs';
 import { AUTH_BASE_URL } from '../../app.config';
 import { LoginUserDto } from '../model/login-user.dto';
 import { Model } from '../model/model.type';
+import { RegisterUserDto } from '../model/register-user.dto';
+import { UserDto } from '../model/user.dto';
 
 type LoginResult = {
   token: string;
@@ -35,6 +37,16 @@ export class AuthService {
         tap((response) => this.setSession(response)),
         shareReplay()
       );
+  }
+
+  public signup(registerUser: Model<RegisterUserDto>): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
+      responseType: 'json',
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:8080',
+        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      },
+    });
   }
 
   public getToken(): string | null {

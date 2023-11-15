@@ -3,14 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Output,
   Input,
+  Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { InputComponent } from '../atoms/input.component';
-import { RegisterUserDto } from '../../api/model/register-user.dto';
 import { Model } from '../../api/model/model.type';
+import { RegisterUserDto } from '../../api/model/register-user.dto';
+import { InputComponent } from '../atoms/input.component';
 
 @Component({
   selector: 'tg-register',
@@ -108,6 +108,7 @@ import { Model } from '../../api/model/model.type';
             <button
               nbButton
               fullWidth
+              status="primary"
               shape="semi-round"
               type="submit"
               [disabled]="createUserForm.invalid"
