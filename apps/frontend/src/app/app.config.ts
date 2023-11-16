@@ -60,7 +60,7 @@ const provideNebular = (): EnvironmentProviders[] => [
   importProvidersFrom(BrowserAnimationsModule), // This is required for Nebular animations to work - not sure why
   importProvidersFrom(
     NbToastrModule.forRoot({
-      duration: 3000,
+      duration: 10000,
       destroyByClick: true,
       preventDuplicates: true,
       duplicatesBehaviour: 'previous',

@@ -1,11 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  filter,
+  map,
+  shareReplay,
+  tap,
+} from 'rxjs';
 import { LoginUserDto } from '../api/model/login-user.dto';
 import { Model } from '../api/model/model.type';
 import { RegisterUserDto } from '../api/model/register-user.dto';
 import { UserDto } from '../api/model/user.dto';
 import { AUTH_BASE_URL } from '../app.config';
+import { ResponseHandler } from '../utilities/response.handler';
 
 type LoginResult = {
   token: string;
@@ -31,25 +39,42 @@ export class AuthService {
 
   public constructor(
     @Inject(AUTH_BASE_URL) private readonly authBaseUrl: string,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly responseHandler: ResponseHandler
   ) {}
 
   public login(loginUser: Model<LoginUserDto>): Observable<LoginResult> {
     return this.http
       .post<LoginResult>(`${this.authBaseUrl}/login`, loginUser, {
+        observe: 'response',
         responseType: 'json',
       })
       .pipe(
-        tap((response) => this.setSession(response)),
+        this.responseHandler.handleErrorResponse(),
+        filter((response) => response !== null),
+        map((response) => response?.body as LoginResult),
+        tap((loginResult) => this.setSession(loginResult)),
         shareReplay(),
         tap(() => this.loginStatusSubject.next(true))
       );
   }
 
   public signup(registerUser: Model<RegisterUserDto>): Observable<UserDto> {
-    return this.http.post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
-      responseType: 'json',
-    });
+    return this.http
+      .post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          additionalError: {
+            message: 'Please try again later',
+            title: 'Sign up failed',
+          },
+        }),
+        filter((response) => response !== null),
+        map((response) => response?.body as UserDto)
+      );
   }
 
   public getToken(): string | null {
