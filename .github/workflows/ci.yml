@@ -2,7 +2,6 @@ name: CI
 on:
   push:
     branches:
-      # Change this if your primary branch is not main
       - main
   pull_request:
 
@@ -10,9 +9,15 @@ jobs:
   main:
     runs-on: windows-latest
     steps:
+      # Checkout the repo
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      # Setup Java
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
       # Cache node_modules
       - uses: actions/setup-node@v4
         with:
@@ -20,8 +25,6 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - uses: nrwl/nx-set-shas@v3
-      # This line is needed for nx affected to work when CI is running on a PR
-      # - run: git branch --track main origin/main
 
       - run: npx nx format:check
-      - run: npx nx affected -t lint,test,build --parallel=3
+      - run: npx nx run-many -t lint,test,build --parallel=3

@@ -1,12 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-/*Nebular Theme */
-@use 'themes' as *;
-
-// framework component styles
-@use '@nebular/theme/styles/globals' as *;
-
-// install the framework styles
-@include nb-install() {
+@use 'themes' as *; // nebular theme
+@use '@nebular/theme/styles/globals' as *; // framework component styles
+@include nb-install() { // install the framework styles
   @include nb-theme-global();
 }
 

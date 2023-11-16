@@ -20,3 +20,4 @@
 ## Backend Deployment
 
 - [ ] Add deployment url to JwtFilter
+- [ ] Move `security.jwt.*` to `application-local.yml` - it's currently committed to the repo 😬

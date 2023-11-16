@@ -6,12 +6,26 @@
   "sourceRoot": "apps/backend/src",
   "tags": [],
   "targets": {
+    "deps": {
+      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd dependency:resolve"
+    },
     "build": {
-      "command": "docker build --tag tg-java-backend apps/backend"
+      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd clean package -DskipTests",
+      "dependsOn": ["deps"]
     },
     "serve": {
-      "command": "docker compose -f ./apps/backend/docker-compose.yml up --no-build",
+      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd spring-boot:run",
       "dependsOn": ["build"]
+    },
+    "test": {
+      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd test"
+    },
+    "docker-build": {
+      "command": "docker build --tag tg-java-backend apps/backend"
+    },
+    "docker-serve": {
+      "command": "docker compose -f ./apps/backend/docker-compose.yml up --no-build",
+      "dependsOn": ["docker-build"]
     }
   }
 }
