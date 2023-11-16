@@ -7,18 +7,19 @@
   "tags": [],
   "targets": {
     "deps": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd dependency:resolve"
+      "command": "apps\\backend\\mvnw.cmd dependency:resolve"
     },
     "build": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd clean package -DskipTests",
+      "command": "apps\\backend\\mvnw.cmd clean package -DskipTests",
       "dependsOn": ["deps"]
     },
     "serve": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd spring-boot:run",
+      "command": "apps\\backend\\mvnw.cmd spring-boot:run",
       "dependsOn": ["build"]
     },
     "test": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw.cmd test"
+      "command": "apps\\backend\\mvnw.cmd test",
+      "dependsOn": ["build"]
     },
     "docker-build": {
       "command": "docker build --tag tg-java-backend apps/backend"
