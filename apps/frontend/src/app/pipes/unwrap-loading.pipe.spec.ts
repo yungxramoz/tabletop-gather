@@ -1,4 +1,4 @@
-import { LoadingWrapped } from '../utilities/loading-wrapper.operator';
+import { LoadingWrapped } from '../operators/loading-wrapper.operator';
 import { UnwrapLoadingPipe } from './unwrap-loading.pipe';
 
 describe('UnwrapLoadingPipe', () => {

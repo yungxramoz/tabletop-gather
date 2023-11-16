@@ -38,6 +38,7 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
     }
 
+    // TODO: Delete this - we create users via the registration process
     public UUID create(final UserDTO userDTO) {
         final User user = new User();
         mapToEntity(userDTO, user);

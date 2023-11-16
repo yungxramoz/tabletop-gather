@@ -46,6 +46,11 @@ p {
   margin: 1rem;
 }
 
+.tg-mx-2 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .tg-mt-1 {
   margin-top: 0.5rem;
 }
@@ -65,6 +70,10 @@ p {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.tg-flex-grow {
+  flex-grow: 1;
 }
 
 /* Misc */

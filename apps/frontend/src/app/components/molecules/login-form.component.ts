@@ -13,7 +13,7 @@ import { Model } from '../../api/model/model.type';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
-  selector: 'tg-login',
+  selector: 'tg-login-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -71,7 +71,7 @@ import { InputComponent } from '../atoms/input.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export class LoginFormComponent {
   @Input() public header: string | undefined;
   @Output()
   public credentialsCreated: EventEmitter<Model<LoginUserDto>> =

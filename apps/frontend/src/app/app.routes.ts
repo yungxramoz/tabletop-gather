@@ -1,24 +1,29 @@
 import { Route } from '@angular/router';
+import { isAuthenticatedOrRedirectToLogin } from './auth/auth.guard';
+import { DashboardComponent } from './components/organisms/dashboard.component';
+import { LoginComponent } from './components/organisms/login.component';
+import { UsersComponent } from './components/organisms/users.component';
 import { SampleDesignComponent } from './components/pages/sample-design.component';
-import { UserManagementComponent } from './components/organisms/user-management.component';
-import { LoginManagementComponent } from './components/organisms/login-management.component';
 
 export const appRoutes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login',
+    component: DashboardComponent,
+    canActivate: [isAuthenticatedOrRedirectToLogin],
   },
   {
     path: 'login',
-    component: LoginManagementComponent,
+    component: LoginComponent,
   },
   {
     path: 'user-management',
-    component: UserManagementComponent,
+    component: UsersComponent,
+    canActivate: [isAuthenticatedOrRedirectToLogin],
   },
   {
     path: 'design',
     component: SampleDesignComponent,
+    canActivate: [isAuthenticatedOrRedirectToLogin],
   },
 ];

@@ -6,46 +6,40 @@ export const getErrors = (
 ): string[] => {
   const errorMessages: string[] = [];
 
+  const validationErrorMapping = <
+    K extends keyof ValidationErrors,
+    U extends ValidationErrors[K]
+  >(
+    error: K,
+    errorValue: U,
+    fieldName: string
+  ): string | undefined => {
+    return (
+      {
+        required: `${fieldName} is required`,
+        minlength: `${fieldName} must be at least ${errorValue.requiredLength} characters`,
+        maxlength: `${fieldName} must be at most ${errorValue.requiredLength} characters`,
+        email: `${fieldName} must be a valid email address`,
+        pattern: `${fieldName} must match the pattern ${errorValue.requiredPattern}`,
+        min: `${fieldName} must be at least ${errorValue.min}`,
+        max: `${fieldName} must be at most ${errorValue.max}`,
+      } as Record<K, string>
+    )[error];
+  };
+
   if (errors) {
     Object.keys(errors).forEach((key: string) => {
-      switch (key) {
-        case 'required':
-          errorMessages.push(`${fieldName} is required`);
-          break;
-        case 'minlength':
-          errorMessages.push(
-            `${fieldName} must be at least ${errors[key].requiredLength} characters`
-          );
-          break;
-        case 'maxlength':
-          errorMessages.push(
-            `${fieldName} must be at most ${errors[key].requiredLength} characters`
-          );
-          break;
-        case 'email':
-          errorMessages.push(`${fieldName} must be a valid email address`);
-          break;
-        case 'pattern':
-          errorMessages.push(
-            `${fieldName} must match the pattern ${errors[key].requiredPattern}`
-          );
-          break;
-        case 'min':
-          errorMessages.push(
-            `${fieldName} must be at least ${errors[key].min}`
-          );
-          break;
-        case 'max':
-          errorMessages.push(`${fieldName} must be at most ${errors[key].max}`);
-          break;
-        default:
-          console.error(
-            `Missing validation error. Add \`${key}\` with value: \`${JSON.stringify(
-              errors[key]
-            )}\` to the mapping.}`
-          );
-          errorMessages.push(`${fieldName} is invalid`);
-          break;
+      const msg = validationErrorMapping(key, errors[key], fieldName);
+
+      if (msg) {
+        errorMessages.push(msg);
+      } else {
+        console.error(
+          `Missing validation error. Add \`${key}\` with value: \`${JSON.stringify(
+            errors[key]
+          )}\` to the mapping.}`
+        );
+        errorMessages.push(`${fieldName} is invalid`);
       }
     });
   }

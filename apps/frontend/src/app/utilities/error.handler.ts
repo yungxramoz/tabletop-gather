@@ -1,10 +1,19 @@
 import { ErrorHandler, Injectable } from '@angular/core';
+import { NbToastrService } from '@nebular/theme';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
+  public constructor(private readonly toastService: NbToastrService) {}
+
   public handleError(error: unknown) {
-    // TODO: Show error with nb-alert
-    alert('An error occurred! Please check the console for more details.');
+    try {
+      this.toastService.danger(
+        JSON.stringify(error, null, 2),
+        'Oh no! Something went really wrong!'
+      );
+    } catch {
+      console.warn('Could not display error message');
+    }
     console.error(error);
   }
 }

@@ -38,6 +38,7 @@ public class UserResource {
         return ResponseEntity.ok(userService.get(id));
     }
 
+    // TODO: Delete this - we create users via the registration process
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<UUID> createUser(@RequestBody @Valid final UserDTO userDTO) {

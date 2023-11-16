@@ -1,27 +1,44 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NbCardModule, NbListModule } from '@nebular/theme';
 import { BehaviorSubject, switchMap } from 'rxjs';
-import { Model } from '../../api/model/model.type';
 import { UserDto } from '../../api/model/user.dto';
 import { UsersService } from '../../api/services/users.service';
-import { RegisterComponent } from '../molecules/register.component';
-import { UsersComponent } from '../molecules/users.component';
+import { UserComponent } from '../atoms/user.component';
+import { RegisterFormComponent } from '../molecules/register-form.component';
 
 @Component({
-  selector: 'tg-user-management',
+  selector: 'tg-users',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RegisterComponent, UsersComponent],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    NbCardModule,
+    NbListModule,
+    UserComponent,
+    RegisterFormComponent,
+  ],
   template: `
-    <tg-users
-      header="Users"
-      [users]="users$ | async"
-      (deleteUser)="deleteUser($event)"
-    ></tg-users>
+    <div>
+      <nb-card size="small">
+        <nb-card-header>Users</nb-card-header>
+
+        <nb-list>
+          <nb-list-item
+            style="display:inline-block;"
+            *ngFor="let user of users$ | async"
+            class="tg-mx-2"
+          >
+            <tg-user [user]="user" (deleteUser)="deleteUser($event)"></tg-user>
+          </nb-list-item>
+        </nb-list>
+      </nb-card>
+    </div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserManagementComponent implements OnInit {
+export class UsersComponent implements OnInit {
   private readonly usersSubject = new BehaviorSubject<UserDto[]>([]);
   public readonly users$ = this.usersSubject.asObservable();
 

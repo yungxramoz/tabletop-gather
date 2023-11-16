@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LoadingWrapped } from '../utilities/loading-wrapper.operator';
+import { LoadingWrapped } from '../operators/loading-wrapper.operator';
 
 type LoadingUnwrapped<T> =
   // It can be loading before it completes

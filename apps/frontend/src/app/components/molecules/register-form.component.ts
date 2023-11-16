@@ -13,7 +13,7 @@ import { RegisterUserDto } from '../../api/model/register-user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
-  selector: 'tg-register',
+  selector: 'tg-register-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -122,7 +122,7 @@ import { InputComponent } from '../atoms/input.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
+export class RegisterFormComponent {
   @Input() public header: string | undefined;
   @Output() public userCreated: EventEmitter<Model<RegisterUserDto>> =
     new EventEmitter<Model<RegisterUserDto>>();

@@ -1,12 +1,13 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { NbTabsetModule } from '@nebular/theme';
 import { LoginUserDto } from '../../api/model/login-user.dto';
 import { Model } from '../../api/model/model.type';
 import { RegisterUserDto } from '../../api/model/register-user.dto';
-import { AuthService } from '../../api/services/auth.service';
-import { LoginComponent } from '../molecules/login.component';
-import { RegisterComponent } from '../molecules/register.component';
+import { AuthService } from '../../auth/auth.service';
+import { LoginFormComponent } from '../molecules/login-form.component';
+import { RegisterFormComponent } from '../molecules/register-form.component';
 
 @Component({
   selector: 'tg-login-management',
@@ -15,39 +16,41 @@ import { RegisterComponent } from '../molecules/register.component';
     CommonModule,
     AsyncPipe,
     NbTabsetModule,
-    LoginComponent,
-    RegisterComponent,
+    LoginFormComponent,
+    RegisterFormComponent,
   ],
   template: `
     <nb-tabset fullWidth class="tg-max-w-50">
       <nb-tab tabTitle="Login">
-        <tg-login
+        <tg-login-form
           (credentialsCreated)="onCredentialsCreated($event)"
-        ></tg-login>
+        ></tg-login-form>
       </nb-tab>
       <nb-tab tabTitle="Register">
-        <tg-register (userCreated)="onUserCreated($event)"></tg-register>
+        <tg-register-form
+          (userCreated)="onUserCreated($event)"
+        ></tg-register-form>
       </nb-tab>
     </nb-tabset>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginManagementComponent {
-  public constructor(private readonly authService: AuthService) {}
+export class LoginComponent {
+  public constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   public onCredentialsCreated(event: Model<LoginUserDto>) {
-    // TODO: Add redirect to home page
     // TODO: Add loading indicator
-    // TODO: Add error handling (ErrorResponse?)
-    this.authService
-      .login(event)
-      .subscribe((result) => alert(JSON.stringify(result, null, 2)));
+    // TODO: Add success indicator
+    this.authService.login(event).subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 
   public onUserCreated(event: Model<RegisterUserDto>) {
-    this.authService
-      .signup(event)
-      .subscribe((result) => alert(JSON.stringify(result, null, 2)));
+    this.authService.signup(event).subscribe();
   }
 }

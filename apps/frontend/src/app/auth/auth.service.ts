@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, shareReplay, tap } from 'rxjs';
-import { AUTH_BASE_URL } from '../../app.config';
-import { LoginUserDto } from '../model/login-user.dto';
-import { Model } from '../model/model.type';
-import { RegisterUserDto } from '../model/register-user.dto';
-import { UserDto } from '../model/user.dto';
+import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
+import { LoginUserDto } from '../api/model/login-user.dto';
+import { Model } from '../api/model/model.type';
+import { RegisterUserDto } from '../api/model/register-user.dto';
+import { UserDto } from '../api/model/user.dto';
+import { AUTH_BASE_URL } from '../app.config';
 
 type LoginResult = {
   token: string;
@@ -19,6 +19,16 @@ const LS_EXPIRES_AT_KEY = 'expires_at';
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly loginStatusSubject = new BehaviorSubject<boolean>(
+    this.isLoggedIn()
+  );
+
+  public readonly loginStatus$ = this.loginStatusSubject.asObservable();
+
+  public get loginStatus(): boolean {
+    return this.loginStatusSubject.getValue();
+  }
+
   public constructor(
     @Inject(AUTH_BASE_URL) private readonly authBaseUrl: string,
     private readonly http: HttpClient
@@ -28,24 +38,17 @@ export class AuthService {
     return this.http
       .post<LoginResult>(`${this.authBaseUrl}/login`, loginUser, {
         responseType: 'json',
-        headers: {
-          'Access-Control-Allow-Origin': 'http://localhost:8080',
-          'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-        },
       })
       .pipe(
         tap((response) => this.setSession(response)),
-        shareReplay()
+        shareReplay(),
+        tap(() => this.loginStatusSubject.next(true))
       );
   }
 
   public signup(registerUser: Model<RegisterUserDto>): Observable<UserDto> {
     return this.http.post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
       responseType: 'json',
-      headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:8080',
-        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-      },
     });
   }
 
@@ -56,12 +59,14 @@ export class AuthService {
   public logout(): void {
     localStorage.removeItem(LS_TOKEN_KEY);
     localStorage.removeItem(LS_EXPIRES_AT_KEY);
+    this.loginStatusSubject.next(false);
   }
 
-  public isLoggedIn(): boolean {
+  private isLoggedIn(): boolean {
     const expiresAt = JSON.parse(
       localStorage.getItem(LS_EXPIRES_AT_KEY) || '{}'
     );
+
     return new Date().valueOf() < expiresAt;
   }
 

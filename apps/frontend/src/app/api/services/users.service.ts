@@ -3,7 +3,6 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { API_BASE_URL } from '../../app.config';
 import { Uid } from '../api.util';
-import { Model } from '../model/model.type';
 import { UserDto } from '../model/user.dto';
 
 @Injectable({
@@ -22,9 +21,6 @@ export class UsersService {
     return this.http
       .get<string[]>(`${this.usersUrl}`, {
         responseType: 'json',
-        headers: {
-          'Access-Control-Allow-Origin': 'http://localhost:8080',
-        },
       })
       .pipe(
         map((response) =>
@@ -33,32 +29,10 @@ export class UsersService {
       );
   }
 
-  // TODO: Delete
-  public createUser(user: Model<UserDto>): Observable<Uid> {
-    return this.http
-      .post(`${this.usersUrl}`, user, {
-        responseType: 'text',
-        headers: {
-          'Access-Control-Allow-Origin': 'http://localhost:8080',
-          'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-        },
-      })
-      .pipe(
-        map((response: unknown) => {
-          console.assert(typeof response === 'string');
-          return response as Uid;
-        })
-      );
-  }
-
   // TODO: Use LoadingWrapper
   public deleteUser(id: Uid): Observable<string> {
     return this.http.delete(`${this.usersUrl}/${id}`, {
       responseType: 'text',
-      headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:8080',
-        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-      },
     });
   }
 }
