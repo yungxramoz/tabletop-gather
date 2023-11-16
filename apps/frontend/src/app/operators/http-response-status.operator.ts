@@ -1,3 +1,8 @@
+// This will handle these todos:
+// TODO: Add loading indicator for HttpResponse
+// TODO: Add success indicator for HttpResponse
+// Rethink the use of loadingWrapper...
+
 // const mapApiExceptionHttpErrorResponse = (
 //   error: HttpErrorResponse
 // ): { title: string; message: string } => {

@@ -43,8 +43,6 @@ export class LoginComponent {
   ) {}
 
   public onCredentialsCreated(event: Model<LoginUserDto>) {
-    // TODO: Add loading indicator
-    // TODO: Add success indicator
     this.authService.login(event).subscribe(() => {
       this.router.navigate(['/']);
     });
