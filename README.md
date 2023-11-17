@@ -27,7 +27,7 @@ _(All commands are to be run from the root of the repository. Nx specific comman
 
 > This will launch an angular dev server with hot reloading enabled. Don't worry about building the app, Nx will take care of dependent tasks and build order.
 
-4. Start the backend with `nx serve backend`. The backend will be available at http://localhost:8080/
+4. Start the backend with `nx docker-serve backend`. The backend will be available at http://localhost:8080/
 
 > This will - via `docker-compose` - launch a preconfigured postgres container and the backend application container.
 > It might take a minute or two if you're doing this the first time, especially if you don't have the postgres image locally yet.
@@ -56,3 +56,4 @@ nx run-many -t <target1> <target2> -p <proj1> <proj2>
 ```
 
 Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/core-features/run-tasks).
+

@@ -23,3 +23,7 @@ spring:
       lifecycle-management: start-only
 springdoc:
   pathsToMatch: /api/**
+security:
+  jwt:
+    secret-key: 909912191940e298a1157bfdebb1f5f785daf15b93a1787b80350deab6cdce55
+    expiration-time: 3_600_000

@@ -3,21 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Output,
   Input,
+  Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { UserDto } from '../../api/model/user.dto';
+import { LoginUserDto } from '../../api/model/login-user.dto';
+import { Model } from '../../api/model/model.type';
 import { InputComponent } from '../atoms/input.component';
 
-export type CredentialsRetrievedEvent = {
-  username: UserDto['username'];
-  password: string;
-};
-
 @Component({
-  selector: 'tg-login',
+  selector: 'tg-login-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,10 +37,10 @@ export type CredentialsRetrievedEvent = {
           <tg-input
             ngModel
             required
-            id="username"
-            name="username"
-            label="Username"
-            placeholder="johndoe"
+            id="email"
+            name="email"
+            label="Email"
+            placeholder="john@doe.com"
           ></tg-input>
 
           <tg-input
@@ -54,17 +50,19 @@ export type CredentialsRetrievedEvent = {
             id="password"
             name="password"
             label="Password"
-            placeholder="glue"
+            placeholder=""
           ></tg-input>
 
           <div class="tg-block tg-mt-2">
             <button
               nbButton
+              fullWidth
+              status="primary"
               shape="semi-round"
               type="submit"
               [disabled]="getUserForm.invalid"
             >
-              Create
+              Login
             </button>
           </div>
         </form>
@@ -73,11 +71,11 @@ export type CredentialsRetrievedEvent = {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export class LoginFormComponent {
   @Input() public header: string | undefined;
   @Output()
-  public credentialsRetrieved: EventEmitter<CredentialsRetrievedEvent> =
-    new EventEmitter<CredentialsRetrievedEvent>();
+  public credentialsCreated: EventEmitter<Model<LoginUserDto>> =
+    new EventEmitter<Model<LoginUserDto>>();
 
   public getUser(form: NgForm) {
     if (!form.valid) {
@@ -85,11 +83,9 @@ export class LoginComponent {
       return;
     }
 
-    this.credentialsRetrieved.emit({
-      username: form.controls['username'].value,
+    this.credentialsCreated.emit({
+      email: form.controls['email'].value,
       password: form.controls['password'].value,
     });
-
-    form.resetForm();
   }
 }

@@ -13,7 +13,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { NbInputModule } from '@nebular/theme';
-import { getErrors } from '../../utilities/validation-error-map';
+import { getErrors } from '../../utilities/validation-error.function';
 
 @Component({
   standalone: true,

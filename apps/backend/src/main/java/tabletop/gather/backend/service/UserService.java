@@ -2,6 +2,7 @@ package tabletop.gather.backend.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.domain.User;
@@ -26,12 +27,18 @@ public class UserService {
                 .toList();
     }
 
+    public Optional<UserDTO> findByEmail(final String email) {
+        return userRepository.findByEmail(email)
+                .map(user -> mapToDTO(user, new UserDTO()));
+    }
+
     public UserDTO get(final UUID id) {
         return userRepository.findById(id)
                 .map(user -> mapToDTO(user, new UserDTO()))
                 .orElseThrow(NotFoundException::new);
     }
 
+    // TODO: Delete this - we create users via the registration process
     public UUID create(final UserDTO userDTO) {
         final User user = new User();
         mapToEntity(userDTO, user);
@@ -54,8 +61,7 @@ public class UserService {
         userDTO.setUsername(user.getUsername());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
-        userDTO.setPasswordHash(user.getPasswordHash());
-        userDTO.setPasswordSalt(user.getPasswordSalt());
+        userDTO.setEmail(user.getEmail());
         return userDTO;
     }
 
@@ -63,8 +69,7 @@ public class UserService {
         user.setUsername(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setPasswordHash(userDTO.getPasswordHash());
-        user.setPasswordSalt(userDTO.getPasswordSalt());
+        user.setEmail(userDTO.getEmail());
         return user;
     }
 

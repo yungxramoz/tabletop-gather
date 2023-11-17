@@ -1,27 +1,24 @@
 name: CI
+
 on:
   push:
     branches:
-      # Change this if your primary branch is not main
       - main
   pull_request:
 
 jobs:
-  main:
-    runs-on: windows-latest
+  nx-lint-build-test:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      # Cache node_modules
       - uses: actions/setup-node@v4
         with:
-          node-version: 18.x.x
-          cache: 'npm'
-      - run: npm ci
-      - uses: nrwl/nx-set-shas@v3
-      # This line is needed for nx affected to work when CI is running on a PR
-      # - run: git branch --track main origin/main
+          node-version: 20.x
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      - run: npx nx format:check
-      - run: npx nx affected -t lint,test,build --parallel=3
+      - run: npm i --save @nx/nx-linux-x64-gnu @nx/nx-linux-x64-musl # See https://github.com/nrwl/nx/issues/19291
+      - run: npm ci # '@nrwl/nx-linux-arm64-gnu' is an optional dependency, and the checked-in package-lock.json is created from a windows host...  https://github.com/nrwl/nx/issues/15452
+      - run: npx nx run-many --verbose -t lint,test,build --parallel=3
