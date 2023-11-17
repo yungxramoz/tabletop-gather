@@ -31,8 +31,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // TODO: Enable CSRF
-        http.csrf()
+        http.csrf() // No CSRF protection as we are using JWTs
             .disable()
             .cors()
             .and()
@@ -46,7 +45,11 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .headers()
+            .xssProtection() // XSS Protection, since the JWTs are stored in local storage
+            .and()
+            .contentSecurityPolicy("script-src 'self'");
 
         return http.build();
     }
