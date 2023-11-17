@@ -20,7 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         'Oh no! Something went really wrong!'
       );
     } catch (error) {
-      console.error('Error while handling error 😂');
+      console.error('Error while handling error 🫠');
     }
 
     console.error(error);

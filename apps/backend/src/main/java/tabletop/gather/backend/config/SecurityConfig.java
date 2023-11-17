@@ -39,6 +39,7 @@ public class SecurityConfig {
                 authorize.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/api/**").authenticated()
+                    // TODO: Add access to Swagger UI
                     .anyRequest().denyAll() 
             )
             .sessionManagement()

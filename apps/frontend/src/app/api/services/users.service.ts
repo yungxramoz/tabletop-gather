@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, filter, map, tap } from 'rxjs';
 import { API_BASE_URL } from '../../app.config';
+import { ResponseHandler } from '../../utilities/response.handler';
 import { Uid } from '../api.util';
 import { UserDto } from '../model/user.dto';
-import { ResponseHandler } from '../../utilities/response.handler';
 
 @Injectable({
   providedIn: 'root',
@@ -36,9 +36,20 @@ export class UsersService {
   }
 
   // TODO: Use LoadingWrapper
-  public deleteUser(id: Uid): Observable<string> {
-    return this.http.delete(`${this.usersUrl}/${id}`, {
-      responseType: 'text',
-    });
+  public deleteUser(id: Uid): Observable<Uid> {
+    return this.http
+      .delete(`${this.usersUrl}/${id}`, {
+        responseType: 'text',
+        observe: 'response',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          successMessageOverride: `User was deleted successfully`,
+          successTitleOverride: 'User deleted 👊',
+        }),
+        filter((response) => response !== null),
+        tap((response) => console.log(response)),
+        map((response) => response?.body as Uid)
+      );
   }
 }

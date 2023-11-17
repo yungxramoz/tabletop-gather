@@ -4,8 +4,8 @@ import { NbCardModule, NbListModule } from '@nebular/theme';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { UserDto } from '../../api/model/user.dto';
 import { UsersService } from '../../api/services/users.service';
-import { UserComponent } from '../atoms/user.component';
 import { RegisterFormComponent } from '../molecules/register-form.component';
+import { UserComponent } from '../molecules/user.component';
 
 @Component({
   selector: 'tg-users',
