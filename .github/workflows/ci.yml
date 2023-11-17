@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches:
@@ -6,13 +7,16 @@ on:
   pull_request:
 
 jobs:
-  main:
+  nx-lint-build-test:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repo
       - uses: actions/checkout@v4
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
+          node-version: 20.x
 
       # Setup Java
       - uses: actions/setup-java@v3
@@ -20,12 +24,5 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Cache node_modules
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x.x
-          cache: 'npm'
-
-      - run: npm ci --force
-
+      - run: npm ci
       - run: npx nx run-many -t lint,test,build --parallel=3
