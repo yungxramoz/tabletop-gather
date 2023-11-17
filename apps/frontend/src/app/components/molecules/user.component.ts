@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { NbButtonModule, NbUserModule } from '@nebular/theme';
-import { UserDto } from '../../api/model/user.dto';
+import { UserDto } from '../../models/user.dto';
 
 @Component({
   selector: 'tg-user',

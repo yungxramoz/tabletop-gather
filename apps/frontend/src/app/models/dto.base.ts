@@ -14,7 +14,7 @@ export abstract class Dto {
    * @param {any} json - The JSON source
    * @returns {T} - The new instance
    */
-  public static fromJson<T extends Dto>(this: new () => T, json: any): T {
+  public static fromJson<T extends Dto>(this: new () => T, json: unknown): T {
     return Object.assign(new this(), json);
   }
 }

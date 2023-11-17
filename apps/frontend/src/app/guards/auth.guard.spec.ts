@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from '../services/auth.service';
 import { isAuthenticatedOrRedirectToLogin } from './auth.guard';
-import { AuthService } from './auth.service';
 
 describe(isAuthenticatedOrRedirectToLogin.name, () => {
   beforeEach(() => {

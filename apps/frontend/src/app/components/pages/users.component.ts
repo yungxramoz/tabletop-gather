@@ -2,8 +2,8 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbCardModule, NbListModule } from '@nebular/theme';
 import { BehaviorSubject, switchMap } from 'rxjs';
-import { UserDto } from '../../api/model/user.dto';
-import { UsersService } from '../../api/services/users.service';
+import { UserDto } from '../../models/user.dto';
+import { UsersService } from '../../services/users.service';
 import { RegisterFormComponent } from '../molecules/register-form.component';
 import { UserComponent } from '../molecules/user.component';
 

@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, filter, map, tap } from 'rxjs';
-import { API_BASE_URL } from '../../app.config';
-import { ResponseHandler } from '../../utilities/response.handler';
-import { Uid } from '../api.util';
-import { UserDto } from '../model/user.dto';
+import { Observable, filter, map } from 'rxjs';
+import { API_BASE_URL } from '../app.config';
+import { UserDto } from '../models/user.dto';
+import { ResponseHandler } from '../utils/response.handler';
 
+/**
+ * Service for all user related API calls.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -18,7 +20,11 @@ export class UsersService {
     private readonly responseHandler: ResponseHandler
   ) {}
 
-  // TODO: Use LoadingWrapper
+  /**
+   * Gets all users.
+   *
+   * @returns {Observable<UserDto[]>} - The users
+   */
   public getAllUsers(): Observable<UserDto[]> {
     return this.http
       .get<string[]>(this.usersUrl, {
@@ -26,6 +32,7 @@ export class UsersService {
         observe: 'response',
       })
       .pipe(
+        // TODO: Use LoadingWrapper
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
         map((response) => response?.body as string[]),
@@ -35,21 +42,26 @@ export class UsersService {
       );
   }
 
-  // TODO: Use LoadingWrapper
-  public deleteUser(id: Uid): Observable<Uid> {
+  /**
+   * Deletes a user by its id.
+   *
+   * @param {string} id - The id of the user to delete
+   * @returns {Observable<string>} - The id of the deleted user
+   */
+  public deleteUser(id: string): Observable<string> {
     return this.http
       .delete(`${this.usersUrl}/${id}`, {
         responseType: 'text',
         observe: 'response',
       })
       .pipe(
+        // TODO: Use LoadingWrapper
         this.responseHandler.handleResponse({
           successMessageOverride: `User was deleted successfully`,
           successTitleOverride: 'User deleted 👊',
         }),
         filter((response) => response !== null),
-        tap((response) => console.log(response)),
-        map((response) => response?.body as Uid)
+        map((response) => response?.body as string)
       );
   }
 }

@@ -8,13 +8,13 @@ import {
   shareReplay,
   tap,
 } from 'rxjs';
-import { LoginUserDto } from '../api/model/login-user.dto';
-import { Model } from '../api/model/model.type';
-import { RegisterUserDto } from '../api/model/register-user.dto';
-import { UserDto } from '../api/model/user.dto';
-import { LoginResponse } from '../api/response/login.response';
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
-import { ResponseHandler } from '../utilities/response.handler';
+import { LoginUserDto } from '../models/login-user.dto';
+import { LoginResponse } from '../models/login.response';
+import { Model } from '../models/model.type';
+import { RegisterUserDto } from '../models/register-user.dto';
+import { UserDto } from '../models/user.dto';
+import { ResponseHandler } from '../utils/response.handler';
 
 /**
  * The key used to store the JWT token in local storage.
