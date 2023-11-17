@@ -24,6 +24,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - run: npm i -g @nx/nx-linux-x64-gnu @nx/nx-linux-x64-musl # See https://github.com/nrwl/nx/issues/19291
+      - run: npm i --save @nx/nx-linux-x64-gnu @nx/nx-linux-x64-musl # See https://github.com/nrwl/nx/issues/19291
       - run: npm i # Can't use ci, because '@nrwl/nx-linux-arm64-gnu' is an optional dependency, and the current package-lock.json is created from a windows host...  https://github.com/nrwl/nx/issues/15452
       - run: npx nx run-many -t lint,test,build --parallel=3
