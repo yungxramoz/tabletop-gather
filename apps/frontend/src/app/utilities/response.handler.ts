@@ -1,19 +1,26 @@
-// This will handle these todos:
-// TODO: Add loading indicator for HttpResponse
-// TODO: Add success indicator for HttpResponse
-// Rethink the use of loadingWrapper...
-
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Observable, catchError, of, pipe, tap, throwError } from 'rxjs';
-import { Injectable, Injector } from '@angular/core';
-import { friendlyErrorReponse } from '../resources/error-responses.resources';
+import {
+  ApiException,
+  ApiExceptionToastMessageMap,
+  DEFAULT_API_EXCEPTION_MESSAGES,
+  DEFAULT_HTTP_ERROR_STATUS_MESSAGES,
+  HttpErrorStatusToastMessageMap,
+  friendlyErrorReponse,
+} from '../resources/error-responses.resources';
 
+/**
+ * A configuration object for the {@link ResponseHandler}s rxjs operators
+ *
+ * @property {ApiExceptionToastMessageMap} overrideApiError - A map of {@link ApiException}s to {@link ToastErrorMessage}s, overriding the {@link DEFAULT_API_EXCEPTION_MESSAGES}
+ * @property {HttpErrorStatusToastMessageMap} overrideHttpErrorResponse - A map of {@link HttpErrorStatus}es to {@link ToastErrorMessage}s, overriding the {@link DEFAULT_HTTP_ERROR_STATUS_MESSAGES}
+ * @property {boolean} propagateError - If true, the error will be propagated, instead of being swallowed
+ */
 type ErrorResponseHandlingConfig = {
-  additionalError?: {
-    title: string;
-    message: string;
-  };
+  overrideApiError?: ApiExceptionToastMessageMap;
+  overrideHttpErrorResponse?: HttpErrorStatusToastMessageMap;
   propagateError?: true;
 };
 
@@ -40,17 +47,13 @@ export class ResponseHandler {
     const thisConfig = { ...DEFAULT_CONFIG, ...config };
     return pipe(
       catchError((error: HttpErrorResponse) => {
-        const friendly = friendlyErrorReponse(error);
-        const title = friendly.title;
-        const message = friendly.message ?? error.message;
-        this.toastService.danger(message, title);
+        const { message, title } = friendlyErrorReponse(
+          error,
+          thisConfig.overrideApiError,
+          thisConfig.overrideHttpErrorResponse
+        );
 
-        if (thisConfig.additionalError) {
-          this.toastService.danger(
-            thisConfig.additionalError.message,
-            thisConfig.additionalError.title
-          );
-        }
+        this.toastService.danger(message, title);
 
         if (thisConfig.propagateError) {
           return throwError(() => new Error(error.message));

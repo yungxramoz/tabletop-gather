@@ -67,10 +67,14 @@ export class AuthService {
       })
       .pipe(
         this.responseHandler.handleResponse({
-          additionalError: {
-            message: 'Please try again later',
-            title: 'Sign up failed',
+          overrideApiError: {
+            DataIntegrityViolationException: {
+              title: 'A user with that email already exists',
+              message: 'Try logging in instead',
+            },
           },
+          successMessageOverride: 'You have successfully signed up',
+          successTitleOverride: 'That worked! 👌',
         }),
         filter((response) => response !== null),
         map((response) => response?.body as UserDto)
