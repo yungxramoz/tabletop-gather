@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { Model } from '../../api/model/model.type';
-import { RegisterUserDto } from '../../api/model/register-user.dto';
+import { Model } from '../../models/model.type';
+import { RegisterUserDto } from '../../models/register-user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({

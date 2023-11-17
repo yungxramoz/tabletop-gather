@@ -13,7 +13,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { NbInputModule } from '@nebular/theme';
-import { getErrors } from '../../utilities/validation-error.function';
+import { friendlyValidationErrors } from '../../resources/validation-errors.resources';
 
 @Component({
   standalone: true,
@@ -83,7 +83,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   public getErrors(errors: ValidationErrors) {
-    return getErrors(errors, this.label ?? 'This field');
+    return friendlyValidationErrors(errors, this.label ?? 'This field');
   }
 
   public writeValue(value: typeof this.value) {

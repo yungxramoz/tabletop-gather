@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Digit } from '../utilities/types';
+import { Digit } from '../utils/types';
 
 export type ToastErrorMessage = {
   title: string;

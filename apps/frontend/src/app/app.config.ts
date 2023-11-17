@@ -20,8 +20,8 @@ import {
   NbToastrModule,
 } from '@nebular/theme';
 import { appRoutes } from './app.routes';
-import { AuthInterceptor } from './auth/auth.interceptor';
-import { GlobalErrorHandler } from './utilities/error.handler';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { GlobalErrorHandler } from './utils/global-error-handler';
 
 export const API_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
   'API_BASE_URL'

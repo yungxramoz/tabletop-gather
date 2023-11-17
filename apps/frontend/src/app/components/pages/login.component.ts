@@ -2,10 +2,10 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbTabsetModule } from '@nebular/theme';
-import { LoginUserDto } from '../../api/model/login-user.dto';
-import { Model } from '../../api/model/model.type';
-import { RegisterUserDto } from '../../api/model/register-user.dto';
-import { AuthService } from '../../auth/auth.service';
+import { LoginUserDto } from '../../models/login-user.dto';
+import { Model } from '../../models/model.type';
+import { RegisterUserDto } from '../../models/register-user.dto';
+import { AuthService } from '../../services/auth.service';
 import { LoginFormComponent } from '../molecules/login-form.component';
 import { RegisterFormComponent } from '../molecules/register-form.component';
 

@@ -2,7 +2,7 @@ import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NbButtonModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   standalone: true,
