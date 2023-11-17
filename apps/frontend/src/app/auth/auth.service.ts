@@ -12,17 +12,27 @@ import { LoginUserDto } from '../api/model/login-user.dto';
 import { Model } from '../api/model/model.type';
 import { RegisterUserDto } from '../api/model/register-user.dto';
 import { UserDto } from '../api/model/user.dto';
-import { AUTH_BASE_URL } from '../app.config';
+import { LoginResponse } from '../api/response/login.response';
+import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
 import { ResponseHandler } from '../utilities/response.handler';
 
-type LoginResult = {
-  token: string;
-  expiresIn: number;
-};
+/**
+ * The key used to store the JWT token in local storage.
+ */
+export const LS_TOKEN_KEY = 'id_token';
 
-const LS_TOKEN_KEY = 'id_token';
-const LS_EXPIRES_AT_KEY = 'expires_at';
+/**
+ * The key used to store the JWT expiry date in local storage.
+ */
+export const LS_EXPIRES_AT_KEY = 'expires_at';
 
+/**
+ * Service for handling authentication. Retrieves the JWT token from the backend and stores it in local storage.
+ * Handles JWT expiry.
+ *
+ * @property {Observable<boolean>} loginStatus$ - An observable that emits the current login status. Emits `true` when the user is logged in, `false` otherwise.
+ * @property {boolean} loginStatus - The current login status. `true` when the user is logged in, `false` otherwise.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -39,26 +49,39 @@ export class AuthService {
 
   public constructor(
     @Inject(AUTH_BASE_URL) private readonly authBaseUrl: string,
+    @Inject(LOCAL_STORAGE) private readonly localStorage: Storage,
     private readonly http: HttpClient,
     private readonly responseHandler: ResponseHandler
   ) {}
 
-  public login(loginUser: Model<LoginUserDto>): Observable<LoginResult> {
+  /**
+   * Logs in the given user via auth endpoint and stores the JWT token in local storage.
+   *
+   * @param {Model<LoginUserDto>} loginUser - The user to log in
+   * @returns {Observable<LoginResponse>} - An observable that emits the login result
+   */
+  public login(loginUser: Model<LoginUserDto>): Observable<LoginResponse> {
     return this.http
-      .post<LoginResult>(`${this.authBaseUrl}/login`, loginUser, {
+      .post<LoginResponse>(`${this.authBaseUrl}/login`, loginUser, {
         observe: 'response',
         responseType: 'json',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as LoginResult),
+        map((response) => response?.body as LoginResponse),
         tap((loginResult) => this.setSession(loginResult)),
         shareReplay(),
         tap(() => this.loginStatusSubject.next(true))
       );
   }
 
+  /**
+   * Signs up the given user via auth endpoint. You'll need to log in the user afterwards to get a JWT token.
+   *
+   * @param {Model<RegisterUserDto>} registerUser - The user to register
+   * @returns {Observable<UserDto>} - An observable that emits the registered user
+   */
   public signup(registerUser: Model<RegisterUserDto>): Observable<UserDto> {
     return this.http
       .post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
@@ -81,31 +104,49 @@ export class AuthService {
       );
   }
 
+  /**
+   * Returns the JWT token from local storage if the user is logged in.
+   *
+   * @returns {string | null} - The JWT token if the user is logged in, `null` otherwise
+   */
   public getToken(): string | null {
-    return this.isLoggedIn() ? localStorage.getItem(LS_TOKEN_KEY) : null;
+    return this.isLoggedIn() ? this.localStorage.getItem(LS_TOKEN_KEY) : null;
   }
 
+  /**
+   * Logs the user out by removing the JWT token from local storage.
+   */
   public logout(): void {
-    localStorage.removeItem(LS_TOKEN_KEY);
-    localStorage.removeItem(LS_EXPIRES_AT_KEY);
+    this.localStorage.removeItem(LS_TOKEN_KEY);
+    this.localStorage.removeItem(LS_EXPIRES_AT_KEY);
     this.loginStatusSubject.next(false);
   }
 
+  /**
+   * Checks if the user is logged in by checking if the JWT token is present in local storage and if it is still valid.
+   *
+   * @returns {boolean} - `true` if the user is logged in, `false` otherwise
+   */
   private isLoggedIn(): boolean {
     const expiresAt = JSON.parse(
-      localStorage.getItem(LS_EXPIRES_AT_KEY) || '{}'
+      this.localStorage.getItem(LS_EXPIRES_AT_KEY) || '{}'
     );
 
     return new Date().valueOf() < expiresAt;
   }
 
-  private setSession(response: LoginResult): void {
+  /**
+   * Stores the JWT token and expiry date in local storage.
+   *
+   * @param {LoginResponse} response - The login response to store
+   */
+  private setSession(response: LoginResponse): void {
     const expiresAt = new Date();
     const expiresIn = response.expiresIn / 1000; // convert ms to s
     expiresAt.setSeconds(expiresAt.getSeconds() + expiresIn);
 
-    localStorage.setItem(LS_TOKEN_KEY, response.token);
-    localStorage.setItem(
+    this.localStorage.setItem(LS_TOKEN_KEY, response.token);
+    this.localStorage.setItem(
       LS_EXPIRES_AT_KEY,
       JSON.stringify(expiresAt.valueOf())
     );

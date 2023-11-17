@@ -31,6 +31,9 @@ export const AUTH_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
   'AUTH_BASE_URL'
 );
 
+export const LOCAL_STORAGE: InjectionToken<Storage> =
+  new InjectionToken<Storage>('LOCAL_STORAGE');
+
 const provideBaseUrlsForDevelopment = (): Provider[] => [
   {
     provide: API_BASE_URL,
@@ -51,6 +54,11 @@ const provideAuthInterceptor = (): Provider => ({
   provide: HTTP_INTERCEPTORS,
   useClass: AuthInterceptor,
   multi: true,
+});
+
+const provideLocalStorage = (): Provider => ({
+  provide: LOCAL_STORAGE,
+  useValue: localStorage,
 });
 
 const provideNebular = (): EnvironmentProviders[] => [
@@ -77,5 +85,6 @@ export const appConfig: ApplicationConfig = {
     provideAuthInterceptor(),
     provideErrorHandler(),
     provideBaseUrlsForDevelopment(),
+    provideLocalStorage(),
   ],
 };

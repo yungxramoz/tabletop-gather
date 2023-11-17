@@ -13,7 +13,7 @@ const DEFAULT_JEST_TIMEOUT_MS = 500;
 const nthValueFrom = <T>(source$: Observable<T>, n: number): Promise<T> =>
   firstValueFrom(source$.pipe(skip(n - 1)));
 
-describe('withLoadingWrapper', () => {
+describe(withLoadingWrapper.name, () => {
   it(
     'should emit twice when no loading delay is specified. Initially with loading and - when the source emits - with completed and value',
     async () => {

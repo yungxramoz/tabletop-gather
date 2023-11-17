@@ -8,10 +8,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
+/**
+ * Interceptor that adds the Authorization header to all requests if the user is authenticated.
+ * The Authorization header contains the JWT token, retrieved from the {@link AuthService}.
+ *
+ * @see {@link AuthService}
+ */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   public constructor(private readonly authService: AuthService) {}
 
+  /**
+   * @inheritdoc
+   */
   public intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler
