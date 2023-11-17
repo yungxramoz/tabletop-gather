@@ -7,18 +7,18 @@
   "tags": [],
   "targets": {
     "deps": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw dependency:resolve"
+      "command": "apps/backend/mvnw dependency:resolve"
     },
     "build": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw clean package -DskipTests",
+      "command": "apps/backend/mvnw clean package -DskipTests -f apps/backend",
       "dependsOn": ["deps"]
     },
     "serve": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw spring-boot:run",
+      "command": "apps/backend/mvnw spring-boot:run -f apps/backend",
       "dependsOn": ["build"]
     },
     "test": {
-      "command": "{workspaceRoot}/{projectRoot}/mvnw test",
+      "command": "apps/backend/mvnw test -f apps/backend",
       "dependsOn": ["build"]
     },
     "docker-build": {
