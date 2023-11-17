@@ -7,19 +7,51 @@
   "tags": [],
   "targets": {
     "deps": {
-      "command": "apps/backend/mvnw dependency:resolve -f apps/backend/"
+      "command": "apps/backend/mvnw dependency:resolve -f apps/backend/",
+      "configurations": {
+        "production": {
+          "args": ["-Dspring.profiles.active=production"]
+        },
+        "development": {
+          "args": ["-Dspring.profiles.active=development"]
+        }
+      }
     },
     "build": {
       "command": "apps/backend/mvnw clean package -DskipTests -f apps/backend/",
-      "dependsOn": ["deps"]
+      "dependsOn": ["deps"],
+      "configurations": {
+        "production": {
+          "args": ["-Dspring.profiles.active=production"]
+        },
+        "development": {
+          "args": ["-Dspring.profiles.active=development"]
+        }
+      }
     },
     "serve": {
       "command": "apps/backend/mvnw spring-boot:run -f apps/backend/",
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "configurations": {
+        "production": {
+          "args": ["-Dspring.profiles.active=production"]
+        },
+        "development": {
+          "args": ["-Dspring.profiles.active=development"]
+        }
+      }
     },
     "test": {
       "command": "apps/backend/mvnw test -f apps/backend/",
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "configurations": {
+        "production": {
+          "args": ["-Dspring.profiles.active=production"]
+        },
+        "development": {
+          "args": ["-Dspring.profiles.active=development"]
+        }
+      }
     },
     "docker-build": {
       "command": "docker build --tag tg-java-backend apps/backend"
