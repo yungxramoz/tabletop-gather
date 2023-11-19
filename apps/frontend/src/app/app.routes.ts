@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { CollectionComponent } from './components/pages/collection.component';
 import { EventsComponent } from './components/pages/events.component';
+import { FourOhFourComponent } from './components/pages/four-oh-four.component';
 import { LoginComponent } from './components/pages/login.component';
 import { ProfileComponent } from './components/pages/profile.component';
 import { SampleDesignComponent } from './components/pages/sample-design.component';
@@ -49,5 +50,10 @@ export const appRoutes: Route[] = [
     path: ROUTE_DESIGN,
     component: SampleDesignComponent,
     canActivate: [isAuthenticatedOrRedirectToLogin],
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: FourOhFourComponent,
   },
 ];
