@@ -22,7 +22,6 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
   ],
   template: `
     <nb-card>
-      <nb-card-header>Profile</nb-card-header>
       <nb-card-body *ngIf="me$ | async as me">
         <div class="tg-flex-row tg-justify-around tg-m-2">
           <nb-user
