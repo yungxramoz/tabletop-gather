@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbUserModule } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { filter, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { ROUTE_DESIGN, ROUTE_USER_MANAGEMENT } from '../../constants';
 import { Model } from '../../models/model.type';
 import { UserDto } from '../../models/user.dto';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +22,6 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
   ],
   template: `
     <nb-card>
-      <nb-card-header>Profile</nb-card-header>
       <nb-card-body *ngIf="me$ | async as me">
         <div class="tg-flex-row tg-justify-around tg-m-2">
           <nb-user
@@ -44,8 +42,6 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
-  public readonly routeDesign = '/' + ROUTE_DESIGN;
-  public readonly routeUserManagement = '/' + ROUTE_USER_MANAGEMENT;
   public me$!: Observable<UserDto | undefined>;
 
   public readonly user = {
