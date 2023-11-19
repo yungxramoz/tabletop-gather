@@ -20,7 +20,6 @@ import { UserDto } from '../../models/user.dto';
       [title]="'Username - ' + user.username"
     >
     </nb-user>
-    <p class="caption tg-m-1">{{ user.id }} <i>(uid)</i></p>
     <button nbButton status="danger" (click)="deleteUser.emit(user)">
       Delete
     </button>

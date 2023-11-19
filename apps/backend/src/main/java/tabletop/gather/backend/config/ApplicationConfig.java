@@ -1,6 +1,6 @@
 package tabletop.gather.backend.config;
 
-import tabletop.gather.backend.repos.UserRepository;
+import tabletop.gather.backend.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
