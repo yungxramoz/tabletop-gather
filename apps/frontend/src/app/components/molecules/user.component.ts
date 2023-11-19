@@ -6,13 +6,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { NbButtonModule, NbUserModule } from '@nebular/theme';
+import { NbButtonModule, NbTagModule, NbUserModule } from '@nebular/theme';
 import { UserDto } from '../../models/user.dto';
 
 @Component({
   selector: 'tg-user',
   standalone: true,
-  imports: [CommonModule, NbUserModule, NbButtonModule],
+  imports: [CommonModule, NbUserModule, NbButtonModule, NbTagModule],
   template: ` <div class="tg-flex-row">
     <nb-user
       [shape]="'round'"
@@ -20,6 +20,7 @@ import { UserDto } from '../../models/user.dto';
       [title]="'Username - ' + user.username"
     >
     </nb-user>
+    <a [href]="'mailto:' + user.email">{{ user.email }}</a>
     <button nbButton status="danger" (click)="deleteUser.emit(user)">
       Delete
     </button>
