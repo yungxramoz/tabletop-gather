@@ -1,18 +1,40 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NbButtonModule, NbCardModule } from '@nebular/theme';
-import {
-  ROUTE_DESIGN,
-  ROUTE_USER_MANAGEMENT,
-} from 'apps/frontend/src/constants';
+import { NbButtonModule, NbCardModule, NbUserModule } from '@nebular/theme';
+import { Observable } from 'rxjs';
+import { ROUTE_DESIGN, ROUTE_USER_MANAGEMENT } from '../../constants';
+import { UserDto } from '../../models/user.dto';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   standalone: true,
   selector: 'tg-profile',
-  imports: [NbCardModule, NbButtonModule, RouterModule],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    NbCardModule,
+    NbButtonModule,
+    NbUserModule,
+    RouterModule,
+  ],
   template: `
     <nb-card>
       <nb-card-header>Profile</nb-card-header>
+      <nb-card-body *ngIf="me$ | async as me">
+        <div class="tg-flex-row tg-justify-around">
+          <nb-user
+            [shape]="'round'"
+            [name]="me.firstName + ' ' + me.lastName"
+            size="giant"
+            onlyPicture
+          >
+          </nb-user>
+        </div>
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header>Dev Routes</nb-card-header>
       <nb-card-body>
         <button nbButton [routerLink]="[routeDesign]">Design</button>
         <button nbButton class="tg-mx-2" [routerLink]="[routeUserManagement]">
@@ -23,7 +45,19 @@ import {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   public readonly routeDesign = '/' + ROUTE_DESIGN;
   public readonly routeUserManagement = '/' + ROUTE_USER_MANAGEMENT;
+  public me$!: Observable<UserDto>;
+
+  public readonly user = {
+    firstName: 'John',
+    lastName: 'Doe',
+  };
+
+  public constructor(private readonly authService: AuthService) {}
+
+  public ngOnInit(): void {
+    this.me$ = this.authService.me();
+  }
 }

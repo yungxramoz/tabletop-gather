@@ -6,11 +6,7 @@ import {
   NbCardModule,
   NbIconModule,
 } from '@nebular/theme';
-import {
-  ROUTE_COLLECTION,
-  ROUTE_EVENTS,
-  ROUTE_PROFILE,
-} from '../../../constants';
+import { ROUTE_COLLECTION, ROUTE_EVENTS, ROUTE_PROFILE } from '../../constants';
 
 @Component({
   standalone: true,

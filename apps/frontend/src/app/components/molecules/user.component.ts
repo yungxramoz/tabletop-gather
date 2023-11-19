@@ -15,7 +15,7 @@ import { UserDto } from '../../models/user.dto';
   imports: [CommonModule, NbUserModule, NbButtonModule],
   template: ` <div class="tg-flex-row">
     <nb-user
-      [shape]="'semi-round'"
+      [shape]="'round'"
       [name]="user.firstName + ' ' + user.lastName"
       [title]="'Username - ' + user.username"
     >

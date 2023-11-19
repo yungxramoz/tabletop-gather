@@ -8,13 +8,13 @@ import {
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { NbButtonModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { FooterMenuComponent } from './components/molecules/footer-menu.component';
 import {
   ROUTE_COLLECTION,
   ROUTE_EVENTS,
   ROUTE_LOGIN,
   ROUTE_PROFILE,
-} from '../constants';
-import { FooterMenuComponent } from './components/molecules/footer-menu.component';
+} from './constants';
 import { AuthService } from './services/auth.service';
 
 @Component({

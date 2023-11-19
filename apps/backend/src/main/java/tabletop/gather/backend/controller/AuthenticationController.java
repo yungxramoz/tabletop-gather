@@ -4,15 +4,19 @@ import tabletop.gather.backend.domain.User;
 import tabletop.gather.backend.model.LoginUserDTO;
 import tabletop.gather.backend.model.RegisterUserDTO;
 import tabletop.gather.backend.model.LoginResponse;
+import tabletop.gather.backend.model.UserDTO;
 import tabletop.gather.backend.repos.UserRepository;
 import tabletop.gather.backend.service.AuthenticationService;
 import tabletop.gather.backend.service.JwtService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,8 +32,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDTO registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
+    public ResponseEntity<UserDTO> register(@RequestBody RegisterUserDTO registerUserDto) {
+        UserDTO registeredUser = authenticationService.signup(registerUserDto);
 
         return ResponseEntity.ok(registeredUser);
     }
@@ -45,5 +49,16 @@ public class AuthenticationController {
         loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
         return ResponseEntity.ok(loginResponse);
+    }
+
+    // Get token from Authroization header
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        String token = authHeader.substring(7);
+        String email = jwtService.extractUsername(token);
+
+        UserDTO user = authenticationService.getUserByEmail(email);
+
+        return ResponseEntity.ok(user);
     }
 }
