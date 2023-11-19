@@ -21,12 +21,7 @@ import { UserDto } from '../../models/user.dto';
     >
     </nb-user>
     <p class="caption tg-m-1">{{ user.id }} <i>(uid)</i></p>
-    <button
-      nbButton
-      shape="semi-round"
-      size="small"
-      (click)="deleteUser.emit(user)"
-    >
+    <button nbButton status="danger" (click)="deleteUser.emit(user)">
       Delete
     </button>
   </div>`,

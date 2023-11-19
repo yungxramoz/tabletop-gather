@@ -32,12 +32,12 @@ describe(AppComponent.name, () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
+    expect(compiled.querySelector('h2')?.textContent).toContain(
       'tabletop gather'
     );
   });
 
-  it(`should have 'tabletop-gather' as title`, () => {
+  it(`should have correct tab title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Tabletop Gather');

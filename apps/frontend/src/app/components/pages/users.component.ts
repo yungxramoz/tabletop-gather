@@ -27,7 +27,6 @@ import { UserComponent } from '../molecules/user.component';
           <nb-list-item
             style="display:inline-block;"
             *ngFor="let user of users$ | async"
-            class="tg-mx-2"
           >
             <tg-user [user]="user" (deleteUser)="deleteUser($event)"></tg-user>
           </nb-list-item>

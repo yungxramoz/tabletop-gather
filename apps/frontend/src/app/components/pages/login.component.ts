@@ -43,8 +43,10 @@ export class LoginComponent {
   ) {}
 
   public onCredentialsCreated(event: Model<LoginUserDto>) {
-    this.authService.login(event).subscribe(() => {
+    // Unsubscribe, since this uses shareReplay()
+    const subscription = this.authService.login(event).subscribe(() => {
       this.router.navigate(['/']);
+      subscription.unsubscribe();
     });
   }
 
