@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbUserModule } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { filter, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { ROUTE_DESIGN, ROUTE_USER_MANAGEMENT } from '../../constants';
 import { Model } from '../../models/model.type';
 import { UserDto } from '../../models/user.dto';
 import { AuthService } from '../../services/auth.service';
@@ -44,8 +43,6 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
-  public readonly routeDesign = '/' + ROUTE_DESIGN;
-  public readonly routeUserManagement = '/' + ROUTE_USER_MANAGEMENT;
   public me$!: Observable<UserDto | undefined>;
 
   public readonly user = {
