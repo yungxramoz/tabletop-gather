@@ -1,6 +1,7 @@
 package tabletop.gather.backend.config;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,16 @@ public class RestExceptionHandler {
         errorResponse.setException(exception.getClass().getSimpleName());
         errorResponse.setMessage(exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
+      final DataIntegrityViolationException exception) {
+      final ErrorResponse errorResponse = new ErrorResponse();
+      errorResponse.setHttpStatus(HttpStatus.CONFLICT.value());
+      errorResponse.setException(exception.getClass().getSimpleName());
+      errorResponse.setMessage(exception.getMessage());
+      return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -6,9 +6,9 @@ To view the Bootify.io Setup, visit [this link](https://bootify.io/app/1AFNHOA9N
 
 ## Development
 
-During development it is recommended to use the profile `local`. In IntelliJ `--spring.config.additional-location=classpath:application.local.yml --spring.profiles.active=local` can be
+During development it is recommended to use the profile `development`. In IntelliJ `--spring.config.additional-location=classpath:application-development.yml --spring.profiles.active=development` can be
 added in the Run Configuration after enabling this property in "Modify options". Create your own
-`application-local.yml` file to override settings for development.
+`application-development.yml` file to override settings for development.
 
 Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
 [learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).

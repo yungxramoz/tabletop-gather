@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String passwordHash;
 
     @Column(nullable = false, unique = true, length = 320)
