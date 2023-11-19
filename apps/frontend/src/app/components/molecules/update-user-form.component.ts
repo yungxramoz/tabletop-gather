@@ -3,16 +3,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
+  OnChanges,
   Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { Model } from '../../models/model.type';
-import { RegisterUserDto } from '../../models/register-user.dto';
+import { UserDto } from '../../models/user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
-  selector: 'tg-register-form',
+  selector: 'tg-update-user-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,8 +31,8 @@ import { InputComponent } from '../atoms/input.component';
       <nb-card-body>
         <form
           class="form"
-          #createUserForm="ngForm"
-          (submit)="createUser(createUserForm)"
+          #updateUserForm="ngForm"
+          (submit)="updateUser(updateUserForm)"
         >
           <tg-input
             ngModel
@@ -78,40 +80,26 @@ import { InputComponent } from '../atoms/input.component';
             placeholder="john@doe.com"
           ></tg-input>
 
-          <tg-input
-            ngModel
-            required
-            minlength="3"
-            maxlength="64"
-            type="password"
-            id="password"
-            name="password"
-            label="Password"
-            placeholder="********"
-          ></tg-input>
-
-          <tg-input
-            ngModel
-            required
-            minlength="3"
-            maxlength="64"
-            type="password"
-            id="password2"
-            name="password2"
-            label="Repeat Password"
-            placeholder="********"
-          ></tg-input>
-
-          <div class="tg-block tg-mt-2">
+          <div class="tg-flex-row tg-mt-2">
             <button
               nbButton
               fullWidth
               status="primary"
               shape="semi-round"
               type="submit"
-              [disabled]="createUserForm.invalid"
+              [disabled]="updateUserForm.invalid"
             >
-              Signup
+              Save
+            </button>
+            <div class="tg-m-1"></div>
+            <button
+              nbButton
+              fullWidth
+              status="danger"
+              shape="semi-round"
+              (click)="resetForm(updateUserForm)"
+            >
+              Reset
             </button>
           </div>
         </form>
@@ -120,11 +108,13 @@ import { InputComponent } from '../atoms/input.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterFormComponent {
-  @Output() public userCreated: EventEmitter<Model<RegisterUserDto>> =
-    new EventEmitter<Model<RegisterUserDto>>();
+export class UpdateUserFormComponent implements OnChanges {
+  @Input() public user!: Model<UserDto>;
+  @Output() public userUpdated: EventEmitter<Model<UserDto>> = new EventEmitter<
+    Model<UserDto>
+  >();
 
-  public createUser(form: NgForm) {
+  public updateUser(form: NgForm) {
     if (!form.valid) {
       alert('Form is not valid!');
       return;
@@ -135,7 +125,7 @@ export class RegisterFormComponent {
       return;
     }
 
-    this.userCreated.emit({
+    this.userUpdated.emit({
       username: form.controls['username'].value,
       firstName: form.controls['firstName'].value,
       lastName: form.controls['lastName'].value,
@@ -144,5 +134,18 @@ export class RegisterFormComponent {
     });
 
     form.resetForm();
+  }
+
+  public resetForm(form: NgForm) {
+    form.reset(this.user);
+    for (const control of Object.values(form.controls)) {
+      control.markAsPristine();
+    }
+  }
+
+  public ngOnChanges() {
+    if (this.user) {
+      // this.resetForm(this.user);
+    }
   }
 }

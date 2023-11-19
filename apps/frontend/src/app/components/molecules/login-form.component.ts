@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -27,7 +26,6 @@ import { InputComponent } from '../atoms/input.component';
   ],
   template: `
     <nb-card>
-      <nb-card-header *ngIf="header">{{ header }}</nb-card-header>
       <nb-card-body>
         <form
           class="form"
@@ -72,7 +70,6 @@ import { InputComponent } from '../atoms/input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {
-  @Input() public header: string | undefined;
   @Output()
   public credentialsCreated: EventEmitter<Model<LoginUserDto>> =
     new EventEmitter<Model<LoginUserDto>>();
