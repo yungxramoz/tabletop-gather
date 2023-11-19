@@ -89,4 +89,29 @@ describe(UsersService.name, () => {
       req.flush(mockUserId);
     });
   });
+
+  describe('updateUser', () => {
+    it('should return an Observable of string', () => {
+      // Arrange
+      const mockUserId = '1';
+      const mockUser: UserDto = {
+        id: '1',
+        firstName: 'John',
+        lastName: 'Doe',
+        username: 'jdoe',
+        email: 'john@doe.com',
+      };
+
+      // Act
+      service.updateUser(mockUserId, mockUser).subscribe((userId) => {
+        // Assert
+        expect(userId).toEqual(mockUserId);
+      });
+
+      // Assert
+      const req = httpMock.expectOne(`${apiBaseUrl}/users/${mockUserId}`);
+      expect(req.request.method).toBe('PUT');
+      req.flush(mockUserId);
+    });
+  });
 });

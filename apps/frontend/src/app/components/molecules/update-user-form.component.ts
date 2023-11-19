@@ -29,13 +29,9 @@ import { InputComponent } from '../atoms/input.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form
-          class="form"
-          #updateUserForm="ngForm"
-          (submit)="updateUser(updateUserForm)"
-        >
+        <form class="form" #updateUserForm="ngForm">
           <tg-input
-            ngModel
+            [(ngModel)]="model.username"
             required
             minlength="3"
             maxlength="50"
@@ -47,7 +43,7 @@ import { InputComponent } from '../atoms/input.component';
           ></tg-input>
 
           <tg-input
-            ngModel
+            [(ngModel)]="model.firstName"
             required
             minlength="3"
             maxlength="255"
@@ -58,7 +54,7 @@ import { InputComponent } from '../atoms/input.component';
           ></tg-input>
 
           <tg-input
-            ngModel
+            [(ngModel)]="model.lastName"
             required
             minlength="3"
             maxlength="255"
@@ -66,18 +62,6 @@ import { InputComponent } from '../atoms/input.component';
             name="lastName"
             label="Last Name"
             placeholder="Doe"
-          ></tg-input>
-
-          <tg-input
-            ngModel
-            required
-            email
-            minlength="3"
-            maxlength="320"
-            id="email"
-            name="email"
-            label="Email"
-            placeholder="john@doe.com"
           ></tg-input>
 
           <div class="tg-flex-row tg-mt-2">
@@ -88,6 +72,7 @@ import { InputComponent } from '../atoms/input.component';
               shape="semi-round"
               type="submit"
               [disabled]="updateUserForm.invalid"
+              (click)="updateUser(updateUserForm)"
             >
               Save
             </button>
@@ -109,10 +94,15 @@ import { InputComponent } from '../atoms/input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateUserFormComponent implements OnChanges {
-  @Input() public user!: Model<UserDto>;
-  @Output() public userUpdated: EventEmitter<Model<UserDto>> = new EventEmitter<
-    Model<UserDto>
-  >();
+  @Input() public user!: Model<Omit<UserDto, 'email'>>;
+  @Output() public userUpdated: EventEmitter<Model<Omit<UserDto, 'email'>>> =
+    new EventEmitter<Model<Omit<UserDto, 'email'>>>();
+
+  public readonly model: Model<Omit<UserDto, 'email'>> = {
+    username: '',
+    firstName: '',
+    lastName: '',
+  };
 
   public updateUser(form: NgForm) {
     if (!form.valid) {
@@ -120,24 +110,15 @@ export class UpdateUserFormComponent implements OnChanges {
       return;
     }
 
-    if (form.controls['password'].value !== form.controls['password2'].value) {
-      alert('Passwords do not match!');
-      return;
-    }
-
     this.userUpdated.emit({
-      username: form.controls['username'].value,
-      firstName: form.controls['firstName'].value,
-      lastName: form.controls['lastName'].value,
-      email: form.controls['email'].value,
-      password: form.controls['password'].value,
+      username: this.model.username,
+      firstName: this.model.firstName,
+      lastName: this.model.lastName,
     });
-
-    form.resetForm();
   }
 
   public resetForm(form: NgForm) {
-    form.reset(this.user);
+    this.resetModel();
     for (const control of Object.values(form.controls)) {
       control.markAsPristine();
     }
@@ -145,7 +126,13 @@ export class UpdateUserFormComponent implements OnChanges {
 
   public ngOnChanges() {
     if (this.user) {
-      // this.resetForm(this.user);
+      this.resetModel();
     }
+  }
+
+  private resetModel() {
+    this.model.username = this.user.username;
+    this.model.firstName = this.user.firstName;
+    this.model.lastName = this.user.lastName;
   }
 }

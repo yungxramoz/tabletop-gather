@@ -118,7 +118,8 @@ export class AuthService {
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as UserDto)
+        map((response) => response?.body as UserDto),
+        shareReplay()
       );
   }
 

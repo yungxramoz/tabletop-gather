@@ -51,7 +51,7 @@ describe(AuthService.name, () => {
   describe('login', () => {
     it('should send a POST request to the login endpoint and return the login result', () => {
       // Arrange
-      const loginUser: Model<LoginUserDto> = {};
+      const loginUser: Model<LoginUserDto> = {} as LoginUserDto;
       const expectedLoginResponse: LoginResponse = {} as LoginResponse;
 
       // Act
@@ -70,7 +70,7 @@ describe(AuthService.name, () => {
   describe('signup', () => {
     it('should send a POST request to the signup endpoint and return the user DTO', () => {
       // Arrange
-      const registerUser: Model<RegisterUserDto> = {};
+      const registerUser: Model<RegisterUserDto> = {} as RegisterUserDto;
       const expectedUserDto: UserDto = {} as unknown as UserDto;
 
       // Act
@@ -82,6 +82,24 @@ describe(AuthService.name, () => {
       // Assert
       const req = httpMock.expectOne(`${authBaseUrl}/signup`);
       expect(req.request.method).toBe('POST');
+      req.flush(expectedUserDto);
+    });
+  });
+
+  describe('me', () => {
+    it('should send a GET request to the me endpoint and return the user DTO', () => {
+      // Arrange
+      const expectedUserDto: UserDto = {} as unknown as UserDto;
+
+      // Act
+      authService.me().subscribe((userDto) => {
+        // Assert
+        expect(userDto).toEqual(expectedUserDto);
+      });
+
+      // Assert
+      const req = httpMock.expectOne(`${authBaseUrl}/me`);
+      expect(req.request.method).toBe('GET');
       req.flush(expectedUserDto);
     });
   });

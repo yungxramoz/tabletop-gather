@@ -1,17 +1,13 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  NbButtonModule,
-  NbCardModule,
-  NbSpinnerModule,
-  NbUserModule,
-} from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbUserModule } from '@nebular/theme';
 import { Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { filter, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { ROUTE_DESIGN, ROUTE_USER_MANAGEMENT } from '../../constants';
+import { Model } from '../../models/model.type';
 import { UserDto } from '../../models/user.dto';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 import { UpdateUserFormComponent } from '../molecules/update-user-form.component';
 
 @Component({
@@ -23,8 +19,6 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
     NbCardModule,
     NbButtonModule,
     NbUserModule,
-    NbSpinnerModule,
-    RouterModule,
     UpdateUserFormComponent,
   ],
   template: `
@@ -40,16 +34,10 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
           >
           </nb-user>
         </div>
-        <tg-update-user-form [user]="me"></tg-update-user-form>
-      </nb-card-body>
-    </nb-card>
-    <nb-card>
-      <nb-card-header>Dev Routes</nb-card-header>
-      <nb-card-body>
-        <button nbButton [routerLink]="[routeDesign]">Design</button>
-        <button nbButton class="tg-mx-2" [routerLink]="[routeUserManagement]">
-          Users
-        </button>
+        <tg-update-user-form
+          [user]="me"
+          (userUpdated)="onUserUpdated($event)"
+        ></tg-update-user-form>
       </nb-card-body>
     </nb-card>
   `,
@@ -65,9 +53,24 @@ export class ProfileComponent implements OnInit {
     lastName: 'Doe',
   };
 
-  public constructor(private readonly authService: AuthService) {}
+  public constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService
+  ) {}
+
+  public onUserUpdated(event: Model<Omit<UserDto, 'email'>>) {
+    this.me$
+      .pipe(
+        filter((me) => me !== undefined),
+        switchMap((me) => {
+          const user = { ...event, email: me!.email } as Model<UserDto>;
+          return this.usersService.updateUser(me!.id, user);
+        })
+      )
+      .subscribe();
+  }
 
   public ngOnInit(): void {
-    this.me$ = this.authService.me().pipe(startWith(undefined));
+    this.me$ = this.authService.me().pipe(startWith(undefined), shareReplay(1));
   }
 }
