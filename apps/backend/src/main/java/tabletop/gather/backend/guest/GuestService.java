@@ -23,26 +23,26 @@ public class GuestService {
         this.gatheringRepository = gatheringRepository;
     }
 
-    public List<GuestDTO> findAll() {
+    public List<GuestDto> findAll() {
         final List<Guest> guests = guestRepository.findAll(Sort.by("id"));
         return guests.stream()
-                .map(guest -> mapToDTO(guest, new GuestDTO()))
+                .map(guest -> mapToDTO(guest, new GuestDto()))
                 .toList();
     }
 
-    public GuestDTO get(final UUID id) {
+    public GuestDto get(final UUID id) {
         return guestRepository.findById(id)
-                .map(guest -> mapToDTO(guest, new GuestDTO()))
+                .map(guest -> mapToDTO(guest, new GuestDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final GuestDTO guestDTO) {
+    public UUID create(final GuestDto guestDTO) {
         final Guest guest = new Guest();
         mapToEntity(guestDTO, guest);
         return guestRepository.save(guest).getId();
     }
 
-    public void update(final UUID id, final GuestDTO guestDTO) {
+    public void update(final UUID id, final GuestDto guestDTO) {
         final Guest guest = guestRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(guestDTO, guest);
@@ -58,14 +58,14 @@ public class GuestService {
         guestRepository.delete(guest);
     }
 
-    private GuestDTO mapToDTO(final Guest guest, final GuestDTO guestDTO) {
+    private GuestDto mapToDTO(final Guest guest, final GuestDto guestDTO) {
         guestDTO.setId(guest.getId());
         guestDTO.setName(guest.getName());
         guestDTO.setEmail(guest.getEmail());
         return guestDTO;
     }
 
-    private Guest mapToEntity(final GuestDTO guestDTO, final Guest guest) {
+    private Guest mapToEntity(final GuestDto guestDTO, final Guest guest) {
         guest.setName(guestDTO.getName());
         guest.setEmail(guestDTO.getEmail());
         return guest;

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginUserDTO {
+public class LoginUserDto {
 
     @Size(max = 320)
     private String email;

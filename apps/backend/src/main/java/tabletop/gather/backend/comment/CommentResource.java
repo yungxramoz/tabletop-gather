@@ -22,25 +22,25 @@ public class CommentResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentDTO>> getAllComments() {
+    public ResponseEntity<List<CommentDto>> getAllComments() {
         return ResponseEntity.ok(commentService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentDTO> getComment(@PathVariable(name = "id") final UUID id) {
+    public ResponseEntity<CommentDto> getComment(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.ok(commentService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createComment(@RequestBody @Valid final CommentDTO commentDTO) {
+    public ResponseEntity<UUID> createComment(@RequestBody @Valid final CommentDto commentDTO) {
         final UUID createdId = commentService.create(commentDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateComment(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final CommentDTO commentDTO) {
+            @RequestBody @Valid final CommentDto commentDTO) {
         commentService.update(id, commentDTO);
         return ResponseEntity.ok(id);
     }

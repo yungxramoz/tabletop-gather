@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tabletop.gather.backend.user.UserDTO;
-import tabletop.gather.backend.user.UserService;
 
 @RestController
 @RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,26 +27,26 @@ public class UserResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id") final UUID id) {
+    public ResponseEntity<UserDto> getUser(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.ok(userService.get(id));
     }
 
     // TODO: Delete this - we create users via the registration process
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createUser(@RequestBody @Valid final UserDTO userDTO) {
+    public ResponseEntity<UUID> createUser(@RequestBody @Valid final UserDto userDTO) {
         final UUID createdId = userService.create(userDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateUser(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final UserDTO userDTO) {
+            @RequestBody @Valid final UserDto userDTO) {
         userService.update(id, userDTO);
         return ResponseEntity.ok(id);
     }

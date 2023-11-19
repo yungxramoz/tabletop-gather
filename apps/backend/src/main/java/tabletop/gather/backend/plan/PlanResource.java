@@ -22,25 +22,25 @@ public class PlanResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<PlanDTO>> getAllPlans() {
+    public ResponseEntity<List<PlanDto>> getAllPlans() {
         return ResponseEntity.ok(planService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlanDTO> getPlan(@PathVariable(name = "id") final UUID id) {
+    public ResponseEntity<PlanDto> getPlan(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.ok(planService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createPlan(@RequestBody @Valid final PlanDTO planDTO) {
+    public ResponseEntity<UUID> createPlan(@RequestBody @Valid final PlanDto planDTO) {
         final UUID createdId = planService.create(planDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updatePlan(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final PlanDTO planDTO) {
+            @RequestBody @Valid final PlanDto planDTO) {
         planService.update(id, planDTO);
         return ResponseEntity.ok(id);
     }

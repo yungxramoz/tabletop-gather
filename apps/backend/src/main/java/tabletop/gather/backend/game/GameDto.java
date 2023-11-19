@@ -1,6 +1,5 @@
-package tabletop.gather.backend.plan;
+package tabletop.gather.backend.game;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class PlanDTO {
+public class GameDto {
 
     private UUID id;
 
@@ -19,12 +18,15 @@ public class PlanDTO {
     @Size(max = 255)
     private String name;
 
+    @Size(max = 4000)
+    private String description;
+
     @NotNull
-    @JsonProperty("isPrivate")
-    private Boolean isPrivate;
+    private Integer minPlayer;
 
-    private UUID user;
+    private Integer maxPlayer;
 
-    private UUID game;
+    @Size(max = 500)
+    private String imageUrl;
 
 }

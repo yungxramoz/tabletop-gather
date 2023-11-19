@@ -22,26 +22,26 @@ public class GatheringResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<GatheringDTO>> getAllGatherings() {
+    public ResponseEntity<List<GatheringDto>> getAllGatherings() {
         return ResponseEntity.ok(gatheringService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GatheringDTO> getGathering(@PathVariable(name = "id") final UUID id) {
+    public ResponseEntity<GatheringDto> getGathering(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.ok(gatheringService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<UUID> createGathering(
-            @RequestBody @Valid final GatheringDTO gatheringDTO) {
+            @RequestBody @Valid final GatheringDto gatheringDTO) {
         final UUID createdId = gatheringService.create(gatheringDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateGathering(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final GatheringDTO gatheringDTO) {
+            @RequestBody @Valid final GatheringDto gatheringDTO) {
         gatheringService.update(id, gatheringDTO);
         return ResponseEntity.ok(id);
     }

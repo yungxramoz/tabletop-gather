@@ -1,4 +1,4 @@
-package tabletop.gather.backend.game;
+package tabletop.gather.backend.guest;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class GameDTO {
+public class GuestDto {
 
     private UUID id;
 
@@ -18,15 +18,8 @@ public class GameDTO {
     @Size(max = 255)
     private String name;
 
-    @Size(max = 4000)
-    private String description;
-
     @NotNull
-    private Integer minPlayer;
-
-    private Integer maxPlayer;
-
-    @Size(max = 500)
-    private String imageUrl;
+    @Size(max = 255)
+    private String email;
 
 }

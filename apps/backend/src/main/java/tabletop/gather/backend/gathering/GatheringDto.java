@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class GatheringDTO {
+public class GatheringDto {
 
     private UUID id;
 

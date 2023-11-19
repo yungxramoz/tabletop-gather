@@ -35,26 +35,26 @@ public class GatheringService {
         this.userRepository = userRepository;
     }
 
-    public List<GatheringDTO> findAll() {
+    public List<GatheringDto> findAll() {
         final List<Gathering> gatherings = gatheringRepository.findAll(Sort.by("id"));
         return gatherings.stream()
-                .map(gathering -> mapToDTO(gathering, new GatheringDTO()))
+                .map(gathering -> mapToDTO(gathering, new GatheringDto()))
                 .toList();
     }
 
-    public GatheringDTO get(final UUID id) {
+    public GatheringDto get(final UUID id) {
         return gatheringRepository.findById(id)
-                .map(gathering -> mapToDTO(gathering, new GatheringDTO()))
+                .map(gathering -> mapToDTO(gathering, new GatheringDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final GatheringDTO gatheringDTO) {
+    public UUID create(final GatheringDto gatheringDTO) {
         final Gathering gathering = new Gathering();
         mapToEntity(gatheringDTO, gathering);
         return gatheringRepository.save(gathering).getId();
     }
 
-    public void update(final UUID id, final GatheringDTO gatheringDTO) {
+    public void update(final UUID id, final GatheringDto gatheringDTO) {
         final Gathering gathering = gatheringRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(gatheringDTO, gathering);
@@ -65,7 +65,7 @@ public class GatheringService {
         gatheringRepository.deleteById(id);
     }
 
-    private GatheringDTO mapToDTO(final Gathering gathering, final GatheringDTO gatheringDTO) {
+    private GatheringDto mapToDTO(final Gathering gathering, final GatheringDto gatheringDTO) {
         gatheringDTO.setId(gathering.getId());
         gatheringDTO.setDate(gathering.getDate());
         gatheringDTO.setStartTime(gathering.getStartTime());
@@ -80,7 +80,7 @@ public class GatheringService {
         return gatheringDTO;
     }
 
-    private Gathering mapToEntity(final GatheringDTO gatheringDTO, final Gathering gathering) {
+    private Gathering mapToEntity(final GatheringDto gatheringDTO, final Gathering gathering) {
         gathering.setDate(gatheringDTO.getDate());
         gathering.setStartTime(gatheringDTO.getStartTime());
         gathering.setEndTime(gatheringDTO.getEndTime());

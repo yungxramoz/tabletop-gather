@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class CommentDTO {
+public class CommentDto {
 
     private UUID id;
 

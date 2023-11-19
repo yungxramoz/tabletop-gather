@@ -17,32 +17,32 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserDTO> findAll() {
+    public List<UserDto> findAll() {
         final List<User> users = userRepository.findAll(Sort.by("id"));
         return users.stream()
-                .map(user -> mapToDTO(user, new UserDTO()))
+                .map(user -> mapToDTO(user, new UserDto()))
                 .toList();
     }
 
-    public Optional<UserDTO> findByEmail(final String email) {
+    public Optional<UserDto> findByEmail(final String email) {
         return userRepository.findByEmail(email)
-                .map(user -> mapToDTO(user, new UserDTO()));
+                .map(user -> mapToDTO(user, new UserDto()));
     }
 
-    public UserDTO get(final UUID id) {
+    public UserDto get(final UUID id) {
         return userRepository.findById(id)
-                .map(user -> mapToDTO(user, new UserDTO()))
+                .map(user -> mapToDTO(user, new UserDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
     // TODO: Delete this - we create users via the registration process
-    public UUID create(final UserDTO userDTO) {
+    public UUID create(final UserDto userDTO) {
         final User user = new User();
         mapToEntity(userDTO, user);
         return userRepository.save(user).getId();
     }
 
-    public void update(final UUID id, final UserDTO userDTO) {
+    public void update(final UUID id, final UserDto userDTO) {
         final User user = userRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(userDTO, user);
@@ -53,7 +53,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private UserDTO mapToDTO(final User user, final UserDTO userDTO) {
+    private UserDto mapToDTO(final User user, final UserDto userDTO) {
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
         userDTO.setFirstName(user.getFirstName());
@@ -62,7 +62,7 @@ public class UserService {
         return userDTO;
     }
 
-    private User mapToEntity(final UserDTO userDTO, final User user) {
+    private User mapToEntity(final UserDto userDTO, final User user) {
         user.setUsername(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());

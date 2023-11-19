@@ -22,25 +22,25 @@ public class GuestResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<GuestDTO>> getAllGuests() {
+    public ResponseEntity<List<GuestDto>> getAllGuests() {
         return ResponseEntity.ok(guestService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GuestDTO> getGuest(@PathVariable(name = "id") final UUID id) {
+    public ResponseEntity<GuestDto> getGuest(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.ok(guestService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createGuest(@RequestBody @Valid final GuestDTO guestDTO) {
+    public ResponseEntity<UUID> createGuest(@RequestBody @Valid final GuestDto guestDTO) {
         final UUID createdId = guestService.create(guestDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateGuest(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final GuestDTO guestDTO) {
+            @RequestBody @Valid final GuestDto guestDTO) {
         guestService.update(id, guestDTO);
         return ResponseEntity.ok(id);
     }

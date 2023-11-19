@@ -26,26 +26,26 @@ public class PlanService {
         this.gameRepository = gameRepository;
     }
 
-    public List<PlanDTO> findAll() {
+    public List<PlanDto> findAll() {
         final List<Plan> plans = planRepository.findAll(Sort.by("id"));
         return plans.stream()
-                .map(plan -> mapToDTO(plan, new PlanDTO()))
+                .map(plan -> mapToDTO(plan, new PlanDto()))
                 .toList();
     }
 
-    public PlanDTO get(final UUID id) {
+    public PlanDto get(final UUID id) {
         return planRepository.findById(id)
-                .map(plan -> mapToDTO(plan, new PlanDTO()))
+                .map(plan -> mapToDTO(plan, new PlanDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final PlanDTO planDTO) {
+    public UUID create(final PlanDto planDTO) {
         final Plan plan = new Plan();
         mapToEntity(planDTO, plan);
         return planRepository.save(plan).getId();
     }
 
-    public void update(final UUID id, final PlanDTO planDTO) {
+    public void update(final UUID id, final PlanDto planDTO) {
         final Plan plan = planRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(planDTO, plan);
@@ -56,7 +56,7 @@ public class PlanService {
         planRepository.deleteById(id);
     }
 
-    private PlanDTO mapToDTO(final Plan plan, final PlanDTO planDTO) {
+    private PlanDto mapToDTO(final Plan plan, final PlanDto planDTO) {
         planDTO.setId(plan.getId());
         planDTO.setName(plan.getName());
         planDTO.setIsPrivate(plan.getIsPrivate());
@@ -65,7 +65,7 @@ public class PlanService {
         return planDTO;
     }
 
-    private Plan mapToEntity(final PlanDTO planDTO, final Plan plan) {
+    private Plan mapToEntity(final PlanDto planDTO, final Plan plan) {
         plan.setName(planDTO.getName());
         plan.setIsPrivate(planDTO.getIsPrivate());
         final User user = planDTO.getUser() == null ? null : userRepository.findById(planDTO.getUser())

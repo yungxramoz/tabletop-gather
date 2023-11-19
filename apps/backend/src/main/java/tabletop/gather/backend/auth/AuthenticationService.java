@@ -29,7 +29,7 @@ public class AuthenticationService {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    public User signup(RegisterUserDTO input) {
+    public User signup(RegisterUserDto input) {
         User user = new User();
         user.setUsername(input.getUsername());
         user.setUsername(input.getUsername());
@@ -41,7 +41,7 @@ public class AuthenticationService {
         return userRepository.save(user);
     }
 
-    public User authenticate(LoginUserDTO input) {
+    public User authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),

@@ -26,26 +26,26 @@ public class CommentService {
         this.planRepository = planRepository;
     }
 
-    public List<CommentDTO> findAll() {
+    public List<CommentDto> findAll() {
         final List<Comment> comments = commentRepository.findAll(Sort.by("id"));
         return comments.stream()
-                .map(comment -> mapToDTO(comment, new CommentDTO()))
+                .map(comment -> mapToDTO(comment, new CommentDto()))
                 .toList();
     }
 
-    public CommentDTO get(final UUID id) {
+    public CommentDto get(final UUID id) {
         return commentRepository.findById(id)
-                .map(comment -> mapToDTO(comment, new CommentDTO()))
+                .map(comment -> mapToDTO(comment, new CommentDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final CommentDTO commentDTO) {
+    public UUID create(final CommentDto commentDTO) {
         final Comment comment = new Comment();
         mapToEntity(commentDTO, comment);
         return commentRepository.save(comment).getId();
     }
 
-    public void update(final UUID id, final CommentDTO commentDTO) {
+    public void update(final UUID id, final CommentDto commentDTO) {
         final Comment comment = commentRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(commentDTO, comment);
@@ -56,7 +56,7 @@ public class CommentService {
         commentRepository.deleteById(id);
     }
 
-    private CommentDTO mapToDTO(final Comment comment, final CommentDTO commentDTO) {
+    private CommentDto mapToDTO(final Comment comment, final CommentDto commentDTO) {
         commentDTO.setId(comment.getId());
         commentDTO.setComment(comment.getComment());
         commentDTO.setUser(comment.getUser() == null ? null : comment.getUser().getId());
@@ -64,7 +64,7 @@ public class CommentService {
         return commentDTO;
     }
 
-    private Comment mapToEntity(final CommentDTO commentDTO, final Comment comment) {
+    private Comment mapToEntity(final CommentDto commentDTO, final Comment comment) {
         comment.setComment(commentDTO.getComment());
         final User user = commentDTO.getUser() == null ? null : userRepository.findById(commentDTO.getUser())
                 .orElseThrow(() -> new NotFoundException("user not found"));

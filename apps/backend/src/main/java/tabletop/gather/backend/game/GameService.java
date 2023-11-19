@@ -22,26 +22,26 @@ public class GameService {
         this.userRepository = userRepository;
     }
 
-    public List<GameDTO> findAll() {
+    public List<GameDto> findAll() {
         final List<Game> games = gameRepository.findAll(Sort.by("id"));
         return games.stream()
-                .map(game -> mapToDTO(game, new GameDTO()))
+                .map(game -> mapToDTO(game, new GameDto()))
                 .toList();
     }
 
-    public GameDTO get(final UUID id) {
+    public GameDto get(final UUID id) {
         return gameRepository.findById(id)
-                .map(game -> mapToDTO(game, new GameDTO()))
+                .map(game -> mapToDTO(game, new GameDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final GameDTO gameDTO) {
+    public UUID create(final GameDto gameDTO) {
         final Game game = new Game();
         mapToEntity(gameDTO, game);
         return gameRepository.save(game).getId();
     }
 
-    public void update(final UUID id, final GameDTO gameDTO) {
+    public void update(final UUID id, final GameDto gameDTO) {
         final Game game = gameRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(gameDTO, game);
@@ -57,7 +57,7 @@ public class GameService {
         gameRepository.delete(game);
     }
 
-    private GameDTO mapToDTO(final Game game, final GameDTO gameDTO) {
+    private GameDto mapToDTO(final Game game, final GameDto gameDTO) {
         gameDTO.setId(game.getId());
         gameDTO.setName(game.getName());
         gameDTO.setDescription(game.getDescription());
@@ -67,7 +67,7 @@ public class GameService {
         return gameDTO;
     }
 
-    private Game mapToEntity(final GameDTO gameDTO, final Game game) {
+    private Game mapToEntity(final GameDto gameDTO, final Game game) {
         game.setName(gameDTO.getName());
         game.setDescription(gameDTO.getDescription());
         game.setMinPlayer(gameDTO.getMinPlayer());

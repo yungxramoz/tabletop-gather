@@ -22,25 +22,25 @@ public class GameResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<GameDTO>> getAllGames() {
+    public ResponseEntity<List<GameDto>> getAllGames() {
         return ResponseEntity.ok(gameService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GameDTO> getGame(@PathVariable(name = "id") final UUID id) {
+    public ResponseEntity<GameDto> getGame(@PathVariable(name = "id") final UUID id) {
         return ResponseEntity.ok(gameService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createGame(@RequestBody @Valid final GameDTO gameDTO) {
+    public ResponseEntity<UUID> createGame(@RequestBody @Valid final GameDto gameDTO) {
         final UUID createdId = gameService.create(gameDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateGame(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final GameDTO gameDTO) {
+            @RequestBody @Valid final GameDto gameDTO) {
         gameService.update(id, gameDTO);
         return ResponseEntity.ok(id);
     }
