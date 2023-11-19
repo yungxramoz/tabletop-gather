@@ -14,8 +14,17 @@ p {
 
 /* Dimensions */
 
+.tg-max-w-30 {
+  max-width: 30rem;
+}
+
 .tg-max-w-50 {
   max-width: 50rem;
+}
+
+.tg-full {
+  width: 100%;
+  height: 100%;
 }
 
 /* Paddings */
@@ -36,6 +45,10 @@ p {
 
 .tg-m-2 {
   margin: 1rem;
+}
+
+.tg-m-4 {
+  margin: 2rem;
 }
 
 .tg-mx-2 {
@@ -75,6 +88,10 @@ p {
   justify-content: space-around;
 }
 
+.tg-justify-center {
+  justify-content: center;
+}
+
 .tg-flex-grow {
   flex-grow: 1;
 }
@@ -84,8 +101,6 @@ p {
 .tg-404 > h1 {
   font-size: 120px;
 }
-
-
 
 .tg-debug {
   border: 1px solid red;
