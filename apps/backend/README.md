@@ -8,7 +8,7 @@ To view the Bootify.io Setup, visit [this link](https://bootify.io/app/1AFNHOA9N
 
 ### Prerequisites
 
-Create your own `application-development.yml` file to override settings for development:
+Create your own `application-development.yml` in file in the `apps\backend\src\main\resources\` directory to override settings for development:
 
 ```yaml
 security:
