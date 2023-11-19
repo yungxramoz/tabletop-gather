@@ -1,7 +1,6 @@
 package tabletop.gather.backend.config;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
-import tabletop.gather.backend.model.ErrorResponse;
-import tabletop.gather.backend.model.FieldError;
 import tabletop.gather.backend.util.NotFoundException;
+
+import java.util.List;
 
 
 @RestControllerAdvice(annotations = RestController.class)
@@ -30,12 +29,12 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
-            final DataIntegrityViolationException exception) {
-        final ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setHttpStatus(HttpStatus.CONFLICT.value());
-        errorResponse.setException(exception.getClass().getSimpleName());
-        errorResponse.setMessage(exception.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+      final DataIntegrityViolationException exception) {
+      final ErrorResponse errorResponse = new ErrorResponse();
+      errorResponse.setHttpStatus(HttpStatus.CONFLICT.value());
+      errorResponse.setException(exception.getClass().getSimpleName());
+      errorResponse.setMessage(exception.getMessage());
+      return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
