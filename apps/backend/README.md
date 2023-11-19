@@ -6,22 +6,34 @@ To view the Bootify.io Setup, visit [this link](https://bootify.io/app/1AFNHOA9N
 
 ## Development
 
-During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
-added in the VM options of the Run Configuration after enabling this property in "Modify options". Create your own
-`application-local.yml` file to override settings for development.
+### Prerequisites
+
+Create your own `application-development.yml` in file in the `apps\backend\src\main\resources\` directory to override settings for development:
+
+```yaml
+security:
+  jwt:
+    secret-key: <see-below-on-how-to-generate-a-secret-key>
+    expiration-time: 3_600_000
+```
+
+You can create a hash using the following command:
+
+```shell
+openssl rand -hex 32
+```
+
+or use [this website](https://www.devglan.com/online-tools/hmac-sha256-online?ref=blog.tericcabrel.com).
+
+### IDE Setup
+
+During development it is recommended to use the profile `development`. In IntelliJ `-Dspring.profiles.active=development` can be
+added in the VM options of the Run Configuration after enabling this property in "Modify options".
 
 Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
 [learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).
 
 After starting the application it is accessible under `localhost:8080`.
-
-### Adding a user manually
-
-![image](https://github.com/shoedler/tabletop-gather/assets/38029550/02ea9ab1-7607-4bdb-b0b5-e94fee9a2d56)
-
-### Retrieving a JWT manually
-
-![image](https://github.com/shoedler/tabletop-gather/assets/38029550/adf81b94-33e5-4ae6-a98e-9393cd781c34)
 
 ## Docker
 
@@ -86,6 +98,16 @@ docker rmi tg-java-backend:1.0.0
 - [Docker: Run Java image as a container](https://docs.docker.com/language/java/run-containers/)
 - [Docker: Use containers for Java development](https://docs.docker.com/language/java/develop/)
 
+## Interacting with the backend manually
+
+### Adding a user manually
+
+![image](https://github.com/shoedler/tabletop-gather/assets/38029550/02ea9ab1-7607-4bdb-b0b5-e94fee9a2d56)
+
+### Retrieving a JWT manually
+
+![image](https://github.com/shoedler/tabletop-gather/assets/38029550/adf81b94-33e5-4ae6-a98e-9393cd781c34)
+
 ## Build locally
 
 It's inteded to run the application (including building it) in a docker container. However, it can also be built
@@ -93,20 +115,20 @@ locally. This does require a Java toolchain on your system. Follow the instructi
 
 The application can be built using the following command:
 
-```
-mvnw clean package
-```
-
-Start your application with the following command - here with the profile `production`:
-
-```
-java -Dspring.profiles.active=production -jar ./target/backend-0.0.1-SNAPSHOT.jar
+```shell
+mvnw clean package -DskipTests
 ```
 
-If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as
+Start your application with the following command - here with the profile `development`:
+
+```shell
+java -Dspring.profiles.active=development -jar ./target/backend-0.0.1-SNAPSHOT.jar
+```
+
+If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=development` as
 environment variable when running the container.
 
-```
+```shell
 mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=tabletop.gather/backend
 ```
 

@@ -19,15 +19,17 @@ have to prefix all Nx commands with `npx` (e.g. `npx nx serve frontend`).
 
 _(All commands are to be run from the root of the repository. Nx specific commands can be run from anywhere in the repository.)_
 
-1. If you haven't already: pull the latest postgres image with `docker pull postgres:latest` at the time of writing, this is version 16.0
+1. If you haven't already: Create an `application-development.yml` following the instructions in the backend [README, section "Prerequisites"](./apps/backend/README.md#prerequisites).
 
-2. Install dependencies with `npm ci`.
+2. If you haven't already: pull the latest postgres image with `docker pull postgres:latest` at the time of writing, this is version 16.0
 
-3. Start the frontend with `nx serve frontend`. Open your browser and navigate to http://localhost:4200/
+3. Install dependencies with `npm ci`.
+
+4. Start the frontend with `nx serve frontend`. Open your browser and navigate to http://localhost:4200/
 
 > This will launch an angular dev server with hot reloading enabled. Don't worry about building the app, Nx will take care of dependent tasks and build order.
 
-4. Start the backend with `nx docker-serve backend`. The backend will be available at http://localhost:8080/
+5. Start the backend with `nx docker-serve backend`. The backend will be available at http://localhost:8080/
 
 > This will - via `docker-compose` - launch a preconfigured postgres container and the backend application container.
 > It might take a minute or two if you're doing this the first time, especially if you don't have the postgres image locally yet.
@@ -56,4 +58,3 @@ nx run-many -t <target1> <target2> -p <proj1> <proj2>
 ```
 
 Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/core-features/run-tasks).
-
