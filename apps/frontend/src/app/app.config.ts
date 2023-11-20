@@ -14,6 +14,7 @@ import {
 } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {
+  NbDatepickerModule,
   NbDialogModule,
   NbGlobalPhysicalPosition,
   NbSidebarModule,
@@ -65,6 +66,7 @@ const provideLocalStorage = (): Provider => ({
 const provideNebular = (): EnvironmentProviders[] => [
   importProvidersFrom(NbThemeModule.forRoot({ name: 'tg-theme' })),
   importProvidersFrom(NbSidebarModule.forRoot()),
+  importProvidersFrom(NbDatepickerModule.forRoot()),
   importProvidersFrom(NbEvaIconsModule),
   importProvidersFrom(BrowserAnimationsModule), // This is required for Nebular animations to work - not sure why
   importProvidersFrom(

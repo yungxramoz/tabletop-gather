@@ -7,8 +7,8 @@ import { LoginUserDto } from '../../models/login-user.dto';
 import { Model } from '../../models/model.type';
 import { RegisterUserDto } from '../../models/register-user.dto';
 import { AuthService } from '../../services/auth.service';
-import { LoginFormComponent } from '../molecules/login-form.component';
-import { RegisterFormComponent } from '../molecules/register-form.component';
+import { LoginFormComponent } from '../organisms/login-form.component';
+import { RegisterFormComponent } from '../organisms/register-form.component';
 
 @Component({
   selector: 'tg-login-management',

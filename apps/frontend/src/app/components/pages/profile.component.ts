@@ -8,7 +8,7 @@ import { UserDto } from '../../models/user.dto';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { AvatarComponent } from '../atoms/avatar.component';
-import { UpdateUserFormComponent } from '../molecules/update-user-form.component';
+import { UpdateUserFormComponent } from '../organisms/update-user-form.component';
 
 @Component({
   standalone: true,

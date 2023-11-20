@@ -75,7 +75,6 @@ export class InputComponent implements ControlValueAccessor {
     @Optional()
     public readonly validationErrorMappingOverride: ValidationErrorMappingOverride
   ) {
-    console.log(this.validationErrorMappingOverride);
     if (this.ngModel) {
       this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
