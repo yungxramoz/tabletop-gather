@@ -1,10 +1,12 @@
+import { Uuid } from '../utils/types';
+
 /**
  * Base class for all DTOs.
  *
  * @property {string} id - The Db id of the entity
  */
 export abstract class Dto {
-  public readonly id!: string;
+  public readonly id!: Uuid;
 
   /**
    * Creates a new instance of the DTO and copies the given properties.

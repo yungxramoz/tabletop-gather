@@ -28,13 +28,11 @@ describe(AppComponent.name, () => {
     }).compileComponents();
   });
 
-  it('should render title', () => {
+  it('should render image', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h2')?.textContent).toContain(
-      'tabletop gather'
-    );
+    expect(compiled.querySelector('img')?.src).toContain('tg-wizard-no-bg.svg');
   });
 
   it(`should have correct tab title`, () => {

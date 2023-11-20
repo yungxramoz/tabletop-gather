@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbCardModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 
 @Component({
   standalone: true,
   selector: 'tg-events',
-  imports: [NbCardModule],
+  imports: [NbCardModule, NbButtonModule, NbIconModule],
   template: `
     <nb-card>
-      <nb-card-body>
-        <p>Welcome to the events!</p>
-      </nb-card-body>
+      <button nbButton status="primary" outline>
+        <nb-icon icon="plus-outline"></nb-icon>
+        Create Event
+      </button>
     </nb-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
