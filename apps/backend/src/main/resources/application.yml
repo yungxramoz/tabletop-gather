@@ -3,13 +3,14 @@ spring:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/backend}
     username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
+    default_schema: tabletop-gather
     dbcp2:
       max-wait-millis: 30000
       validation-query: select 1
       validation-query-timeout: 30
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:
@@ -18,6 +19,13 @@ spring:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
+  flyway:
+    enabled: true
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/backend}
+    user: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
+    schemas: tabletop-gather
+    locations: classpath:db/migration
   docker:
     compose:
       lifecycle-management: start-only
