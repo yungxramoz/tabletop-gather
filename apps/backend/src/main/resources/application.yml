@@ -30,4 +30,5 @@ spring:
     compose:
       lifecycle-management: start-only
 springdoc:
+  path: /api-docs
   pathsToMatch: /api/**
