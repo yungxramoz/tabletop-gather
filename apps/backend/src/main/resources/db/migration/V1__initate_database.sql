@@ -24,7 +24,7 @@ CREATE TABLE guests (
 CREATE TABLE games (
   id UUID NOT NULL,
    name VARCHAR(255) NOT NULL,
-   description VARCHAR(4000),
+   description TEXT,
    min_player INTEGER NOT NULL,
    max_player INTEGER,
    image_url VARCHAR(500),

@@ -3,6 +3,7 @@ spring:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/backend}
     username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
+    default_schema: tabletop-gather
     dbcp2:
       max-wait-millis: 30000
       validation-query: select 1
@@ -23,7 +24,7 @@ spring:
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/backend}
     user: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
-    schemas: public
+    schemas: tabletop-gather
     locations: classpath:db/migration
   docker:
     compose:
