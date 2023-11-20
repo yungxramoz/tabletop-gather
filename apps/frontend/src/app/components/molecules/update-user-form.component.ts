@@ -68,6 +68,17 @@ import { InputComponent } from '../atoms/input.component';
             <button
               nbButton
               fullWidth
+              ghost
+              status="primary"
+              shape="semi-round"
+              (click)="resetForm(updateUserForm)"
+            >
+              Reset
+            </button>
+            <div class="tg-m-1"></div>
+            <button
+              nbButton
+              fullWidth
               status="primary"
               shape="semi-round"
               type="submit"
@@ -75,16 +86,6 @@ import { InputComponent } from '../atoms/input.component';
               (click)="updateUser()"
             >
               Save
-            </button>
-            <div class="tg-m-1"></div>
-            <button
-              nbButton
-              fullWidth
-              status="danger"
-              shape="semi-round"
-              (click)="resetForm(updateUserForm)"
-            >
-              Reset
             </button>
           </div>
         </form>

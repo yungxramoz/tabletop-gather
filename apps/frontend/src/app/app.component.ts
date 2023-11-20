@@ -36,7 +36,7 @@ import { AuthService } from './services/auth.service';
           class="tg-m-1"
         />
         <div class="tg-flex-grow"></div>
-        <button nbButton status="primary" (click)="logout()">
+        <button nbButton ghost size="large" status="primary" (click)="logout()">
           <nb-icon icon="log-out-outline"></nb-icon>
         </button>
       </nb-layout-header>
