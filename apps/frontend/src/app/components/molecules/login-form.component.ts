@@ -75,11 +75,6 @@ export class LoginFormComponent {
     new EventEmitter<Model<LoginUserDto>>();
 
   public getUser(form: NgForm) {
-    if (!form.valid) {
-      alert('Form is not valid!');
-      return;
-    }
-
     this.credentialsCreated.emit({
       email: form.controls['email'].value,
       password: form.controls['password'].value,
