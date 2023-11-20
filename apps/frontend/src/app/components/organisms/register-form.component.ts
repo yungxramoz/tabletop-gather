@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule, NgForm, ValidationErrors } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
 import { Model } from '../../models/model.type';
 import { RegisterUserDto } from '../../models/register-user.dto';
@@ -21,11 +21,8 @@ import { InputComponent } from '../atoms/input.component';
   standalone: true,
   imports: [
     CommonModule,
-    AsyncPipe,
-    JsonPipe,
     FormsModule,
     NbCardModule,
-    NbInputModule,
     NbButtonModule,
     InputComponent,
     PasswordValidatorDirective,

@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { VALIDATION_ERROR_MAPPING_OVERRIDE } from '../../resources/validation-errors.resources';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
@@ -16,12 +16,9 @@ import { TextareaComponent } from '../atoms/textarea.component';
   standalone: true,
   imports: [
     CommonModule,
-    AsyncPipe,
-    JsonPipe,
     FormsModule,
     NbCardModule,
-    NbInputModule,
-    NbButtonModule,
+    NbSelectModule,
     InputComponent,
     TextareaComponent,
   ],
@@ -71,6 +68,22 @@ import { TextareaComponent } from '../atoms/textarea.component';
             label="Player Limit"
             placeholder=""
           ></tg-input>
+
+          <div class="tg-p-1">
+            <label class="label" for="games-select">Games</label>
+          </div>
+          <nb-select
+            fullWidth
+            shape="semi-round"
+            id="games-select"
+            multiple
+            placeholder="Select Games to play"
+          >
+            <nb-option value="1">Option 1</nb-option>
+            <nb-option value="2">Option 2</nb-option>
+            <nb-option value="3">Option 3</nb-option>
+            <nb-option value="4">Option 4</nb-option>
+          </nb-select>
         </form>
       </nb-card-body>
     </nb-card>

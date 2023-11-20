@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { LoginUserDto } from '../../models/login-user.dto';
 import { Model } from '../../models/model.type';
 import { InputComponent } from '../atoms/input.component';
@@ -16,11 +16,8 @@ import { InputComponent } from '../atoms/input.component';
   standalone: true,
   imports: [
     CommonModule,
-    AsyncPipe,
-    JsonPipe,
     FormsModule,
     NbCardModule,
-    NbInputModule,
     NbButtonModule,
     InputComponent,
   ],
