@@ -72,7 +72,7 @@ import { InputComponent } from '../atoms/input.component';
               shape="semi-round"
               type="submit"
               [disabled]="updateUserForm.invalid"
-              (click)="updateUser(updateUserForm)"
+              (click)="updateUser()"
             >
               Save
             </button>
@@ -104,12 +104,7 @@ export class UpdateUserFormComponent implements OnChanges {
     lastName: '',
   };
 
-  public updateUser(form: NgForm) {
-    if (!form.valid) {
-      alert('Form is not valid!');
-      return;
-    }
-
+  public updateUser() {
     this.userUpdated.emit({
       username: this.model.username,
       firstName: this.model.firstName,

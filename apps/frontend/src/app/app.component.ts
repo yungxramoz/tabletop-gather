@@ -40,7 +40,7 @@ import { AuthService } from './services/auth.service';
           <nb-icon icon="log-out-outline"></nb-icon>
         </button>
       </nb-layout-header>
-      <nb-layout-column>
+      <nb-layout-column class="tg-max-w-70 tg-mx-auto">
         <router-outlet></router-outlet>
       </nb-layout-column>
       <nb-layout-footer fixed *ngIf="showFooter$ | async">
