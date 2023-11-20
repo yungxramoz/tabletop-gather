@@ -1,13 +1,8 @@
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { NbButtonModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { FooterMenuComponent } from './components/molecules/footer-menu.component';
 import {
   ROUTE_COLLECTION,
@@ -32,7 +27,7 @@ import { AuthService } from './services/auth.service';
   selector: 'tg-root',
   template: `
     <nb-layout>
-      <nb-layout-header fixed>
+      <nb-layout-header fixed *ngIf="loginStatus$ | async">
         <img
           title="Tabletop Gather Logo"
           src="assets/tg-wizard-no-bg.svg"
@@ -40,18 +35,12 @@ import { AuthService } from './services/auth.service';
           height="50"
           class="tg-m-1"
         />
-        <h2 class="tg-m-1">tabletop gather</h2>
         <div class="tg-flex-grow"></div>
-        <button
-          *ngIf="loginStatus$ | async"
-          nbButton
-          status="control"
-          (click)="logout()"
-        >
+        <button nbButton status="primary" (click)="logout()">
           <nb-icon icon="log-out-outline"></nb-icon>
         </button>
       </nb-layout-header>
-      <nb-layout-column>
+      <nb-layout-column class="tg-max-w-70 tg-mx-auto">
         <router-outlet></router-outlet>
       </nb-layout-column>
       <nb-layout-footer fixed *ngIf="showFooter$ | async">
@@ -61,12 +50,11 @@ import { AuthService } from './services/auth.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   public readonly title = 'Tabletop Gather';
   public readonly loginStatus$ = this.authService.loginStatus$;
   private readonly showFooterSubject = new BehaviorSubject<boolean>(false);
   public readonly showFooter$ = this.showFooterSubject.asObservable();
-  private readonly subscriptions: Subscription[] = [];
 
   public constructor(
     private readonly authService: AuthService,
@@ -75,33 +63,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.authService.logout();
+    this.router.navigate(['/' + ROUTE_LOGIN]);
   }
 
   public ngOnInit() {
-    this.subscriptions.push(
-      this.authService.loginStatus$.subscribe((loginStatus) => {
-        if (!loginStatus) {
-          this.router.navigate(['/' + ROUTE_LOGIN]); // TODO: Shouldn't this automatically trigger if canActivate becomes false?
-        }
-      })
-    );
-
-    this.subscriptions.push(
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          const showFooter = [
-            event.url === '/',
-            event.url === '/' + ROUTE_EVENTS,
-            event.url === '/' + ROUTE_COLLECTION,
-            event.url === '/' + ROUTE_PROFILE,
-          ].some(Boolean);
-          this.showFooterSubject.next(showFooter);
-        }
-      })
-    );
-  }
-
-  public ngOnDestroy() {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const showFooter = [
+          event.url === '/' + ROUTE_EVENTS,
+          event.url === '/' + ROUTE_COLLECTION,
+          event.url === '/' + ROUTE_PROFILE,
+        ].some(Boolean);
+        this.showFooterSubject.next(showFooter);
+      }
+    });
   }
 }
