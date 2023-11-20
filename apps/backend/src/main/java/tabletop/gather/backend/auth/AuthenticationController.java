@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class AuthenticationController {
+
+    public static final int AUTH_HEADER_BEARER_PREFIX_LENGTH = 7; // "Bearer, ".length() == 7
+
     private final JwtService jwtService;
 
     private final AuthenticationService authenticationService;
@@ -54,7 +57,7 @@ public class AuthenticationController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> getAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
-        String token = authHeader.substring(7);
+        String token = authHeader.substring(AUTH_HEADER_BEARER_PREFIX_LENGTH);
         String email = jwtService.extractUsername(token);
 
         UserDto user = authenticationService.getUserByEmail(email);
