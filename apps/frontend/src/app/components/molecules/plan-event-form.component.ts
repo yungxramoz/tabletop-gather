@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { VALIDATION_ERROR_MAPPING_OVERRIDE } from '../../resources/validation-errors.resources';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 
@@ -23,6 +24,15 @@ import { TextareaComponent } from '../atoms/textarea.component';
     NbButtonModule,
     InputComponent,
     TextareaComponent,
+  ],
+  providers: [
+    {
+      provide: VALIDATION_ERROR_MAPPING_OVERRIDE,
+      useValue: {
+        pattern: (fieldName: string) =>
+          `${fieldName} must be between 1 and 100`,
+      },
+    },
   ],
   template: `
     <nb-card>
@@ -50,6 +60,17 @@ import { TextareaComponent } from '../atoms/textarea.component';
             label="Event Info"
             placeholder="Bring snacks 🥖"
           ></tg-textarea>
+
+          <tg-input
+            ngModel
+            required
+            pattern="^$|^([1-9]|[1-9][0-9]|[1][0][0])?"
+            type="number"
+            id="playerLimit"
+            name="playerLimit"
+            label="Player Limit"
+            placeholder=""
+          ></tg-input>
         </form>
       </nb-card-body>
     </nb-card>
@@ -62,8 +83,9 @@ export class PlanEventFormComponent {
 
   public getEvent(form: NgForm) {
     this.eventInfoCreated.emit({
-      email: form.controls['title'].value,
-      password: form.controls['eventInfo'].value,
+      titl: form.controls['title'].value,
+      eventInfo: form.controls['eventInfo'].value,
+      playerLimit: form.controls['playerLimit'].value,
     });
   }
 }

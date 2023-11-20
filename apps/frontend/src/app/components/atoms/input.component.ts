@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Inject,
   Input,
   Optional,
   Self,
@@ -13,7 +14,11 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { NbInputModule } from '@nebular/theme';
-import { friendlyValidationErrors } from '../../resources/validation-errors.resources';
+import {
+  VALIDATION_ERROR_MAPPING_OVERRIDE,
+  ValidationErrorMappingOverride,
+  friendlyValidationErrors,
+} from '../../resources/validation-errors.resources';
 
 @Component({
   standalone: true,
@@ -65,8 +70,12 @@ export class InputComponent implements ControlValueAccessor {
 
   public constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    @Self() @Optional() public readonly ngModel: NgModel
+    @Self() @Optional() public readonly ngModel: NgModel,
+    @Inject(VALIDATION_ERROR_MAPPING_OVERRIDE)
+    @Optional()
+    public readonly validationErrorMappingOverride: ValidationErrorMappingOverride
   ) {
+    console.log(this.validationErrorMappingOverride);
     if (this.ngModel) {
       this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
@@ -83,7 +92,11 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   public getErrors(errors: ValidationErrors) {
-    return friendlyValidationErrors(errors, this.label ?? 'This field');
+    return friendlyValidationErrors(
+      errors,
+      this.label ?? 'This field',
+      this.validationErrorMappingOverride
+    );
   }
 
   public writeValue(value: typeof this.value) {

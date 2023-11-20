@@ -10,7 +10,10 @@ import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
 import { Model } from '../../models/model.type';
 import { RegisterUserDto } from '../../models/register-user.dto';
-import { friendlyValidationErrors } from '../../resources/validation-errors.resources';
+import {
+  VALIDATION_ERROR_MAPPING_OVERRIDE,
+  friendlyValidationErrors,
+} from '../../resources/validation-errors.resources';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
@@ -26,6 +29,15 @@ import { InputComponent } from '../atoms/input.component';
     NbButtonModule,
     InputComponent,
     PasswordValidatorDirective,
+  ],
+  providers: [
+    {
+      provide: VALIDATION_ERROR_MAPPING_OVERRIDE,
+      useValue: {
+        pattern: (fieldName: string) =>
+          `${fieldName} can only contain lowercase letters, numbers, and periods.`,
+      },
+    },
   ],
   template: `
     <nb-card>

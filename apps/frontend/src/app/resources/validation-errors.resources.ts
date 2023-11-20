@@ -1,8 +1,20 @@
+import { InjectionToken } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
+
+export const VALIDATION_ERROR_MAPPING_OVERRIDE =
+  new InjectionToken<ValidationErrorMappingOverride>(
+    'VALIDATION_ERROR_MAPPING_OVERRIDE'
+  );
+
+export type ValidationErrorMappingOverride = Record<
+  keyof ValidationErrors,
+  (fieldName: string, errorValue: any) => string
+>;
 
 export const friendlyValidationErrors = (
   errors: ValidationErrors,
-  fieldName: string
+  fieldName: string,
+  validationErrorMappingOverride?: ValidationErrorMappingOverride
 ): string[] => {
   const errorMessages: string[] = [];
 
@@ -30,7 +42,10 @@ export const friendlyValidationErrors = (
 
   if (errors) {
     Object.keys(errors).forEach((key: string) => {
-      const msg = validationErrorMapping(key, errors[key], fieldName);
+      const override = validationErrorMappingOverride?.[key];
+      const msg =
+        override?.call(this, fieldName, errors[key]) ??
+        validationErrorMapping(key, errors[key], fieldName);
 
       if (msg) {
         errorMessages.push(msg);
