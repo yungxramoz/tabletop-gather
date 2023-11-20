@@ -8,6 +8,7 @@ import {
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { VALIDATION_ERROR_MAPPING_OVERRIDE } from '../../resources/validation-errors.resources';
+import { AutocompleteComponent } from '../atoms/autocomplete.component';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 
@@ -21,6 +22,7 @@ import { TextareaComponent } from '../atoms/textarea.component';
     NbSelectModule,
     InputComponent,
     TextareaComponent,
+    AutocompleteComponent,
   ],
   providers: [
     {
@@ -69,21 +71,15 @@ import { TextareaComponent } from '../atoms/textarea.component';
             placeholder=""
           ></tg-input>
 
-          <div class="tg-p-1">
-            <label class="label" for="games-select">Games</label>
-          </div>
-          <nb-select
-            fullWidth
-            shape="semi-round"
-            id="games-select"
-            multiple
-            placeholder="Select Games to play"
-          >
-            <nb-option value="1">Option 1</nb-option>
-            <nb-option value="2">Option 2</nb-option>
-            <nb-option value="3">Option 3</nb-option>
-            <nb-option value="4">Option 4</nb-option>
-          </nb-select>
+          <tg-autocomplete
+            ngModel
+            required
+            id="game"
+            name="game"
+            label="Game"
+            [options]="options"
+            placeholder="Game"
+          ></tg-autocomplete>
         </form>
       </nb-card-body>
     </nb-card>
@@ -94,7 +90,25 @@ export class PlanEventFormComponent {
   @Output()
   public eventInfoCreated: EventEmitter<unknown> = new EventEmitter<unknown>();
 
+  COMBAK;
+  public readonly options = [
+    'Game 1',
+    'Game 2',
+    'Game 3',
+    'asdd',
+    'askld',
+    '123',
+    '1234',
+    '12345',
+    '123456',
+    '1234567',
+    '12345678',
+    '123456789',
+    '1234567890',
+  ];
+
   public getEvent(form: NgForm) {
+    console.log(form);
     this.eventInfoCreated.emit({
       titl: form.controls['title'].value,
       eventInfo: form.controls['eventInfo'].value,

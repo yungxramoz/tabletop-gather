@@ -98,6 +98,7 @@ export class InputComponent implements ControlValueAccessor {
     );
   }
 
+  /** @implement {@see {@link ControlValueAccessor}} */
   public writeValue(value: typeof this.value) {
     this.value = value;
     if (this.changeDetectorRef) {
@@ -105,10 +106,12 @@ export class InputComponent implements ControlValueAccessor {
     }
   }
 
+  /** @implement {@see {@link ControlValueAccessor}} */
   public registerOnChange(fn: typeof this.onChange) {
     this.onChange = fn;
   }
 
+  /** @implement {@see {@link ControlValueAccessor}} */
   public registerOnTouched(fn: typeof this.onTouched) {
     this.onTouched = fn;
   }
