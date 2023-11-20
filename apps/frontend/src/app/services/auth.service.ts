@@ -38,7 +38,7 @@ export const LS_EXPIRES_AT_KEY = 'expires_at';
 })
 export class AuthService {
   private readonly loginStatusSubject = new BehaviorSubject<boolean>(
-    this.isLoggedIn()
+    this.isLoggedIn() // This will make sure that the user is logged in when the app is reloaded and the JWT token is still valid
   );
 
   public readonly loginStatus$ = this.loginStatusSubject.asObservable();
@@ -101,6 +101,25 @@ export class AuthService {
         }),
         filter((response) => response !== null),
         map((response) => response?.body as UserDto)
+      );
+  }
+
+  /**
+   * Gets the the current user from the JWT token.
+   *
+   * @returns {Observable<UserDto>} - An observable that emits the current user
+   */
+  public me(): Observable<UserDto> {
+    return this.http
+      .get<UserDto>(`${this.authBaseUrl}/me`, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleErrorResponse(),
+        filter((response) => response !== null),
+        map((response) => response?.body as UserDto),
+        shareReplay()
       );
   }
 

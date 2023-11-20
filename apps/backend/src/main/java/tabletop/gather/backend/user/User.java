@@ -74,37 +74,41 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private OffsetDateTime lastUpdated;
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of();
-  }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      return List.of();
+    }
 
-  public String getPassword() {
-    return passwordHash;
-  }
+    public String getNonUserDetailsUsername() {
+      return username;
+    }
 
-  @Override
-  public String getUsername() {
-    return email;
-  }
+    public String getPassword() {
+      return passwordHash;
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+    @Override
+    public String getUsername() {
+      return email;
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
+    @Override
+    public boolean isAccountNonExpired() {
+      return true;
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
+    @Override
+    public boolean isAccountNonLocked() {
+      return true;
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+    @Override
+    public boolean isCredentialsNonExpired() {
+      return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+      return true;
+    }
 }

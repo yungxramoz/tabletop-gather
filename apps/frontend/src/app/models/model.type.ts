@@ -5,4 +5,4 @@ import { Dto } from './dto.base';
  *
  * @template T - The type of the DTO
  */
-export type Model<T extends Dto> = Omit<T, Dto['id']>;
+export type Model<T extends Dto> = Omit<T, keyof Dto>;

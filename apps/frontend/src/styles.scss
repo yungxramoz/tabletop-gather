@@ -64,11 +64,28 @@ p {
   justify-content: space-between;
 }
 
+.tg-flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tg-justify-around {
+  justify-content: space-around;
+}
+
 .tg-flex-grow {
   flex-grow: 1;
 }
 
 /* Misc */
+
+.tg-404 > h1 {
+  font-size: 120px;
+}
+
+
 
 .tg-debug {
   border: 1px solid red;

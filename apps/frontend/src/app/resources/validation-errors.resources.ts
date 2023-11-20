@@ -23,6 +23,7 @@ export const friendlyValidationErrors = (
         pattern: `${fieldName} must match the pattern ${errorValue.requiredPattern}`,
         min: `${fieldName} must be at least ${errorValue.min}`,
         max: `${fieldName} must be at most ${errorValue.max}`,
+        passwordMismatch: `Passwords do not match`,
       } as Record<K, string>
     )[error];
   };

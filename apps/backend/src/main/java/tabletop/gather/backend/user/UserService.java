@@ -29,6 +29,12 @@ public class UserService {
                 .map(user -> mapToDTO(user, new UserDto()));
     }
 
+    public UserDto getByEmail(final String email) {
+        return userRepository.findByEmail(email)
+                .map(user -> mapToDTO(user, new UserDto()))
+                .orElseThrow(NotFoundException::new);
+    }
+
     public UserDto get(final UUID id) {
         return userRepository.findById(id)
                 .map(user -> mapToDTO(user, new UserDto()))
@@ -53,9 +59,9 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private UserDto mapToDTO(final User user, final UserDto userDTO) {
+    public UserDto mapToDTO(final User user, final UserDto userDTO) {
         userDTO.setId(user.getId());
-        userDTO.setUsername(user.getUsername());
+        userDTO.setUsername(user.getNonUserDetailsUsername());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());

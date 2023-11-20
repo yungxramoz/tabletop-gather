@@ -1,27 +1,37 @@
 package tabletop.gather.backend.auth;
 
+import tabletop.gather.backend.auth.LoginUserDto;
+import tabletop.gather.backend.auth.RegisterUserDto;
+import tabletop.gather.backend.util.NotFoundException;
 import tabletop.gather.backend.user.User;
+import tabletop.gather.backend.user.UserDto;
+import tabletop.gather.backend.user.UserService;
 import tabletop.gather.backend.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
+    
+    private final UserService userService;
+    
+    private final AuthenticationManager authenticationManager;
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
-
     public AuthenticationService(
         UserRepository userRepository,
+        UserService userService,
         AuthenticationManager authenticationManager,
         PasswordEncoder passwordEncoder
     ) {
-        this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -29,16 +39,16 @@ public class AuthenticationService {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    public User signup(RegisterUserDto input) {
+    public UserDto signup(RegisterUserDto input) {
         User user = new User();
-        user.setUsername(input.getUsername());
         user.setUsername(input.getUsername());
         user.setFirstName(input.getFirstName());
         user.setLastName(input.getLastName());
         user.setEmail(input.getEmail());
         user.setPasswordHash(passwordEncoder.encode(input.getPassword()));
 
-        return userRepository.save(user);
+        userRepository.save(user);
+        return this.userService.mapToDTO(user, new UserDto());
     }
 
     public User authenticate(LoginUserDto input) {
@@ -50,6 +60,13 @@ public class AuthenticationService {
         );
 
         return userRepository.findByEmail(input.getEmail())
-                .orElseThrow();
+            .orElseThrow(NotFoundException::new);
+    }
+
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(NotFoundException::new);
+
+        return this.userService.mapToDTO(user, new UserDto());
     }
 }

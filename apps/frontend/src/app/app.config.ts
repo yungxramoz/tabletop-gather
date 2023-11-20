@@ -14,6 +14,7 @@ import {
 } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {
+  NbDialogModule,
   NbGlobalPhysicalPosition,
   NbSidebarModule,
   NbThemeModule,
@@ -73,6 +74,12 @@ const provideNebular = (): EnvironmentProviders[] => [
       preventDuplicates: true,
       duplicatesBehaviour: 'previous',
       position: NbGlobalPhysicalPosition.TOP_RIGHT,
+    })
+  ),
+  importProvidersFrom(
+    NbDialogModule.forRoot({
+      closeOnBackdropClick: false,
+      hasBackdrop: true,
     })
   ),
 ];

@@ -9,10 +9,11 @@ import java.util.UUID;
 
 
 public interface UserRepository extends JpaRepository<User, UUID> {
-  Optional<User> findByEmail(String username);
 
-  List<User> findAllByGames(Game game);
+    Optional<User> findByEmail(String username);
 
-  boolean existsByEmailIgnoreCase(String email);
+    List<User> findAllByGames(Game game);
+
+    boolean existsByEmailIgnoreCase(String email);
 
 }
