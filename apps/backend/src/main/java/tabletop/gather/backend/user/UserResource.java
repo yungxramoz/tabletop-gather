@@ -27,6 +27,7 @@ public class UserResource {
 
   /**
    * Returns all users.
+   *
    * @return List of all users
    */
   @GetMapping
@@ -36,7 +37,8 @@ public class UserResource {
 
   /**
    * Returns the user with the given id.
-   * @param id
+   *
+   * @param id the id of the user to return
    * @return UserDto with the given id
    */
   @GetMapping("/{id}")
@@ -46,15 +48,16 @@ public class UserResource {
 
   /**
    * Updates the authenticated user.
-   * @param token
-   * @param userDTO
-   * @return JWT token
+   *
+   * @param token the JWT token
+   * @param userDTO the user DTO to update
+   * @return JWT token with expiration time
    */
   @PutMapping("/me")
   public ResponseEntity<JwtDto> updateAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                                                                       @RequestBody @Valid final UserUpdateDto userDTO) {
+                                                        @RequestBody @Valid final UserUpdateDto userDTO) {
     UserDto user = getUserByToken(token);
-    User updatedUser = userService.update(user.getId(), userDTO);
+    User updatedUser = userService.update(user.getId(), userDTO, user.getEmail());
     JwtDto jwtToken = getJwtToken(updatedUser);
 
     return ResponseEntity.ok(jwtToken);
@@ -62,7 +65,8 @@ public class UserResource {
 
   /**
    * Deletes the authenticated user.
-   * @param token
+   *
+   * @param token the JWT token
    * @return 204
    */
   @DeleteMapping("/me")
@@ -75,7 +79,8 @@ public class UserResource {
 
   /**
    * Returns the authenticated user.
-   * @param token
+   *
+   * @param token the JWT token
    * @return UserDto of the authenticated user
    */
   @GetMapping("/me")
@@ -87,9 +92,10 @@ public class UserResource {
 
   /**
    * Updates the password of the authenticated user.
-   * @param passwordUpdateDto
-   * @param token
-   * @return JWT token
+   *
+   * @param passwordUpdateDto the password update DTO
+   * @param token the JWT token
+   * @return JWT token with expiration time
    */
   @PutMapping("/me/password")
   @ApiResponse(responseCode = "200")

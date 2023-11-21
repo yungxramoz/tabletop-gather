@@ -23,6 +23,10 @@ public class UserService {
     this.authenticationManager = authenticationManager;
   }
 
+  /**
+   * Gets all users.
+   * @return all users as DTO
+   */
   public List<UserDto> findAll() {
     final List<User> users = userRepository.findAll(Sort.by("id"));
     return users.stream()
@@ -30,39 +34,38 @@ public class UserService {
       .toList();
   }
 
-  public Optional<UserDto> findByEmail(final String email) {
-    return userRepository.findByEmail(email)
-      .map(user -> mapToDTO(user, new UserDto()));
-  }
-
+  /**
+   * Returns the user with the given email.
+   * @param email the email of the user to return
+   * @return the user dto with the given email
+   */
   public UserDto getByEmail(final String email) {
     return userRepository.findByEmail(email)
       .map(user -> mapToDTO(user, new UserDto()))
       .orElseThrow(NotFoundException::new);
   }
 
+  /**
+   * Returns the user with the given id.
+   * @param id the id of the user to return
+   * @return the user dto with the given id
+   */
   public UserDto get(final UUID id) {
     return userRepository.findById(id)
       .map(user -> mapToDTO(user, new UserDto()))
       .orElseThrow(NotFoundException::new);
   }
 
-  // TODO: Delete this - we create users via the registration process
-  public UUID create(final UserDto userDTO) {
-    final User user = new User();
-    mapToEntity(userDTO, user);
-    return userRepository.save(user).getId();
-  }
-
   /**
    * Updates the user with the given id.
-   * @param id
-   * @param userDTO
+   * @param id the id of the user to update
+   * @param userDTO the user DTO containing the updated values
+   * @param currentEmail the current email of the user
    * @return the updated user entity
    */
-  public User update(final UUID id, final UserUpdateDto userDTO) {
+  public User update(final UUID id, final UserUpdateDto userDTO, final String currentEmail) {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-      userDTO.getEmail(),
+      currentEmail,
       userDTO.getPassword()
     ));
 
@@ -73,6 +76,11 @@ public class UserService {
     return user;
   }
 
+  /**
+   * Deletes the user with the given id.
+   *
+   * @param id
+   */
   public void delete(final UUID id) {
     userRepository.deleteById(id);
   }
@@ -97,6 +105,13 @@ public class UserService {
     return user;
   }
 
+  /**
+   * Maps entity to DTO.
+   *
+   * @param user the user entity to map
+   * @param userDTO the user DTO to map to
+   * @return the mapped user entity
+   */
   public UserDto mapToDTO(final User user, final UserDto userDTO) {
     userDTO.setId(user.getId());
     userDTO.setUsername(user.getNonUserDetailsUsername());
