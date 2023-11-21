@@ -68,7 +68,6 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
         <p class="tg-medium-weight">{{ optionSelector(selected) }}</p>
         <button
           nbButton
-          *ngIf="mode !== 'single'"
           size="large"
           ghost
           status="danger"

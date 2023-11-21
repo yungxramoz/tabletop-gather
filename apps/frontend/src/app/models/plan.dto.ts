@@ -1,8 +1,8 @@
+import { Model } from '../utils/types';
 import { Comment } from './comment.dto';
 import { Dto } from './dto.base';
 import { GameDto } from './game.dto';
 import { GatheringDto } from './gathering.dto';
-import { Model } from './model.type';
 import { User } from './user.dto';
 
 /**

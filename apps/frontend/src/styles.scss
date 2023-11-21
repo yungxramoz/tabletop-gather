@@ -28,6 +28,10 @@ p {
   }
 }
 
+.tg-text-hint {
+  color: var(--text-hint-color);
+}
+
 /* Dimensions */
 
 .tg-max-w-30 {
@@ -75,6 +79,11 @@ p {
   margin: 2rem;
 }
 
+.tg-my-2 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .tg-mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -91,6 +100,10 @@ p {
 
 .tg-mt-2 {
   margin-top: 1rem;
+}
+
+.tg-mb-2 {
+  margin-bottom: 1rem;
 }
 
 /* Display */

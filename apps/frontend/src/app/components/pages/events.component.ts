@@ -9,7 +9,13 @@ import { ROUTE_PLAN_EVENT } from '../../constants';
   imports: [NbCardModule, NbButtonModule, NbIconModule, RouterModule],
   template: `
     <nb-card>
-      <button nbButton status="primary" [routerLink]="[routePlanEvent]" outline>
+      <button
+        nbButton
+        status="primary"
+        shape="semi-round"
+        [routerLink]="[routePlanEvent]"
+        outline
+      >
         <nb-icon icon="plus-outline"></nb-icon>
         Create Event
       </button>

@@ -1,6 +1,6 @@
+import { Model } from '../utils/types';
 import { Dto } from './dto.base';
 import { Guest } from './guest.dto';
-import { Model } from './model.type';
 import { User } from './user.dto';
 
 /**

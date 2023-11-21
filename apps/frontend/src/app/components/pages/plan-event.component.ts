@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,10 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NbStepperModule } from '@nebular/theme';
-import { Observable, combineLatest, map, tap } from 'rxjs';
+import { NbButtonModule, NbStepperModule } from '@nebular/theme';
+import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
 import { Game } from '../../models/game.dto';
+import { Gathering } from '../../models/gathering.dto';
 import { Plan } from '../../models/plan.dto';
+import { PlanEventSummaryComponent } from '../molecules/plan-event-summary';
 import { PlanEventDatesFormComponent } from '../organisms/plan-event-dates-form.component';
 import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-form.component';
 
@@ -17,15 +19,18 @@ import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-f
   standalone: true,
   selector: 'tg-plan-event-stepper',
   imports: [
+    AsyncPipe,
+    JsonPipe,
     FormsModule,
+    NbButtonModule,
     NbStepperModule,
     PlanEventGeneralFormComponent,
     PlanEventDatesFormComponent,
-    CommonModule,
+    PlanEventSummaryComponent,
   ],
   template: `
-    <nb-stepper>
-      <nb-step label="Event">
+    <nb-stepper [linear]="true">
+      <nb-step label="Event" [completed]="eventGeneralFormValid$ | async">
         <ng-template nbStepLabel>Event</ng-template>
         <tg-plan-event-general-form
           [games]="mockGames"
@@ -37,7 +42,14 @@ import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-f
       </nb-step>
       <nb-step label="Summary">
         <ng-template nbStepLabel>Summary</ng-template>
-        <p>Summary</p>
+        <tg-plan-event-summary
+          [event]="event$ | async"
+          [disabled]="
+            (eventGeneralFormValid$ | async) === false ||
+            (eventDatesFormValid$ | async) === false
+          "
+          (createEvent)="onCreateEvent()"
+        ></tg-plan-event-summary>
       </nb-step>
     </nb-stepper>
   `,
@@ -50,7 +62,9 @@ export class PlanEventComponent implements AfterViewInit {
   @ViewChild(PlanEventGeneralFormComponent)
   private generalFormComponent!: PlanEventGeneralFormComponent;
 
-  public eventPlan$!: Observable<Plan>;
+  public eventGeneralFormValid$!: Observable<boolean>;
+  public eventDatesFormValid$!: Observable<boolean>;
+  public event$!: Observable<Plan>;
 
   public readonly mockGames: Game[] = [
     {
@@ -76,20 +90,52 @@ export class PlanEventComponent implements AfterViewInit {
     },
   ];
 
+  public onCreateEvent() {
+    console.log('Create event');
+  }
+
   public ngAfterViewInit() {
-    combineLatest([
-      this.generalFormComponent.eventGeneralFormChange,
-      this.datesFormComponent.eventDateFormChange,
-    ])
-      .pipe(
-        map(([generalForm, datesForm]) => {
-          return {
-            ...generalForm,
-            ...datesForm,
-          };
-        }),
-        tap(console.log)
-      )
-      .subscribe();
+    const generalFormValues$ =
+      this.generalFormComponent.eventGeneralFormChange.pipe(
+        filter((form) => form.valid),
+        map((form) => form.value)
+      );
+
+    const datesFormValues$ = this.datesFormComponent.eventDateFormChange.pipe(
+      filter((form) => form.valid),
+      map((form) => form.value)
+    );
+
+    this.eventGeneralFormValid$ =
+      this.generalFormComponent.eventGeneralFormChange.pipe(
+        map((form) => form.valid),
+        startWith(false)
+      );
+
+    this.eventDatesFormValid$ =
+      this.datesFormComponent.eventDateFormChange.pipe(
+        map((form) => form.valid),
+        startWith(false)
+      );
+
+    this.event$ = combineLatest([generalFormValues$, datesFormValues$]).pipe(
+      map(([generalForm, datesForm]) => {
+        // Manual mapping of form values to PlanDto
+        const gatherings = (datesForm.gatherings ?? []).map(
+          (date) => <Gathering>{ date, startTime: date.toLocaleTimeString() }
+        );
+
+        // Manual mapping of form values to PlanDto
+        const game = (generalForm.game ?? [])[0];
+
+        return {
+          ...generalForm,
+          game,
+          gatherings,
+        } as Plan;
+      })
+    );
+
+    this.event$.subscribe();
   }
 }

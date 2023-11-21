@@ -14,9 +14,14 @@ import { MaxValidatorDirective } from '../../directives/max-validator.directive'
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
 import { Game } from '../../models/game.dto';
 import { Plan } from '../../models/plan.dto';
+import { ModelFormGroup } from '../../utils/types';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 import { AutocompleteComponent } from '../molecules/autocomplete.component';
+
+type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
+  game: [Game];
+};
 
 @Component({
   selector: 'tg-plan-event-general-form',
@@ -86,8 +91,9 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
 export class PlanEventGeneralFormComponent implements AfterViewInit {
   @ViewChild('eventGeneralForm') public readonly ngForm!: NgForm;
 
-  @Output() public eventGeneralFormChange: EventEmitter<Partial<Plan>> =
-    new EventEmitter<Partial<Plan>>();
+  @Output() public eventGeneralFormChange: EventEmitter<
+    ModelFormGroup<PlanWithUnmappedGame>
+  > = new EventEmitter<ModelFormGroup<PlanWithUnmappedGame>>();
 
   @Input({ required: true }) public games!: Game[];
 
@@ -96,7 +102,7 @@ export class PlanEventGeneralFormComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.ngForm.form.valueChanges.subscribe(() => {
       if (this.ngForm.form.valid)
-        this.eventGeneralFormChange.emit(this.ngForm.form.value);
+        this.eventGeneralFormChange.emit(this.ngForm.form);
     });
   }
 }
