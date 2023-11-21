@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
-    
+
     private final UserService userService;
-    
+
     private final AuthenticationManager authenticationManager;
 
     private final PasswordEncoder passwordEncoder;
@@ -61,12 +61,5 @@ public class AuthenticationService {
 
         return userRepository.findByEmail(input.getEmail())
             .orElseThrow(NotFoundException::new);
-    }
-
-    public UserDto getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-            .orElseThrow(NotFoundException::new);
-
-        return this.userService.mapToDTO(user, new UserDto());
     }
 }
