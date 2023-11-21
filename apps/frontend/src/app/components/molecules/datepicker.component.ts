@@ -15,7 +15,7 @@ import {
   NbInputModule,
   NbListModule,
 } from '@nebular/theme';
-import { ValidationErrorService } from '../../services/validation-error.service';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   standalone: true,
@@ -29,6 +29,7 @@ import { ValidationErrorService } from '../../services/validation-error.service'
     NbListModule,
     NgIf,
     NgFor,
+    ValidationErrorsComponent,
   ],
   template: `
     <div class="tg-p-1" *ngIf="label">
@@ -75,19 +76,10 @@ import { ValidationErrorService } from '../../services/validation-error.service'
       </nb-list-item>
     </nb-list>
 
-    <div class="tg-p-1" *ngIf="!ngModel.pristine && ngModel.errors">
-      <p
-        class="text-danger"
-        *ngFor="
-          let error of validationErrorService.friendlyValidationErrors(
-            ngModel.errors,
-            label
-          )
-        "
-      >
-        {{ error }}
-      </p>
-    </div>
+    <tg-validation-errors
+      [model]="ngModel.control"
+      [name]="label ?? 'This Field'"
+    ></tg-validation-errors>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -112,8 +104,7 @@ export class DatepickerComponent implements ControlValueAccessor {
 
   public constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    @Self() @Optional() public readonly ngModel: NgModel,
-    public readonly validationErrorService: ValidationErrorService
+    @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
       this.ngModel = ngModel;

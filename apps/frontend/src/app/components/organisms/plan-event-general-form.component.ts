@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -11,6 +12,8 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { MaxValidatorDirective } from '../../directives/max-validator.directive';
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
+import { Game } from '../../models/game.dto';
+import { Plan } from '../../models/plan.dto';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 import { AutocompleteComponent } from '../molecules/autocomplete.component';
@@ -36,8 +39,8 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
           <tg-input
             ngModel
             required
-            id="title"
-            name="title"
+            id="name"
+            name="name"
             label="Title"
             placeholder="Game Night"
           ></tg-input>
@@ -46,8 +49,8 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
             ngModel
             required
             [rows]="4"
-            id="eventInfo"
-            name="eventInfo"
+            id="description"
+            name="description"
             label="Event Info"
             placeholder="Bring snacks 🥖"
           ></tg-textarea>
@@ -70,7 +73,8 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
             name="game"
             label="Game"
             mode="single"
-            [options]="options"
+            [options]="games"
+            [optionSelector]="gameKeySelector"
             placeholder="Select a game"
           ></tg-autocomplete>
         </form>
@@ -82,30 +86,17 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
 export class PlanEventGeneralFormComponent implements AfterViewInit {
   @ViewChild('eventGeneralForm') public readonly ngForm!: NgForm;
 
-  @Output() public eventGeneralFormChange: EventEmitter<any> =
-    new EventEmitter<any>();
+  @Output() public eventGeneralFormChange: EventEmitter<Partial<Plan>> =
+    new EventEmitter<Partial<Plan>>();
 
-  public readonly options = [
-    'Game 1',
-    'Game 2',
-    'Game 3',
-    'asdd',
-    'askld',
-    '123',
-    '1234',
-    '12345',
-    '123456',
-    '1234567',
-    '12345678',
-    '123456789',
-    '1234567890',
-  ];
+  @Input({ required: true }) public games!: Game[];
+
+  public gameKeySelector = (game: Game) => game.name;
 
   public ngAfterViewInit() {
-    this.ngForm.form.valueChanges.subscribe((value) => {
-      if (this.ngForm.form.valid) {
-        this.eventGeneralFormChange.emit(value);
-      }
+    this.ngForm.form.valueChanges.subscribe(() => {
+      if (this.ngForm.form.valid)
+        this.eventGeneralFormChange.emit(this.ngForm.form.value);
     });
   }
 }
