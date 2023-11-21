@@ -27,22 +27,7 @@ describe(PasswordValidatorDirective.name, () => {
     expect(directive).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should set the validator function on the form', () => {
-      // Arrange
-      const validatePasswordSpy = jest.spyOn(directive, 'validatePassword');
-
-      // Act
-      directive.ngOnInit();
-
-      // Assert
-      expect(ngFormMock.form.setValidators).toHaveBeenCalledWith(
-        validatePasswordSpy
-      );
-    });
-  });
-
-  describe('validatePassword', () => {
+  describe('validate', () => {
     it('should return null if passwords match', () => {
       // Arrange
       const groupMock: Partial<AbstractControl> = {
@@ -53,7 +38,7 @@ describe(PasswordValidatorDirective.name, () => {
       };
 
       // Act
-      const result = directive.validatePassword(groupMock as AbstractControl);
+      const result = directive.validate(groupMock as AbstractControl);
 
       // Assert
       expect(result).toBeNull();
@@ -69,7 +54,7 @@ describe(PasswordValidatorDirective.name, () => {
       };
 
       // Act
-      const result = directive.validatePassword(groupMock as AbstractControl);
+      const result = directive.validate(groupMock as AbstractControl);
 
       // Assert
       expect(result).toEqual({ passwordMismatch: true });
