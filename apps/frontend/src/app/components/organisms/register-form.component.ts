@@ -130,23 +130,23 @@ export class RegisterFormComponent {
   @Output() public userCreated: EventEmitter<Model<RegisterUserDto>> =
     new EventEmitter<Model<RegisterUserDto>>();
 
-  public createUser(form: NgForm) {
+  public createUser(ngForm: NgForm) {
     if (
-      form.controls['password'].value !==
-      form.controls['passwordConfirmation'].value
+      ngForm.controls['password'].value !==
+      ngForm.controls['passwordConfirmation'].value
     ) {
       alert('Passwords do not match!');
       return;
     }
 
     this.userCreated.emit({
-      username: form.controls['username'].value,
-      firstName: form.controls['firstName'].value,
-      lastName: form.controls['lastName'].value,
-      email: form.controls['email'].value,
-      password: form.controls['password'].value,
+      username: ngForm.controls['username'].value,
+      firstName: ngForm.controls['firstName'].value,
+      lastName: ngForm.controls['lastName'].value,
+      email: ngForm.controls['email'].value,
+      password: ngForm.controls['password'].value,
     });
 
-    form.resetForm();
+    ngForm.resetForm();
   }
 }

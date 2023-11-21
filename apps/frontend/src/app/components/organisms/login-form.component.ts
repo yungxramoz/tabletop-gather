@@ -67,10 +67,10 @@ export class LoginFormComponent {
   public credentialsCreated: EventEmitter<Model<LoginUserDto>> =
     new EventEmitter<Model<LoginUserDto>>();
 
-  public getUser(form: NgForm) {
+  public getUser(ngForm: NgForm) {
     this.credentialsCreated.emit({
-      email: form.controls['email'].value,
-      password: form.controls['password'].value,
+      email: ngForm.controls['email'].value,
+      password: ngForm.controls['password'].value,
     });
   }
 }

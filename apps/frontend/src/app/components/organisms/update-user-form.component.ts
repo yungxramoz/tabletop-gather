@@ -113,9 +113,9 @@ export class UpdateUserFormComponent implements OnChanges {
     });
   }
 
-  public resetForm(form: NgForm) {
+  public resetForm(ngForm: NgForm) {
     this.resetModel();
-    for (const control of Object.values(form.controls)) {
+    for (const control of Object.values(ngForm.controls)) {
       control.markAsPristine();
     }
   }
