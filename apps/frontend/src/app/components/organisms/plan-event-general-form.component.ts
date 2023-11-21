@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
-import { VALIDATION_ERROR_MAPPING_OVERRIDE } from '../../resources/validation-errors.resources';
-import { AutocompleteComponent } from '../molecules/autocomplete.component';
+import { MaxValidatorDirective } from '../../directives/max-validator.directive';
+import { MinValidatorDirective } from '../../directives/min-validator.directive';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
+import { AutocompleteComponent } from '../molecules/autocomplete.component';
 
 @Component({
   selector: 'tg-plan-event-general-form',
@@ -23,15 +24,8 @@ import { TextareaComponent } from '../atoms/textarea.component';
     InputComponent,
     TextareaComponent,
     AutocompleteComponent,
-  ],
-  providers: [
-    {
-      provide: VALIDATION_ERROR_MAPPING_OVERRIDE,
-      useValue: {
-        pattern: (fieldName: string) =>
-          `${fieldName} must be between 1 and 100`,
-      },
-    },
+    MinValidatorDirective,
+    MaxValidatorDirective,
   ],
   template: `
     <nb-card>
@@ -59,7 +53,8 @@ import { TextareaComponent } from '../atoms/textarea.component';
           <tg-input
             ngModel
             required
-            pattern="^$|^([1-9]|[1-9][0-9]|[1][0][0])?"
+            [tgMinValidator]="1"
+            [tgMaxValidator]="100"
             type="number"
             id="playerLimit"
             name="playerLimit"
