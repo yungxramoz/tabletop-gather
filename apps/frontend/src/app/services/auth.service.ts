@@ -1,16 +1,18 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
-  Observable,
   filter,
   map,
+  Observable,
   shareReplay,
   tap,
 } from 'rxjs';
+
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
+import { JwtDto } from '../models/jwt.dto';
 import { LoginUserDto } from '../models/login-user.dto';
-import { LoginResponse } from '../models/login.response';
 import { Model } from '../models/model.type';
 import { RegisterUserDto } from '../models/register-user.dto';
 import { UserDto } from '../models/user.dto';
@@ -58,18 +60,18 @@ export class AuthService {
    * Logs in the given user via auth endpoint and stores the JWT token in local storage.
    *
    * @param {Model<LoginUserDto>} loginUser - The user to log in
-   * @returns {Observable<LoginResponse>} - An observable that emits the login result
+   * @returns {Observable<JwtDto>} - An observable that emits the login result
    */
-  public login(loginUser: Model<LoginUserDto>): Observable<LoginResponse> {
+  public login(loginUser: Model<LoginUserDto>): Observable<JwtDto> {
     return this.http
-      .post<LoginResponse>(`${this.authBaseUrl}/login`, loginUser, {
+      .post<JwtDto>(`${this.authBaseUrl}/login`, loginUser, {
         observe: 'response',
         responseType: 'json',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as LoginResponse),
+        map((response) => response?.body as JwtDto),
         tap((loginResult) => this.setSession(loginResult)),
         shareReplay(),
         tap(() => this.loginStatusSubject.next(true))
@@ -101,25 +103,6 @@ export class AuthService {
         }),
         filter((response) => response !== null),
         map((response) => response?.body as UserDto)
-      );
-  }
-
-  /**
-   * Gets the the current user from the JWT token.
-   *
-   * @returns {Observable<UserDto>} - An observable that emits the current user
-   */
-  public me(): Observable<UserDto> {
-    return this.http
-      .get<UserDto>(`${this.authBaseUrl}/me`, {
-        observe: 'response',
-        responseType: 'json',
-      })
-      .pipe(
-        this.responseHandler.handleErrorResponse(),
-        filter((response) => response !== null),
-        map((response) => response?.body as UserDto),
-        shareReplay()
       );
   }
 
@@ -157,9 +140,9 @@ export class AuthService {
   /**
    * Stores the JWT token and expiry date in local storage.
    *
-   * @param {LoginResponse} response - The login response to store
+   * @param {JwtDto} response - The login response to store
    */
-  private setSession(response: LoginResponse): void {
+  private setSession(response: JwtDto): void {
     const expiresAt = new Date();
     const expiresIn = response.expiresIn / 1000; // convert ms to s
     expiresAt.setSeconds(expiresAt.getSeconds() + expiresIn);

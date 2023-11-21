@@ -1,8 +1,12 @@
+import { filter, map, Observable, shareReplay } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, filter, map } from 'rxjs';
+
 import { API_BASE_URL } from '../app.config';
+import { JwtDto } from '../models/jwt.dto';
 import { Model } from '../models/model.type';
+import { UserUpdateDto } from '../models/user-update.dto';
 import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
@@ -44,14 +48,13 @@ export class UsersService {
   }
 
   /**
-   * Deletes a user by its id.
+   * Deletes the current authenticated user.
    *
-   * @param {string} id - The id of the user to delete
    * @returns {Observable<string>} - The id of the deleted user
    */
-  public deleteUser(id: string): Observable<string> {
+  public deleteMe(): Observable<string> {
     return this.http
-      .delete(`${this.usersUrl}/${id}`, {
+      .delete(`${this.usersUrl}/me`, {
         responseType: 'text',
         observe: 'response',
       })
@@ -67,17 +70,16 @@ export class UsersService {
   }
 
   /**
-   * Updates a user.
+   * Updates the current authenticated user.
    *
-   * @param {string} id - The id of the user to update
-   * @param {Model<UserDto>} user - The user to update
+   * @param {Model<UserUpdateDto>} user - The user to update
    * @returns {Observable<string>} - The id of the updated user
    *
    */
-  public updateUser(id: string, user: Model<UserDto>): Observable<string> {
+  public updateMe(user: Model<UserUpdateDto>): Observable<JwtDto> {
     return this.http
-      .put(`${this.usersUrl}/${id}`, user, {
-        responseType: 'text',
+      .put(`${this.usersUrl}/me`, user, {
+        responseType: 'json',
         observe: 'response',
       })
       .pipe(
@@ -86,7 +88,26 @@ export class UsersService {
           successTitleOverride: 'User updated 👍',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as string)
+        map((response) => response?.body as JwtDto)
+      );
+  }
+
+  /**
+   * Gets the the current user from the JWT token.
+   *
+   * @returns {Observable<UserDto>} - An observable that emits the current user
+   */
+  public me(): Observable<UserDto> {
+    return this.http
+      .get<UserDto>(`${this.usersUrl}/me`, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleErrorResponse(),
+        filter((response) => response !== null),
+        map((response) => response?.body as UserDto),
+        shareReplay()
       );
   }
 }

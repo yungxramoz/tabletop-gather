@@ -1,7 +1,9 @@
+import { BehaviorSubject, switchMap } from 'rxjs';
+
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbCardModule, NbListModule } from '@nebular/theme';
-import { BehaviorSubject, switchMap } from 'rxjs';
+
 import { UserDto } from '../../models/user.dto';
 import { UsersService } from '../../services/users.service';
 import { RegisterFormComponent } from '../molecules/register-form.component';
@@ -47,7 +49,7 @@ export class UsersComponent implements OnInit {
     if (!confirm(`Are you sure you want to delete ${user.username}?`)) return;
 
     this.usersService
-      .deleteUser(user.id)
+      .deleteMe()
       .pipe(switchMap(() => this.usersService.getAllUsers()))
       .subscribe((users) => this.usersSubject.next(users));
   }
