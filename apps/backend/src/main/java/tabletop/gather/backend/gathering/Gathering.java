@@ -19,7 +19,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "Gatherings")
+@Table(name = "Gatherings", schema = "tabletop-gather")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -47,6 +47,7 @@ public class Gathering {
     @ManyToMany
     @JoinTable(
             name = "GatheringGuests",
+            schema = "tabletop-gather",
             joinColumns = @JoinColumn(name = "gatheringId"),
             inverseJoinColumns = @JoinColumn(name = "guestId")
     )
@@ -55,6 +56,7 @@ public class Gathering {
     @ManyToMany
     @JoinTable(
             name = "GatheringUsers",
+            schema = "tabletop-gather",
             joinColumns = @JoinColumn(name = "gatheringId"),
             inverseJoinColumns = @JoinColumn(name = "userId")
     )

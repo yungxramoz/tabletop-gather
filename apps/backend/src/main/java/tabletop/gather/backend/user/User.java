@@ -22,7 +22,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", schema = "tabletop-gather")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -55,6 +55,7 @@ public class User implements UserDetails {
     @ManyToMany
     @JoinTable(
             name = "UserGames",
+            schema = "tabletop-gather",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "gameId")
     )
