@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule } from '@nebular/theme';
@@ -16,10 +18,7 @@ import { DatepickerComponent } from '../molecules/datepicker.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form
-          #getEventDateForm="ngForm"
-          (submit)="getEventDates(getEventDateForm)"
-        >
+        <form #eventDateForm="ngForm">
           <tg-datepicker
             ngModel
             required
@@ -27,7 +26,7 @@ import { DatepickerComponent } from '../molecules/datepicker.component';
             name="eventDates"
             label="Event Dates"
             placeholder="Select some dates"
-            [min]="min"
+            [min]="minAllowedDate"
           ></tg-datepicker>
         </form>
       </nb-card-body>
@@ -35,17 +34,18 @@ import { DatepickerComponent } from '../molecules/datepicker.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanEventDatesFormComponent {
-  @Output()
-  public eventDatesCreated: EventEmitter<unknown> = new EventEmitter<unknown>();
+export class PlanEventDatesFormComponent implements AfterViewInit {
+  @ViewChild('eventDateForm') public readonly ngForm!: NgForm;
 
-  public min = new Date();
+  @Output() public eventDateFormChange: EventEmitter<any> =
+    new EventEmitter<any>();
+  public readonly minAllowedDate = new Date();
 
-  public getEventDates(form: NgForm) {
-    this.eventDatesCreated.emit({
-      eventDates: form.controls['eventDates'].value,
+  public ngAfterViewInit() {
+    this.ngForm.form.valueChanges.subscribe((value) => {
+      if (this.ngForm.form.valid) {
+        this.eventDateFormChange.emit(value);
+      }
     });
-
-    throw new Error('Not finished yet');
   }
 }

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
@@ -30,7 +32,7 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form class="form" #eventForm="ngForm" (submit)="getEvent(eventForm)">
+        <form #eventGeneralForm="ngForm">
           <tg-input
             ngModel
             required
@@ -77,9 +79,11 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanEventGeneralFormComponent {
-  @Output()
-  public eventInfoCreated: EventEmitter<unknown> = new EventEmitter<unknown>();
+export class PlanEventGeneralFormComponent implements AfterViewInit {
+  @ViewChild('eventGeneralForm') public readonly ngForm!: NgForm;
+
+  @Output() public eventGeneralFormChange: EventEmitter<any> =
+    new EventEmitter<any>();
 
   public readonly options = [
     'Game 1',
@@ -97,14 +101,11 @@ export class PlanEventGeneralFormComponent {
     '1234567890',
   ];
 
-  public getEvent(form: NgForm) {
-    this.eventInfoCreated.emit({
-      title: form.controls['title'].value,
-      eventInfo: form.controls['eventInfo'].value,
-      playerLimit: form.controls['playerLimit'].value,
-      games: form.controls['games'].value,
+  public ngAfterViewInit() {
+    this.ngForm.form.valueChanges.subscribe((value) => {
+      if (this.ngForm.form.valid) {
+        this.eventGeneralFormChange.emit(value);
+      }
     });
-
-    throw new Error('Not finished. Needs input (options) from api');
   }
 }
