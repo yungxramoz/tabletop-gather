@@ -5,16 +5,13 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { FormsModule, NgForm, ValidationErrors } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
 import { Model } from '../../models/model.type';
 import { RegisterUserDto } from '../../models/register-user.dto';
-import {
-  VALIDATION_ERROR_MAPPING_OVERRIDE,
-  friendlyValidationErrors,
-} from '../../resources/validation-errors.resources';
 import { InputComponent } from '../atoms/input.component';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   selector: 'tg-register-form',
@@ -26,15 +23,7 @@ import { InputComponent } from '../atoms/input.component';
     NbButtonModule,
     InputComponent,
     PasswordValidatorDirective,
-  ],
-  providers: [
-    {
-      provide: VALIDATION_ERROR_MAPPING_OVERRIDE,
-      useValue: {
-        pattern: (fieldName: string) =>
-          `${fieldName} can only contain lowercase letters, numbers, and periods.`,
-      },
-    },
+    ValidationErrorsComponent,
   ],
   template: `
     <nb-card>
@@ -115,17 +104,10 @@ import { InputComponent } from '../atoms/input.component';
             placeholder=""
           ></tg-input>
 
-          <div
-            class="tg-p-1"
-            *ngIf="!createUserForm.pristine && createUserForm.errors"
-          >
-            <p
-              class="text-danger"
-              *ngFor="let error of getErrors(createUserForm.errors)"
-            >
-              {{ error }}
-            </p>
-          </div>
+          <tg-validation-errors
+            [model]="createUserForm.form"
+            [name]="'Form'"
+          ></tg-validation-errors>
 
           <div class="tg-block tg-mt-2">
             <button
@@ -167,9 +149,5 @@ export class RegisterFormComponent {
     });
 
     form.resetForm();
-  }
-
-  public getErrors(errors: ValidationErrors) {
-    return friendlyValidationErrors(errors, 'Form');
   }
 }

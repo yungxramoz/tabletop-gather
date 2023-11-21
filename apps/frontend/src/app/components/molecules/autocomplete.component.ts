@@ -3,17 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   Input,
   OnInit,
   Optional,
   Self,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NgModel,
-  ValidationErrors,
-} from '@angular/forms';
+import { ControlValueAccessor, NgModel } from '@angular/forms';
 import {
   NbAutocompleteModule,
   NbButtonModule,
@@ -22,11 +17,7 @@ import {
   NbListModule,
 } from '@nebular/theme';
 import { Observable, map, of } from 'rxjs';
-import {
-  VALIDATION_ERROR_MAPPING_OVERRIDE,
-  ValidationErrorMappingOverride,
-  friendlyValidationErrors,
-} from '../../resources/validation-errors.resources';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   standalone: true,
@@ -40,6 +31,7 @@ import {
     NbListModule,
     NgIf,
     NgFor,
+    ValidationErrorsComponent,
   ],
   template: `
     <div class="tg-p-1" *ngIf="label">
@@ -87,11 +79,10 @@ import {
       </nb-list-item>
     </nb-list>
 
-    <div class="tg-p-1" *ngIf="!ngModel.pristine && ngModel.errors">
-      <p class="text-danger" *ngFor="let error of getErrors(ngModel.errors)">
-        {{ error }}
-      </p>
-    </div>
+    <tg-validation-errors
+      [model]="ngModel.control"
+      [name]="label ?? 'This Field'"
+    ></tg-validation-errors>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -122,23 +113,12 @@ export class AutocompleteComponent<T extends { toString: () => string }>
 
   public constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    @Self() @Optional() public readonly ngModel: NgModel,
-    @Inject(VALIDATION_ERROR_MAPPING_OVERRIDE)
-    @Optional()
-    public readonly validationErrorMappingOverride: ValidationErrorMappingOverride
+    @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
       this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
-  }
-
-  public getErrors(errors: ValidationErrors) {
-    return friendlyValidationErrors(
-      errors,
-      this.label ?? 'This field',
-      this.validationErrorMappingOverride
-    );
   }
 
   public onInputChange(event: Event) {

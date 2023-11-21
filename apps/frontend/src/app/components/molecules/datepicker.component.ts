@@ -3,16 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   Input,
   Optional,
   Self,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NgModel,
-  ValidationErrors,
-} from '@angular/forms';
+import { ControlValueAccessor, NgModel } from '@angular/forms';
 import {
   NbButtonModule,
   NbDatepickerModule,
@@ -20,11 +15,7 @@ import {
   NbInputModule,
   NbListModule,
 } from '@nebular/theme';
-import {
-  VALIDATION_ERROR_MAPPING_OVERRIDE,
-  ValidationErrorMappingOverride,
-  friendlyValidationErrors,
-} from '../../resources/validation-errors.resources';
+import { ValidationErrorService } from '../../services/validation-error.service';
 
 @Component({
   standalone: true,
@@ -85,7 +76,15 @@ import {
     </nb-list>
 
     <div class="tg-p-1" *ngIf="!ngModel.pristine && ngModel.errors">
-      <p class="text-danger" *ngFor="let error of getErrors(ngModel.errors)">
+      <p
+        class="text-danger"
+        *ngFor="
+          let error of validationErrorService.friendlyValidationErrors(
+            ngModel.errors,
+            label
+          )
+        "
+      >
         {{ error }}
       </p>
     </div>
@@ -114,22 +113,12 @@ export class DatepickerComponent implements ControlValueAccessor {
   public constructor(
     private changeDetectorRef: ChangeDetectorRef,
     @Self() @Optional() public readonly ngModel: NgModel,
-    @Inject(VALIDATION_ERROR_MAPPING_OVERRIDE)
-    @Optional()
-    public readonly validationErrorMappingOverride: ValidationErrorMappingOverride
+    public readonly validationErrorService: ValidationErrorService
   ) {
     if (this.ngModel) {
       this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
-  }
-
-  public getErrors(errors: ValidationErrors) {
-    return friendlyValidationErrors(
-      errors,
-      this.label ?? 'This field',
-      this.validationErrorMappingOverride
-    );
   }
 
   public onDateTimeChange(event: Date) {
