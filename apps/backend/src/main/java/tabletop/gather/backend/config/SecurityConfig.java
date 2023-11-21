@@ -12,61 +12,68 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.util.List;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final AuthenticationProvider authenticationProvider;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final AuthenticationProvider authenticationProvider;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(
-        JwtAuthenticationFilter jwtAuthenticationFilter,
-        AuthenticationProvider authenticationProvider
-    ) {
-        this.authenticationProvider = authenticationProvider;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+  private static final String[] AUTH_WHITELIST = {
+    "/auth/**",
+    "/v3/api-docs/**",
+    "/api-docs/**",
+    "/api-docs.yaml",
+    "/swagger-ui/**",
+  };
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf() // No CSRF protection as we are using JWTs
-            .disable()
-            .cors()
-            .and()
-            .authorizeHttpRequests(authorize ->
-                authorize.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/api/**").authenticated()
-                    // TODO: Add access to Swagger UI
-                    .anyRequest().denyAll() 
-            )
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .headers()
-            .xssProtection() // XSS Protection, since the JWTs are stored in local storage
-            .and()
-            .contentSecurityPolicy("script-src 'self'");
+  public SecurityConfig(
+    JwtAuthenticationFilter jwtAuthenticationFilter,
+    AuthenticationProvider authenticationProvider
+  ) {
+    this.authenticationProvider = authenticationProvider;
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+  }
 
-        return http.build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf() // No CSRF protection as we are using JWTs
+      .disable()
+      .cors()
+      .and()
+      .authorizeHttpRequests(authorize ->
+        authorize.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+          .requestMatchers(AUTH_WHITELIST).permitAll()
+          .anyRequest().authenticated()
+      )
+      .sessionManagement()
+      .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      .and()
+      .authenticationProvider(authenticationProvider)
+      .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+      .headers()
+      .xssProtection() // XSS Protection, since the JWTs are stored in local storage
+      .and()
+      .contentSecurityPolicy("script-src 'self'");
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+    return http.build();
+  }
 
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+    configuration.setAllowedMethods(List.of("*"));
+    configuration.setAllowedHeaders(List.of("*"));
 
-        source.registerCorsConfiguration("/**", configuration);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-        return source;
-    }
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
 }
