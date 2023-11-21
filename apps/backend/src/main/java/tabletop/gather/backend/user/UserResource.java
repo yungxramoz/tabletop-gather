@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import tabletop.gather.backend.jwt.JwtDto;
 import tabletop.gather.backend.jwt.JwtService;
 
-@RestController
 @RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController
 public class UserResource {
 
   private final UserService userService;
