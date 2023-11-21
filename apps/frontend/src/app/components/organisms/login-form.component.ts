@@ -7,8 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
-import { LoginUserDto } from '../../models/login-user.dto';
-import { Model } from '../../models/model.type';
+import { LoginUser } from '../../models/login-user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
@@ -64,8 +63,8 @@ import { InputComponent } from '../atoms/input.component';
 })
 export class LoginFormComponent {
   @Output()
-  public credentialsCreated: EventEmitter<Model<LoginUserDto>> =
-    new EventEmitter<Model<LoginUserDto>>();
+  public credentialsCreated: EventEmitter<LoginUser> =
+    new EventEmitter<LoginUser>();
 
   public getUser(ngForm: NgForm) {
     this.credentialsCreated.emit({

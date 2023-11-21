@@ -3,8 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbButtonModule } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { filter, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { Model } from '../../models/model.type';
-import { UserDto } from '../../models/user.dto';
+import { User, UserDto } from '../../models/user.dto';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { AvatarComponent } from '../atoms/avatar.component';
@@ -46,12 +45,12 @@ export class ProfileComponent implements OnInit {
     private readonly usersService: UsersService
   ) {}
 
-  public onUserUpdated(event: Model<Omit<UserDto, 'email'>>) {
+  public onUserUpdated(event: Omit<User, 'email'>) {
     this.me$
       .pipe(
         filter((me) => me !== undefined),
         switchMap((me) => {
-          const user = { ...event, email: me!.email } as Model<UserDto>;
+          const user = { ...event, email: me!.email } as User;
           return this.usersService.updateUser(me!.id, user);
         })
       )

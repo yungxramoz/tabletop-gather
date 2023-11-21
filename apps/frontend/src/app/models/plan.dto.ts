@@ -27,3 +27,5 @@ export class PlanDto extends Dto {
   public playerLimit!: number;
   public game!: GameDto;
 }
+
+export type Plan = Model<PlanDto>;

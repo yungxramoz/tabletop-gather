@@ -1,4 +1,5 @@
 import { Dto } from './dto.base';
+import { Model } from './model.type';
 
 /**
  * Dto for comments.
@@ -8,3 +9,5 @@ import { Dto } from './dto.base';
 export class CommentDto extends Dto {
   public comment!: string;
 }
+
+export type Comment = Model<CommentDto>;

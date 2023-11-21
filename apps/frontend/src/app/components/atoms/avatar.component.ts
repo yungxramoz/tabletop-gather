@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Model } from '../../models/model.type';
-import { UserDto } from '../../models/user.dto';
+import { User } from '../../models/user.dto';
 
 @Component({
   standalone: true,
@@ -35,5 +34,5 @@ import { UserDto } from '../../models/user.dto';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
-  @Input() public user!: Model<UserDto>;
+  @Input() public user!: User;
 }

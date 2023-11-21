@@ -4,10 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
-import { LoginUserDto } from '../models/login-user.dto';
+import { LoginUser, LoginUserDto } from '../models/login-user.dto';
 import { LoginResponse } from '../models/login.response';
-import { Model } from '../models/model.type';
-import { RegisterUserDto } from '../models/register-user.dto';
+import { RegisterUser } from '../models/register-user.dto';
 import { UserDto } from '../models/user.dto';
 import { AuthService, LS_EXPIRES_AT_KEY, LS_TOKEN_KEY } from './auth.service';
 
@@ -51,7 +50,7 @@ describe(AuthService.name, () => {
   describe('login', () => {
     it('should send a POST request to the login endpoint and return the login result', () => {
       // Arrange
-      const loginUser: Model<LoginUserDto> = {} as LoginUserDto;
+      const loginUser: LoginUser = {} as LoginUserDto;
       const expectedLoginResponse: LoginResponse = {} as LoginResponse;
 
       // Act
@@ -70,7 +69,7 @@ describe(AuthService.name, () => {
   describe('signup', () => {
     it('should send a POST request to the signup endpoint and return the user DTO', () => {
       // Arrange
-      const registerUser: Model<RegisterUserDto> = {} as RegisterUserDto;
+      const registerUser: RegisterUser = {} as RegisterUser;
       const expectedUserDto: UserDto = {} as unknown as UserDto;
 
       // Act

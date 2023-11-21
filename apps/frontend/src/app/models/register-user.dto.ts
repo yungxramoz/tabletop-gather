@@ -1,4 +1,5 @@
 import { Dto } from './dto.base';
+import { Model } from './model.type';
 
 /**
  * Dto for registering a user.
@@ -16,3 +17,5 @@ export class RegisterUserDto extends Dto {
   public email!: string;
   public password!: string;
 }
+
+export type RegisterUser = Model<RegisterUserDto>;

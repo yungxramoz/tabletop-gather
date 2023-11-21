@@ -20,3 +20,5 @@ export class GatheringDto extends Dto {
   public guests: Model<GuestDto>[] = [];
   public users: Model<UserDto>[] = [];
 }
+
+export type Gathering = Model<GatheringDto>;

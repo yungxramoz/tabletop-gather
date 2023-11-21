@@ -8,8 +8,7 @@ import {
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
-import { Model } from '../../models/model.type';
-import { RegisterUserDto } from '../../models/register-user.dto';
+import { RegisterUser } from '../../models/register-user.dto';
 import { InputComponent } from '../atoms/input.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
@@ -127,8 +126,8 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterFormComponent {
-  @Output() public userCreated: EventEmitter<Model<RegisterUserDto>> =
-    new EventEmitter<Model<RegisterUserDto>>();
+  @Output() public userCreated: EventEmitter<RegisterUser> =
+    new EventEmitter<RegisterUser>();
 
   public createUser(ngForm: NgForm) {
     if (

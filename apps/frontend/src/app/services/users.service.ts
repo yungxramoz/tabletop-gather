@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, filter, map } from 'rxjs';
 import { API_BASE_URL } from '../app.config';
-import { Model } from '../models/model.type';
-import { UserDto } from '../models/user.dto';
+import { User, UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
 /**
@@ -70,11 +69,11 @@ export class UsersService {
    * Updates a user.
    *
    * @param {string} id - The id of the user to update
-   * @param {Model<UserDto>} user - The user to update
+   * @param {User} user - The user to update
    * @returns {Observable<string>} - The id of the updated user
    *
    */
-  public updateUser(id: string, user: Model<UserDto>): Observable<string> {
+  public updateUser(id: string, user: User): Observable<string> {
     return this.http
       .put(`${this.usersUrl}/${id}`, user, {
         responseType: 'text',

@@ -1,4 +1,5 @@
 import { Dto } from './dto.base';
+import { Model } from './model.type';
 
 /**
  * Dto for logging in a user.
@@ -10,3 +11,5 @@ export class LoginUserDto extends Dto {
   public email!: string;
   public password!: string;
 }
+
+export type LoginUser = Model<LoginUserDto>;

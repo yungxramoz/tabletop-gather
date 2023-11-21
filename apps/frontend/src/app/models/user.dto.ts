@@ -1,4 +1,5 @@
 import { Dto } from './dto.base';
+import { Model } from './model.type';
 
 /**
  * Dto for users.
@@ -14,3 +15,5 @@ export class UserDto extends Dto {
   public lastName!: string;
   public email!: string;
 }
+
+export type User = Model<UserDto>;

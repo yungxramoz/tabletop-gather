@@ -1,4 +1,5 @@
 import { Dto } from './dto.base';
+import { Model } from './model.type';
 
 /**
  * Dto for games.
@@ -16,3 +17,5 @@ export class GameDto extends Dto {
   public maxPlayer!: number;
   public imageUrl!: string;
 }
+
+export type Game = Model<GameDto>;

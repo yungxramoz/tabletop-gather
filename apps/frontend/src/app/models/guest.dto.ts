@@ -1,4 +1,5 @@
 import { Dto } from './dto.base';
+import { Model } from './model.type';
 
 /**
  * Dto for guests.
@@ -10,3 +11,5 @@ export class GuestDto extends Dto {
   public name!: string;
   public email!: string;
 }
+
+export type Guest = Model<GuestDto>;
