@@ -1,9 +1,5 @@
 # Backend
 
-> This app was created with Bootify.io
-
-To view the Bootify.io Setup, visit [this link](https://bootify.io/app/1AFNHOA9NPO5)
-
 ## Development
 
 ### Prerequisites
