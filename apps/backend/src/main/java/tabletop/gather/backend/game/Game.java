@@ -16,7 +16,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "Games", schema = "tabletop-gather")
+@Table(name = "Games")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
