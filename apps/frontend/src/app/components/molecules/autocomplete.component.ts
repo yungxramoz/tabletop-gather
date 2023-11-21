@@ -68,6 +68,7 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
         <p class="tg-medium-weight">{{ optionSelector(selected) }}</p>
         <button
           nbButton
+          *ngIf="mode !== 'single'"
           size="large"
           ghost
           status="danger"
@@ -92,7 +93,7 @@ export class AutocompleteComponent<T extends { toString: () => string }>
   @Input() public label: string | undefined;
   @Input() public options!: T[];
   @Input() public placeholder: string | undefined;
-  @Input() public uniqueOnly = true;
+  @Input() public mode: 'single' | 'multiple' | 'unique' = 'single';
   @Input() public optionSelector: (option: T) => string = (option) =>
     option.toString();
 
@@ -134,8 +135,15 @@ export class AutocompleteComponent<T extends { toString: () => string }>
   }
 
   public onSelectedChange(event: T) {
-    if (this.value && this.value.some((value) => value === event)) return;
-    this.value = [...this.value, event];
+    if (this.mode === 'unique') {
+      if (this.value && this.value.some((value) => value === event)) return;
+      this.value = [...this.value, event];
+    } else if (this.mode === 'multiple') {
+      this.value = [...this.value, event];
+    } else {
+      this.value = [event];
+    }
+
     if (this.onChange) this.onChange(this.value);
   }
 

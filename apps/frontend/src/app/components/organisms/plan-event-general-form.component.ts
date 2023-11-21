@@ -66,12 +66,12 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
 
           <tg-autocomplete
             ngModel
-            required
-            id="games"
-            name="games"
-            label="Games"
+            id="game"
+            name="game"
+            label="Game"
+            mode="single"
             [options]="options"
-            placeholder="Select some games"
+            placeholder="Select a game"
           ></tg-autocomplete>
         </form>
       </nb-card-body>
