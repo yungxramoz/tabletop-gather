@@ -13,6 +13,21 @@ p {
   margin: 0;
 }
 
+/* Typography */
+
+.tg-medium-weight {
+  font-weight: var(--input-medium-text-font-weight);
+}
+
+/* Colors */
+
+.tg-basic-bg {
+  background-color: var(--input-basic-background-color);
+  &:hover {
+    background-color: var(--input-basic-hover-background-color);
+  }
+}
+
 /* Dimensions */
 
 .tg-max-w-30 {
@@ -33,6 +48,10 @@ p {
 }
 
 /* Paddings */
+
+.tg-p-0 {
+  padding: 0 !important;
+}
 
 .tg-p-1 {
   padding: 0.5rem;

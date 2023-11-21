@@ -19,6 +19,7 @@ import {
   NbButtonModule,
   NbIconModule,
   NbInputModule,
+  NbListModule,
 } from '@nebular/theme';
 import { Observable, map, of } from 'rxjs';
 import {
@@ -36,6 +37,7 @@ import {
     NbAutocompleteModule,
     NbButtonModule,
     NbIconModule,
+    NbListModule,
     NgIf,
     NgFor,
   ],
@@ -60,17 +62,30 @@ import {
       <nb-option
         *ngFor="let option of filteredOptions$ | async"
         [value]="option"
+        class="tg-basic-bg"
       >
         {{ optionSelector(option) }}
       </nb-option>
     </nb-autocomplete>
 
-    <div class="tg-flex-row" *ngFor="let selected of value; index as i">
-      <p>{{ optionSelector(selected) }}</p>
-      <button nbButton ghost status="danger" (click)="onSelectedRemove(i)">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
-    </div>
+    <nb-list fullWidth class="tg-mt-1">
+      <nb-list-item
+        class="tg-flex-row"
+        *ngFor="let selected of value; index as i"
+      >
+        <p class="tg-medium-weight">{{ optionSelector(selected) }}</p>
+        <button
+          nbButton
+          size="large"
+          ghost
+          status="danger"
+          class="tg-p-0"
+          (click)="onSelectedRemove(i)"
+        >
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </nb-list-item>
+    </nb-list>
 
     <div class="tg-p-1" *ngIf="!ngModel.pristine && ngModel.errors">
       <p class="text-danger" *ngFor="let error of getErrors(ngModel.errors)">
@@ -85,9 +100,10 @@ export class AutocompleteComponent<T extends { toString: () => string }>
 {
   @Input() public label: string | undefined;
   @Input() public options!: T[];
+  @Input() public placeholder: string | undefined;
+  @Input() public uniqueOnly = true;
   @Input() public optionSelector: (option: T) => string = (option) =>
     option.toString();
-  @Input() public placeholder: string | undefined;
 
   public readonly id = `tg-autocomplete-${AutocompleteComponent.uniqueId++}`;
   public onChange: undefined | ((event: T[]) => void);
@@ -97,8 +113,8 @@ export class AutocompleteComponent<T extends { toString: () => string }>
   private static uniqueId = 0;
 
   private _value!: T[];
-  public set value(value: T[]) {
-    this._value = value;
+  public set value(value: T[] | undefined) {
+    this._value = value ?? [];
   }
   public get value(): T[] {
     return this._value;
@@ -138,6 +154,7 @@ export class AutocompleteComponent<T extends { toString: () => string }>
   }
 
   public onSelectedChange(event: T) {
+    if (this.value && this.value.some((value) => value === event)) return;
     this.value = [...this.value, event];
     if (this.onChange) this.onChange(this.value);
   }

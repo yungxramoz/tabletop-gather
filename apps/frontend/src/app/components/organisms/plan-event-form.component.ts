@@ -36,11 +36,7 @@ import { TextareaComponent } from '../atoms/textarea.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form
-          class="form"
-          #getEventForm="ngForm"
-          (submit)="getEvent(getEventForm)"
-        >
+        <form class="form" #eventForm="ngForm" (submit)="getEvent(eventForm)">
           <tg-input
             ngModel
             required
@@ -90,7 +86,6 @@ export class PlanEventFormComponent {
   @Output()
   public eventInfoCreated: EventEmitter<unknown> = new EventEmitter<unknown>();
 
-  COMBAK;
   public readonly options = [
     'Game 1',
     'Game 2',
