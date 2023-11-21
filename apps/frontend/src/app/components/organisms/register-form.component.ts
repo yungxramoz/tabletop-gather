@@ -29,7 +29,6 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
     <nb-card>
       <nb-card-body>
         <form
-          class="form"
           #createUserForm="ngForm"
           tgPasswordValidator
           (submit)="createUser(createUserForm)"

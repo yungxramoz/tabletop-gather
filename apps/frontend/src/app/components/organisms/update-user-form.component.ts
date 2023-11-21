@@ -29,7 +29,7 @@ import { InputComponent } from '../atoms/input.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form class="form" #updateUserForm="ngForm">
+        <form #updateUserForm="ngForm">
           <tg-input
             [(ngModel)]="model.username"
             required

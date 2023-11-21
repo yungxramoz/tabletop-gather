@@ -59,17 +59,17 @@ import { AutocompleteComponent } from '../molecules/autocomplete.component';
             id="playerLimit"
             name="playerLimit"
             label="Player Limit"
-            placeholder=""
+            placeholder="1"
           ></tg-input>
 
           <tg-autocomplete
             ngModel
             required
-            id="game"
-            name="game"
-            label="Game"
+            id="games"
+            name="games"
+            label="Games"
             [options]="options"
-            placeholder="Game"
+            placeholder="Select some games"
           ></tg-autocomplete>
         </form>
       </nb-card-body>
@@ -102,7 +102,7 @@ export class PlanEventGeneralFormComponent {
       title: form.controls['title'].value,
       eventInfo: form.controls['eventInfo'].value,
       playerLimit: form.controls['playerLimit'].value,
-      games: form.controls['game'].value,
+      games: form.controls['games'].value,
     });
 
     throw new Error('Not finished. Needs input (options) from api');

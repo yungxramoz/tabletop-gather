@@ -24,11 +24,7 @@ import { InputComponent } from '../atoms/input.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form
-          class="form"
-          #getUserForm="ngForm"
-          (submit)="getUser(getUserForm)"
-        >
+        <form #getUserForm="ngForm" (submit)="getUser(getUserForm)">
           <tg-input
             ngModel
             required

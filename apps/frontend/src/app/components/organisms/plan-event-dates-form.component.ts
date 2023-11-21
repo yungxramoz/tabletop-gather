@@ -17,7 +17,6 @@ import { DatepickerComponent } from '../molecules/datepicker.component';
     <nb-card>
       <nb-card-body>
         <form
-          class="form"
           #getEventDateForm="ngForm"
           (submit)="getEventDates(getEventDateForm)"
         >
