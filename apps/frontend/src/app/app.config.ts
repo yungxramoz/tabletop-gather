@@ -19,6 +19,7 @@ import {
   NbGlobalPhysicalPosition,
   NbSidebarModule,
   NbThemeModule,
+  NbTimepickerModule,
   NbToastrModule,
 } from '@nebular/theme';
 import { appRoutes } from './app.routes';
@@ -67,6 +68,7 @@ const provideNebular = (): EnvironmentProviders[] => [
   importProvidersFrom(NbThemeModule.forRoot({ name: 'tg-theme' })),
   importProvidersFrom(NbSidebarModule.forRoot()),
   importProvidersFrom(NbDatepickerModule.forRoot()),
+  importProvidersFrom(NbTimepickerModule.forRoot()),
   importProvidersFrom(NbEvaIconsModule),
   importProvidersFrom(BrowserAnimationsModule), // This is required for Nebular animations to work - not sure why
   importProvidersFrom(

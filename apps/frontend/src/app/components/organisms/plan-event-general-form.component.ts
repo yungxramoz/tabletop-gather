@@ -8,12 +8,12 @@ import {
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { VALIDATION_ERROR_MAPPING_OVERRIDE } from '../../resources/validation-errors.resources';
-import { AutocompleteComponent } from '../atoms/autocomplete.component';
+import { AutocompleteComponent } from '../molecules/autocomplete.component';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 
 @Component({
-  selector: 'tg-plan-event-form',
+  selector: 'tg-plan-event-general-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -82,7 +82,7 @@ import { TextareaComponent } from '../atoms/textarea.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanEventFormComponent {
+export class PlanEventGeneralFormComponent {
   @Output()
   public eventInfoCreated: EventEmitter<unknown> = new EventEmitter<unknown>();
 
@@ -103,11 +103,13 @@ export class PlanEventFormComponent {
   ];
 
   public getEvent(form: NgForm) {
-    console.log(form);
     this.eventInfoCreated.emit({
-      titl: form.controls['title'].value,
+      title: form.controls['title'].value,
       eventInfo: form.controls['eventInfo'].value,
       playerLimit: form.controls['playerLimit'].value,
+      games: form.controls['game'].value,
     });
+
+    throw new Error('Not finished. Needs input (options) from api');
   }
 }
