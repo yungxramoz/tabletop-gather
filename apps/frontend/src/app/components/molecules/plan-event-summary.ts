@@ -74,8 +74,6 @@ import { LabelComponent } from '../atoms/label.component';
 })
 export class PlanEventSummaryComponent {
   @Input() public disabled = false;
-
   @Input({ required: true }) public event!: Plan | null;
-
   @Output() public createEvent: EventEmitter<void> = new EventEmitter<void>();
 }

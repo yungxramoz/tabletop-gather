@@ -91,11 +91,10 @@ type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
 export class PlanEventGeneralFormComponent implements AfterViewInit {
   @ViewChild('eventGeneralForm') public readonly ngForm!: NgForm;
 
+  @Input({ required: true }) public games!: Game[];
   @Output() public eventGeneralFormChange: EventEmitter<
     ModelFormGroup<PlanWithUnmappedGame>
   > = new EventEmitter<ModelFormGroup<PlanWithUnmappedGame>>();
-
-  @Input({ required: true }) public games!: Game[];
 
   public gameKeySelector = (game: Game) => game.name;
 

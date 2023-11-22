@@ -29,7 +29,7 @@ import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-f
     PlanEventSummaryComponent,
   ],
   template: `
-    <nb-stepper [linear]="true">
+    <nb-stepper>
       <nb-step label="Event" [completed]="eventGeneralFormValid$ | async">
         <ng-template nbStepLabel>Event</ng-template>
         <tg-plan-event-general-form

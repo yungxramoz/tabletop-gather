@@ -26,7 +26,6 @@ import { ValidationErrorService } from '../../services/validation-error.service'
 })
 export class ValidationErrorsComponent {
   @Input({ required: true }) public model!: AbstractControl;
-
   @Input({ required: true }) public name!: string;
 
   public constructor(
