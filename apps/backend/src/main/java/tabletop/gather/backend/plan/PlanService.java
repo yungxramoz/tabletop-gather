@@ -31,7 +31,7 @@ public class PlanService {
   }
 
   public List<PlanDto> findAll() {
-    final List<Plan> plans = planRepository.findAll(Sort.by("id"));
+    final List<Plan> plans = planRepository.findAllByIsPrivateFalseOrderByNameDesc();
     return plans.stream()
       .map(plan -> mapToDTO(plan, new PlanDto()))
       .toList();
