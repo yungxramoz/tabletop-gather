@@ -11,10 +11,10 @@ import { ROUTE_PLAN_EVENT } from '../../constants';
     <nb-card>
       <button
         nbButton
+        outline
         status="primary"
         shape="semi-round"
         [routerLink]="[routePlanEvent]"
-        outline
       >
         <nb-icon icon="plus-outline"></nb-icon>
         Create Event
