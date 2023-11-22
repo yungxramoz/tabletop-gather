@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbDialogRef } from '@nebular/theme';
 import { InputComponent } from '../atoms/input.component';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+
+export type PasswordDialogResult = {
+  password: string;
+};
 
 @Component({
   standalone: true,
@@ -44,7 +47,9 @@ import { FormsModule } from '@angular/forms';
             shape="semi-round"
             type="submit"
             [disabled]="passwordForm.invalid"
-            (click)="confirm(passwordForm.controls['password'].value)"
+            (click)="
+              confirm({ password: passwordForm.controls['password'].value })
+            "
           >
             Confirm
           </button>
@@ -57,8 +62,8 @@ import { FormsModule } from '@angular/forms';
 export class PasswordDialogComponent {
   public constructor(protected ref: NbDialogRef<PasswordDialogComponent>) {}
 
-  public confirm(password: string) {
-    this.ref.close({ password });
+  public confirm(password: PasswordDialogResult) {
+    this.ref.close(password);
   }
 
   public cancel() {

@@ -19,15 +19,15 @@ import { User } from '../../models/user.dto';
         border-radius: 50%;
         border: 1px solid var(--color-control-default);
         box-shadow: 0 0 3rem var(--border-basic-color-4);
-        height: 8rem;
+        height: 6rem;
         text-align: center;
-        width: 8rem;
+        width: 6rem;
       }
 
       .initials {
-        line-height: 4;
+        line-height: 3; /* 50% of parent */
         position: relative;
-        top: calc(8rem / 4); /* 25% of parent */
+        top: calc(6rem / 4); /* 25% of parent */
       }
     `,
   ],

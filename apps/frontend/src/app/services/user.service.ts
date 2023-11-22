@@ -5,8 +5,9 @@ import { Inject, Injectable } from '@angular/core';
 
 import { API_BASE_URL } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { UserUpdate, UserUpdateDto } from '../models/user-update.dto';
-import { User, UserDto } from '../models/user.dto';
+import { PasswordUpdate } from '../models/password-update.dto';
+import { UserUpdate } from '../models/user-update.dto';
+import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
 /**
@@ -71,7 +72,7 @@ export class UsersService {
   /**
    * Updates the current authenticated user.
    *
-   * @param {Model<UserUpdateDto>} user - The user to update
+   * @param {UserUpdate} user - The user to update
    * @returns {Observable<string>} - The id of the updated user
    *
    */
@@ -85,6 +86,28 @@ export class UsersService {
         this.responseHandler.handleResponse({
           successMessageOverride: `User was updated successfully`,
           successTitleOverride: 'User updated 👍',
+        }),
+        filter((response) => response !== null),
+        map((response) => response?.body as JwtDto)
+      );
+  }
+
+  /**
+   * Updates the password of the current authenticated user.
+   *
+   * @param {PasswordUpdate} passwordUpdate - The password update
+   * @returns {Observable<JwtDto>} - A new JWT object
+   */
+  public updateMyPassword(passwordUpdate: PasswordUpdate): Observable<JwtDto> {
+    return this.http
+      .put(`${this.usersUrl}/me/password`, passwordUpdate, {
+        responseType: 'json',
+        observe: 'response',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          successMessageOverride: `Password was updated successfully`,
+          successTitleOverride: 'Password updated 👍',
         }),
         filter((response) => response !== null),
         map((response) => response?.body as JwtDto)

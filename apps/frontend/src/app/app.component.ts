@@ -4,12 +4,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { NbButtonModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
 import { BehaviorSubject } from 'rxjs';
 import { FooterMenuComponent } from './components/molecules/footer-menu.component';
-import {
-  ROUTE_COLLECTION,
-  ROUTE_EVENTS,
-  ROUTE_LOGIN,
-  ROUTE_PROFILE,
-} from './constants';
+import { ROUTE_COLLECTION, ROUTE_EVENTS, ROUTE_PROFILE } from './constants';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -64,7 +59,6 @@ export class AppComponent implements OnInit {
 
   public logout() {
     this.authService.logout();
-    this.router.navigate(['/' + ROUTE_LOGIN]);
   }
 
   public ngOnInit() {
