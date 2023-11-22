@@ -1,7 +1,5 @@
 package tabletop.gather.backend.auth;
 
-import tabletop.gather.backend.auth.LoginUserDto;
-import tabletop.gather.backend.auth.RegisterUserDto;
 import tabletop.gather.backend.util.NotFoundException;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserDto;
@@ -11,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class AuthenticationService {
@@ -24,11 +21,10 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationService(
-        UserRepository userRepository,
-        UserService userService,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder
-    ) {
+            UserRepository userRepository,
+            UserService userService,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.authenticationManager = authenticationManager;
@@ -55,11 +51,9 @@ public class AuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),
-                        input.getPassword()
-                )
-        );
+                        input.getPassword()));
 
         return userRepository.findByEmail(input.getEmail())
-            .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new);
     }
 }

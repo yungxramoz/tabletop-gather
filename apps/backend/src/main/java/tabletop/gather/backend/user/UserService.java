@@ -2,14 +2,12 @@ package tabletop.gather.backend.user;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.util.NotFoundException;
-
 
 @Service
 public class UserService {
@@ -25,52 +23,55 @@ public class UserService {
 
   /**
    * Gets all users.
+   * 
    * @return all users as DTO
    */
   public List<UserDto> findAll() {
     final List<User> users = userRepository.findAll(Sort.by("id"));
     return users.stream()
-      .map(user -> mapToDTO(user, new UserDto()))
-      .toList();
+        .map(user -> mapToDTO(user, new UserDto()))
+        .toList();
   }
 
   /**
    * Returns the user with the given email.
+   * 
    * @param email the email of the user to return
    * @return the user dto with the given email
    */
   public UserDto getByEmail(final String email) {
     return userRepository.findByEmail(email)
-      .map(user -> mapToDTO(user, new UserDto()))
-      .orElseThrow(NotFoundException::new);
+        .map(user -> mapToDTO(user, new UserDto()))
+        .orElseThrow(NotFoundException::new);
   }
 
   /**
    * Returns the user with the given id.
+   * 
    * @param id the id of the user to return
    * @return the user dto with the given id
    */
   public UserDto get(final UUID id) {
     return userRepository.findById(id)
-      .map(user -> mapToDTO(user, new UserDto()))
-      .orElseThrow(NotFoundException::new);
+        .map(user -> mapToDTO(user, new UserDto()))
+        .orElseThrow(NotFoundException::new);
   }
 
   /**
    * Updates the user with the given id.
-   * @param id the id of the user to update
-   * @param userDTO the user DTO containing the updated values
+   * 
+   * @param id           the id of the user to update
+   * @param userDTO      the user DTO containing the updated values
    * @param currentEmail the current email of the user
    * @return the updated user entity
    */
   public User update(final UUID id, final UserUpdateDto userDTO, final String currentEmail) {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-      currentEmail,
-      userDTO.getPassword()
-    ));
+        currentEmail,
+        userDTO.getPassword()));
 
     final User user = userRepository.findById(id)
-      .orElseThrow(NotFoundException::new);
+        .orElseThrow(NotFoundException::new);
     mapToEntity(userDTO, user);
     userRepository.save(user);
     return user;
@@ -94,12 +95,11 @@ public class UserService {
    */
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-      passwordUpdateDto.getEmail(),
-      passwordUpdateDto.getPassword()
-    ));
+        passwordUpdateDto.getEmail(),
+        passwordUpdateDto.getPassword()));
 
     final User user = userRepository.findById(id)
-      .orElseThrow(NotFoundException::new);
+        .orElseThrow(NotFoundException::new);
     user.setPasswordHash(passwordUpdateDto.getPassword());
     userRepository.save(user);
     return user;
@@ -108,7 +108,7 @@ public class UserService {
   /**
    * Maps entity to DTO.
    *
-   * @param user the user entity to map
+   * @param user    the user entity to map
    * @param userDTO the user DTO to map to
    * @return the mapped user entity
    */
