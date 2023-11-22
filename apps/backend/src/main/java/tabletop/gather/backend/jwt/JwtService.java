@@ -60,8 +60,6 @@ public class JwtService {
     return jwtExpiration;
   }
 
-
-
   public UserDto getUserByToken(String token) {
     String email = extractUsername(token);
     return userService.getByEmail(email);
