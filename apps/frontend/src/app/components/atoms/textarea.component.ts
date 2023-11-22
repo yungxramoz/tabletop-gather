@@ -10,15 +10,21 @@ import {
 import { ControlValueAccessor, NgModel } from '@angular/forms';
 import { NbInputModule } from '@nebular/theme';
 import { ValidationErrorsComponent } from './validation-errors.component';
+import { LabelComponent } from './label.component';
 
 @Component({
   standalone: true,
   selector: 'tg-textarea',
-  imports: [NbInputModule, NgIf, NgFor, ValidationErrorsComponent],
+  imports: [
+    NbInputModule,
+    NgIf,
+    NgFor,
+    ValidationErrorsComponent,
+    LabelComponent,
+  ],
   template: `
-    <div class="tg-p-1" *ngIf="label">
-      <label class="label" [for]="id">{{ label }}</label>
-    </div>
+    <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
+
     <textarea
       nbInput
       fullWidth
@@ -32,6 +38,7 @@ import { ValidationErrorsComponent } from './validation-errors.component';
       [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
       class="tg-resize-vertical"
     ></textarea>
+
     <tg-validation-errors
       [model]="ngModel.control"
       [name]="label ?? 'This Field'"

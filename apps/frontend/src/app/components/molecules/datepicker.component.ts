@@ -16,6 +16,7 @@ import {
   NbListModule,
 } from '@nebular/theme';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
+import { LabelComponent } from '../atoms/label.component';
 
 @Component({
   standalone: true,
@@ -30,11 +31,11 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
     NgIf,
     NgFor,
     ValidationErrorsComponent,
+    LabelComponent,
   ],
   template: `
-    <div class="tg-p-1" *ngIf="label">
-      <label class="label" [for]="id">{{ label }}</label>
-    </div>
+    <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
+
     <input
       nbInput
       fullWidth
