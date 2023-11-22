@@ -1,10 +1,10 @@
 /**
- * The result of a successful login request.
+ * The JWT DTO
  *
  * @property {string} token - The JWT token
  * @property {number} expiresIn - The number of milliseconds until the token expires
  */
-export type LoginResponse = {
+export type JwtDto = {
   token: string;
   expiresIn: number;
 };

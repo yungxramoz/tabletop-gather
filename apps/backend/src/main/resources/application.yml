@@ -31,4 +31,4 @@ spring:
       lifecycle-management: start-only
 springdoc:
   path: /api-docs
-  pathsToMatch: /api/**
+  pathsToMatch: /api/**, /auth/**
