@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.util.NotFoundException;
@@ -14,16 +13,13 @@ public class UserService {
 
   private final UserRepository userRepository;
 
-  private final AuthenticationManager authenticationManager;
-
-  public UserService(final UserRepository userRepository, final AuthenticationManager authenticationManager) {
+  public UserService(final UserRepository userRepository) {
     this.userRepository = userRepository;
-    this.authenticationManager = authenticationManager;
   }
 
   /**
    * Gets all users.
-   * 
+   *
    * @return all users as DTO
    */
   public List<UserDto> findAll() {
@@ -35,7 +31,7 @@ public class UserService {
 
   /**
    * Returns the user with the given email.
-   * 
+   *
    * @param email the email of the user to return
    * @return the user dto with the given email
    */
@@ -47,7 +43,7 @@ public class UserService {
 
   /**
    * Returns the user with the given id.
-   * 
+   *
    * @param id the id of the user to return
    * @return the user dto with the given id
    */
@@ -59,17 +55,13 @@ public class UserService {
 
   /**
    * Updates the user with the given id.
-   * 
+   *
    * @param id           the id of the user to update
    * @param userDTO      the user DTO containing the updated values
    * @param currentEmail the current email of the user
    * @return the updated user entity
    */
   public User update(final UUID id, final UserUpdateDto userDTO, final String currentEmail) {
-    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-        currentEmail,
-        userDTO.getPassword()));
-
     final User user = userRepository.findById(id)
         .orElseThrow(NotFoundException::new);
     mapToEntity(userDTO, user);
@@ -94,10 +86,6 @@ public class UserService {
    * @return the updated user entity
    */
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
-    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-        passwordUpdateDto.getEmail(),
-        passwordUpdateDto.getPassword()));
-
     final User user = userRepository.findById(id)
         .orElseThrow(NotFoundException::new);
     user.setPasswordHash(passwordUpdateDto.getPassword());

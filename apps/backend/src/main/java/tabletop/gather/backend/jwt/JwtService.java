@@ -8,6 +8,9 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import tabletop.gather.backend.user.User;
+import tabletop.gather.backend.user.UserDto;
+import tabletop.gather.backend.user.UserService;
 
 import java.security.Key;
 import java.util.Date;
@@ -25,6 +28,12 @@ public class JwtService {
 
   @Value("${security.jwt.expiration-time}")
   private long jwtExpiration;
+
+  private final UserService userService;
+
+  public JwtService(final UserService userService) {
+    this.userService = userService;
+  }
 
   public String extractUsername(String token) {
     if (token.startsWith("Bearer ")) {
@@ -49,6 +58,20 @@ public class JwtService {
 
   public long getExpirationTime() {
     return jwtExpiration;
+  }
+
+
+
+  public UserDto getUserByToken(String token) {
+    String email = extractUsername(token);
+    return userService.getByEmail(email);
+  }
+
+  public JwtDto getNewJwtToken(User user) {
+    JwtDto jwtToken = new JwtDto();
+    jwtToken.setToken(generateToken(user));
+    jwtToken.setExpiresIn(getExpirationTime());
+    return jwtToken;
   }
 
   private String buildToken(
