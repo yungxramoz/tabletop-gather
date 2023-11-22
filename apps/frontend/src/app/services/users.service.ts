@@ -5,9 +5,8 @@ import { Inject, Injectable } from '@angular/core';
 
 import { API_BASE_URL } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { Model } from '../models/model.type';
-import { UserUpdateDto } from '../models/user-update.dto';
-import { UserDto } from '../models/user.dto';
+import { UserUpdate, UserUpdateDto } from '../models/user-update.dto';
+import { User, UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
 /**
@@ -76,7 +75,7 @@ export class UsersService {
    * @returns {Observable<string>} - The id of the updated user
    *
    */
-  public updateMe(user: Model<UserUpdateDto>): Observable<JwtDto> {
+  public updateMe(user: UserUpdate): Observable<JwtDto> {
     return this.http
       .put(`${this.usersUrl}/me`, user, {
         responseType: 'json',

@@ -29,6 +29,5 @@ import { UserDto } from '../../models/user.dto';
 })
 export class UserComponent {
   @Input() public user!: UserDto;
-
   @Output() public deleteUser = new EventEmitter<UserDto>();
 }

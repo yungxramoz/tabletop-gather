@@ -6,8 +6,8 @@ import { NbCardModule, NbListModule } from '@nebular/theme';
 
 import { UserDto } from '../../models/user.dto';
 import { UsersService } from '../../services/users.service';
-import { RegisterFormComponent } from '../molecules/register-form.component';
 import { UserComponent } from '../molecules/user.component';
+import { RegisterFormComponent } from '../organisms/register-form.component';
 
 @Component({
   selector: 'tg-users',

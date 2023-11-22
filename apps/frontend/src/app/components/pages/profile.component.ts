@@ -5,11 +5,11 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbUserModule } from '@nebular/theme';
 
-import { Model } from '../../models/model.type';
-import { UserUpdateDto } from '../../models/user-update.dto';
-import { UserDto } from '../../models/user.dto';
+import { UserUpdate, UserUpdateDto } from '../../models/user-update.dto';
+import { User, UserDto } from '../../models/user.dto';
 import { UsersService } from '../../services/users.service';
-import { UpdateUserFormComponent } from '../molecules/update-user-form.component';
+import { AvatarComponent } from '../atoms/avatar.component';
+import { UpdateUserFormComponent } from '../organisms/update-user-form.component';
 
 @Component({
   standalone: true,
@@ -17,29 +17,20 @@ import { UpdateUserFormComponent } from '../molecules/update-user-form.component
   imports: [
     AsyncPipe,
     NgIf,
-    NbCardModule,
     NbButtonModule,
-    NbUserModule,
     UpdateUserFormComponent,
+    AvatarComponent,
   ],
   template: `
-    <nb-card>
-      <nb-card-body *ngIf="me$ | async as me">
-        <div class="tg-flex-row tg-justify-around tg-m-2">
-          <nb-user
-            [shape]="'round'"
-            [name]="me.firstName + ' ' + me.lastName"
-            size="giant"
-            onlyPicture
-          >
-          </nb-user>
-        </div>
-        <tg-update-user-form
-          [user]="me"
-          (userUpdated)="onUserUpdated($event)"
-        ></tg-update-user-form>
-      </nb-card-body>
-    </nb-card>
+    <div *ngIf="me$ | async as me">
+      <div class="tg-flex-row tg-justify-around tg-m-4">
+        <tg-avatar [user]="me"></tg-avatar>
+      </div>
+      <tg-update-user-form
+        [user]="me"
+        (userUpdated)="onUserUpdated($event)"
+      ></tg-update-user-form>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -53,7 +44,7 @@ export class ProfileComponent implements OnInit {
 
   public constructor(private readonly usersService: UsersService) {}
 
-  public onUserUpdated(event: Model<Omit<UserDto, 'email'>>) {
+  public onUserUpdated(event: Omit<User, 'email'>) {
     this.me$
       .pipe(
         filter((me) => me !== undefined),
@@ -62,7 +53,7 @@ export class ProfileComponent implements OnInit {
             ...event,
             email: me!.email,
             password: 'test',
-          } as Model<UserUpdateDto>;
+          } as UserUpdate;
           return this.usersService.updateMe(user);
         })
       )

@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,9 +6,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { LoginUserDto } from '../../models/login-user.dto';
-import { Model } from '../../models/model.type';
+import { NbButtonModule, NbCardModule } from '@nebular/theme';
+import { LoginUser } from '../../models/login-user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
@@ -16,22 +15,15 @@ import { InputComponent } from '../atoms/input.component';
   standalone: true,
   imports: [
     CommonModule,
-    AsyncPipe,
-    JsonPipe,
     FormsModule,
     NbCardModule,
-    NbInputModule,
     NbButtonModule,
     InputComponent,
   ],
   template: `
     <nb-card>
       <nb-card-body>
-        <form
-          class="form"
-          #getUserForm="ngForm"
-          (submit)="getUser(getUserForm)"
-        >
+        <form #getUserForm="ngForm" (submit)="getUser(getUserForm)">
           <tg-input
             ngModel
             required
@@ -71,13 +63,13 @@ import { InputComponent } from '../atoms/input.component';
 })
 export class LoginFormComponent {
   @Output()
-  public credentialsCreated: EventEmitter<Model<LoginUserDto>> =
-    new EventEmitter<Model<LoginUserDto>>();
+  public credentialsCreated: EventEmitter<LoginUser> =
+    new EventEmitter<LoginUser>();
 
-  public getUser(form: NgForm) {
+  public getUser(ngForm: NgForm) {
     this.credentialsCreated.emit({
-      email: form.controls['email'].value,
-      password: form.controls['password'].value,
+      email: ngForm.controls['email'].value,
+      password: ngForm.controls['password'].value,
     });
   }
 }

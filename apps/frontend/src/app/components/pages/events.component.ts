@@ -1,17 +1,28 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbCardModule } from '@nebular/theme';
+import { RouterModule } from '@angular/router';
+import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
+import { ROUTE_PLAN_EVENT } from '../../constants';
 
 @Component({
   standalone: true,
   selector: 'tg-events',
-  imports: [NbCardModule],
+  imports: [NbCardModule, NbButtonModule, NbIconModule, RouterModule],
   template: `
     <nb-card>
-      <nb-card-body>
-        <p>Welcome to the events!</p>
-      </nb-card-body>
+      <button
+        nbButton
+        status="primary"
+        shape="semi-round"
+        [routerLink]="[routePlanEvent]"
+        outline
+      >
+        <nb-icon icon="plus-outline"></nb-icon>
+        Create Event
+      </button>
     </nb-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventsComponent {}
+export class EventsComponent {
+  public readonly routePlanEvent = '/' + ROUTE_PLAN_EVENT;
+}

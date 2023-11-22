@@ -9,8 +9,7 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { Model } from '../../models/model.type';
-import { UserDto } from '../../models/user.dto';
+import { User } from '../../models/user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({
@@ -29,7 +28,7 @@ import { InputComponent } from '../atoms/input.component';
   template: `
     <nb-card>
       <nb-card-body>
-        <form class="form" #updateUserForm="ngForm">
+        <form #updateUserForm="ngForm">
           <tg-input
             [(ngModel)]="model.username"
             required
@@ -95,11 +94,11 @@ import { InputComponent } from '../atoms/input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateUserFormComponent implements OnChanges {
-  @Input() public user!: Model<Omit<UserDto, 'email'>>;
-  @Output() public userUpdated: EventEmitter<Model<Omit<UserDto, 'email'>>> =
-    new EventEmitter<Model<Omit<UserDto, 'email'>>>();
+  @Input() public user!: Omit<User, 'email'>;
+  @Output() public userUpdated: EventEmitter<Omit<User, 'email'>> =
+    new EventEmitter<Omit<User, 'email'>>();
 
-  public readonly model: Model<Omit<UserDto, 'email'>> = {
+  public readonly model: Omit<User, 'email'> = {
     username: '',
     firstName: '',
     lastName: '',
@@ -113,9 +112,9 @@ export class UpdateUserFormComponent implements OnChanges {
     });
   }
 
-  public resetForm(form: NgForm) {
+  public resetForm(ngForm: NgForm) {
     this.resetModel();
-    for (const control of Object.values(form.controls)) {
+    for (const control of Object.values(ngForm.controls)) {
       control.markAsPristine();
     }
   }

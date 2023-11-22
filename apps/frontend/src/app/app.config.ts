@@ -14,10 +14,12 @@ import {
 } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {
+  NbDatepickerModule,
   NbDialogModule,
   NbGlobalPhysicalPosition,
   NbSidebarModule,
   NbThemeModule,
+  NbTimepickerModule,
   NbToastrModule,
 } from '@nebular/theme';
 import { appRoutes } from './app.routes';
@@ -65,6 +67,8 @@ const provideLocalStorage = (): Provider => ({
 const provideNebular = (): EnvironmentProviders[] => [
   importProvidersFrom(NbThemeModule.forRoot({ name: 'tg-theme' })),
   importProvidersFrom(NbSidebarModule.forRoot()),
+  importProvidersFrom(NbDatepickerModule.forRoot()),
+  importProvidersFrom(NbTimepickerModule.forRoot()),
   importProvidersFrom(NbEvaIconsModule),
   importProvidersFrom(BrowserAnimationsModule), // This is required for Nebular animations to work - not sure why
   importProvidersFrom(

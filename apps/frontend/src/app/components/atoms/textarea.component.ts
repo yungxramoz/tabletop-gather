@@ -14,7 +14,7 @@ import { LabelComponent } from './label.component';
 
 @Component({
   standalone: true,
-  selector: 'tg-input',
+  selector: 'tg-textarea',
   imports: [
     NbInputModule,
     NgIf,
@@ -25,18 +25,19 @@ import { LabelComponent } from './label.component';
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
 
-    <input
+    <textarea
       nbInput
       fullWidth
       shape="semi-round"
-      [type]="type"
       [id]="id"
       [value]="value"
+      [rows]="rows"
       (input)="valueChange($event)"
       (blur)="onBlur()"
       [placeholder]="placeholder"
       [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
-    />
+      class="tg-resize-vertical"
+    ></textarea>
 
     <tg-validation-errors
       [model]="ngModel.control"
@@ -45,10 +46,10 @@ import { LabelComponent } from './label.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputComponent implements ControlValueAccessor {
+export class TextareaComponent implements ControlValueAccessor {
   @Input() public label: string | undefined;
-  @Input() public type: 'text' | 'number' | 'password' = 'text';
   @Input() public placeholder: string | undefined;
+  @Input() public rows: number | undefined;
 
   private _value!: string | number;
   public set value(value: string | number) {
@@ -59,7 +60,7 @@ export class InputComponent implements ControlValueAccessor {
     return this._value;
   }
 
-  public readonly id = `tg-input-${InputComponent.uniqueId++}`;
+  public readonly id = `tg-textarea-${TextareaComponent.uniqueId++}`;
   public onChange: undefined | ((event: string | number) => void);
   public onTouched: undefined | (() => void);
 
@@ -76,7 +77,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   public valueChange(event: Event) {
-    this.value = (event.target as HTMLInputElement).value;
+    this.value = (event.target as HTMLTextAreaElement).value;
     if (this.onChange) this.onChange(this.value);
   }
 

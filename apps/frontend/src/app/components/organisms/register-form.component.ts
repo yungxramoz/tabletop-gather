@@ -1,37 +1,33 @@
-import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Output,
 } from '@angular/core';
-import { FormsModule, NgForm, ValidationErrors } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { FormsModule, NgForm } from '@angular/forms';
+import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
-import { Model } from '../../models/model.type';
-import { RegisterUserDto } from '../../models/register-user.dto';
-import { friendlyValidationErrors } from '../../resources/validation-errors.resources';
+import { RegisterUser } from '../../models/register-user.dto';
 import { InputComponent } from '../atoms/input.component';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   selector: 'tg-register-form',
   standalone: true,
   imports: [
     CommonModule,
-    AsyncPipe,
-    JsonPipe,
     FormsModule,
     NbCardModule,
-    NbInputModule,
     NbButtonModule,
     InputComponent,
     PasswordValidatorDirective,
+    ValidationErrorsComponent,
   ],
   template: `
     <nb-card>
       <nb-card-body>
         <form
-          class="form"
           #createUserForm="ngForm"
           tgPasswordValidator
           (submit)="createUser(createUserForm)"
@@ -106,17 +102,10 @@ import { InputComponent } from '../atoms/input.component';
             placeholder=""
           ></tg-input>
 
-          <div
-            class="tg-p-1"
-            *ngIf="!createUserForm.pristine && createUserForm.errors"
-          >
-            <p
-              class="text-danger"
-              *ngFor="let error of getErrors(createUserForm.errors)"
-            >
-              {{ error }}
-            </p>
-          </div>
+          <tg-validation-errors
+            [model]="createUserForm.form"
+            [name]="'Form'"
+          ></tg-validation-errors>
 
           <div class="tg-block tg-mt-2">
             <button
@@ -137,30 +126,26 @@ import { InputComponent } from '../atoms/input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterFormComponent {
-  @Output() public userCreated: EventEmitter<Model<RegisterUserDto>> =
-    new EventEmitter<Model<RegisterUserDto>>();
+  @Output() public userCreated: EventEmitter<RegisterUser> =
+    new EventEmitter<RegisterUser>();
 
-  public createUser(form: NgForm) {
+  public createUser(ngForm: NgForm) {
     if (
-      form.controls['password'].value !==
-      form.controls['passwordConfirmation'].value
+      ngForm.controls['password'].value !==
+      ngForm.controls['passwordConfirmation'].value
     ) {
       alert('Passwords do not match!');
       return;
     }
 
     this.userCreated.emit({
-      username: form.controls['username'].value,
-      firstName: form.controls['firstName'].value,
-      lastName: form.controls['lastName'].value,
-      email: form.controls['email'].value,
-      password: form.controls['password'].value,
+      username: ngForm.controls['username'].value,
+      firstName: ngForm.controls['firstName'].value,
+      lastName: ngForm.controls['lastName'].value,
+      email: ngForm.controls['email'].value,
+      password: ngForm.controls['password'].value,
     });
 
-    form.resetForm();
-  }
-
-  public getErrors(errors: ValidationErrors) {
-    return friendlyValidationErrors(errors, 'Form');
+    ngForm.resetForm();
   }
 }

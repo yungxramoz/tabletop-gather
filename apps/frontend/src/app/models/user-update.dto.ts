@@ -1,3 +1,4 @@
+import { Model } from '../utils/types';
 import { UserDto } from './user.dto';
 
 /**
@@ -10,3 +11,5 @@ import { UserDto } from './user.dto';
 export class UserUpdateDto extends UserDto {
   public password!: string;
 }
+
+export type UserUpdate = Model<UserUpdateDto>;

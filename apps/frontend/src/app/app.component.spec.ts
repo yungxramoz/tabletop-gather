@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { lastValueFrom, of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { appConfig } from './app.config';
-import { AuthService } from './services/auth.service';
 import { ROUTE_COLLECTION, ROUTE_EVENTS, ROUTE_PROFILE } from './constants';
-import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 describe(AppComponent.name, () => {
   let router: Router;

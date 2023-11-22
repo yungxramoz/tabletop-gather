@@ -1,18 +1,24 @@
-import { Directive, OnInit } from '@angular/core';
-import { AbstractControl, NgForm, ValidationErrors } from '@angular/forms';
+import { Directive } from '@angular/core';
+import {
+  AbstractControl,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 
 @Directive({
   standalone: true,
   selector: 'form[tgPasswordValidator]',
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: PasswordValidatorDirective,
+      multi: true,
+    },
+  ],
 })
-export class PasswordValidatorDirective implements OnInit {
-  public constructor(private readonly ngForm: NgForm) {}
-
-  public ngOnInit() {
-    this.ngForm.form.setValidators(this.validatePassword);
-  }
-
-  public validatePassword(group: AbstractControl): ValidationErrors | null {
+export class PasswordValidatorDirective implements Validator {
+  public validate(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password');
     const passwordConfirmation = group.get('passwordConfirmation');
 

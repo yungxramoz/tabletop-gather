@@ -13,6 +13,25 @@ p {
   margin: 0;
 }
 
+/* Typography */
+
+.tg-medium-weight {
+  font-weight: var(--input-medium-text-font-weight);
+}
+
+/* Colors */
+
+.tg-basic-bg {
+  background-color: var(--input-basic-background-color);
+  &:hover {
+    background-color: var(--input-basic-hover-background-color);
+  }
+}
+
+.tg-text-hint {
+  color: var(--text-hint-color);
+}
+
 /* Dimensions */
 
 .tg-max-w-30 {
@@ -33,6 +52,10 @@ p {
 }
 
 /* Paddings */
+
+.tg-p-0 {
+  padding: 0 !important;
+}
 
 .tg-p-1 {
   padding: 0.5rem;
@@ -56,6 +79,11 @@ p {
   margin: 2rem;
 }
 
+.tg-my-2 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .tg-mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -72,6 +100,10 @@ p {
 
 .tg-mt-2 {
   margin-top: 1rem;
+}
+
+.tg-mb-2 {
+  margin-bottom: 1rem;
 }
 
 /* Display */
@@ -107,6 +139,10 @@ p {
 }
 
 /* Misc */
+
+.tg-resize-vertical {
+  resize: vertical;
+}
 
 .tg-404 > h1 {
   font-size: 120px;

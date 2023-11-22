@@ -12,9 +12,8 @@ import { Inject, Injectable } from '@angular/core';
 
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { LoginUserDto } from '../models/login-user.dto';
-import { Model } from '../models/model.type';
-import { RegisterUserDto } from '../models/register-user.dto';
+import { LoginUser, LoginUserDto } from '../models/login-user.dto';
+import { RegisterUser, RegisterUserDto } from '../models/register-user.dto';
 import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
@@ -59,10 +58,10 @@ export class AuthService {
   /**
    * Logs in the given user via auth endpoint and stores the JWT token in local storage.
    *
-   * @param {Model<LoginUserDto>} loginUser - The user to log in
+   * @param {LoginUser} loginUser - The user to log in
    * @returns {Observable<JwtDto>} - An observable that emits the login result
    */
-  public login(loginUser: Model<LoginUserDto>): Observable<JwtDto> {
+  public login(loginUser: LoginUser): Observable<JwtDto> {
     return this.http
       .post<JwtDto>(`${this.authBaseUrl}/login`, loginUser, {
         observe: 'response',
@@ -81,10 +80,10 @@ export class AuthService {
   /**
    * Signs up the given user via auth endpoint. You'll need to log in the user afterwards to get a JWT token.
    *
-   * @param {Model<RegisterUserDto>} registerUser - The user to register
+   * @param {RegisterUser} registerUser - The user to register
    * @returns {Observable<UserDto>} - An observable that emits the registered user
    */
-  public signup(registerUser: Model<RegisterUserDto>): Observable<UserDto> {
+  public signup(registerUser: RegisterUser): Observable<UserDto> {
     return this.http
       .post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
         observe: 'response',

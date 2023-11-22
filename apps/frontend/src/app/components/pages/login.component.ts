@@ -3,12 +3,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbTabsetModule } from '@nebular/theme';
 import { ROUTE_EVENTS } from '../../constants';
-import { LoginUserDto } from '../../models/login-user.dto';
-import { Model } from '../../models/model.type';
-import { RegisterUserDto } from '../../models/register-user.dto';
+import { LoginUser } from '../../models/login-user.dto';
+import { RegisterUser } from '../../models/register-user.dto';
 import { AuthService } from '../../services/auth.service';
-import { LoginFormComponent } from '../molecules/login-form.component';
-import { RegisterFormComponent } from '../molecules/register-form.component';
+import { LoginFormComponent } from '../organisms/login-form.component';
+import { RegisterFormComponent } from '../organisms/register-form.component';
 
 @Component({
   selector: 'tg-login-management',
@@ -52,7 +51,7 @@ export class LoginComponent {
     private readonly router: Router
   ) {}
 
-  public onCredentialsCreated(event: Model<LoginUserDto>) {
+  public onCredentialsCreated(event: LoginUser) {
     // Unsubscribe, since this uses shareReplay()
     const subscription = this.authService.login(event).subscribe(() => {
       this.router.navigate(['/' + ROUTE_EVENTS]);
@@ -60,7 +59,7 @@ export class LoginComponent {
     });
   }
 
-  public onUserCreated(event: Model<RegisterUserDto>) {
+  public onUserCreated(event: RegisterUser) {
     this.authService.signup(event).subscribe();
   }
 }
