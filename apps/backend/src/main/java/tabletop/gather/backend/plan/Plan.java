@@ -30,11 +30,18 @@ public class Plan {
     @GeneratedValue(generator = "uuid")
     private UUID id;
 
+
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private Boolean isPrivate;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String description;
+
+    @Column()
+    private int playerLimit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
