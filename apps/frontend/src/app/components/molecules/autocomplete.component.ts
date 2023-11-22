@@ -3,10 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnInit,
   Optional,
   Self,
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
 import {
@@ -41,6 +43,7 @@ import { LabelComponent } from '../atoms/label.component';
     <input
       nbInput
       fullWidth
+      #searchInput
       shape="semi-round"
       type="text"
       [id]="id"
@@ -90,6 +93,8 @@ import { LabelComponent } from '../atoms/label.component';
 export class AutocompleteComponent<T extends { toString: () => string }>
   implements ControlValueAccessor, OnInit
 {
+  @ViewChild('searchInput')
+  public readonly inputElement!: ElementRef<HTMLInputElement>;
   @Input() public label: string | undefined;
   @Input() public options!: T[];
   @Input() public placeholder: string | undefined;
@@ -143,6 +148,9 @@ export class AutocompleteComponent<T extends { toString: () => string }>
     } else {
       this.value = [event];
     }
+
+    // Clear the input
+    this.inputElement.nativeElement.value = '';
 
     if (this.onChange) this.onChange(this.value);
   }

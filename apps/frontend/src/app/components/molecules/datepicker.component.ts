@@ -61,9 +61,10 @@ import { LabelComponent } from '../atoms/label.component';
         class="tg-flex-row"
         *ngFor="let selected of value; index as i"
       >
-        <p class="tg-medium-weight">{{ selected | date : 'mediumDate' }}</p>
-        <i>at</i>
-        <p>{{ selected | date : 'shortTime' }}</p>
+        <p class="tg-medium-weight" p>
+          {{ selected | date : 'mediumDate' }} at
+          {{ selected | date : 'shortTime' }}
+        </p>
         <button
           nbButton
           size="large"

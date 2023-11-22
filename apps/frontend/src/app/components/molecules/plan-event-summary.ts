@@ -8,23 +8,33 @@ import {
 } from '@angular/core';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { Plan } from '../../models/plan.dto';
+import { LabelComponent } from '../atoms/label.component';
 
 @Component({
   standalone: true,
   selector: 'tg-plan-event-summary',
-  imports: [DatePipe, NgIf, NgFor, NbCardModule, NbButtonModule],
+  imports: [
+    DatePipe,
+    NgIf,
+    NgFor,
+    NbCardModule,
+    NbButtonModule,
+    LabelComponent,
+  ],
   template: `
     <nb-card>
       <nb-card-body>
         <ng-container *ngIf="event as ev; else nothingHereYet">
           <div class="tg-mb-2">
-            <h4>{{ ev.name }}</h4>
-            <p>{{ ev.description }}</p>
+            <tg-label label="Title"></tg-label>
+            <p class="tg-p-1">{{ ev.name }}</p>
+            <tg-label label="Event Info"></tg-label>
+            <p class="tg-p-1">{{ ev.description }}</p>
           </div>
 
           <div class="tg-my-2">
-            <p><strong>Options</strong></p>
-            <div class="tg-m-1">
+            <label class="label">Options</label>
+            <div class="tg-p-1">
               <p *ngFor="let gathering of ev.gatherings">
                 - {{ gathering.date | date : 'shortDate' }} at
                 {{ gathering.startTime }}
@@ -32,14 +42,14 @@ import { Plan } from '../../models/plan.dto';
             </div>
           </div>
 
-          <div class="tg-my-2 tg-flex-row">
-            <p><strong>Player Limit</strong></p>
-            <p>{{ ev.playerLimit }}</p>
+          <div class="tg-my-2">
+            <label class="label">Player Limit</label>
+            <p class="tg-p-1">{{ ev.playerLimit }}</p>
           </div>
 
-          <div *ngIf="ev.game as game" class="tg-my-2 tg-flex-row">
-            <p><strong>Game</strong></p>
-            <p>{{ game.name }}</p>
+          <div *ngIf="ev.game as game" class="tg-my-2">
+            <label class="label">Game</label>
+            <p class="tg-p-1">{{ game.name }}</p>
           </div>
         </ng-container>
         <button
