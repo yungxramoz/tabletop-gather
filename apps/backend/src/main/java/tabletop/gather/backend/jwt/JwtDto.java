@@ -1,14 +1,13 @@
 
-package tabletop.gather.backend.auth;
+package tabletop.gather.backend.jwt;
 
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
-public class LoginResponse {
+public class JwtDto {
 
     private String token;
 

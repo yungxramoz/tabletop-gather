@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+import tabletop.gather.backend.util.ErrorResponse;
+import tabletop.gather.backend.util.FieldError;
 import tabletop.gather.backend.util.NotFoundException;
 
 import java.util.List;

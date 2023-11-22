@@ -3,7 +3,9 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+
 import { API_BASE_URL } from '../app.config';
+import { UserUpdateDto } from '../models/user-update.dto';
 import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 import { UsersService } from './users.service';
@@ -78,13 +80,13 @@ describe(UsersService.name, () => {
       const mockUserId = '1';
 
       // Act
-      service.deleteUser(mockUserId).subscribe((userId) => {
+      service.deleteMe().subscribe((userId) => {
         // Assert
         expect(userId).toEqual(mockUserId);
       });
 
       // Assert
-      const req = httpMock.expectOne(`${apiBaseUrl}/users/${mockUserId}`);
+      const req = httpMock.expectOne(`${apiBaseUrl}/users/me`);
       expect(req.request.method).toBe('DELETE');
       req.flush(mockUserId);
     });
@@ -94,24 +96,43 @@ describe(UsersService.name, () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
-      const mockUser: UserDto = {
+      const mockUser: UserUpdateDto = {
         id: '1',
         firstName: 'John',
         lastName: 'Doe',
         username: 'jdoe',
         email: 'john@doe.com',
+        password: 'test',
       };
 
       // Act
-      service.updateUser(mockUserId, mockUser).subscribe((userId) => {
+      service.updateMe(mockUser).subscribe((userId) => {
         // Assert
         expect(userId).toEqual(mockUserId);
       });
 
       // Assert
-      const req = httpMock.expectOne(`${apiBaseUrl}/users/${mockUserId}`);
+      const req = httpMock.expectOne(`${apiBaseUrl}/users/me`);
       expect(req.request.method).toBe('PUT');
       req.flush(mockUserId);
+    });
+  });
+
+  describe('me', () => {
+    it('should send a GET request to the me endpoint and return the user DTO', () => {
+      // Arrange
+      const expectedUserDto: UserDto = {} as unknown as UserDto;
+
+      // Act
+      service.me().subscribe((userDto) => {
+        // Assert
+        expect(userDto).toEqual(expectedUserDto);
+      });
+
+      // Assert
+      const req = httpMock.expectOne(`${apiBaseUrl}/users/me`);
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedUserDto);
     });
   });
 });

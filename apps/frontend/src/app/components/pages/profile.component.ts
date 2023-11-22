@@ -1,10 +1,12 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NbButtonModule } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { filter, shareReplay, startWith, switchMap } from 'rxjs/operators';
+
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NbButtonModule, NbCardModule, NbUserModule } from '@nebular/theme';
+
+import { UserUpdate, UserUpdateDto } from '../../models/user-update.dto';
 import { User, UserDto } from '../../models/user.dto';
-import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { AvatarComponent } from '../atoms/avatar.component';
 import { UpdateUserFormComponent } from '../organisms/update-user-form.component';
@@ -40,24 +42,27 @@ export class ProfileComponent implements OnInit {
     lastName: 'Doe',
   };
 
-  public constructor(
-    private readonly authService: AuthService,
-    private readonly usersService: UsersService
-  ) {}
+  public constructor(private readonly usersService: UsersService) {}
 
   public onUserUpdated(event: Omit<User, 'email'>) {
     this.me$
       .pipe(
         filter((me) => me !== undefined),
         switchMap((me) => {
-          const user = { ...event, email: me!.email } as User;
-          return this.usersService.updateUser(me!.id, user);
+          const user = {
+            ...event,
+            email: me!.email,
+            password: 'test',
+          } as UserUpdate;
+          return this.usersService.updateMe(user);
         })
       )
       .subscribe();
   }
 
   public ngOnInit(): void {
-    this.me$ = this.authService.me().pipe(startWith(undefined), shareReplay(1));
+    this.me$ = this.usersService
+      .me()
+      .pipe(startWith(undefined), shareReplay(1));
   }
 }

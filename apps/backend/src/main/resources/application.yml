@@ -1,9 +1,8 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/backend}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://tg-postgres:5432/postgres}
     username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
-    default_schema: tabletop-gather
     dbcp2:
       max-wait-millis: 30000
       validation-query: select 1
@@ -19,9 +18,10 @@ spring:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
+        default_schema: tabletop-gather
   flyway:
     enabled: true
-    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/backend}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://tg-postgres:5432/postgres}
     user: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
     schemas: tabletop-gather
@@ -31,4 +31,4 @@ spring:
       lifecycle-management: start-only
 springdoc:
   path: /api-docs
-  pathsToMatch: /api/**
+  pathsToMatch: /api/**, /auth/**

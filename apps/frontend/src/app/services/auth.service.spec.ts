@@ -3,10 +3,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
+import { JwtDto } from '../models/jwt.dto';
 import { LoginUser, LoginUserDto } from '../models/login-user.dto';
-import { LoginResponse } from '../models/login.response';
-import { RegisterUser } from '../models/register-user.dto';
+import { RegisterUser, RegisterUserDto } from '../models/register-user.dto';
 import { UserDto } from '../models/user.dto';
 import { AuthService, LS_EXPIRES_AT_KEY, LS_TOKEN_KEY } from './auth.service';
 
@@ -51,7 +52,7 @@ describe(AuthService.name, () => {
     it('should send a POST request to the login endpoint and return the login result', () => {
       // Arrange
       const loginUser: LoginUser = {} as LoginUserDto;
-      const expectedLoginResponse: LoginResponse = {} as LoginResponse;
+      const expectedLoginResponse: JwtDto = {} as JwtDto;
 
       // Act
       authService.login(loginUser).subscribe((loginResult) => {
@@ -81,24 +82,6 @@ describe(AuthService.name, () => {
       // Assert
       const req = httpMock.expectOne(`${authBaseUrl}/signup`);
       expect(req.request.method).toBe('POST');
-      req.flush(expectedUserDto);
-    });
-  });
-
-  describe('me', () => {
-    it('should send a GET request to the me endpoint and return the user DTO', () => {
-      // Arrange
-      const expectedUserDto: UserDto = {} as unknown as UserDto;
-
-      // Act
-      authService.me().subscribe((userDto) => {
-        // Assert
-        expect(userDto).toEqual(expectedUserDto);
-      });
-
-      // Assert
-      const req = httpMock.expectOne(`${authBaseUrl}/me`);
-      expect(req.request.method).toBe('GET');
       req.flush(expectedUserDto);
     });
   });

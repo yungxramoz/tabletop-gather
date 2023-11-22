@@ -1,6 +1,6 @@
 package tabletop.gather.backend.config;
 
-import tabletop.gather.backend.auth.JwtService;
+import tabletop.gather.backend.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
