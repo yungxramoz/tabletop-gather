@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BackendApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="tabletop.gather.backend.BackendApplication" />
+    <module name="backend" />
+    <option name="PROGRAM_PARAMETERS" value="--spring.config.additional-location=classpath:application-development.yml --spring.profiles.active=development" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="tabletop.gather.backend.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

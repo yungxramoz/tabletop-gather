@@ -24,10 +24,6 @@ public class GatheringDto {
     @Schema(type = "string", example = "18:30")
     private LocalTime startTime;
 
-    @NotNull
-    @Schema(type = "string", example = "18:30")
-    private LocalTime endTime;
-
     private UUID plan;
 
     private List<UUID> guests;

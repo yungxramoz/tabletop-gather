@@ -69,7 +69,6 @@ public class GatheringService {
         gatheringDTO.setId(gathering.getId());
         gatheringDTO.setDate(gathering.getDate());
         gatheringDTO.setStartTime(gathering.getStartTime());
-        gatheringDTO.setEndTime(gathering.getEndTime());
         gatheringDTO.setPlan(gathering.getPlan() == null ? null : gathering.getPlan().getId());
         gatheringDTO.setGuests(gathering.getGuests().stream()
                 .map(guest -> guest.getId())
@@ -83,7 +82,6 @@ public class GatheringService {
     private Gathering mapToEntity(final GatheringDto gatheringDTO, final Gathering gathering) {
         gathering.setDate(gatheringDTO.getDate());
         gathering.setStartTime(gatheringDTO.getStartTime());
-        gathering.setEndTime(gatheringDTO.getEndTime());
         final Plan plan = gatheringDTO.getPlan() == null ? null : planRepository.findById(gatheringDTO.getPlan())
                 .orElseThrow(() -> new NotFoundException("plan not found"));
         gathering.setPlan(plan);

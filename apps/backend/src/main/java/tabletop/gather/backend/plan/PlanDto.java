@@ -23,6 +23,10 @@ public class PlanDto {
     @JsonProperty("isPrivate")
     private Boolean isPrivate;
 
+    private String description;
+
+    private int playerLimit;
+
     private UUID user;
 
     private UUID game;
