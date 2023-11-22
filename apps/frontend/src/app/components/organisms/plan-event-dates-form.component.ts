@@ -9,11 +9,11 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule } from '@nebular/theme';
-import { Plan } from '../../models/plan.dto';
+import { CreatePlan } from '../../models/create-plan.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { DatepickerComponent } from '../molecules/datepicker.component';
 
-type PlanWithUnmappedGatherings = Omit<Partial<Plan>, 'gatherings'> & {
+type PlanWithUnmappedGatherings = Omit<Partial<CreatePlan>, 'gatherings'> & {
   gatherings: Date[];
 };
 

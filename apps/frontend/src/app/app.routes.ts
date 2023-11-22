@@ -4,6 +4,7 @@ import { EventsComponent } from './components/pages/events.component';
 import { FourOhFourComponent } from './components/pages/four-oh-four.component';
 import { LandingPageComponent } from './components/pages/landing-page.component';
 import { LoginComponent } from './components/pages/login.component';
+import { ManageEventComponent } from './components/pages/manage-event.component';
 import { PlanEventComponent } from './components/pages/plan-event.component';
 import { ProfileComponent } from './components/pages/profile.component';
 import { SampleDesignComponent } from './components/pages/sample-design.component';
@@ -12,6 +13,7 @@ import {
   ROUTE_DESIGN,
   ROUTE_EVENTS,
   ROUTE_LOGIN,
+  ROUTE_MANAGE_EVENT,
   ROUTE_PLAN_EVENT,
   ROUTE_PROFILE,
 } from './constants';
@@ -35,6 +37,11 @@ export const appRoutes: Route[] = [
   {
     path: ROUTE_PLAN_EVENT,
     component: PlanEventComponent,
+    canActivate: [isAuthenticatedOrRedirectToLogin],
+  },
+  {
+    path: ROUTE_MANAGE_EVENT + '/:eventId',
+    component: ManageEventComponent,
     canActivate: [isAuthenticatedOrRedirectToLogin],
   },
   {

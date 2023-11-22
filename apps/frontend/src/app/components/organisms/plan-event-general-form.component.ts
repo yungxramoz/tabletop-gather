@@ -12,14 +12,14 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { MaxValidatorDirective } from '../../directives/max-validator.directive';
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
+import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
-import { Plan } from '../../models/plan.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 import { AutocompleteComponent } from '../molecules/autocomplete.component';
 
-type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
+type PlanWithUnmappedGame = Omit<Partial<CreatePlan>, 'game'> & {
   game: [Game];
 };
 

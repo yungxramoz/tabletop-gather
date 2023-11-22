@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
-import { Plan } from '../../models/plan.dto';
+import { CreatePlan } from '../../models/create-plan.dto';
 import { LabelComponent } from '../atoms/label.component';
 
 @Component({
@@ -52,16 +52,18 @@ import { LabelComponent } from '../atoms/label.component';
             <p class="tg-p-1">{{ game.name }}</p>
           </div>
         </ng-container>
+
         <button
           nbButton
           fullWidth
           status="primary"
           shape="semi-round"
           [disabled]="disabled"
-          (click)="createEvent.emit()"
+          (click)="createEvent.emit(event!)"
         >
           Create Event
         </button>
+
         <ng-template #nothingHereYet>
           <div class="tg-m-4 tg-flex-row tg-justify-around">
             <p class="tg-text-hint"><i>Nothing here yet.</i></p>
@@ -74,6 +76,7 @@ import { LabelComponent } from '../atoms/label.component';
 })
 export class PlanEventSummaryComponent {
   @Input() public disabled = false;
-  @Input({ required: true }) public event!: Plan | null;
-  @Output() public createEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Input({ required: true }) public event!: CreatePlan | null;
+  @Output() public createEvent: EventEmitter<CreatePlan> =
+    new EventEmitter<CreatePlan>();
 }

@@ -8,16 +8,15 @@ import {
 import { FormsModule } from '@angular/forms';
 import { NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
+import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
-import { Gathering } from '../../models/gathering.dto';
-import { Plan } from '../../models/plan.dto';
 import { PlanEventSummaryComponent } from '../molecules/plan-event-summary';
 import { PlanEventDatesFormComponent } from '../organisms/plan-event-dates-form.component';
 import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-form.component';
 
 @Component({
   standalone: true,
-  selector: 'tg-plan-event-stepper',
+  selector: 'tg-plan-event',
   imports: [
     AsyncPipe,
     JsonPipe,
@@ -43,12 +42,12 @@ import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-f
       <nb-step label="Summary">
         <ng-template nbStepLabel>Summary</ng-template>
         <tg-plan-event-summary
-          [event]="event$ | async"
+          [event]="newEvent$ | async"
           [disabled]="
             (eventGeneralFormValid$ | async) === false ||
             (eventDatesFormValid$ | async) === false
           "
-          (createEvent)="onCreateEvent()"
+          (createEvent)="onCreateEvent($event)"
         ></tg-plan-event-summary>
       </nb-step>
     </nb-stepper>
@@ -64,7 +63,7 @@ export class PlanEventComponent implements AfterViewInit {
 
   public eventGeneralFormValid$!: Observable<boolean>;
   public eventDatesFormValid$!: Observable<boolean>;
-  public event$!: Observable<Plan>;
+  public newEvent$!: Observable<CreatePlan>;
 
   public readonly mockGames: Game[] = [
     {
@@ -90,8 +89,8 @@ export class PlanEventComponent implements AfterViewInit {
     },
   ];
 
-  public onCreateEvent() {
-    console.log('Create event');
+  public onCreateEvent(createPlan: CreatePlan) {
+    console.log('Plan created:', createPlan);
   }
 
   public ngAfterViewInit() {
@@ -118,11 +117,15 @@ export class PlanEventComponent implements AfterViewInit {
         startWith(false)
       );
 
-    this.event$ = combineLatest([generalFormValues$, datesFormValues$]).pipe(
+    this.newEvent$ = combineLatest([generalFormValues$, datesFormValues$]).pipe(
       map(([generalForm, datesForm]) => {
         // Manual mapping of form values to PlanDto
         const gatherings = (datesForm.gatherings ?? []).map(
-          (date) => <Gathering>{ date, startTime: date.toLocaleTimeString() }
+          (date) =>
+            <CreatePlan['gatherings'][number]>{
+              date,
+              startTime: date.toLocaleTimeString(),
+            }
         );
 
         // Manual mapping of form values to PlanDto
@@ -132,10 +135,10 @@ export class PlanEventComponent implements AfterViewInit {
           ...generalForm,
           game,
           gatherings,
-        } as Plan;
+        } as CreatePlan;
       })
     );
 
-    this.event$.subscribe();
+    this.newEvent$.subscribe();
   }
 }
