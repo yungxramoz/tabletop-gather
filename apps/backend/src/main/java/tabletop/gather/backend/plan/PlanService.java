@@ -60,6 +60,8 @@ public class PlanService {
         planDTO.setId(plan.getId());
         planDTO.setName(plan.getName());
         planDTO.setIsPrivate(plan.getIsPrivate());
+        planDTO.setDescription(plan.getDescription());
+        planDTO.setPlayerLimit(plan.getPlayerLimit());
         planDTO.setUser(plan.getUser() == null ? null : plan.getUser().getId());
         planDTO.setGame(plan.getGame() == null ? null : plan.getGame().getId());
         return planDTO;
@@ -68,6 +70,8 @@ public class PlanService {
     private Plan mapToEntity(final PlanDto planDTO, final Plan plan) {
         plan.setName(planDTO.getName());
         plan.setIsPrivate(planDTO.getIsPrivate());
+        plan.setDescription(planDTO.getDescription());
+        plan.setPlayerLimit(planDTO.getPlayerLimit());
         final User user = planDTO.getUser() == null ? null : userRepository.findById(planDTO.getUser())
                 .orElseThrow(() -> new NotFoundException("user not found"));
         plan.setUser(user);

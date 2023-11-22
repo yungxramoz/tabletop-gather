@@ -37,9 +37,6 @@ public class Gathering {
     @Column(nullable = false)
     private LocalTime startTime;
 
-    @Column(nullable = false)
-    private LocalTime endTime;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
     private Plan plan;
