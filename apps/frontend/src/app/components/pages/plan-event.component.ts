@@ -10,7 +10,7 @@ import { NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
 import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
-import { PlanEventSummaryComponent } from '../molecules/plan-event-summary';
+import { PlanEventSummaryComponent } from '../molecules/plan-event-summary.component';
 import { PlanEventDatesFormComponent } from '../organisms/plan-event-dates-form.component';
 import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-form.component';
 

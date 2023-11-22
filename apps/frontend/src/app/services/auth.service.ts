@@ -66,7 +66,8 @@ export class AuthService {
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
         map((response) => response?.body as JwtDto),
-        tap((loginResult) => this.updateSession(loginResult))
+        tap((loginResult) => this.setSession(loginResult)),
+        tap(() => this.loginStatusSubject.next(true))
       );
   }
 
@@ -124,7 +125,6 @@ export class AuthService {
    */
   public updateSession(response: JwtDto): void {
     this.setSession(response);
-    this.loginStatusSubject.next(true);
   }
 
   /**
