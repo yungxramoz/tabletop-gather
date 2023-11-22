@@ -108,7 +108,8 @@ export class ProfileComponent implements OnInit {
             map((result) => ({ ...me, ...event, ...result } as UserUpdate))
           )
         ),
-        switchMap((me) => this.usersService.updateMe(me))
+        switchMap((me) => this.usersService.updateMe(me)),
+        tap((jwtDto) => this.authService.updateSession(jwtDto))
       )
       .subscribe();
   }
@@ -133,8 +134,7 @@ export class ProfileComponent implements OnInit {
         ),
         switchMap((passwordUpdate: PasswordUpdate) =>
           this.usersService.updateMyPassword(passwordUpdate)
-        ),
-        map((jwtDto) => this.authService.updateSession(jwtDto))
+        )
       )
       .subscribe();
   }
