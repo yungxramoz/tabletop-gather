@@ -63,6 +63,18 @@ import { InputComponent } from '../atoms/input.component';
             placeholder="Doe"
           ></tg-input>
 
+          <tg-input
+            [(ngModel)]="model.email"
+            required
+            email
+            minlength="3"
+            maxlength="320"
+            id="email"
+            name="email"
+            label="Email"
+            placeholder="john@doe.com"
+          ></tg-input>
+
           <div class="tg-flex-row tg-mt-2">
             <button
               nbButton
@@ -94,14 +106,14 @@ import { InputComponent } from '../atoms/input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateUserFormComponent implements OnChanges {
-  @Input() public user!: Omit<User, 'email'>;
-  @Output() public userUpdated: EventEmitter<Omit<User, 'email'>> =
-    new EventEmitter<Omit<User, 'email'>>();
+  @Input() public user!: User;
+  @Output() public userUpdated: EventEmitter<User> = new EventEmitter<User>();
 
-  public readonly model: Omit<User, 'email'> = {
+  public readonly model: User = {
     username: '',
     firstName: '',
     lastName: '',
+    email: '',
   };
 
   public updateUser() {
@@ -109,6 +121,7 @@ export class UpdateUserFormComponent implements OnChanges {
       username: this.model.username,
       firstName: this.model.firstName,
       lastName: this.model.lastName,
+      email: this.model.email,
     });
   }
 
@@ -129,5 +142,6 @@ export class UpdateUserFormComponent implements OnChanges {
     this.model.username = this.user.username;
     this.model.firstName = this.user.firstName;
     this.model.lastName = this.user.lastName;
+    this.model.email = this.user.email;
   }
 }

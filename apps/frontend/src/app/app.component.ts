@@ -29,11 +29,12 @@ import { AuthService } from './services/auth.service';
     <nb-layout>
       <nb-layout-header fixed *ngIf="loginStatus$ | async">
         <img
-          title="Tabletop Gather Logo"
+          title="Home"
           src="assets/tg-wizard-no-bg.svg"
           width="50"
           height="50"
-          class="tg-m-1"
+          class="tg-m-1 tg-clickable"
+          [routerLink]="['/']"
         />
         <div class="tg-flex-grow"></div>
         <button nbButton ghost size="large" status="primary" (click)="logout()">
