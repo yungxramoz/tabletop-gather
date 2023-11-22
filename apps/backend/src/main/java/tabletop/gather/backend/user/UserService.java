@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.util.NotFoundException;
 
@@ -13,8 +14,11 @@ public class UserService {
 
   private final UserRepository userRepository;
 
-  public UserService(final UserRepository userRepository) {
+  private final PasswordEncoder passwordEncoder;
+
+  public UserService(final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   /**
@@ -88,7 +92,7 @@ public class UserService {
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
     final User user = userRepository.findById(id)
         .orElseThrow(NotFoundException::new);
-    user.setPasswordHash(passwordUpdateDto.getPassword());
+    user.setPasswordHash(passwordEncoder.encode(passwordUpdateDto.getNewPassword()));
     userRepository.save(user);
     return user;
   }
