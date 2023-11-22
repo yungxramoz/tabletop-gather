@@ -78,7 +78,7 @@ import { LabelComponent } from '../atoms/label.component';
           class="tg-p-0"
           (click)="onSelectedRemove(i)"
         >
-          <nb-icon icon="close-outline"></nb-icon>
+          <nb-icon icon="trash-2-outline"></nb-icon>
         </button>
       </nb-list-item>
     </nb-list>
