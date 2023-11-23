@@ -45,7 +45,7 @@ public class AuthenticationService {
         user.setPasswordHash(passwordEncoder.encode(input.getPassword()));
 
         userRepository.save(user);
-        return this.userService.mapToDTO(user, new UserDto());
+        return this.userService.mapToDto(user, new UserDto());
     }
 
     public User authenticate(LoginUserDto input) {

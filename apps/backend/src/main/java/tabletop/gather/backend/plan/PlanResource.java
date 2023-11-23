@@ -40,41 +40,41 @@ public class PlanResource {
    * @return the plan
    */
   @GetMapping("/{id}")
-  public ResponseEntity<PlanDto> getPlan(@PathVariable(name = "id") final UUID id) {
-    return ResponseEntity.ok(planService.get(id));
+  public ResponseEntity<DetailPlanDto> getPlan(@PathVariable(name = "id") final UUID id) {
+    return ResponseEntity.ok(planService.getDetail(id));
   }
 
   /**
    * Create a plan
    * @param token the jwt token
-   * @param planDTO the plan to create
+   * @param planDto the plan to create
    * @return the id of the created plan
    */
   @PostMapping
   @ApiResponse(responseCode = "201")
   public ResponseEntity<UUID> createPlan(@RequestHeader("Authorization") final String token,
-                                         @RequestBody @Valid final CreatePlanDto planDTO) {
+                                         @RequestBody @Valid final CreatePlanDto planDto) {
     UUID userId = jwtService.getUserByToken(token).getId();
-    final UUID createdId = planService.create(planDTO, userId);
+    final UUID createdId = planService.create(planDto, userId);
     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
   }
 
   /**
    * Update a plan
    * @param id the id of the plan
-   * @param planDTO the plan to update
+   * @param planDto the plan to update
    * @return the id of the updated plan
    */
   @PutMapping("/{id}")
   public ResponseEntity<UUID> updatePlan(@RequestHeader("Authorization") final String token,
                                          @PathVariable(name = "id") final UUID id,
-                                         @RequestBody @Valid final PlanDto planDTO) {
+                                         @RequestBody @Valid final PlanDto planDto) {
     UUID userId = jwtService.getUserByToken(token).getId();
     PlanDto plan = planService.get(id);
     if (!plan.getUser().equals(userId)) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-    planService.update(id, planDTO);
+    planService.update(id, planDto);
     return ResponseEntity.ok(id);
   }
 

@@ -33,15 +33,15 @@ public class CommentResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createComment(@RequestBody @Valid final CommentDto commentDTO) {
-        final UUID createdId = commentService.create(commentDTO);
+    public ResponseEntity<UUID> createComment(@RequestBody @Valid final CommentDto commentDto) {
+        final UUID createdId = commentService.create(commentDto);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateComment(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final CommentDto commentDTO) {
-        commentService.update(id, commentDTO);
+            @RequestBody @Valid final CommentDto commentDto) {
+        commentService.update(id, commentDto);
         return ResponseEntity.ok(id);
     }
 

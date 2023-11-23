@@ -26,26 +26,26 @@ public class GuestService {
     public List<GuestDto> findAll() {
         final List<Guest> guests = guestRepository.findAll(Sort.by("id"));
         return guests.stream()
-                .map(guest -> mapToDTO(guest, new GuestDto()))
+                .map(guest -> mapToDto(guest, new GuestDto()))
                 .toList();
     }
 
     public GuestDto get(final UUID id) {
         return guestRepository.findById(id)
-                .map(guest -> mapToDTO(guest, new GuestDto()))
+                .map(guest -> mapToDto(guest, new GuestDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final GuestDto guestDTO) {
+    public UUID create(final GuestDto guestDto) {
         final Guest guest = new Guest();
-        mapToEntity(guestDTO, guest);
+        mapToEntity(guestDto, guest);
         return guestRepository.save(guest).getId();
     }
 
-    public void update(final UUID id, final GuestDto guestDTO) {
+    public void update(final UUID id, final GuestDto guestDto) {
         final Guest guest = guestRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
-        mapToEntity(guestDTO, guest);
+        mapToEntity(guestDto, guest);
         guestRepository.save(guest);
     }
 
@@ -58,16 +58,16 @@ public class GuestService {
         guestRepository.delete(guest);
     }
 
-    private GuestDto mapToDTO(final Guest guest, final GuestDto guestDTO) {
-        guestDTO.setId(guest.getId());
-        guestDTO.setName(guest.getName());
-        guestDTO.setEmail(guest.getEmail());
-        return guestDTO;
+    private GuestDto mapToDto(final Guest guest, final GuestDto guestDto) {
+        guestDto.setId(guest.getId());
+        guestDto.setName(guest.getName());
+        guestDto.setEmail(guest.getEmail());
+        return guestDto;
     }
 
-    private Guest mapToEntity(final GuestDto guestDTO, final Guest guest) {
-        guest.setName(guestDTO.getName());
-        guest.setEmail(guestDTO.getEmail());
+    private Guest mapToEntity(final GuestDto guestDto, final Guest guest) {
+        guest.setName(guestDto.getName());
+        guest.setEmail(guestDto.getEmail());
         return guest;
     }
 

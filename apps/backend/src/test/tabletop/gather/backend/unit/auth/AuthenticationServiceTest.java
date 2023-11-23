@@ -59,14 +59,14 @@ public class AuthenticationServiceTest {
     User user = new User();
     when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
     when(userRepository.save(any(User.class))).thenReturn(user);
-    when(userService.mapToDTO(any(User.class), any(UserDto.class))).thenReturn(new UserDto());
+    when(userService.mapToDto(any(User.class), any(UserDto.class))).thenReturn(new UserDto());
 
     UserDto userDto = authenticationService.signup(registerUserDto);
 
     assertNotNull(userDto);
     verify(passwordEncoder, times(1)).encode(anyString());
     verify(userRepository, times(1)).save(any(User.class));
-    verify(userService, times(1)).mapToDTO(any(User.class), any(UserDto.class));
+    verify(userService, times(1)).mapToDto(any(User.class), any(UserDto.class));
   }
 
   @Test

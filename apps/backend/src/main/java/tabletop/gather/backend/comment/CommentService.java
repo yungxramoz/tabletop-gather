@@ -29,26 +29,26 @@ public class CommentService {
     public List<CommentDto> findAll() {
         final List<Comment> comments = commentRepository.findAll(Sort.by("id"));
         return comments.stream()
-                .map(comment -> mapToDTO(comment, new CommentDto()))
+                .map(comment -> mapToDto(comment, new CommentDto()))
                 .toList();
     }
 
     public CommentDto get(final UUID id) {
         return commentRepository.findById(id)
-                .map(comment -> mapToDTO(comment, new CommentDto()))
+                .map(comment -> mapToDto(comment, new CommentDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final CommentDto commentDTO) {
+    public UUID create(final CommentDto commentDto) {
         final Comment comment = new Comment();
-        mapToEntity(commentDTO, comment);
+        mapToEntity(commentDto, comment);
         return commentRepository.save(comment).getId();
     }
 
-    public void update(final UUID id, final CommentDto commentDTO) {
+    public void update(final UUID id, final CommentDto commentDto) {
         final Comment comment = commentRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
-        mapToEntity(commentDTO, comment);
+        mapToEntity(commentDto, comment);
         commentRepository.save(comment);
     }
 
@@ -56,20 +56,20 @@ public class CommentService {
         commentRepository.deleteById(id);
     }
 
-    private CommentDto mapToDTO(final Comment comment, final CommentDto commentDTO) {
-        commentDTO.setId(comment.getId());
-        commentDTO.setComment(comment.getComment());
-        commentDTO.setUser(comment.getUser() == null ? null : comment.getUser().getId());
-        commentDTO.setPlan(comment.getPlan() == null ? null : comment.getPlan().getId());
-        return commentDTO;
+    private CommentDto mapToDto(final Comment comment, final CommentDto commentDto) {
+        commentDto.setId(comment.getId());
+        commentDto.setComment(comment.getComment());
+        commentDto.setUser(comment.getUser() == null ? null : comment.getUser().getId());
+        commentDto.setPlan(comment.getPlan() == null ? null : comment.getPlan().getId());
+        return commentDto;
     }
 
-    private Comment mapToEntity(final CommentDto commentDTO, final Comment comment) {
-        comment.setComment(commentDTO.getComment());
-        final User user = commentDTO.getUser() == null ? null : userRepository.findById(commentDTO.getUser())
+    private Comment mapToEntity(final CommentDto commentDto, final Comment comment) {
+        comment.setComment(commentDto.getComment());
+        final User user = commentDto.getUser() == null ? null : userRepository.findById(commentDto.getUser())
                 .orElseThrow(() -> new NotFoundException("user not found"));
         comment.setUser(user);
-        final Plan plan = commentDTO.getPlan() == null ? null : planRepository.findById(commentDTO.getPlan())
+        final Plan plan = commentDto.getPlan() == null ? null : planRepository.findById(commentDto.getPlan())
                 .orElseThrow(() -> new NotFoundException("plan not found"));
         comment.setPlan(plan);
         return comment;
