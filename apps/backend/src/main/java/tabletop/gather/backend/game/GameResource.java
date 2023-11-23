@@ -26,6 +26,7 @@ public class GameResource {
 
   /**
    * Get all games by containing name
+   *
    * @param name the name of the game
    * @return all games filtered by containing name
    */
@@ -36,6 +37,7 @@ public class GameResource {
 
   /**
    * Get all games by user
+   *
    * @param userId the id of the user
    * @return all games filtered by user
    */
@@ -46,6 +48,7 @@ public class GameResource {
 
   /**
    * Get a game by id
+   *
    * @param id the id of the game
    * @return the game
    */
@@ -56,6 +59,7 @@ public class GameResource {
 
   /**
    * Add a game to collection of authenticated user
+   *
    * @param id the game to add
    * @return 201 if added
    */
@@ -70,13 +74,14 @@ public class GameResource {
 
   /**
    * Remove a game from collection of authenticated user
+   *
    * @param id the game to remove
    * @return 204 if removed
    */
   @DeleteMapping("/{id}/remove")
   @ApiResponse(responseCode = "204")
   public ResponseEntity<Void> removeGameFromUser(@RequestHeader("Authorization") final String token,
-                                         @PathVariable(name = "id") final UUID id) {
+                                                 @PathVariable(name = "id") final UUID id) {
     UUID userId = jwtService.getUserByToken(token).getId();
     gameService.removeUser(id, userId);
     return ResponseEntity.noContent().build();
