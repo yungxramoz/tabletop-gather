@@ -7,16 +7,17 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import tabletop.gather.backend.auth.AuthenticationService;
 import tabletop.gather.backend.jwt.JwtDto;
 import tabletop.gather.backend.jwt.JwtService;
 import tabletop.gather.backend.user.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class UserResourceTest {
 
@@ -28,6 +29,9 @@ public class UserResourceTest {
 
   @Mock
   private JwtService jwtService;
+
+  @Mock
+  AuthenticationService authenticationService;
 
   @BeforeEach
   public void init() {
@@ -64,24 +68,27 @@ public class UserResourceTest {
     UserUpdateDto userUpdateDto = new UserUpdateDto();
     UserDto userDto = new UserDto();
     User user = new User();
-    when(jwtService.extractUsername(token)).thenReturn(userDto.getEmail());
+    JwtDto jwtDto = new JwtDto();
+    jwtDto.setToken("newToken");
+    jwtDto.setExpiresIn(3600L);
     when(userService.getByEmail(userDto.getEmail())).thenReturn(userDto);
     when(userService.update(userDto.getId(), userUpdateDto, userDto.getEmail())).thenReturn(user);
-    when(jwtService.generateToken(user)).thenReturn("newToken");
-    when(jwtService.getExpirationTime()).thenReturn(3600L);
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
+    when(jwtService.getNewJwtToken(user)).thenReturn(jwtDto);
 
     ResponseEntity<JwtDto> response = userResource.updateAuthenticatedUser(token, userUpdateDto);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("newToken", response.getBody().getToken());
-    assertEquals(3600L, response.getBody().getExpiresIn());
+    assertEquals(jwtDto.getToken(), response.getBody().getToken());
+    assertEquals(jwtDto.getExpiresIn(), response.getBody().getExpiresIn());
+    verify(authenticationService, times(1)). verifyEmailPassword(any(), any());
   }
 
   @Test
   public void testDeleteAuthenticatedUser() {
     String token = "token";
     UserDto userDto = new UserDto();
-    when(jwtService.extractUsername(token)).thenReturn(userDto.getEmail());
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
     when(userService.getByEmail(userDto.getEmail())).thenReturn(userDto);
 
     ResponseEntity<Void> response = userResource.deleteAuthenticatedUser(token);
@@ -93,7 +100,7 @@ public class UserResourceTest {
   public void testGetAuthenticatedUser() {
     String token = "token";
     UserDto userDto = new UserDto();
-    when(jwtService.extractUsername(token)).thenReturn(userDto.getEmail());
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
     when(userService.getByEmail(userDto.getEmail())).thenReturn(userDto);
 
     ResponseEntity<UserDto> response = userResource.getAuthenticatedUser(token);
@@ -108,16 +115,19 @@ public class UserResourceTest {
     PasswordUpdateDto passwordUpdateDto = new PasswordUpdateDto();
     UserDto userDto = new UserDto();
     User user = new User();
-    when(jwtService.extractUsername(token)).thenReturn(userDto.getEmail());
+    JwtDto jwtDto = new JwtDto();
+    jwtDto.setToken("newToken");
+    jwtDto.setExpiresIn(3600L);
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
+    when(jwtService.getNewJwtToken(user)).thenReturn(jwtDto);
     when(userService.getByEmail(userDto.getEmail())).thenReturn(userDto);
     when(userService.updatePassword(userDto.getId(), passwordUpdateDto)).thenReturn(user);
-    when(jwtService.generateToken(user)).thenReturn("newToken");
-    when(jwtService.getExpirationTime()).thenReturn(3600L);
 
     ResponseEntity<JwtDto> response = userResource.updatePassword(passwordUpdateDto, token);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("newToken", response.getBody().getToken());
-    assertEquals(3600L, response.getBody().getExpiresIn());
+    assertEquals(jwtDto.getToken(), response.getBody().getToken());
+    assertEquals(jwtDto.getExpiresIn(), response.getBody().getExpiresIn());
+    verify(authenticationService, times(1)).verifyEmailPassword(any(), any());
   }
 }

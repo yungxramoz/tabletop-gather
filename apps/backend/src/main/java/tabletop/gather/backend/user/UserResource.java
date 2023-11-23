@@ -2,27 +2,30 @@ package tabletop.gather.backend.user;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-
-import java.util.List;
-import java.util.UUID;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tabletop.gather.backend.auth.AuthenticationService;
 import tabletop.gather.backend.jwt.JwtDto;
 import tabletop.gather.backend.jwt.JwtService;
+
+import java.util.List;
+import java.util.UUID;
 
 @RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class UserResource {
 
   private final UserService userService;
-  private JwtService jwtService;
+  private final JwtService jwtService;
 
-  public UserResource(final UserService userService, final JwtService jwtService) {
+  private final AuthenticationService authenticationService;
+
+  public UserResource(final UserService userService, final JwtService jwtService, final AuthenticationService authenticationService) {
     this.userService = userService;
     this.jwtService = jwtService;
+    this.authenticationService = authenticationService;
   }
 
   /**
@@ -50,15 +53,16 @@ public class UserResource {
    * Updates the authenticated user.
    *
    * @param token the JWT token
-   * @param userDTO the user DTO to update
+   * @param userDto the user Dto to update
    * @return JWT token with expiration time
    */
   @PutMapping("/me")
   public ResponseEntity<JwtDto> updateAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                                                        @RequestBody @Valid final UserUpdateDto userDTO) {
-    UserDto user = getUserByToken(token);
-    User updatedUser = userService.update(user.getId(), userDTO, user.getEmail());
-    JwtDto jwtToken = getJwtToken(updatedUser);
+                                                        @RequestBody @Valid final UserUpdateDto userDto) {
+    UserDto user = jwtService.getUserByToken(token);
+    authenticationService.verifyEmailPassword(user.getEmail(), userDto.getPassword());
+    User updatedUser = userService.update(user.getId(), userDto, user.getEmail());
+    JwtDto jwtToken = jwtService.getNewJwtToken(updatedUser);
 
     return ResponseEntity.ok(jwtToken);
   }
@@ -72,7 +76,7 @@ public class UserResource {
   @DeleteMapping("/me")
   @ApiResponse(responseCode = "204")
   public ResponseEntity<Void> deleteAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-    UserDto user = getUserByToken(token);
+    UserDto user = jwtService.getUserByToken(token);
     userService.delete(user.getId());
     return ResponseEntity.noContent().build();
   }
@@ -86,14 +90,14 @@ public class UserResource {
   @GetMapping("/me")
   @ApiResponse(responseCode = "200")
   public ResponseEntity<UserDto> getAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-    UserDto user = getUserByToken(token);
+    UserDto user = jwtService.getUserByToken(token);
     return ResponseEntity.ok(user);
   }
 
   /**
    * Updates the password of the authenticated user.
    *
-   * @param passwordUpdateDto the password update DTO
+   * @param passwordUpdateDto the password update Dto
    * @param token the JWT token
    * @return JWT token with expiration time
    */
@@ -101,23 +105,12 @@ public class UserResource {
   @ApiResponse(responseCode = "200")
   public ResponseEntity<JwtDto> updatePassword(@RequestBody @Valid final PasswordUpdateDto passwordUpdateDto,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-    UserDto user = getUserByToken(token);
+    UserDto user = jwtService.getUserByToken(token);
+    authenticationService.verifyEmailPassword(user.getEmail(), passwordUpdateDto.getPassword());
     User newUser = userService.updatePassword(user.getId(), passwordUpdateDto);
 
-    JwtDto jwtToken = getJwtToken(newUser);
+    JwtDto jwtToken = jwtService.getNewJwtToken(newUser);
 
     return ResponseEntity.ok(jwtToken);
-  }
-
-  private UserDto getUserByToken(String token) {
-    String email = jwtService.extractUsername(token);
-    return userService.getByEmail(email);
-  }
-
-  private JwtDto getJwtToken(User user) {
-    JwtDto jwtToken = new JwtDto();
-    jwtToken.setToken(jwtService.generateToken(user));
-    jwtToken.setExpiresIn(jwtService.getExpirationTime());
-    return jwtToken;
   }
 }

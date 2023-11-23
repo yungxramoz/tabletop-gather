@@ -1,5 +1,6 @@
 package tabletop.gather.backend.auth;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import tabletop.gather.backend.util.NotFoundException;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserDto;
@@ -44,7 +45,7 @@ public class AuthenticationService {
         user.setPasswordHash(passwordEncoder.encode(input.getPassword()));
 
         userRepository.save(user);
-        return this.userService.mapToDTO(user, new UserDto());
+        return this.userService.mapToDto(user, new UserDto());
     }
 
     public User authenticate(LoginUserDto input) {
@@ -55,5 +56,12 @@ public class AuthenticationService {
 
         return userRepository.findByEmail(input.getEmail())
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public void verifyEmailPassword(String email, String password) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
+        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
+            throw new BadCredentialsException("Invalid credentials");
+        }
     }
 }

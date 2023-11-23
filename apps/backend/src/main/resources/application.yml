@@ -19,6 +19,7 @@ spring:
         id:
           new_generator_mappings: true
         default_schema: tabletop-gather
+        enable_lazy_load_no_trans: true
   flyway:
     enabled: true
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://tg-postgres:5432/postgres}

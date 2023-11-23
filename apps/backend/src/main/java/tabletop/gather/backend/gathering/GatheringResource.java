@@ -34,15 +34,15 @@ public class GatheringResource {
     @PostMapping
     @ApiResponse(responseCode = "201")
     public ResponseEntity<UUID> createGathering(
-            @RequestBody @Valid final GatheringDto gatheringDTO) {
-        final UUID createdId = gatheringService.create(gatheringDTO);
+            @RequestBody @Valid final GatheringDto gatheringDto) {
+        final UUID createdId = gatheringService.create(gatheringDto);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateGathering(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final GatheringDto gatheringDTO) {
-        gatheringService.update(id, gatheringDTO);
+            @RequestBody @Valid final GatheringDto gatheringDto) {
+        gatheringService.update(id, gatheringDto);
         return ResponseEntity.ok(id);
     }
 

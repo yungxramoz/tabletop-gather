@@ -59,14 +59,14 @@ public class AuthenticationServiceTest {
     User user = new User();
     when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
     when(userRepository.save(any(User.class))).thenReturn(user);
-    when(userService.mapToDTO(any(User.class), any(UserDto.class))).thenReturn(new UserDto());
+    when(userService.mapToDto(any(User.class), any(UserDto.class))).thenReturn(new UserDto());
 
     UserDto userDto = authenticationService.signup(registerUserDto);
 
     assertNotNull(userDto);
     verify(passwordEncoder, times(1)).encode(anyString());
     verify(userRepository, times(1)).save(any(User.class));
-    verify(userService, times(1)).mapToDTO(any(User.class), any(UserDto.class));
+    verify(userService, times(1)).mapToDto(any(User.class), any(UserDto.class));
   }
 
   @Test
@@ -82,5 +82,21 @@ public class AuthenticationServiceTest {
     assertEquals(user, authenticatedUser);
     verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
     verify(userRepository, times(1)).findByEmail(anyString());
+  }
+
+  @Test
+  public void testVerifyEmailPassword() {
+    String email = "test@test.ch";
+    String password = "test";
+    User user = new User();
+    user.setEmail(email);
+    user.setPasswordHash(passwordEncoder.encode(password));
+    when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+    when(passwordEncoder.matches(password, user.getPasswordHash())).thenReturn(true);
+
+    authenticationService.verifyEmailPassword(email, password);
+
+    verify(userRepository, times(1)).findByEmail(email);
+    verify(passwordEncoder, times(1)).matches(password, user.getPasswordHash());
   }
 }

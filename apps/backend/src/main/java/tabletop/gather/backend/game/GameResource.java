@@ -33,15 +33,15 @@ public class GameResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createGame(@RequestBody @Valid final GameDto gameDTO) {
-        final UUID createdId = gameService.create(gameDTO);
+    public ResponseEntity<UUID> createGame(@RequestBody @Valid final GameDto gameDto) {
+        final UUID createdId = gameService.create(gameDto);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateGame(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final GameDto gameDTO) {
-        gameService.update(id, gameDTO);
+            @RequestBody @Valid final GameDto gameDto) {
+        gameService.update(id, gameDto);
         return ResponseEntity.ok(id);
     }
 

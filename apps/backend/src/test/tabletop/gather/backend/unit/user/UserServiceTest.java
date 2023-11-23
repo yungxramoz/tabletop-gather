@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import tabletop.gather.backend.user.*;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class UserServiceTest {
   private UserRepository userRepository;
 
   @Mock
-  private AuthenticationManager authenticationManager;
+  private PasswordEncoder passwordEncoder;
 
   @BeforeEach
   public void init() {
@@ -95,6 +96,7 @@ public class UserServiceTest {
   public void testUpdatePassword() {
     User user = new User();
     PasswordUpdateDto passwordUpdateDto = new PasswordUpdateDto();
+    passwordUpdateDto.setNewPassword("password");
     when(userRepository.findById(any(UUID.class))).thenReturn(Optional.of(user));
     when(userRepository.save(any(User.class))).thenReturn(user);
 
@@ -103,5 +105,6 @@ public class UserServiceTest {
     assertEquals(user, updatedUser);
     verify(userRepository, times(1)).findById(any(UUID.class));
     verify(userRepository, times(1)).save(any(User.class));
+    verify(passwordEncoder, times(1)).encode(passwordUpdateDto.getNewPassword());
   }
 }

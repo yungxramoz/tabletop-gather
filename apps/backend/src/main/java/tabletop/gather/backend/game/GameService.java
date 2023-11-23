@@ -25,26 +25,26 @@ public class GameService {
     public List<GameDto> findAll() {
         final List<Game> games = gameRepository.findAll(Sort.by("id"));
         return games.stream()
-                .map(game -> mapToDTO(game, new GameDto()))
+                .map(game -> mapToDto(game, new GameDto()))
                 .toList();
     }
 
     public GameDto get(final UUID id) {
         return gameRepository.findById(id)
-                .map(game -> mapToDTO(game, new GameDto()))
+                .map(game -> mapToDto(game, new GameDto()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UUID create(final GameDto gameDTO) {
+    public UUID create(final GameDto gameDto) {
         final Game game = new Game();
-        mapToEntity(gameDTO, game);
+        mapToEntity(gameDto, game);
         return gameRepository.save(game).getId();
     }
 
-    public void update(final UUID id, final GameDto gameDTO) {
+    public void update(final UUID id, final GameDto gameDto) {
         final Game game = gameRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
-        mapToEntity(gameDTO, game);
+        mapToEntity(gameDto, game);
         gameRepository.save(game);
     }
 
@@ -57,22 +57,22 @@ public class GameService {
         gameRepository.delete(game);
     }
 
-    private GameDto mapToDTO(final Game game, final GameDto gameDTO) {
-        gameDTO.setId(game.getId());
-        gameDTO.setName(game.getName());
-        gameDTO.setDescription(game.getDescription());
-        gameDTO.setMinPlayer(game.getMinPlayer());
-        gameDTO.setMaxPlayer(game.getMaxPlayer());
-        gameDTO.setImageUrl(game.getImageUrl());
-        return gameDTO;
+    private GameDto mapToDto(final Game game, final GameDto gameDto) {
+        gameDto.setId(game.getId());
+        gameDto.setName(game.getName());
+        gameDto.setDescription(game.getDescription());
+        gameDto.setMinPlayer(game.getMinPlayer());
+        gameDto.setMaxPlayer(game.getMaxPlayer());
+        gameDto.setImageUrl(game.getImageUrl());
+        return gameDto;
     }
 
-    private Game mapToEntity(final GameDto gameDTO, final Game game) {
-        game.setName(gameDTO.getName());
-        game.setDescription(gameDTO.getDescription());
-        game.setMinPlayer(gameDTO.getMinPlayer());
-        game.setMaxPlayer(gameDTO.getMaxPlayer());
-        game.setImageUrl(gameDTO.getImageUrl());
+    private Game mapToEntity(final GameDto gameDto, final Game game) {
+        game.setName(gameDto.getName());
+        game.setDescription(gameDto.getDescription());
+        game.setMinPlayer(gameDto.getMinPlayer());
+        game.setMaxPlayer(gameDto.getMaxPlayer());
+        game.setImageUrl(gameDto.getImageUrl());
         return game;
     }
 
