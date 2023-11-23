@@ -7,5 +7,6 @@ import java.util.UUID;
 
 
 public interface PlanRepository extends JpaRepository<Plan, UUID> {
-  List<Plan> findAllByIsPrivateFalseOrderByNameDesc();
+  List<Plan> findAllByIsPrivateFalse();
+  List<Plan> findAllByUserId(UUID userId);
 }

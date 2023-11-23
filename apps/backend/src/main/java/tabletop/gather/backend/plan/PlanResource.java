@@ -1,5 +1,6 @@
 package tabletop.gather.backend.plan;
 
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,18 @@ public class PlanResource {
    * @return all plans
    */
   @GetMapping
-  public ResponseEntity<List<PlanDto>> getAllPlans() {
+  public ResponseEntity<List<OverviewPlanDto>> getAllPlans() {
     return ResponseEntity.ok(planService.findAll());
+  }
+
+  /**
+   * Get al my plans
+   * @return all plans
+   */
+  @GetMapping("/me")
+  public ResponseEntity<List<OverviewPlanDto>> getAllPlans(@RequestHeader("Authorization") final String token) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    return ResponseEntity.ok(planService.findAll(userId));
   }
 
   /**
@@ -68,7 +79,7 @@ public class PlanResource {
   @PutMapping("/{id}")
   public ResponseEntity<UUID> updatePlan(@RequestHeader("Authorization") final String token,
                                          @PathVariable(name = "id") final UUID id,
-                                         @RequestBody @Valid final PlanDto planDto) {
+                                         @RequestBody @Valid final UpdatePlanDto planDto) {
     UUID userId = jwtService.getUserByToken(token).getId();
     PlanDto plan = planService.get(id);
     if (!plan.getUser().equals(userId)) {
