@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tabletop.gather.backend.game.GameDto;
+import tabletop.gather.backend.gathering.DetailGatheringDto;
 import tabletop.gather.backend.gathering.GatheringDto;
 import tabletop.gather.backend.user.UserDto;
 
@@ -29,5 +30,5 @@ public class DetailPlanDto {
 
   private GameDto game;
 
-  private List<GatheringDto> gatherings;
+  private List<DetailGatheringDto> gatherings;
 }

@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import tabletop.gather.backend.game.Game;
 import tabletop.gather.backend.game.GameDto;
 import tabletop.gather.backend.game.GameRepository;
-import tabletop.gather.backend.gathering.CreateGatheringDto;
-import tabletop.gather.backend.gathering.Gathering;
-import tabletop.gather.backend.gathering.GatheringDto;
-import tabletop.gather.backend.gathering.GatheringRepository;
+import tabletop.gather.backend.gathering.*;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserDto;
 import tabletop.gather.backend.user.UserRepository;
@@ -108,15 +105,13 @@ public class PlanService {
     }
 
     Set<Gathering> gatherings = plan.getGatherings();
-    List<GatheringDto> gatheringDtos = new ArrayList<>();
+    List<DetailGatheringDto> gatheringDtos = new ArrayList<>();
     gatherings.forEach(gathering -> {
-      GatheringDto gatheringDto = new GatheringDto();
+      DetailGatheringDto gatheringDto = new DetailGatheringDto();
       gatheringDto.setId(gathering.getId());
       gatheringDto.setDate(gathering.getDate());
       gatheringDto.setStartTime(gathering.getStartTime());
-      Set<User> users = gathering.getUsers();
-      List<UUID> userIds = new ArrayList<>();
-      users.forEach(user -> userIds.add(user.getId()));
+      gatheringDto.setParticipantCount(gathering.getUsers().size());
       gatheringDtos.add(gatheringDto);
     });
     planDto.setGatherings(gatheringDtos);
