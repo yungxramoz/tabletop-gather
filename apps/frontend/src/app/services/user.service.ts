@@ -9,6 +9,7 @@ import { PasswordUpdate } from '../models/password-update.dto';
 import { UserUpdate } from '../models/user-update.dto';
 import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
+import { Uuid } from '../utils/types';
 
 /**
  * Service for all user related API calls.
@@ -50,9 +51,9 @@ export class UsersService {
   /**
    * Deletes the current authenticated user.
    *
-   * @returns {Observable<string>} - The id of the deleted user
+   * @returns {Observable<Uuid>} - The id of the deleted user
    */
-  public deleteMe(): Observable<string> {
+  public deleteMe(): Observable<Uuid> {
     return this.http
       .delete(`${this.usersUrl}/me`, {
         responseType: 'text',
@@ -65,7 +66,7 @@ export class UsersService {
           successTitleOverride: 'User deleted 👊',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as string)
+        map((response) => response?.body as Uuid)
       );
   }
 
@@ -73,7 +74,7 @@ export class UsersService {
    * Updates the current authenticated user.
    *
    * @param {UserUpdate} user - The user to update
-   * @returns {Observable<string>} - The id of the updated user
+   * @returns {Observable<Uuid>} - The id of the updated user
    *
    */
   public updateMe(user: UserUpdate): Observable<JwtDto> {
@@ -88,7 +89,8 @@ export class UsersService {
           successTitleOverride: 'User updated 👍',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as JwtDto)
+        map((response) => response?.body as string),
+        map((jwtJson) => JwtDto.fromJson(jwtJson))
       );
   }
 
@@ -110,7 +112,8 @@ export class UsersService {
           successTitleOverride: 'Password updated 👍',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as JwtDto)
+        map((response) => response?.body as string),
+        map((jwtJson) => JwtDto.fromJson(jwtJson))
       );
   }
 
@@ -121,14 +124,15 @@ export class UsersService {
    */
   public me(): Observable<UserDto> {
     return this.http
-      .get<UserDto>(`${this.usersUrl}/me`, {
+      .get(`${this.usersUrl}/me`, {
         observe: 'response',
         responseType: 'json',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as UserDto),
+        map((response) => response?.body as string),
+        map((userJson) => UserDto.fromJson(userJson)),
         shareReplay()
       );
   }
