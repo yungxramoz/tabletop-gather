@@ -21,7 +21,7 @@ public class PlanService {
   private final GameRepository gameRepository;
 
   public PlanService(final PlanRepository planRepository, final UserRepository userRepository,
-                     final GameRepository gameRepository) {
+      final GameRepository gameRepository) {
     this.planRepository = planRepository;
     this.userRepository = userRepository;
     this.gameRepository = gameRepository;
@@ -30,40 +30,40 @@ public class PlanService {
   public List<OverviewPlanDto> findAll() {
     final List<Plan> plans = planRepository.findAllByIsPrivateFalse();
     return plans.stream()
-      .map(plan -> mapToDto(plan, new OverviewPlanDto()))
-      .toList();
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
   }
 
   public List<OverviewPlanDto> findAll(UUID userId) {
     final List<Plan> plans = planRepository.findAllByUserId(userId);
     return plans.stream()
-      .map(plan -> mapToDto(plan, new OverviewPlanDto()))
-      .toList();
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
   }
 
   public DetailPlanDto getDetail(final UUID id) {
     return planRepository.findById(id)
-      .map(plan -> mapToDto(plan, new DetailPlanDto()))
-      .orElseThrow(NotFoundException::new);
+        .map(plan -> mapToDto(plan, new DetailPlanDto()))
+        .orElseThrow(NotFoundException::new);
   }
 
   public PlanDto get(final UUID id) {
     return planRepository.findById(id)
-      .map(plan -> mapToDto(plan, new PlanDto()))
-      .orElseThrow(NotFoundException::new);
+        .map(plan -> mapToDto(plan, new PlanDto()))
+        .orElseThrow(NotFoundException::new);
   }
 
   public UUID create(final CreatePlanDto planDto, final UUID userId) {
     final Plan plan = new Plan();
     mapToEntity(planDto, plan);
     plan.setUser(userRepository.findById(userId)
-      .orElseThrow(() -> new NotFoundException("user not found")));
+        .orElseThrow(() -> new NotFoundException("user not found")));
     return planRepository.save(plan).getId();
   }
 
   public void update(final UUID id, final UpdatePlanDto planDto) {
     final Plan plan = planRepository.findById(id)
-      .orElseThrow(NotFoundException::new);
+        .orElseThrow(NotFoundException::new);
     mapToEntity(planDto, plan);
     planRepository.save(plan);
   }
@@ -89,7 +89,9 @@ public class PlanService {
     overviewPlanDto.setIsPrivate(plan.getIsPrivate());
     overviewPlanDto.setDescription(plan.getDescription());
     overviewPlanDto.setPlayerLimit(plan.getPlayerLimit());
-    overviewPlanDto.setOwnerName(plan.getUser().getNonUserDetailsUsername());
+
+    User owner = plan.getUser();
+    overviewPlanDto.setOwnerName(String.format("%s %s", owner.getFirstName(), owner.getLastName()));
 
     GameDto gameDto = new GameDto();
     Game game = plan.getGame();
@@ -158,8 +160,8 @@ public class PlanService {
     plan.setDescription(planDto.getDescription());
     plan.setPlayerLimit(planDto.getPlayerLimit());
     final Game game = planDto.getGameId() == null ? null
-      : gameRepository.findById(planDto.getGameId())
-      .orElseThrow(() -> new NotFoundException("game not found"));
+        : gameRepository.findById(planDto.getGameId())
+            .orElseThrow(() -> new NotFoundException("game not found"));
     plan.setGame(game);
     Set<Gathering> gatherings = new HashSet<>();
     planDto.getGatherings().forEach(gatheringDto -> {
@@ -179,8 +181,8 @@ public class PlanService {
     plan.setDescription(planDto.getDescription());
     plan.setPlayerLimit(planDto.getPlayerLimit());
     final Game game = planDto.getGame() == null ? null
-      : gameRepository.findById(planDto.getGame())
-      .orElseThrow(() -> new NotFoundException("game not found"));
+        : gameRepository.findById(planDto.getGame())
+            .orElseThrow(() -> new NotFoundException("game not found"));
     plan.setGame(game);
     return plan;
   }
