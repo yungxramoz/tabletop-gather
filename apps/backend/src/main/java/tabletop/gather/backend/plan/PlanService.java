@@ -44,13 +44,13 @@ public class PlanService {
   public DetailPlanDto getDetail(final UUID id) {
     return planRepository.findById(id)
         .map(plan -> mapToDto(plan, new DetailPlanDto()))
-        .orElseThrow(NotFoundException::new);
+        .orElseThrow(() -> new NotFoundException("plan not found"));
   }
 
   public PlanDto get(final UUID id) {
     return planRepository.findById(id)
         .map(plan -> mapToDto(plan, new PlanDto()))
-        .orElseThrow(NotFoundException::new);
+        .orElseThrow(() -> new NotFoundException("plan not found"));
   }
 
   public UUID create(final CreatePlanDto planDto, final UUID userId) {
@@ -63,7 +63,7 @@ public class PlanService {
 
   public void update(final UUID id, final UpdatePlanDto planDto) {
     final Plan plan = planRepository.findById(id)
-        .orElseThrow(NotFoundException::new);
+        .orElseThrow(() -> new NotFoundException("plan not found"));
     mapToEntity(planDto, plan);
     planRepository.save(plan);
   }
