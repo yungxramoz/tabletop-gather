@@ -8,7 +8,7 @@ import java.util.UUID;
 
 
 public interface GameRepository extends JpaRepository<Game, UUID> {
-  List<Game> findAllByNameContaining(String name, Sort sort);
+  List<Game> findByNameContaining(String name, Sort sort);
 
-  List<Game> findAllByUserId(UUID userId, Sort sort);
+  List<Game> findByUsers_Id(UUID userId, Sort sort);
 }

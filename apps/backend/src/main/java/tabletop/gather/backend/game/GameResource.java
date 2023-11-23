@@ -31,7 +31,7 @@ public class GameResource {
    */
   @GetMapping
   public ResponseEntity<List<GameDto>> getAllGames(final String name) {
-    return ResponseEntity.ok(gameService.findAll(name));
+    return ResponseEntity.ok(gameService.findByUserId(name));
   }
 
   /**
@@ -41,7 +41,7 @@ public class GameResource {
    */
   @GetMapping("/user/{userId}")
   public ResponseEntity<List<GameDto>> getGamesByUser(@PathVariable(name = "userId") final UUID userId) {
-    return ResponseEntity.ok(gameService.findAll(userId));
+    return ResponseEntity.ok(gameService.findByUserId(userId));
   }
 
   /**

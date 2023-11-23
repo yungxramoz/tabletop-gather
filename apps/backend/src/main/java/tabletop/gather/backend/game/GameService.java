@@ -29,8 +29,8 @@ public class GameService {
    * @param name part of the game name
    * @return all games containing the name
    */
-  public List<GameDto> findAll(final String name) {
-    final List<Game> games = gameRepository.findAllByNameContaining(name, Sort.by("name"));
+  public List<GameDto> findByUserId(final String name) {
+    final List<Game> games = gameRepository.findByNameContaining(name, Sort.by("name"));
     return games.stream()
       .map(game -> mapToDto(game, new GameDto()))
       .toList();
@@ -42,10 +42,10 @@ public class GameService {
    * @param userId the id of the user
    * @return all games by user
    */
-  public List<GameDto> findAll(final UUID userId) {
+  public List<GameDto> findByUserId(final UUID userId) {
     userRepository.findById(userId)
       .orElseThrow(() -> new NotFoundException("User not found"));
-    final List<Game> games = gameRepository.findAllByUserId(userId, Sort.by("name"));
+    final List<Game> games = gameRepository.findByUsers_Id(userId, Sort.by("name"));
     return games.stream()
       .map(game -> mapToDto(game, new GameDto()))
       .toList();
