@@ -35,7 +35,7 @@ public class PlanResource {
   }
 
   /**
-   * Get al my plans
+   * Get all my plans
    * 
    * @return all plans
    */
