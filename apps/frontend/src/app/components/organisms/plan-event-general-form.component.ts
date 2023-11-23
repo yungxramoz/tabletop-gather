@@ -12,14 +12,16 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { MaxValidatorDirective } from '../../directives/max-validator.directive';
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
-import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
 import { AutocompleteComponent } from '../molecules/autocomplete.component';
 
-type PlanWithUnmappedGame = Omit<Partial<CreatePlan>, 'game'> & {
+export type PlanEventGeneralFormValue = {
+  name: string;
+  description: string;
+  playerLimit: string;
   game: [Game];
 };
 
@@ -94,8 +96,8 @@ export class PlanEventGeneralFormComponent implements AfterViewInit {
 
   @Input({ required: true }) public games!: Game[];
   @Output() public eventGeneralFormChange: EventEmitter<
-    ModelFormGroup<PlanWithUnmappedGame>
-  > = new EventEmitter<ModelFormGroup<PlanWithUnmappedGame>>();
+    ModelFormGroup<PlanEventGeneralFormValue>
+  > = new EventEmitter<ModelFormGroup<PlanEventGeneralFormValue>>();
 
   public gameKeySelector = (game: Game) => game.name;
   public gameImageUrlSelector = (game: Game) => game.imageUrl;

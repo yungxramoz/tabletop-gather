@@ -7,9 +7,9 @@ import {
   Output,
 } from '@angular/core';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
-import { CreatePlan } from '../../models/create-plan.dto';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
+import { PlanEventFormValue } from '../pages/plan-event.component';
 
 @Component({
   standalone: true,
@@ -38,8 +38,8 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             <label class="label">Options</label>
             <div class="tg-p-1">
               <p *ngFor="let gathering of ev.gatherings">
-                - {{ gathering.date | date : 'shortDate' }} at
-                {{ gathering.startTime }}
+                - {{ gathering | date : 'shortDate' }} at
+                {{ gathering | date : 'shortTime' }}
               </p>
             </div>
           </div>
@@ -49,7 +49,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             <p class="tg-p-1">{{ ev.playerLimit }}</p>
           </div>
 
-          <div *ngIf="ev.game as game" class="tg-my-2">
+          <div *ngIf="ev.game[0] as game" class="tg-my-2">
             <label class="label">Game</label>
             <div class="tg-flex-row tg-justify-start">
               <tg-lazy-image
@@ -84,7 +84,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 })
 export class PlanEventSummaryComponent {
   @Input() public disabled = false;
-  @Input({ required: true }) public event!: CreatePlan | null;
-  @Output() public createEvent: EventEmitter<CreatePlan> =
-    new EventEmitter<CreatePlan>();
+  @Input({ required: true }) public event!: PlanEventFormValue | null;
+  @Output() public createEvent: EventEmitter<PlanEventFormValue> =
+    new EventEmitter<PlanEventFormValue>();
 }

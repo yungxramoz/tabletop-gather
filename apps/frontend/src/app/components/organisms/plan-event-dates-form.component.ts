@@ -9,11 +9,10 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule } from '@nebular/theme';
-import { CreatePlan } from '../../models/create-plan.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { DatepickerComponent } from '../molecules/datepicker.component';
 
-type PlanWithUnmappedGatherings = Omit<Partial<CreatePlan>, 'gatherings'> & {
+export type PlanEventDatesFormValue = {
   gatherings: Date[];
 };
 
@@ -44,8 +43,8 @@ export class PlanEventDatesFormComponent implements AfterViewInit {
   @ViewChild('eventDateForm') public readonly ngForm!: NgForm;
 
   @Output() public eventDateFormChange: EventEmitter<
-    ModelFormGroup<PlanWithUnmappedGatherings>
-  > = new EventEmitter<ModelFormGroup<PlanWithUnmappedGatherings>>();
+    ModelFormGroup<PlanEventDatesFormValue>
+  > = new EventEmitter<ModelFormGroup<PlanEventDatesFormValue>>();
 
   public readonly minAllowedDate = new Date();
 
