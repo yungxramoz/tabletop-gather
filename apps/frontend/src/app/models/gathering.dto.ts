@@ -1,22 +1,21 @@
 import { Model } from '../utils/types';
 import { Dto } from './dto.base';
-import { Guest } from './guest.dto';
-import { User } from './user.dto';
+import { GuestDto } from './guest.dto';
+import { UserDto } from './user.dto';
 
 /**
  * Dto for gatherings.
  *
  * @property {Date} date - The date of the gathering
- * @property {string} startTime - The start time of the gathering
- * @property {Guest[]} guests - The guests of the gathering
- * @property {User[]} users - The users of the gathering
- * @property {PlanDto} plan - The plan of the gathering
+ * @property {string} startTime - e.g. "18:30" The start time of the gathering
+ * @property {GuestDto['id'][]} guests - The guests of the gathering
+ * @property {UserDto['id'][]} users - The users of the gathering
  */
 export class GatheringDto extends Dto {
   public date!: Date;
   public startTime!: string;
-  public guests: Guest[] = [];
-  public users: User[] = [];
+  public guests: GuestDto['id'][] = [];
+  public users: UserDto['id'][] = [];
 }
 
 export type Gathering = Model<GatheringDto>;
