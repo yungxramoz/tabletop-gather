@@ -75,6 +75,7 @@ public class GameService {
       .orElseThrow(() -> new NotFoundException("Game not found"));
     final User user = userRepository.findById(userId)
       .orElseThrow(() -> new NotFoundException("User not found"));
+    user.getGames().add(game);
     game.getUsers().add(user);
     gameRepository.save(game);
   }
@@ -90,6 +91,7 @@ public class GameService {
       .orElseThrow(() -> new NotFoundException("Game not found"));
     final User user = userRepository.findById(userId)
       .orElseThrow(() -> new NotFoundException("User not found"));
+    user.getGames().remove(game);
     game.getUsers().remove(user);
     gameRepository.delete(game);
   }
