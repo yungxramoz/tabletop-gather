@@ -13,6 +13,7 @@ import { Game } from '../../models/game.dto';
 import { PlanEventSummaryComponent } from '../molecules/plan-event-summary.component';
 import { PlanEventDatesFormComponent } from '../organisms/plan-event-dates-form.component';
 import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-form.component';
+import { MOCK_GAMES_LARGE } from '../../mocks/game.mock';
 
 @Component({
   standalone: true,
@@ -65,29 +66,7 @@ export class PlanEventComponent implements AfterViewInit {
   public eventDatesFormValid$!: Observable<boolean>;
   public newEvent$!: Observable<CreatePlan>;
 
-  public readonly mockGames: Game[] = [
-    {
-      name: 'Dungeons & Dragons',
-      description: '',
-      maxPlayer: 5,
-      minPlayer: 2,
-      imageUrl: '',
-    },
-    {
-      name: 'Magic: The Gathering',
-      description: '',
-      maxPlayer: 5,
-      minPlayer: 2,
-      imageUrl: '',
-    },
-    {
-      name: 'Warhammer',
-      description: '',
-      maxPlayer: 5,
-      minPlayer: 2,
-      imageUrl: '',
-    },
-  ];
+  public readonly mockGames: Game[] = MOCK_GAMES_LARGE;
 
   public onCreateEvent(createPlan: CreatePlan) {
     console.log('Plan created:', createPlan);

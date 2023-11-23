@@ -80,6 +80,7 @@ type PlanWithUnmappedGame = Omit<Partial<CreatePlan>, 'game'> & {
             mode="single"
             [options]="games"
             [optionSelector]="gameKeySelector"
+            [optionImageUrlSelector]="gameImageUrlSelector"
             placeholder="Select a game"
           ></tg-autocomplete>
         </form>
@@ -97,6 +98,7 @@ export class PlanEventGeneralFormComponent implements AfterViewInit {
   > = new EventEmitter<ModelFormGroup<PlanWithUnmappedGame>>();
 
   public gameKeySelector = (game: Game) => game.name;
+  public gameImageUrlSelector = (game: Game) => game.imageUrl;
 
   public ngAfterViewInit() {
     this.ngForm.form.valueChanges.subscribe(() => {

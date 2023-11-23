@@ -103,6 +103,14 @@ p {
   margin-top: 1rem;
 }
 
+.tg-mr-1 {
+  margin-right: 0.5rem;
+}
+
+.tg-ml-auto {
+  margin-left: auto;
+}
+
 .tg-mb-2 {
   margin-bottom: 1rem;
 }
@@ -135,6 +143,10 @@ p {
   justify-content: center;
 }
 
+.tg-justify-start {
+  justify-content: flex-start;
+}
+
 .tg-flex-grow {
   flex-grow: 1;
 }
@@ -146,6 +158,11 @@ p {
   margin: 0 1rem;
   width: -webkit-fill-available;
   max-width: 50rem;
+}
+
+.tg-img-center {
+  display: block;
+  margin: auto;
 }
 
 .tg-resize-vertical {

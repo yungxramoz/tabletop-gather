@@ -9,6 +9,7 @@ import {
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { CreatePlan } from '../../models/create-plan.dto';
 import { LabelComponent } from '../atoms/label.component';
+import { LazyImageComponent } from '../atoms/lazy-image.component';
 
 @Component({
   standalone: true,
@@ -20,6 +21,7 @@ import { LabelComponent } from '../atoms/label.component';
     NbCardModule,
     NbButtonModule,
     LabelComponent,
+    LazyImageComponent,
   ],
   template: `
     <nb-card>
@@ -49,7 +51,13 @@ import { LabelComponent } from '../atoms/label.component';
 
           <div *ngIf="ev.game as game" class="tg-my-2">
             <label class="label">Game</label>
-            <p class="tg-p-1">{{ game.name }}</p>
+            <div class="tg-flex-row tg-justify-start">
+              <tg-lazy-image
+                [src]="game.imageUrl"
+                class="tg-mr-1"
+              ></tg-lazy-image>
+              <p class="tg-p-1">{{ game.name }}</p>
+            </div>
           </div>
         </ng-container>
 
