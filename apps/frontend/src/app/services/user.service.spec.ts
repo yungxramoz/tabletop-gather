@@ -5,10 +5,12 @@ import {
 import { TestBed } from '@angular/core/testing';
 
 import { API_BASE_URL } from '../app.config';
+import { JwtDto } from '../models/jwt.dto';
+import { PasswordUpdate } from '../models/password-update.dto';
 import { UserUpdateDto } from '../models/user-update.dto';
 import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
-import { UsersService } from './users.service';
+import { UsersService } from './user.service';
 
 describe(UsersService.name, () => {
   let service: UsersService;
@@ -74,7 +76,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('deleteUser', () => {
+  describe('deleteMe', () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
@@ -92,7 +94,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('updateUser', () => {
+  describe('updateMe', () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
@@ -115,6 +117,30 @@ describe(UsersService.name, () => {
       const req = httpMock.expectOne(`${apiBaseUrl}/users/me`);
       expect(req.request.method).toBe('PUT');
       req.flush(mockUserId);
+    });
+  });
+
+  describe('updateMyPassword', () => {
+    it('should return an Observable of JwtDto', () => {
+      // Arrange
+      const mockJwtDto = {} as unknown as JwtDto;
+      const mockPasswordUpdate: PasswordUpdate = {
+        email: 'john@doe.com',
+        password: 'test',
+        newPassword: 'test2',
+      };
+
+      // Act
+      service.updateMyPassword(mockPasswordUpdate).subscribe((jwtDto) => {
+        // Assert
+        expect(jwtDto).toEqual(mockJwtDto);
+      });
+
+      // Assert
+
+      const req = httpMock.expectOne(`${apiBaseUrl}/users/me/password`);
+      expect(req.request.method).toBe('PUT');
+      req.flush(mockJwtDto);
     });
   });
 

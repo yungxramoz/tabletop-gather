@@ -4,12 +4,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { NbButtonModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
 import { BehaviorSubject } from 'rxjs';
 import { FooterMenuComponent } from './components/molecules/footer-menu.component';
-import {
-  ROUTE_COLLECTION,
-  ROUTE_EVENTS,
-  ROUTE_LOGIN,
-  ROUTE_PROFILE,
-} from './constants';
+import { ROUTE_COLLECTION, ROUTE_EVENTS, ROUTE_PROFILE } from './constants';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -29,11 +24,12 @@ import { AuthService } from './services/auth.service';
     <nb-layout>
       <nb-layout-header fixed *ngIf="loginStatus$ | async">
         <img
-          title="Tabletop Gather Logo"
+          title="Home"
           src="assets/tg-wizard-no-bg.svg"
           width="50"
           height="50"
-          class="tg-m-1"
+          class="tg-m-1 tg-clickable"
+          [routerLink]="['/']"
         />
         <div class="tg-flex-grow"></div>
         <button nbButton ghost size="large" status="primary" (click)="logout()">
@@ -63,7 +59,6 @@ export class AppComponent implements OnInit {
 
   public logout() {
     this.authService.logout();
-    this.router.navigate(['/' + ROUTE_LOGIN]);
   }
 
   public ngOnInit() {

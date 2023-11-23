@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NbButtonModule } from '@nebular/theme';
-import {
-  ROUTE_DESIGN,
-  ROUTE_EVENTS,
-  ROUTE_LOGIN,
-  ROUTE_USER_MANAGEMENT,
-} from '../../constants';
+import { ROUTE_EVENTS, ROUTE_LOGIN } from '../../constants';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -27,15 +22,13 @@ import { AuthService } from '../../services/auth.service';
         class="tg-m-4"
         [routerLink]="routeLogin"
       >
-        Login or Register
+        Enter
       </button>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingPageComponent implements OnInit {
-  public readonly routeDesign = '/' + ROUTE_DESIGN;
-  public readonly routeUserManagement = '/' + ROUTE_USER_MANAGEMENT;
   public readonly routeLogin = '/' + ROUTE_LOGIN;
 
   public constructor(

@@ -4,6 +4,7 @@
   // install the framework styles
   @include nb-theme-global();
 }
+@import url('./overrides.scss');
 
 .__emtpy__ {
   display: none;
@@ -140,6 +141,13 @@ p {
 
 /* Misc */
 
+.tg-dialog {
+  display: block;
+  margin: 0 1rem;
+  width: -webkit-fill-available;
+  max-width: 50rem;
+}
+
 .tg-resize-vertical {
   resize: vertical;
 }
@@ -150,6 +158,10 @@ p {
 
 .tg-debug {
   border: 1px solid red;
+}
+
+.tg-clickable {
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {

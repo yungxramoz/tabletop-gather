@@ -11,7 +11,7 @@ import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
 import { Game } from '../../models/game.dto';
 import { Gathering } from '../../models/gathering.dto';
 import { Plan } from '../../models/plan.dto';
-import { PlanEventSummaryComponent } from '../molecules/plan-event-summary';
+import { PlanEventSummaryComponent } from '../molecules/plan-event-summary.component';
 import { PlanEventDatesFormComponent } from '../organisms/plan-event-dates-form.component';
 import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-form.component';
 

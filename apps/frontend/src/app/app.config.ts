@@ -84,6 +84,7 @@ const provideNebular = (): EnvironmentProviders[] => [
     NbDialogModule.forRoot({
       closeOnBackdropClick: false,
       hasBackdrop: true,
+      dialogClass: 'tg-dialog',
     })
   ),
 ];

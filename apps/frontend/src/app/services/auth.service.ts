@@ -1,19 +1,13 @@
-import {
-  BehaviorSubject,
-  filter,
-  map,
-  Observable,
-  shareReplay,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, tap } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
+import { Router } from '@angular/router';
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { LoginUser, LoginUserDto } from '../models/login-user.dto';
-import { RegisterUser, RegisterUserDto } from '../models/register-user.dto';
+import { LoginUser } from '../models/login-user.dto';
+import { RegisterUser } from '../models/register-user.dto';
 import { UserDto } from '../models/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
@@ -52,6 +46,7 @@ export class AuthService {
     @Inject(AUTH_BASE_URL) private readonly authBaseUrl: string,
     @Inject(LOCAL_STORAGE) private readonly localStorage: Storage,
     private readonly http: HttpClient,
+    private readonly router: Router,
     private readonly responseHandler: ResponseHandler
   ) {}
 
@@ -72,7 +67,6 @@ export class AuthService {
         filter((response) => response !== null),
         map((response) => response?.body as JwtDto),
         tap((loginResult) => this.setSession(loginResult)),
-        shareReplay(),
         tap(() => this.loginStatusSubject.next(true))
       );
   }
@@ -121,6 +115,16 @@ export class AuthService {
     this.localStorage.removeItem(LS_TOKEN_KEY);
     this.localStorage.removeItem(LS_EXPIRES_AT_KEY);
     this.loginStatusSubject.next(false);
+    this.router.navigate(['/']);
+  }
+
+  /**
+   * Updates the session by storing the given login response in local storage and emitting the new login status.
+   *
+   * @param {JwtDto} response - The login response to store
+   */
+  public updateSession(response: JwtDto): void {
+    this.setSession(response);
   }
 
   /**
