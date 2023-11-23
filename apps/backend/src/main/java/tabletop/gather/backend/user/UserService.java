@@ -24,12 +24,12 @@ public class UserService {
   /**
    * Gets all users.
    *
-   * @return all users as DTO
+   * @return all users as Dto
    */
   public List<UserDto> findAll() {
     final List<User> users = userRepository.findAll(Sort.by("id"));
     return users.stream()
-        .map(user -> mapToDTO(user, new UserDto()))
+        .map(user -> mapToDto(user, new UserDto()))
         .toList();
   }
 
@@ -41,7 +41,7 @@ public class UserService {
    */
   public UserDto getByEmail(final String email) {
     return userRepository.findByEmail(email)
-        .map(user -> mapToDTO(user, new UserDto()))
+        .map(user -> mapToDto(user, new UserDto()))
         .orElseThrow(NotFoundException::new);
   }
 
@@ -53,7 +53,7 @@ public class UserService {
    */
   public UserDto get(final UUID id) {
     return userRepository.findById(id)
-        .map(user -> mapToDTO(user, new UserDto()))
+        .map(user -> mapToDto(user, new UserDto()))
         .orElseThrow(NotFoundException::new);
   }
 
@@ -61,14 +61,14 @@ public class UserService {
    * Updates the user with the given id.
    *
    * @param id           the id of the user to update
-   * @param userDTO      the user DTO containing the updated values
+   * @param userDto      the user Dto containing the updated values
    * @param currentEmail the current email of the user
    * @return the updated user entity
    */
-  public User update(final UUID id, final UserUpdateDto userDTO, final String currentEmail) {
+  public User update(final UUID id, final UserUpdateDto userDto, final String currentEmail) {
     final User user = userRepository.findById(id)
         .orElseThrow(NotFoundException::new);
-    mapToEntity(userDTO, user);
+    mapToEntity(userDto, user);
     userRepository.save(user);
     return user;
   }
@@ -98,26 +98,26 @@ public class UserService {
   }
 
   /**
-   * Maps entity to DTO.
+   * Maps entity to Dto.
    *
    * @param user    the user entity to map
-   * @param userDTO the user DTO to map to
+   * @param userDto the user Dto to map to
    * @return the mapped user entity
    */
-  public UserDto mapToDTO(final User user, final UserDto userDTO) {
-    userDTO.setId(user.getId());
-    userDTO.setUsername(user.getNonUserDetailsUsername());
-    userDTO.setFirstName(user.getFirstName());
-    userDTO.setLastName(user.getLastName());
-    userDTO.setEmail(user.getEmail());
-    return userDTO;
+  public UserDto mapToDto(final User user, final UserDto userDto) {
+    userDto.setId(user.getId());
+    userDto.setUsername(user.getNonUserDetailsUsername());
+    userDto.setFirstName(user.getFirstName());
+    userDto.setLastName(user.getLastName());
+    userDto.setEmail(user.getEmail());
+    return userDto;
   }
 
-  private User mapToEntity(final UserDto userDTO, final User user) {
-    user.setUsername(userDTO.getUsername());
-    user.setFirstName(userDTO.getFirstName());
-    user.setLastName(userDTO.getLastName());
-    user.setEmail(userDTO.getEmail());
+  private User mapToEntity(final UserDto userDto, final User user) {
+    user.setUsername(userDto.getUsername());
+    user.setFirstName(userDto.getFirstName());
+    user.setLastName(userDto.getLastName());
+    user.setEmail(userDto.getEmail());
     return user;
   }
 

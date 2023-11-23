@@ -33,15 +33,15 @@ public class GuestResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createGuest(@RequestBody @Valid final GuestDto guestDTO) {
-        final UUID createdId = guestService.create(guestDTO);
+    public ResponseEntity<UUID> createGuest(@RequestBody @Valid final GuestDto guestDto) {
+        final UUID createdId = guestService.create(guestDto);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UUID> updateGuest(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final GuestDto guestDTO) {
-        guestService.update(id, guestDTO);
+            @RequestBody @Valid final GuestDto guestDto) {
+        guestService.update(id, guestDto);
         return ResponseEntity.ok(id);
     }
 
