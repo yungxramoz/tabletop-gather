@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tabletop.gather.backend.jwt.JwtService;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,41 +16,46 @@ import java.util.UUID;
 @RequestMapping(value = "/api/plans", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PlanResource {
 
-    private final PlanService planService;
+  private final PlanService planService;
 
-    public PlanResource(final PlanService planService) {
-        this.planService = planService;
-    }
+  private final JwtService jwtService;
 
-    @GetMapping
-    public ResponseEntity<List<PlanDto>> getAllPlans() {
-        return ResponseEntity.ok(planService.findAll());
-    }
+  public PlanResource(final PlanService planService, final JwtService jwtService) {
+    this.planService = planService;
+    this.jwtService = jwtService;
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PlanDto> getPlan(@PathVariable(name = "id") final UUID id) {
-        return ResponseEntity.ok(planService.get(id));
-    }
+  @GetMapping
+  public ResponseEntity<List<PlanDto>> getAllPlans() {
+    return ResponseEntity.ok(planService.findAll());
+  }
 
-    @PostMapping
-    @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createPlan(@RequestBody @Valid final PlanDto planDTO) {
-        final UUID createdId = planService.create(planDTO);
-        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<PlanDto> getPlan(@PathVariable(name = "id") final UUID id) {
+    return ResponseEntity.ok(planService.get(id));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UUID> updatePlan(@PathVariable(name = "id") final UUID id,
-            @RequestBody @Valid final PlanDto planDTO) {
-        planService.update(id, planDTO);
-        return ResponseEntity.ok(id);
-    }
+  @PostMapping
+  @ApiResponse(responseCode = "201")
+  public ResponseEntity<UUID> createPlan(@RequestHeader("Authorization") final String token,
+                                         @RequestBody @Valid final CreatePlanDto planDTO) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    final UUID createdId = planService.create(planDTO, userId);
+    return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+  }
 
-    @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deletePlan(@PathVariable(name = "id") final UUID id) {
-        planService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<UUID> updatePlan(@PathVariable(name = "id") final UUID id,
+                                         @RequestBody @Valid final PlanDto planDTO) {
+    planService.update(id, planDTO);
+    return ResponseEntity.ok(id);
+  }
+
+  @DeleteMapping("/{id}")
+  @ApiResponse(responseCode = "204")
+  public ResponseEntity<Void> deletePlan(@PathVariable(name = "id") final UUID id) {
+    planService.delete(id);
+    return ResponseEntity.noContent().build();
+  }
 
 }
