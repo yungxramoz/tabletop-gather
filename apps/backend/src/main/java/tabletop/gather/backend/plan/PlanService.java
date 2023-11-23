@@ -152,22 +152,6 @@ public class PlanService {
     return planDto;
   }
 
-  private Plan mapToEntity(final PlanDto planDto, final Plan plan) {
-    plan.setName(planDto.getName());
-    plan.setIsPrivate(planDto.getIsPrivate());
-    plan.setDescription(planDto.getDescription());
-    plan.setPlayerLimit(planDto.getPlayerLimit());
-    final User user = planDto.getUser() == null ? null
-      : userRepository.findById(planDto.getUser())
-      .orElseThrow(() -> new NotFoundException("user not found"));
-    plan.setUser(user);
-    final Game game = planDto.getGame() == null ? null
-      : gameRepository.findById(planDto.getGame())
-      .orElseThrow(() -> new NotFoundException("game not found"));
-    plan.setGame(game);
-    return plan;
-  }
-
   private Plan mapToEntity(final CreatePlanDto planDto, final Plan plan) {
     plan.setName(planDto.getName());
     plan.setIsPrivate(planDto.getIsPrivate());
@@ -200,5 +184,4 @@ public class PlanService {
     plan.setGame(game);
     return plan;
   }
-
 }
