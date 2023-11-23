@@ -93,7 +93,7 @@ public class GameService {
       .orElseThrow(() -> new NotFoundException("User not found"));
     user.getGames().remove(game);
     game.getUsers().remove(user);
-    gameRepository.delete(game);
+    gameRepository.save(game);
   }
 
   private GameDto mapToDto(final Game game, final GameDto gameDto) {
