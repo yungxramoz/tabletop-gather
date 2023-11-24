@@ -10,7 +10,7 @@ import { LoginFormComponent } from '../organisms/login-form.component';
 import { RegisterFormComponent } from '../organisms/register-form.component';
 
 @Component({
-  selector: 'tg-login-management',
+  selector: 'tg-login',
   standalone: true,
   imports: [
     CommonModule,
