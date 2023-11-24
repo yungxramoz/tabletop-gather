@@ -9,6 +9,7 @@ import {
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
+import { VoidComponent } from '../atoms/void.component';
 import { PlanEventFormValue } from '../pages/plan-event.component';
 
 @Component({
@@ -20,6 +21,7 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
     NgFor,
     NbCardModule,
     NbButtonModule,
+    VoidComponent,
     LabelComponent,
     LazyImageComponent,
   ],
@@ -75,9 +77,7 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
         </button>
 
         <ng-template #nothingHereYet>
-          <div class="tg-m-4 tg-flex-row tg-justify-around">
-            <p class="tg-text-hint"><i>Nothing here yet.</i></p>
-          </div>
+          <tg-void message="Nothing here yet."></tg-void>
         </ng-template>
       </nb-card-body>
     </nb-card>

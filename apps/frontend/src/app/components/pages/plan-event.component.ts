@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
+import { ROUTE_MANAGE_EVENT } from '../../constants';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
@@ -48,7 +49,7 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
           [games]="mockGames"
         ></tg-plan-event-general-form>
       </nb-step>
-      <nb-step label="Dates">
+      <nb-step label="Dates" [completed]="eventDatesFormValid$ | async">
         <ng-template nbStepLabel>Dates</ng-template>
         <tg-plan-event-dates-form></tg-plan-event-dates-form>
       </nb-step>
@@ -86,6 +87,8 @@ export class PlanEventComponent implements AfterViewInit {
   ) {}
 
   public onCreateEvent(planEventFormValue: PlanEventFormValue) {
+    // Some values need to be mapped to fit the CreatePlan Dto
+    // These values are destructured to a variable prefixed with 'raw'
     const {
       gatherings: rawGatherings,
       game: rawGame,
@@ -95,13 +98,20 @@ export class PlanEventComponent implements AfterViewInit {
       description,
     } = planEventFormValue;
 
+    // Extract the time as a 24 hour time string
     const gatherings = rawGatherings.map((date) => ({
       date,
       startTime: get24HourTime(date),
     }));
 
+    // Since 'game' comes from an autocomplete, it is an array of games
     const gameId = rawGame[0]?.id;
+
+    // 'isPrivate' is a boolean, but the form returns a string if it was not set.
+    // This is because radio buttons are used for this field - they use strings as values.
     const isPrivate = (rawIsPrivate as unknown) === '' ? false : rawIsPrivate;
+
+    // 'playerLimit' is a number, but the form returns a numeric string.
     const playerLimit = parseInt(rawPlayerLimit, 10);
 
     const createPlan: CreatePlan = {
@@ -113,10 +123,9 @@ export class PlanEventComponent implements AfterViewInit {
       gameId,
     };
 
-    this.planService.createPlan(createPlan).subscribe((plan) => {
-      console.log('Plan uploaded:', plan);
+    this.planService.createPlan(createPlan).subscribe((planId) => {
+      this.router.navigate(['/' + ROUTE_MANAGE_EVENT, planId]);
     });
-    console.log('Plan created:', createPlan);
   }
 
   public ngAfterViewInit() {
@@ -144,10 +153,10 @@ export class PlanEventComponent implements AfterViewInit {
       );
 
     this.newEvent$ = combineLatest([generalFormValues$, datesFormValues$]).pipe(
-      map(([generalForm, datesForm]) => {
+      map(([generalFormValue, datesFormValue]) => {
         return {
-          ...generalForm,
-          ...datesForm,
+          ...generalFormValue,
+          ...datesFormValue,
         };
       })
     );
