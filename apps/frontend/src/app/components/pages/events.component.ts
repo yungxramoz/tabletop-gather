@@ -2,14 +2,14 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {
+  NbAccordionModule,
   NbButtonModule,
   NbCardModule,
   NbDialogModule,
   NbDialogService,
   NbIconModule,
-  NbListModule,
 } from '@nebular/theme';
-import { BehaviorSubject, filter, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, map, switchMap, withLatestFrom } from 'rxjs';
 import { ROUTE_MANAGE_EVENT, ROUTE_PLAN_EVENT } from '../../constants';
 import { OverviewPlanDto } from '../../models/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
@@ -28,10 +28,10 @@ import {
     NgFor,
     AsyncPipe,
     NbCardModule,
-    NbListModule,
     NbButtonModule,
     NbIconModule,
     NbDialogModule,
+    NbAccordionModule,
     RouterModule,
     EventCardComponent,
     VoidComponent,
@@ -50,22 +50,61 @@ import {
       </button>
     </nb-card>
 
-    <ng-container *ngIf="myPlans$ | async as myPlans; else noPrivatePlans">
-      <ng-container *ngIf="myPlans.length > 0; else noPrivatePlans">
-        <tg-event-card
-          *ngFor="let plan of myPlans"
-          [overviewPlanDto]="plan"
-          (edit)="editMyEvent(plan.id)"
-          (delete)="deleteMyEvent(plan.id)"
-        >
-        </tg-event-card>
-      </ng-container>
-    </ng-container>
-    <ng-template #noPrivatePlans>
-      <nb-card-body>
-        <tg-void message="You have no private events"></tg-void>
-      </nb-card-body>
-    </ng-template>
+    <nb-accordion [multi]="true">
+      <nb-accordion-item [collapsed]="false">
+        <nb-accordion-item-header>
+          <span>My Events</span>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body class="tg-layout-bg">
+          <ng-container
+            *ngIf="myPlans$ | async as myPlans; else noPrivatePlans"
+          >
+            <ng-container *ngIf="myPlans.length > 0; else noPrivatePlans">
+              <ng-container *ngFor="let plan of myPlans">
+                <tg-event-card
+                  [overviewPlanDto]="plan"
+                  [isOwner]="true"
+                  (edit)="editMyEvent(plan.id)"
+                  (delete)="deleteMyEvent(plan.id)"
+                >
+                </tg-event-card>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-template #noPrivatePlans>
+            <nb-card-body>
+              <tg-void message="You have no private events"></tg-void>
+            </nb-card-body>
+          </ng-template>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+      <nb-accordion-item [collapsed]="false">
+        <nb-accordion-item-header>
+          <span>Public Events</span>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body class="tg-layout-bg">
+          <ng-container
+            *ngIf="publicPlans$ | async as publicPlans; else noPublicPlans"
+          >
+            <ng-container *ngIf="publicPlans.length > 0; else noPublicPlans">
+              <ng-container *ngFor="let plan of publicPlans">
+                <tg-event-card
+                  [overviewPlanDto]="plan"
+                  (edit)="editMyEvent(plan.id)"
+                  (delete)="deleteMyEvent(plan.id)"
+                >
+                </tg-event-card>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-template #noPublicPlans>
+            <nb-card-body>
+              <tg-void message="There are no public events"></tg-void>
+            </nb-card-body>
+          </ng-template>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -75,6 +114,10 @@ export class EventsComponent implements OnInit {
   private readonly myPlansSubject: BehaviorSubject<OverviewPlanDto[]> =
     new BehaviorSubject([] as OverviewPlanDto[]);
   public readonly myPlans$ = this.myPlansSubject.asObservable();
+
+  private readonly publicPlansSubject: BehaviorSubject<OverviewPlanDto[]> =
+    new BehaviorSubject([] as OverviewPlanDto[]);
+  public readonly publicPlans$ = this.publicPlansSubject.asObservable();
 
   public constructor(
     private readonly planService: PlanService,
@@ -111,5 +154,20 @@ export class EventsComponent implements OnInit {
     this.planService.getAllMyPlans().subscribe((plans) => {
       this.myPlansSubject.next(plans);
     });
+
+    this.planService
+      .getAllPublicPlans()
+      .pipe(
+        withLatestFrom(this.myPlansSubject),
+        map(([publicPlans, myPlans]) => {
+          return publicPlans.filter(
+            (publicPlan) =>
+              !myPlans.some((myPlan) => myPlan.id === publicPlan.id)
+          );
+        })
+      )
+      .subscribe((plans) => {
+        this.publicPlansSubject.next(plans);
+      });
   }
 }

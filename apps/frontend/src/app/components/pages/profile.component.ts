@@ -66,11 +66,10 @@ import { UpdateUserFormComponent } from '../organisms/update-user-form.component
         nbButton
         fullWidth
         ghost
-        status="control"
+        status="primary"
         shape="semi-round"
         (click)="changePassword()"
       >
-        <nb-icon icon="flip-2-outline"></nb-icon>
         Change Password
       </button>
 

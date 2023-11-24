@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,16 +12,24 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
 @Component({
   standalone: true,
   selector: 'tg-event-card',
-  imports: [NbCardModule, NbButtonModule, NbIconModule],
+  imports: [NgIf, NbCardModule, NbButtonModule, NbIconModule],
   template: `
     <nb-card>
       <nb-card-header>
-        <div class="tg-block">
-          <p class="caption-2">
-            {{ overviewPlanDto.gatheringDates.join(', ') }}
-          </p>
+        <div class="tg-flex-row tg-justify-between">
+          <div class="tg-flex-col tg-align-start">
+            <p class="caption-2">
+              {{ overviewPlanDto.gatheringDates.join(', ') }}
+            </p>
+            {{ overviewPlanDto.name }}
+            <p class="caption-2">by {{ overviewPlanDto.ownerName }}</p>
+          </div>
+          <nb-icon
+            icon="lock-outline"
+            status="warning"
+            *ngIf="overviewPlanDto.isPrivate"
+          ></nb-icon>
         </div>
-        {{ overviewPlanDto.name }}
       </nb-card-header>
       <nb-card-body>
         {{ overviewPlanDto.description }}
@@ -29,6 +38,7 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
         <div class="tg-flex-row tg-justify-end">
           <button
             nbButton
+            *ngIf="isOwner"
             ghost
             status="danger"
             shape="semi-round"
@@ -39,11 +49,12 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
           <div class="tg-m-1"></div>
           <button
             nbButton
-            status="control"
+            ghost
+            status="primary"
             shape="semi-round"
-            (click)="edit.emit()"
+            (click)="view.emit()"
           >
-            Edit
+            <nb-icon icon="arrow-forward-outline"></nb-icon>
           </button>
         </div>
       </nb-card-footer>
@@ -53,6 +64,9 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
 })
 export class EventCardComponent {
   @Input({ required: true }) public overviewPlanDto!: OverviewPlanDto;
-  @Output() public delete: EventEmitter<void> = new EventEmitter();
-  @Output() public edit: EventEmitter<void> = new EventEmitter();
+  @Input() public isOwner = false;
+
+  @Output() public view: EventEmitter<void> = new EventEmitter();
+  @Output()
+  public delete: EventEmitter<void> = new EventEmitter();
 }
