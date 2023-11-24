@@ -10,7 +10,7 @@ import {
   NbIconModule,
 } from '@nebular/theme';
 import { BehaviorSubject, filter, map, switchMap, withLatestFrom } from 'rxjs';
-import { ROUTE_MANAGE_EVENT, ROUTE_PLAN_EVENT } from '../../constants';
+import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
 import { OverviewPlanDto } from '../../models/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
 import { VoidComponent } from '../atoms/void.component';
@@ -64,8 +64,8 @@ import {
                 <tg-event-card
                   [overviewPlanDto]="plan"
                   [isOwner]="true"
-                  (edit)="editMyEvent(plan.id)"
-                  (delete)="deleteMyEvent(plan.id)"
+                  (viewClicked)="viewEvent(plan.id)"
+                  (deleteClicked)="deleteMyEvent(plan.id)"
                 >
                 </tg-event-card>
               </ng-container>
@@ -90,8 +90,7 @@ import {
               <ng-container *ngFor="let plan of publicPlans">
                 <tg-event-card
                   [overviewPlanDto]="plan"
-                  (edit)="editMyEvent(plan.id)"
-                  (delete)="deleteMyEvent(plan.id)"
+                  (viewClicked)="viewEvent(plan.id)"
                 >
                 </tg-event-card>
               </ng-container>
@@ -125,8 +124,10 @@ export class EventsComponent implements OnInit {
     private readonly router: Router
   ) {}
 
-  public editMyEvent(planId: string) {
-    this.router.navigate(['/' + ROUTE_MANAGE_EVENT, planId]);
+  public viewEvent(planId: string) {
+    console.log('view');
+
+    this.router.navigate(['/' + ROUTE_VIEW_EVENT, planId]);
   }
 
   public deleteMyEvent(planId: string) {

@@ -5,7 +5,7 @@ import { DetailPlanDto } from '../../models/detail-plan.dto';
 
 @Component({
   standalone: true,
-  selector: 'tg-manage-event-games',
+  selector: 'tg-view-event-games',
   imports: [JsonPipe, NbCardModule],
   template: `
     <nb-card>
@@ -16,6 +16,6 @@ import { DetailPlanDto } from '../../models/detail-plan.dto';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageEventGamesComponent {
+export class ViewEventGamesComponent {
   @Input({ required: true }) public detailPlan!: DetailPlanDto | null;
 }

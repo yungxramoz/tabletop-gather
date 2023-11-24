@@ -42,7 +42,7 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
             ghost
             status="danger"
             shape="semi-round"
-            (click)="delete.emit()"
+            (click)="deleteClicked.emit()"
           >
             <nb-icon icon="trash-2-outline"></nb-icon>
           </button>
@@ -52,7 +52,7 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
             ghost
             status="primary"
             shape="semi-round"
-            (click)="view.emit()"
+            (click)="viewClicked.emit()"
           >
             <nb-icon icon="arrow-forward-outline"></nb-icon>
           </button>
@@ -66,7 +66,7 @@ export class EventCardComponent {
   @Input({ required: true }) public overviewPlanDto!: OverviewPlanDto;
   @Input() public isOwner = false;
 
-  @Output() public view: EventEmitter<void> = new EventEmitter();
+  @Output() public viewClicked: EventEmitter<void> = new EventEmitter();
   @Output()
-  public delete: EventEmitter<void> = new EventEmitter();
+  public deleteClicked: EventEmitter<void> = new EventEmitter();
 }

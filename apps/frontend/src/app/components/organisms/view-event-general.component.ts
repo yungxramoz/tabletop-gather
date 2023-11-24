@@ -5,7 +5,7 @@ import { DetailPlanDto } from '../../models/detail-plan.dto';
 
 @Component({
   standalone: true,
-  selector: 'tg-manage-event-general',
+  selector: 'tg-view-event-general',
   imports: [JsonPipe, NbCardModule],
   template: `
     <nb-card>
@@ -16,6 +16,6 @@ import { DetailPlanDto } from '../../models/detail-plan.dto';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageEventGeneralComponent {
+export class ViewEventGeneralComponent {
   @Input({ required: true }) public detailPlan!: DetailPlanDto | null;
 }

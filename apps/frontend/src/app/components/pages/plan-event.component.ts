@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
-import { ROUTE_MANAGE_EVENT } from '../../constants';
+import { ROUTE_VIEW_EVENT } from '../../constants';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
@@ -124,7 +124,7 @@ export class PlanEventComponent implements AfterViewInit {
     };
 
     this.planService.createPlan(createPlan).subscribe((planId) => {
-      this.router.navigate(['/' + ROUTE_MANAGE_EVENT, planId]);
+      this.router.navigate(['/' + ROUTE_VIEW_EVENT, planId]);
     });
   }
 

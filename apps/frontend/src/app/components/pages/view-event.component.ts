@@ -5,42 +5,42 @@ import { NbTabsetModule } from '@nebular/theme';
 import { Observable, map, switchMap, tap } from 'rxjs';
 import { DetailPlanDto } from '../../models/detail-plan.dto';
 import { PlanService } from '../../services/plan.service';
-import { ManageEventGamesComponent } from '../organisms/manage-event-games.component';
-import { ManageEventGeneralComponent } from '../organisms/manage-event-general.component';
-import { ManageEventPlayersComponent } from '../organisms/manage-event-players.component';
+import { ViewEventGamesComponent } from '../organisms/view-event-games.component';
+import { ViewEventGeneralComponent } from '../organisms/view-event-general.component';
+import { ViewEventPlayersComponent } from '../organisms/view-event-players.component';
 
 @Component({
   standalone: true,
-  selector: 'tg-manage-event',
+  selector: 'tg-view-event',
   imports: [
     NbTabsetModule,
     AsyncPipe,
-    ManageEventGeneralComponent,
-    ManageEventGamesComponent,
-    ManageEventPlayersComponent,
+    ViewEventGeneralComponent,
+    ViewEventGamesComponent,
+    ViewEventPlayersComponent,
   ],
   template: `
     <nb-tabset fullWidth class="tg-full">
       <nb-tab tabTitle="Event">
-        <tg-manage-event-general
+        <tg-view-event-general
           [detailPlan]="detailPlan$ | async"
-        ></tg-manage-event-general>
+        ></tg-view-event-general>
       </nb-tab>
       <nb-tab tabTitle="Players">
-        <tg-manage-event-players
+        <tg-view-event-players
           [detailPlan]="detailPlan$ | async"
-        ></tg-manage-event-players>
+        ></tg-view-event-players>
       </nb-tab>
       <nb-tab tabTitle="Games">
-        <tg-manage-event-games
+        <tg-view-event-games
           [detailPlan]="detailPlan$ | async"
-        ></tg-manage-event-games>
+        ></tg-view-event-games>
       </nb-tab>
     </nb-tabset>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManageEventComponent implements OnInit {
+export class ViewEventComponent implements OnInit {
   public detailPlan$!: Observable<DetailPlanDto>;
 
   public constructor(
