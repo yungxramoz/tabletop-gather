@@ -15,6 +15,7 @@ import {
   NbButtonModule,
   NbDialogModule,
   NbDialogService,
+  NbIconModule,
 } from '@nebular/theme';
 
 import { PasswordUpdate } from '../../models/password-update.dto';
@@ -25,6 +26,7 @@ import { UsersService } from '../../services/user.service';
 import { AvatarComponent } from '../atoms/avatar.component';
 import {
   DeleteDialogComponent,
+  DeleteDialogData,
   DeleteDialogResult,
 } from '../organisms/delete-dialog.component';
 import {
@@ -45,6 +47,7 @@ import { UpdateUserFormComponent } from '../organisms/update-user-form.component
     NgIf,
     NbButtonModule,
     NbDialogModule,
+    NbIconModule,
     UpdateUserFormComponent,
     AvatarComponent,
   ],
@@ -63,10 +66,11 @@ import { UpdateUserFormComponent } from '../organisms/update-user-form.component
         nbButton
         fullWidth
         ghost
-        status="primary"
+        status="control"
         shape="semi-round"
         (click)="changePassword()"
       >
+        <nb-icon icon="flip-2-outline"></nb-icon>
         Change Password
       </button>
 
@@ -79,6 +83,7 @@ import { UpdateUserFormComponent } from '../organisms/update-user-form.component
         shape="semi-round"
         (click)="deleteProfile()"
       >
+        <nb-icon icon="trash-2-outline"></nb-icon>
         Delete Profile
       </button>
     </ng-container>
@@ -144,7 +149,11 @@ export class ProfileComponent implements OnInit {
       .pipe(
         mergeMap(() =>
           this.dialogService
-            .open(DeleteDialogComponent)
+            .open(DeleteDialogComponent, {
+              context: {
+                message: 'Do you really want to delete this profile?',
+              } as DeleteDialogData,
+            })
             .onClose.pipe(
               filter((result: DeleteDialogResult) => result !== undefined)
             )

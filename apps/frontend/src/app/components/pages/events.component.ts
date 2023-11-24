@@ -1,16 +1,24 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {
   NbButtonModule,
   NbCardModule,
+  NbDialogModule,
+  NbDialogService,
   NbIconModule,
   NbListModule,
 } from '@nebular/theme';
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { ROUTE_MANAGE_EVENT, ROUTE_PLAN_EVENT } from '../../constants';
+import { OverviewPlanDto } from '../../models/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
 import { VoidComponent } from '../atoms/void.component';
 import { EventCardComponent } from '../molecules/event-card.component';
+import {
+  DeleteDialogComponent,
+  DeleteDialogResult,
+} from '../organisms/delete-dialog.component';
 
 @Component({
   standalone: true,
@@ -23,6 +31,7 @@ import { EventCardComponent } from '../molecules/event-card.component';
     NbListModule,
     NbButtonModule,
     NbIconModule,
+    NbDialogModule,
     RouterModule,
     EventCardComponent,
     VoidComponent,
@@ -60,12 +69,16 @@ import { EventCardComponent } from '../molecules/event-card.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventsComponent {
+export class EventsComponent implements OnInit {
   public readonly routePlanEvent = '/' + ROUTE_PLAN_EVENT;
-  public myPlans$ = this.planService.getAllMyPlans();
+
+  private readonly myPlansSubject: BehaviorSubject<OverviewPlanDto[]> =
+    new BehaviorSubject([] as OverviewPlanDto[]);
+  public readonly myPlans$ = this.myPlansSubject.asObservable();
 
   public constructor(
     private readonly planService: PlanService,
+    private readonly dialogService: NbDialogService,
     private readonly router: Router
   ) {}
 
@@ -74,6 +87,29 @@ export class EventsComponent {
   }
 
   public deleteMyEvent(planId: string) {
-    console.log('delete', planId);
+    this.dialogService
+      .open(DeleteDialogComponent, {
+        context: 'Do you really want to delete this event?',
+      })
+      .onClose.pipe(
+        filter((result: DeleteDialogResult) => result !== undefined),
+        filter((result) => result.delete),
+        switchMap(() => {
+          return this.planService.deletePlan(planId);
+        })
+      )
+      .subscribe(() => {
+        this.updateMyPlans();
+      });
+  }
+
+  public ngOnInit(): void {
+    this.updateMyPlans();
+  }
+
+  private updateMyPlans() {
+    this.planService.getAllMyPlans().subscribe((plans) => {
+      this.myPlansSubject.next(plans);
+    });
   }
 }

@@ -39,7 +39,6 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
           <div class="tg-m-1"></div>
           <button
             nbButton
-            ghost
             status="control"
             shape="semi-round"
             (click)="edit.emit()"

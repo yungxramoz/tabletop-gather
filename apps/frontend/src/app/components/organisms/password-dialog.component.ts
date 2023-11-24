@@ -28,12 +28,11 @@ export type PasswordDialogResult = {
         </form>
       </nb-card-body>
       <nb-card-footer>
-        <div class="tg-flex-row tg-justify-around">
+        <div class="tg-flex-row tg-justify-end">
           <button
             nbButton
-            fullWidth
             ghost
-            status="primary"
+            status="danger"
             shape="semi-round"
             (click)="cancel()"
           >
@@ -42,7 +41,6 @@ export type PasswordDialogResult = {
           <div class="tg-m-1"></div>
           <button
             nbButton
-            fullWidth
             status="primary"
             shape="semi-round"
             type="submit"

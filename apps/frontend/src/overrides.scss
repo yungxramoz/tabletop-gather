@@ -15,3 +15,11 @@ div.toggle:not(.toggle.checked) {
 span.toggle-switcher {
   background-color: var(--card-background-color) !important;
 }
+
+nb-card-header {
+  border-bottom: none !important;
+}
+
+nb-card-footer {
+  border-top: none !important;
+}
