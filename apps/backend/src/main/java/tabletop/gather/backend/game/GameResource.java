@@ -36,6 +36,18 @@ public class GameResource {
   }
 
   /**
+   * Get all games of the authenticated user
+   *
+   * @param token the token of the authenticated user
+   * @return all games filtered by user
+   */
+  @GetMapping("me")
+  public ResponseEntity<List<GameDto>> getMyGames(@RequestHeader("Authorization") final String token) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    return ResponseEntity.ok(gameService.findByUserId(userId));
+  }
+
+  /**
    * Get all games by user
    *
    * @param userId the id of the user

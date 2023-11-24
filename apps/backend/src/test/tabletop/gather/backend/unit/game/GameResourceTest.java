@@ -60,6 +60,23 @@ public class GameResourceTest {
   }
 
   @Test
+  public void testGetMyGames() {
+    String token = "token";
+    UUID userId = UUID.randomUUID();
+    UserDto userDto = new UserDto();
+    userDto.setId(userId);
+    GameDto gameDto = new GameDto();
+
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
+    when(gameService.findByUserId(userId)).thenReturn(Arrays.asList(gameDto));
+
+    ResponseEntity<List<GameDto>> response = gameResource.getGamesByUser(userId);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(Arrays.asList(gameDto), response.getBody());
+  }
+
+  @Test
   public void testGetGame() {
     UUID gameId = UUID.randomUUID();
     GameDto gameDto = new GameDto();
