@@ -32,6 +32,8 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
             <p class="tg-p-1">{{ ev.name }}</p>
             <tg-label label="Event Info"></tg-label>
             <p class="tg-p-1">{{ ev.description }}</p>
+            <tg-label label="Visibility"></tg-label>
+            <p class="tg-p-1">{{ ev.isPrivate ? 'Private' : 'Public' }}</p>
           </div>
 
           <div class="tg-my-2">

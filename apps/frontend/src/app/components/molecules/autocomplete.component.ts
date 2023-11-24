@@ -19,9 +19,9 @@ import {
   NbListModule,
 } from '@nebular/theme';
 import { Observable, map, of } from 'rxjs';
-import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   standalone: true,
@@ -132,7 +132,6 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
     @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
-      this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
   }

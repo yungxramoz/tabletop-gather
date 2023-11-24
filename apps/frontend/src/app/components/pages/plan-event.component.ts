@@ -6,14 +6,26 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
+import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { CreatePlan } from '../../models/create-plan.dto';
 import { Game } from '../../models/game.dto';
+import { PlanService } from '../../services/plan.service';
+import { get24HourTime } from '../../utils/date.utility';
 import { PlanEventSummaryComponent } from '../molecules/plan-event-summary.component';
-import { PlanEventDatesFormComponent } from '../organisms/plan-event-dates-form.component';
-import { PlanEventGeneralFormComponent } from '../organisms/plan-event-general-form.component';
-import { MOCK_GAMES_LARGE } from '../../mocks/game.mock';
+import {
+  PlanEventDatesFormComponent,
+  PlanEventDatesFormValue,
+} from '../organisms/plan-event-dates-form.component';
+import {
+  PlanEventGeneralFormComponent,
+  PlanEventGeneralFormValue,
+} from '../organisms/plan-event-general-form.component';
+
+export type PlanEventFormValue = PlanEventGeneralFormValue &
+  PlanEventDatesFormValue;
 
 @Component({
   standalone: true,
@@ -64,11 +76,46 @@ export class PlanEventComponent implements AfterViewInit {
 
   public eventGeneralFormValid$!: Observable<boolean>;
   public eventDatesFormValid$!: Observable<boolean>;
-  public newEvent$!: Observable<CreatePlan>;
+  public newEvent$!: Observable<PlanEventFormValue>;
 
-  public readonly mockGames: Game[] = MOCK_GAMES_LARGE;
+  public readonly mockGames: Game[] = MOCK_GAME_DTOS_LARGE;
 
-  public onCreateEvent(createPlan: CreatePlan) {
+  public constructor(
+    private readonly planService: PlanService,
+    private readonly router: Router
+  ) {}
+
+  public onCreateEvent(planEventFormValue: PlanEventFormValue) {
+    const {
+      gatherings: rawGatherings,
+      game: rawGame,
+      playerLimit: rawPlayerLimit,
+      isPrivate: rawIsPrivate,
+      name,
+      description,
+    } = planEventFormValue;
+
+    const gatherings = rawGatherings.map((date) => ({
+      date,
+      startTime: get24HourTime(date),
+    }));
+
+    const gameId = rawGame[0]?.id;
+    const isPrivate = (rawIsPrivate as unknown) === '' ? false : rawIsPrivate;
+    const playerLimit = parseInt(rawPlayerLimit, 10);
+
+    const createPlan: CreatePlan = {
+      name,
+      description,
+      isPrivate,
+      playerLimit,
+      gatherings,
+      gameId,
+    };
+
+    this.planService.createPlan(createPlan).subscribe((plan) => {
+      console.log('Plan uploaded:', plan);
+    });
     console.log('Plan created:', createPlan);
   }
 
@@ -76,12 +123,12 @@ export class PlanEventComponent implements AfterViewInit {
     const generalFormValues$ =
       this.generalFormComponent.eventGeneralFormChange.pipe(
         filter((form) => form.valid),
-        map((form) => form.value)
+        map((form) => form.value as PlanEventGeneralFormValue)
       );
 
     const datesFormValues$ = this.datesFormComponent.eventDateFormChange.pipe(
       filter((form) => form.valid),
-      map((form) => form.value)
+      map((form) => form.value as PlanEventDatesFormValue)
     );
 
     this.eventGeneralFormValid$ =
@@ -98,23 +145,10 @@ export class PlanEventComponent implements AfterViewInit {
 
     this.newEvent$ = combineLatest([generalFormValues$, datesFormValues$]).pipe(
       map(([generalForm, datesForm]) => {
-        // Manual mapping of form values to PlanDto
-        const gatherings = (datesForm.gatherings ?? []).map(
-          (date) =>
-            <CreatePlan['gatherings'][number]>{
-              date,
-              startTime: date.toLocaleTimeString(),
-            }
-        );
-
-        // Manual mapping of form values to PlanDto
-        const game = (generalForm.game ?? [])[0];
-
         return {
           ...generalForm,
-          game,
-          gatherings,
-        } as CreatePlan;
+          ...datesForm,
+        };
       })
     );
 

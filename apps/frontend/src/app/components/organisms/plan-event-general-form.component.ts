@@ -12,17 +12,19 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { MaxValidatorDirective } from '../../directives/max-validator.directive';
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
-import { Game } from '../../models/game.dto';
+import { Game, GameDto } from '../../models/game.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
+import { ToggleComponent } from '../atoms/toggle.component';
 import { AutocompleteComponent } from '../molecules/autocomplete.component';
 
 export type PlanEventGeneralFormValue = {
   name: string;
   description: string;
+  isPrivate: boolean;
   playerLimit: string;
-  game: [Game];
+  game: [GameDto];
 };
 
 @Component({
@@ -34,6 +36,7 @@ export type PlanEventGeneralFormValue = {
     NbCardModule,
     NbSelectModule,
     InputComponent,
+    ToggleComponent,
     TextareaComponent,
     AutocompleteComponent,
     MinValidatorDirective,
@@ -73,6 +76,14 @@ export type PlanEventGeneralFormValue = {
             label="Player Limit"
             placeholder="1"
           ></tg-input>
+
+          <tg-toggle
+            ngModel
+            id="isPrivate"
+            name="isPrivate"
+            label="Visibility"
+            description="Privat event?"
+          ></tg-toggle>
 
           <tg-autocomplete
             ngModel

@@ -8,15 +8,15 @@ import {
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
-import { NbInputModule } from '@nebular/theme';
+import { NbToggleModule } from '@nebular/theme';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
 @Component({
   standalone: true,
-  selector: 'tg-input',
+  selector: 'tg-toggle',
   imports: [
-    NbInputModule,
+    NbToggleModule,
     NgIf,
     NgFor,
     ValidationErrorsComponent,
@@ -25,18 +25,15 @@ import { ValidationErrorsComponent } from './validation-errors.component';
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
 
-    <input
-      nbInput
-      fullWidth
-      shape="semi-round"
-      [type]="type"
+    <nb-toggle
       [id]="id"
-      [value]="value"
-      (input)="valueChange($event)"
+      [checked]="value"
+      (checkedChange)="valueChange($event)"
       (blur)="onBlur()"
-      [placeholder]="placeholder"
       [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
-    />
+    >
+      {{ description }}
+    </nb-toggle>
 
     <tg-validation-errors
       [model]="ngModel.control"
@@ -45,21 +42,21 @@ import { ValidationErrorsComponent } from './validation-errors.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputComponent implements ControlValueAccessor {
+export class ToggleComponent implements ControlValueAccessor {
   @Input() public label: string | undefined;
-  @Input() public type: 'text' | 'number' | 'password' = 'text';
-  @Input() public placeholder: string | undefined;
+  @Input() public description: string | undefined;
 
-  private _value!: string | number;
-  public set value(value: string | number) {
+  private _value = false;
+  public set value(value: boolean) {
+    if ((value as unknown) === '' || !value) value = false;
     this._value = value;
   }
-  public get value(): string | number {
+  public get value(): boolean {
     return this._value;
   }
 
-  public readonly id = `tg-input-${InputComponent.uniqueId++}`;
-  public onChange: undefined | ((event: string | number) => void);
+  public readonly id = `tg-toggle-${ToggleComponent.uniqueId++}`;
+  public onChange: undefined | ((event: boolean) => void);
   public onTouched: undefined | (() => void);
 
   private static uniqueId = 0;
@@ -73,8 +70,8 @@ export class InputComponent implements ControlValueAccessor {
     }
   }
 
-  public valueChange(event: Event) {
-    this.value = (event.target as HTMLInputElement).value;
+  public valueChange(event: boolean) {
+    this.value = event;
     if (this.onChange) this.onChange(this.value);
   }
 

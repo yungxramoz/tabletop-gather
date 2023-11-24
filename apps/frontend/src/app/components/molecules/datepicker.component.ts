@@ -15,8 +15,8 @@ import {
   NbInputModule,
   NbListModule,
 } from '@nebular/theme';
-import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 import { LabelComponent } from '../atoms/label.component';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   standalone: true,
@@ -109,7 +109,6 @@ export class DatepickerComponent implements ControlValueAccessor {
     @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
-      this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
   }
