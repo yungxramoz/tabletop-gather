@@ -39,7 +39,7 @@ import { AuthService } from './services/auth.service';
       <nb-layout-column class="tg-max-w-70 tg-mx-auto">
         <router-outlet></router-outlet>
       </nb-layout-column>
-      <nb-layout-footer fixed *ngIf="showFooter$ | async">
+      <nb-layout-footer fixed class="tg-sticky" *ngIf="showFooter$ | async">
         <tg-footer-menu></tg-footer-menu>
       </nb-layout-footer>
     </nb-layout>

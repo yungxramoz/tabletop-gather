@@ -193,6 +193,11 @@ p {
   cursor: pointer;
 }
 
+.tg-sticky {
+  position: sticky;
+  bottom: 0;
+}
+
 ::-webkit-scrollbar {
   width: 0.6rem;
 }
