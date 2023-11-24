@@ -110,7 +110,7 @@ export class PlanService {
           successTitleOverride: 'Plan created 👍',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as Uuid)
+        map((response) => JSON.parse(response?.body as Uuid))
       );
   }
 
@@ -133,7 +133,7 @@ export class PlanService {
           successTitleOverride: 'Plan updated 👍',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as Uuid)
+        map((response) => JSON.parse(response?.body as Uuid))
       );
   }
 

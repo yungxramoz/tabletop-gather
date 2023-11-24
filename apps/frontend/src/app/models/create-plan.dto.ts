@@ -18,7 +18,7 @@ export class CreatePlanDto extends Dto {
   public isPrivate!: boolean;
   public description!: string;
   public playerLimit!: number;
-  public gameId!: GameDto['id'];
+  public gameId?: GameDto['id'];
   public gatherings: CreateGathering[] = [];
 }
 

@@ -66,7 +66,7 @@ export class UsersService {
           successTitleOverride: 'User deleted 👊',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as Uuid)
+        map((response) => JSON.parse(response?.body as Uuid))
       );
   }
 

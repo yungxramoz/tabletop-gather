@@ -15,7 +15,7 @@ export class UpdatePlanDto extends Dto {
   public isPrivate!: boolean;
   public description!: string;
   public playerLimit!: number;
-  public game!: Uuid;
+  public game?: Uuid;
 }
 
 export type UpdatePlan = Model<UpdatePlanDto>;

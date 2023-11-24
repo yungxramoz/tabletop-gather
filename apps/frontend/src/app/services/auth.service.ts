@@ -58,14 +58,14 @@ export class AuthService {
    */
   public login(loginUser: LoginUser): Observable<JwtDto> {
     return this.http
-      .post<JwtDto>(`${this.authBaseUrl}/login`, loginUser, {
+      .post(`${this.authBaseUrl}/login`, loginUser, {
         observe: 'response',
         responseType: 'json',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as JwtDto),
+        map((response) => JwtDto.fromJson(response?.body)),
         tap((loginResult) => this.setSession(loginResult)),
         tap(() => this.loginStatusSubject.next(true))
       );
@@ -95,7 +95,7 @@ export class AuthService {
           successTitleOverride: 'That worked! 👌',
         }),
         filter((response) => response !== null),
-        map((response) => response?.body as UserDto)
+        map((response) => UserDto.fromJson(response?.body))
       );
   }
 

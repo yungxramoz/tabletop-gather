@@ -1,3 +1,4 @@
+import { Model } from '../utils/types';
 import { DetailGatheringDto } from './detail-gathering.dto';
 import { Dto } from './dto.base';
 import { GameDto } from './game.dto';
@@ -20,6 +21,8 @@ export class DetailPlanDto extends Dto {
   public description!: string;
   public playerLimit!: number;
   public owner!: UserDto;
-  public game!: GameDto;
+  public game?: GameDto;
   public gatherings: DetailGatheringDto[] = [];
 }
+
+export type DetailPlan = Model<DetailPlanDto>;

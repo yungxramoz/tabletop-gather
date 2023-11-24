@@ -18,6 +18,6 @@ export class OverviewPlanDto extends Dto {
   public description!: string;
   public playerLimit!: number;
   public ownerName!: string;
-  public game!: GameDto;
+  public game?: GameDto;
   public gatheringDates!: Date[];
 }
