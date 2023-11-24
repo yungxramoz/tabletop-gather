@@ -32,7 +32,9 @@ import { ValidationErrorsComponent } from './validation-errors.component';
       (blur)="onBlur()"
       [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
     >
-      {{ description }}
+      <p class="text-hint">
+        {{ description }}
+      </p>
     </nb-toggle>
 
     <tg-validation-errors

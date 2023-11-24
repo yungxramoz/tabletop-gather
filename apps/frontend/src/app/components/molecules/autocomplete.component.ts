@@ -60,7 +60,7 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
       <nb-option
         *ngFor="let option of filteredOptions$ | async"
         [value]="option"
-        class="tg-basic-bg"
+        class="tg-input-basic-bg"
       >
         <tg-lazy-image
           *ngIf="optionImageUrlSelector"

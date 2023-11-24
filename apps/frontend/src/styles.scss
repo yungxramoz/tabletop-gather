@@ -22,11 +22,15 @@ p {
 
 /* Colors */
 
-.tg-basic-bg {
+.tg-input-basic-bg {
   background-color: var(--input-basic-background-color);
   &:hover {
     background-color: var(--input-basic-hover-background-color);
   }
+}
+
+.tg-layout-bg {
+  background-color: var(--layout-background-color);
 }
 
 .tg-text-hint {
@@ -133,6 +137,10 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+
+.tg-align-start {
+  align-items: flex-start;
 }
 
 .tg-justify-around {
