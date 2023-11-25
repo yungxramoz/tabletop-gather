@@ -18,7 +18,7 @@
       }
     },
     "build": {
-      "command": "apps/backend/mvnw clean package -DskipTests -f apps/backend/",
+      "command": "apps/backend/mvnw clean package -DskipTests -Dfmt.skip -f apps/backend/",
       "dependsOn": ["deps"],
       "configurations": {
         "production": {
@@ -32,6 +32,17 @@
     "serve": {
       "command": "apps/backend/mvnw spring-boot:run -f apps/backend/",
       "dependsOn": ["build"],
+      "configurations": {
+        "production": {
+          "args": ["-Dspring.profiles.active=production"]
+        },
+        "development": {
+          "args": ["-Dspring.profiles.active=development"]
+        }
+      }
+    },
+    "lint": {
+      "command": "apps/backend/mvnw com.spotify.fmt:fmt-maven-plugin:check -f apps/backend/",
       "configurations": {
         "production": {
           "args": ["-Dspring.profiles.active=production"]
