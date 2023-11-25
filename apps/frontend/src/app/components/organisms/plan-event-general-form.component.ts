@@ -49,6 +49,8 @@ export type PlanEventGeneralFormValue = {
           <tg-input
             ngModel
             required
+            minlength="3"
+            maxlength="255"
             id="name"
             name="name"
             label="Title"
@@ -58,6 +60,8 @@ export type PlanEventGeneralFormValue = {
           <tg-textarea
             ngModel
             required
+            minlength="3"
+            maxlength="2048"
             [rows]="4"
             id="description"
             name="description"

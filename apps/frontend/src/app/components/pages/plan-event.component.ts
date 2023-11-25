@@ -8,7 +8,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbButtonModule, NbStepperModule } from '@nebular/theme';
-import { Observable, combineLatest, filter, map, startWith } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 import { ROUTE_VIEW_EVENT } from '../../constants';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { CreatePlan } from '../../models/create-plan.dto';
@@ -43,24 +43,22 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
   ],
   template: `
     <nb-stepper>
-      <nb-step label="Event" [completed]="eventGeneralFormValid$ | async">
+      <nb-step label="Event">
         <ng-template nbStepLabel>Event</ng-template>
         <tg-plan-event-general-form
           [games]="mockGames"
         ></tg-plan-event-general-form>
       </nb-step>
-      <nb-step label="Dates" [completed]="eventDatesFormValid$ | async">
+
+      <nb-step label="Dates">
         <ng-template nbStepLabel>Dates</ng-template>
         <tg-plan-event-dates-form></tg-plan-event-dates-form>
       </nb-step>
+
       <nb-step label="Summary">
         <ng-template nbStepLabel>Summary</ng-template>
         <tg-plan-event-summary
-          [event]="newEvent$ | async"
-          [disabled]="
-            (eventGeneralFormValid$ | async) === false ||
-            (eventDatesFormValid$ | async) === false
-          "
+          [event]="planEventValue$ | async"
           (createEvent)="onCreateEvent($event)"
         ></tg-plan-event-summary>
       </nb-step>
@@ -75,9 +73,7 @@ export class PlanEventComponent implements AfterViewInit {
   @ViewChild(PlanEventGeneralFormComponent)
   private generalFormComponent!: PlanEventGeneralFormComponent;
 
-  public eventGeneralFormValid$!: Observable<boolean>;
-  public eventDatesFormValid$!: Observable<boolean>;
-  public newEvent$!: Observable<PlanEventFormValue>;
+  public planEventValue$!: Observable<PlanEventFormValue | null>;
 
   public readonly mockGames: Game[] = MOCK_GAME_DTOS_LARGE;
 
@@ -87,6 +83,33 @@ export class PlanEventComponent implements AfterViewInit {
   ) {}
 
   public onCreateEvent(planEventFormValue: PlanEventFormValue) {
+    const createPlan = this.mapToCreatePlan(planEventFormValue);
+
+    this.planService.createPlan(createPlan).subscribe((planId) => {
+      this.router.navigate(['/' + ROUTE_VIEW_EVENT, planId]);
+    });
+  }
+
+  public ngAfterViewInit() {
+    this.planEventValue$ = combineLatest([
+      this.generalFormComponent.eventGeneralFormChange,
+      this.datesFormComponent.eventDateFormChange,
+    ]).pipe(
+      map(([generalForm, datesForm]) => {
+        if (generalForm.valid && datesForm.valid) {
+          return {
+            ...(generalForm.value as PlanEventGeneralFormValue),
+            ...(datesForm.value as PlanEventDatesFormValue),
+          } as PlanEventFormValue;
+        }
+        return null;
+      })
+    );
+
+    this.planEventValue$.subscribe();
+  }
+
+  private mapToCreatePlan(planEventFormValue: PlanEventFormValue): CreatePlan {
     // Some values need to be mapped to fit the CreatePlan Dto
     // These values are destructured to a variable prefixed with 'raw'
     const {
@@ -123,44 +146,6 @@ export class PlanEventComponent implements AfterViewInit {
       gameId,
     };
 
-    this.planService.createPlan(createPlan).subscribe((planId) => {
-      this.router.navigate(['/' + ROUTE_VIEW_EVENT, planId]);
-    });
-  }
-
-  public ngAfterViewInit() {
-    const generalFormValues$ =
-      this.generalFormComponent.eventGeneralFormChange.pipe(
-        filter((form) => form.valid),
-        map((form) => form.value as PlanEventGeneralFormValue)
-      );
-
-    const datesFormValues$ = this.datesFormComponent.eventDateFormChange.pipe(
-      filter((form) => form.valid),
-      map((form) => form.value as PlanEventDatesFormValue)
-    );
-
-    this.eventGeneralFormValid$ =
-      this.generalFormComponent.eventGeneralFormChange.pipe(
-        map((form) => form.valid),
-        startWith(false)
-      );
-
-    this.eventDatesFormValid$ =
-      this.datesFormComponent.eventDateFormChange.pipe(
-        map((form) => form.valid),
-        startWith(false)
-      );
-
-    this.newEvent$ = combineLatest([generalFormValues$, datesFormValues$]).pipe(
-      map(([generalFormValue, datesFormValue]) => {
-        return {
-          ...generalFormValue,
-          ...datesFormValue,
-        };
-      })
-    );
-
-    this.newEvent$.subscribe();
+    return createPlan;
   }
 }

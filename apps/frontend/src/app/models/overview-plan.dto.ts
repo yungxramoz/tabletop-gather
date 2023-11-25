@@ -1,3 +1,4 @@
+import { Model } from '../utils/types';
 import { Dto } from './dto.base';
 import { GameDto } from './game.dto';
 
@@ -21,3 +22,5 @@ export class OverviewPlanDto extends Dto {
   public game?: GameDto;
   public gatheringDates!: Date[];
 }
+
+export type OverviewPlan = Model<OverviewPlanDto>;
