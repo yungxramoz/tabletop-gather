@@ -61,6 +61,9 @@
         },
         "development": {
           "args": ["-Dspring.profiles.active=development"]
+        },
+        "coverage": {
+          "args": ["jacoco:report"]
         }
       }
     },

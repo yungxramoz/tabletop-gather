@@ -24,6 +24,18 @@ openssl rand -hex 32
 
 or use [this website](https://www.devglan.com/online-tools/hmac-sha256-online?ref=blog.tericcabrel.com).
 
+### Common Maven commands
+
+| Description              | Command                                        | Note                                                   |
+| ------------------------ | ---------------------------------------------- | ------------------------------------------------------ |
+| Resolve dependencies     | `mvnw dependency:resolve`                      | -                                                      |
+| Build application        | `mvnw clean package -DskipTests -Dfmt.skip`    | Skip Tests & Code Formatting                           |
+| Run application          | `mvnw spring-boot:run`                         | -                                                      |
+| Run tests                | `mvnw test`                                    | -                                                      |
+| Generate coverage report | `mvnw jacoco:report`                           | Check _./target/site/jacoco/index.html_ for the report |
+| Format code              | `mvnw com.spotify.fmt:fmt-maven-plugin:format` | -                                                      |
+| Check code formatting    | `mvnw com.spotify.fmt:fmt-maven-plugin:check`  | -                                                      |
+
 ### IDE Setup
 
 During development it is recommended to use the profile `development`. In IntelliJ `-Dspring.profiles.active=development` can be
