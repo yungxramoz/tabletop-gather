@@ -37,24 +37,9 @@ _(All commands are to be run from the root of the repository. Nx specific comman
 
 See the backend [README](./apps/backend/README.md) for more information on how it's setup.
 
-## Running tasks
+## Generating coverage reports
 
-To execute tasks with Nx use the following syntax:
+Coverage reports can be generated with `nx run-many test:coverage`.
 
-```
-nx <target> <project> <...options>
-```
-
-You can also run multiple targets:
-
-```
-nx run-many -t <target1> <target2>
-```
-
-..or add `-p` to filter specific projects
-
-```
-nx run-many -t <target1> <target2> -p <proj1> <proj2>
-```
-
-Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/core-features/run-tasks).
+- Frontend reports are located in `/coverage`
+- Backend reports are located in `/apps/backend/target/site/jacoco`
