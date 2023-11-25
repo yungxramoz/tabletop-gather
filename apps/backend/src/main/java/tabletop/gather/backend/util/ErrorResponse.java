@@ -1,18 +1,15 @@
 package tabletop.gather.backend.util;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
-
 
 @Getter
 @Setter
 public class ErrorResponse {
 
-    private Integer httpStatus;
-    private String exception;
-    private String message;
-    private List<FieldError> fieldErrors;
-
+  private Integer httpStatus;
+  private String exception;
+  private String message;
+  private List<FieldError> fieldErrors;
 }

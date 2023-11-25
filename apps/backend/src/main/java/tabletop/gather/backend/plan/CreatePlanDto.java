@@ -1,11 +1,10 @@
 package tabletop.gather.backend.plan;
 
+import java.util.List;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import tabletop.gather.backend.gathering.CreateGatheringDto;
-
-import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter

@@ -1,5 +1,9 @@
 package tabletop.gather.backend.unit.plan;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,24 +15,15 @@ import tabletop.gather.backend.gathering.Gathering;
 import tabletop.gather.backend.plan.*;
 import tabletop.gather.backend.user.*;
 
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 public class PlanServiceTest {
 
-  @InjectMocks
-  private PlanService planService;
+  @InjectMocks private PlanService planService;
 
-  @Mock
-  private PlanRepository planRepository;
+  @Mock private PlanRepository planRepository;
 
-  @Mock
-  private UserRepository userRepository;
+  @Mock private UserRepository userRepository;
 
-  @Mock
-  private GameRepository gameRepository;
+  @Mock private GameRepository gameRepository;
 
   @BeforeEach
   public void init() {
@@ -68,7 +63,9 @@ public class PlanServiceTest {
     List<OverviewPlanDto> response = planService.findAll(userId);
 
     assertEquals(1, response.size());
-    assertEquals(String.format("%s %s", user.getFirstName(), user.getLastName()), response.get(0).getOwnerName());
+    assertEquals(
+        String.format("%s %s", user.getFirstName(), user.getLastName()),
+        response.get(0).getOwnerName());
   }
 
   @Test

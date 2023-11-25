@@ -2,9 +2,7 @@ package tabletop.gather.backend.user;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.util.NotFoundException;
@@ -28,9 +26,7 @@ public class UserService {
    */
   public List<UserDto> findAll() {
     final List<User> users = userRepository.findAll(Sort.by("id"));
-    return users.stream()
-        .map(user -> mapToDto(user, new UserDto()))
-        .toList();
+    return users.stream().map(user -> mapToDto(user, new UserDto())).toList();
   }
 
   /**
@@ -40,7 +36,8 @@ public class UserService {
    * @return the user dto with the given email
    */
   public UserDto getByEmail(final String email) {
-    return userRepository.findByEmail(email)
+    return userRepository
+        .findByEmail(email)
         .map(user -> mapToDto(user, new UserDto()))
         .orElseThrow(NotFoundException::new);
   }
@@ -52,7 +49,8 @@ public class UserService {
    * @return the user dto with the given id
    */
   public UserDto get(final UUID id) {
-    return userRepository.findById(id)
+    return userRepository
+        .findById(id)
         .map(user -> mapToDto(user, new UserDto()))
         .orElseThrow(NotFoundException::new);
   }
@@ -60,14 +58,13 @@ public class UserService {
   /**
    * Updates the user with the given id.
    *
-   * @param id           the id of the user to update
-   * @param userDto      the user Dto containing the updated values
+   * @param id the id of the user to update
+   * @param userDto the user Dto containing the updated values
    * @param currentEmail the current email of the user
    * @return the updated user entity
    */
   public User update(final UUID id, final UserUpdateDto userDto, final String currentEmail) {
-    final User user = userRepository.findById(id)
-        .orElseThrow(NotFoundException::new);
+    final User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
     mapToEntity(userDto, user);
     userRepository.save(user);
     return user;
@@ -90,8 +87,7 @@ public class UserService {
    * @return the updated user entity
    */
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
-    final User user = userRepository.findById(id)
-        .orElseThrow(NotFoundException::new);
+    final User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
     user.setPasswordHash(passwordEncoder.encode(passwordUpdateDto.getNewPassword()));
     userRepository.save(user);
     return user;
@@ -100,7 +96,7 @@ public class UserService {
   /**
    * Maps entity to Dto.
    *
-   * @param user    the user entity to map
+   * @param user the user entity to map
    * @param userDto the user Dto to map to
    * @return the mapped user entity
    */
@@ -120,5 +116,4 @@ public class UserService {
     user.setEmail(userDto.getEmail());
     return user;
   }
-
 }

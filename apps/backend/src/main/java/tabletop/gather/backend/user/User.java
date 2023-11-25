@@ -1,6 +1,11 @@
 package tabletop.gather.backend.user;
 
 import jakarta.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,13 +19,6 @@ import tabletop.gather.backend.game.Game;
 import tabletop.gather.backend.gathering.Gathering;
 import tabletop.gather.backend.plan.Plan;
 
-import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-
 @Entity
 @Table(name = "Users")
 @EntityListeners(AuditingEntityListener.class)
@@ -28,87 +26,86 @@ import java.util.UUID;
 @Setter
 public class User implements UserDetails {
 
-    @Id
-    @Column(nullable = false, updatable = false)
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "uuid")
-    private UUID id;
+  @Id
+  @Column(nullable = false, updatable = false)
+  @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+  @GeneratedValue(generator = "uuid")
+  private UUID id;
 
-    @Column(nullable = false, length = 50)
-    private String username;
+  @Column(nullable = false, length = 50)
+  private String username;
 
-    @Column(nullable = false)
-    private String firstName;
+  @Column(nullable = false)
+  private String firstName;
 
-    @Column(nullable = false)
-    private String lastName;
+  @Column(nullable = false)
+  private String lastName;
 
-    @Column(nullable = false)
-    private String passwordHash;
+  @Column(nullable = false)
+  private String passwordHash;
 
-    @Column(nullable = false, unique = true, length = 320)
-    private String email;
+  @Column(nullable = false, unique = true, length = 320)
+  private String email;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Plan> sessionplans;
+  @OneToMany(mappedBy = "user")
+  private Set<Plan> sessionplans;
 
-    @ManyToMany
-    @JoinTable(
-            name = "UserGames",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "gameId")
-    )
-    private Set<Game> games;
+  @ManyToMany
+  @JoinTable(
+      name = "UserGames",
+      joinColumns = @JoinColumn(name = "userId"),
+      inverseJoinColumns = @JoinColumn(name = "gameId"))
+  private Set<Game> games;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Comment> comments;
+  @OneToMany(mappedBy = "user")
+  private Set<Comment> comments;
 
-    @ManyToMany(mappedBy = "users")
-    private Set<Gathering> gatherings;
+  @ManyToMany(mappedBy = "users")
+  private Set<Gathering> gatherings;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private OffsetDateTime dateCreated;
+  @CreatedDate
+  @Column(nullable = false, updatable = false)
+  private OffsetDateTime dateCreated;
 
-    @LastModifiedDate
-    @Column(nullable = false)
-    private OffsetDateTime lastUpdated;
+  @LastModifiedDate
+  @Column(nullable = false)
+  private OffsetDateTime lastUpdated;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-      return List.of();
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of();
+  }
 
-    public String getNonUserDetailsUsername() {
-      return username;
-    }
+  public String getNonUserDetailsUsername() {
+    return username;
+  }
 
-    public String getPassword() {
-      return passwordHash;
-    }
+  public String getPassword() {
+    return passwordHash;
+  }
 
-    @Override
-    public String getUsername() {
-      return email;
-    }
+  @Override
+  public String getUsername() {
+    return email;
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-      return true;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-      return true;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-      return true;
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-      return true;
-    }
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 }
