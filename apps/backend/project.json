@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "deps": {
-      "command": "apps/backend/mvnw dependency:resolve -f apps/backend/",
+      "command": "apps/backend/mvnw dependency:resolve -B -f apps/backend/",
       "configurations": {
         "production": {
           "args": ["-Dspring.profiles.active=production"]
@@ -18,7 +18,7 @@
       }
     },
     "build": {
-      "command": "apps/backend/mvnw clean package -DskipTests -Dfmt.skip -f apps/backend/",
+      "command": "apps/backend/mvnw clean package -DskipTests -Dfmt.skip -B -f apps/backend/",
       "dependsOn": ["deps"],
       "configurations": {
         "production": {
@@ -42,7 +42,7 @@
       }
     },
     "lint": {
-      "command": "apps/backend/mvnw com.spotify.fmt:fmt-maven-plugin:check -f apps/backend/",
+      "command": "apps/backend/mvnw com.spotify.fmt:fmt-maven-plugin:check -B -f apps/backend/",
       "configurations": {
         "production": {
           "args": ["-Dspring.profiles.active=production"]
@@ -53,7 +53,7 @@
       }
     },
     "test": {
-      "command": "apps/backend/mvnw test -f apps/backend/",
+      "command": "apps/backend/mvnw test -B -f apps/backend/",
       "dependsOn": ["build"],
       "configurations": {
         "production": {
