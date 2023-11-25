@@ -20,18 +20,18 @@ import { ViewEventPlayersComponent } from '../organisms/view-event-players.compo
     ViewEventPlayersComponent,
   ],
   template: `
-    <nb-tabset fullWidth class="tg-full">
-      <nb-tab tabTitle="Event">
+    <nb-tabset fullWidth>
+      <nb-tab tabTitle="Event" class="tg-tab-no-px">
         <tg-view-event-general
           [detailPlan]="detailPlan$ | async"
         ></tg-view-event-general>
       </nb-tab>
-      <nb-tab tabTitle="Players">
+      <nb-tab tabTitle="Players" class="tg-tab-no-px">
         <tg-view-event-players
           [detailPlan]="detailPlan$ | async"
         ></tg-view-event-players>
       </nb-tab>
-      <nb-tab tabTitle="Games">
+      <nb-tab tabTitle="Games" class="tg-tab-no-px">
         <tg-view-event-games
           [detailPlan]="detailPlan$ | async"
         ></tg-view-event-games>

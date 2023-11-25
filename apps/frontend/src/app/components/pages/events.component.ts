@@ -2,12 +2,12 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {
-  NbAccordionModule,
   NbButtonModule,
   NbCardModule,
   NbDialogModule,
   NbDialogService,
   NbIconModule,
+  NbTabsetModule,
 } from '@nebular/theme';
 import { BehaviorSubject, filter, map, switchMap, withLatestFrom } from 'rxjs';
 import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
@@ -31,7 +31,7 @@ import {
     NbButtonModule,
     NbIconModule,
     NbDialogModule,
-    NbAccordionModule,
+    NbTabsetModule,
     RouterModule,
     EventCardComponent,
     VoidComponent,
@@ -49,61 +49,48 @@ import {
         Create Event
       </button>
     </nb-card>
-
-    <nb-accordion [multi]="true">
-      <nb-accordion-item [collapsed]="false">
-        <nb-accordion-item-header>
-          <span>My Events</span>
-        </nb-accordion-item-header>
-        <nb-accordion-item-body class="tg-layout-bg">
-          <ng-container
-            *ngIf="myPlans$ | async as myPlans; else noPrivatePlans"
-          >
-            <ng-container *ngIf="myPlans.length > 0; else noPrivatePlans">
-              <ng-container *ngFor="let plan of myPlans">
-                <tg-event-card
-                  [overviewPlanDto]="plan"
-                  [isOwner]="true"
-                  (viewClicked)="viewEvent(plan.id)"
-                  (deleteClicked)="deleteMyEvent(plan.id)"
-                >
-                </tg-event-card>
-              </ng-container>
+    <nb-tabset fullWidth>
+      <nb-tab tabTitle="My Events" class="tg-tab-no-px">
+        <ng-container *ngIf="myPlans$ | async as myPlans; else noPrivatePlans">
+          <ng-container *ngIf="myPlans.length > 0; else noPrivatePlans">
+            <ng-container *ngFor="let plan of myPlans">
+              <tg-event-card
+                [overviewPlanDto]="plan"
+                [isOwner]="true"
+                (viewClicked)="viewEvent(plan.id)"
+                (deleteClicked)="deleteMyEvent(plan.id)"
+              >
+              </tg-event-card>
             </ng-container>
           </ng-container>
-          <ng-template #noPrivatePlans>
-            <nb-card-body>
-              <tg-void message="You have no private events"></tg-void>
-            </nb-card-body>
-          </ng-template>
-        </nb-accordion-item-body>
-      </nb-accordion-item>
-      <nb-accordion-item [collapsed]="false">
-        <nb-accordion-item-header>
-          <span>Public Events</span>
-        </nb-accordion-item-header>
-        <nb-accordion-item-body class="tg-layout-bg">
-          <ng-container
-            *ngIf="publicPlans$ | async as publicPlans; else noPublicPlans"
-          >
-            <ng-container *ngIf="publicPlans.length > 0; else noPublicPlans">
-              <ng-container *ngFor="let plan of publicPlans">
-                <tg-event-card
-                  [overviewPlanDto]="plan"
-                  (viewClicked)="viewEvent(plan.id)"
-                >
-                </tg-event-card>
-              </ng-container>
+        </ng-container>
+        <ng-template #noPrivatePlans>
+          <nb-card-body>
+            <tg-void message="You have no private events"></tg-void>
+          </nb-card-body>
+        </ng-template>
+      </nb-tab>
+      <nb-tab tabTitle="Public Events" class="tg-tab-no-px">
+        <ng-container
+          *ngIf="publicPlans$ | async as publicPlans; else noPublicPlans"
+        >
+          <ng-container *ngIf="publicPlans.length > 0; else noPublicPlans">
+            <ng-container *ngFor="let plan of publicPlans">
+              <tg-event-card
+                [overviewPlanDto]="plan"
+                (viewClicked)="viewEvent(plan.id)"
+              >
+              </tg-event-card>
             </ng-container>
           </ng-container>
-          <ng-template #noPublicPlans>
-            <nb-card-body>
-              <tg-void message="There are no public events"></tg-void>
-            </nb-card-body>
-          </ng-template>
-        </nb-accordion-item-body>
-      </nb-accordion-item>
-    </nb-accordion>
+        </ng-container>
+        <ng-template #noPublicPlans>
+          <nb-card-body>
+            <tg-void message="There are no public events"></tg-void>
+          </nb-card-body>
+        </ng-template>
+      </nb-tab>
+    </nb-tabset>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

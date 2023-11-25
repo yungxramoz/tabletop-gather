@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { OverviewPlanDto } from '../../models/overview-plan.dto';
+import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 @Component({
   standalone: true,
   selector: 'tg-event-card',
-  imports: [NgIf, NbCardModule, NbButtonModule, NbIconModule],
+  imports: [NgIf, NbCardModule, NbButtonModule, NbIconModule, TruncatePipe],
   template: `
     <nb-card>
       <nb-card-header>
@@ -32,7 +33,7 @@ import { OverviewPlanDto } from '../../models/overview-plan.dto';
         </div>
       </nb-card-header>
       <nb-card-body>
-        {{ overviewPlanDto.description }}
+        {{ overviewPlanDto.description | truncate }}
       </nb-card-body>
       <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">

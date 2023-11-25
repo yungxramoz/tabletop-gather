@@ -1,14 +1,3 @@
-import { Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  mergeMap,
-  shareReplay,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
-
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
@@ -17,7 +6,16 @@ import {
   NbDialogService,
   NbIconModule,
 } from '@nebular/theme';
-
+import {
+  Observable,
+  filter,
+  map,
+  mergeMap,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { PasswordUpdate } from '../../models/password-update.dto';
 import { UserUpdate } from '../../models/user-update.dto';
 import { User, UserDto } from '../../models/user.dto';

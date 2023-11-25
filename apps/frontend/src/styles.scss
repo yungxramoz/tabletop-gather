@@ -29,10 +29,6 @@ p {
   }
 }
 
-.tg-layout-bg {
-  background-color: var(--layout-background-color);
-}
-
 .tg-text-hint {
   color: var(--text-hint-color);
 }
@@ -164,6 +160,11 @@ p {
 }
 
 /* Misc */
+
+.tg-tab-no-px {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 .tg-dialog {
   display: block;
