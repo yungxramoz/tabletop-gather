@@ -1,4 +1,4 @@
-import { filter, map, Observable, shareReplay } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
@@ -132,8 +132,7 @@ export class UsersService {
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
         map((response) => response?.body as string),
-        map((userJson) => UserDto.fromJson(userJson)),
-        shareReplay()
+        map((userJson) => UserDto.fromJson(userJson))
       );
   }
 }
