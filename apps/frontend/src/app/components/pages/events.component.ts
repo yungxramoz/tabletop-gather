@@ -1,5 +1,11 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {
   NbButtonModule,
@@ -7,6 +13,7 @@ import {
   NbDialogModule,
   NbDialogService,
   NbIconModule,
+  NbTabComponent,
   NbTabsetModule,
 } from '@nebular/theme';
 import { BehaviorSubject, filter, map, switchMap, withLatestFrom } from 'rxjs';
@@ -49,8 +56,9 @@ import { EventCardComponent } from '../organisms/event-card.component';
         Create Event
       </button>
     </nb-card>
+
     <nb-tabset fullWidth>
-      <nb-tab tabTitle="My Events" class="tg-tab-no-px">
+      <nb-tab tabTitle="My Events" class="tg-tab-no-px" badgeText="12">
         <ng-container *ngIf="myPlans$ | async as myPlans; else noPrivatePlans">
           <ng-container *ngIf="myPlans.length > 0; else noPrivatePlans">
             <ng-container *ngFor="let plan of myPlans">
@@ -65,16 +73,22 @@ import { EventCardComponent } from '../organisms/event-card.component';
             </ng-container>
           </ng-container>
         </ng-container>
+
         <ng-template #noPrivatePlans>
           <nb-card-body>
             <tg-void message="You have no private events"></tg-void>
           </nb-card-body>
         </ng-template>
       </nb-tab>
+
       <nb-tab tabTitle="Public Events" class="tg-tab-no-px">
         <ng-container
           *ngIf="publicPlans$ | async as publicPlans; else noPublicPlans"
         >
+          <div class="tg-flex-row tg-justify-around tg-p-1">
+            <i class="caption">(Your public events are not shown here)</i>
+          </div>
+
           <ng-container *ngIf="publicPlans.length > 0; else noPublicPlans">
             <ng-container *ngFor="let plan of publicPlans">
               <tg-event-card
@@ -85,17 +99,19 @@ import { EventCardComponent } from '../organisms/event-card.component';
             </ng-container>
           </ng-container>
         </ng-container>
+
         <ng-template #noPublicPlans>
-          <nb-card-body>
-            <tg-void message="There are no public events"></tg-void>
-          </nb-card-body>
+          <nb-card-body> </nb-card-body>
         </ng-template>
       </nb-tab>
     </nb-tabset>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventsComponent implements OnInit {
+export class EventsComponent implements AfterViewInit {
+  @ViewChildren(NbTabComponent)
+  private readonly tabs!: QueryList<NbTabComponent>;
+
   public readonly routePlanEvent = '/' + ROUTE_PLAN_EVENT;
 
   private readonly myPlansSubject: BehaviorSubject<OverviewPlanDto[]> =
@@ -117,6 +133,7 @@ export class EventsComponent implements OnInit {
   }
 
   public editMyEvent(planId: string) {
+    // TODO: Implement "edit event" feature
     alert("That's not implemented yet");
   }
 
@@ -133,24 +150,37 @@ export class EventsComponent implements OnInit {
         })
       )
       .subscribe(() => {
-        this.updateMyPlans();
+        this.getPlans();
       });
   }
 
-  public ngOnInit(): void {
-    this.updateMyPlans();
+  public ngAfterViewInit(): void {
+    this.getPlans();
   }
 
-  private updateMyPlans() {
-    this.planService.getAllMyPlans().subscribe((plans) => {
-      this.myPlansSubject.next(plans);
-    });
+  private getPlans() {
+    // Get my plans
+    const subscriptionPrivate = this.planService
+      .getAllMyPlans()
+      .subscribe((plans) => {
+        this.myPlansSubject.next(plans);
 
-    this.planService
+        // Update badge
+        this.tabs.first.badgeText = `${
+          plans.length > 100 ? '99+' : plans.length
+        }`;
+        this.tabs.first.badgeStatus = 'primary';
+
+        subscriptionPrivate.unsubscribe();
+      });
+
+    // Get public plans
+    const subscriptionPublic = this.planService
       .getAllPublicPlans()
       .pipe(
         withLatestFrom(this.myPlansSubject),
         map(([publicPlans, myPlans]) => {
+          // Only show public plans that are not mine
           return publicPlans.filter(
             (publicPlan) =>
               !myPlans.some((myPlan) => myPlan.id === publicPlan.id)
@@ -159,6 +189,14 @@ export class EventsComponent implements OnInit {
       )
       .subscribe((plans) => {
         this.publicPlansSubject.next(plans);
+
+        // Update badge
+        this.tabs.last.badgeText = `${
+          plans.length > 100 ? '99+' : plans.length
+        }`;
+        this.tabs.last.badgeStatus = 'primary';
+
+        subscriptionPublic.unsubscribe();
       });
   }
 }
