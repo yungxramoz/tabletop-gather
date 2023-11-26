@@ -56,6 +56,7 @@ export class ViewEventComponent implements OnInit {
     private readonly userService: UsersService
   ) {}
 
+  // TODO (decide): How do we push the selected gathering to the backend?
   public ngOnInit() {
     this.detailPlan$ = this.route.params.pipe(
       map((params) => params['eventId']),
@@ -64,9 +65,9 @@ export class ViewEventComponent implements OnInit {
 
     this.isOwner$ = this.detailPlan$.pipe(
       switchMap((plan) =>
-        // TODO: Maybe have this cached? Should probably use a BehaviorSubject
+        // TODO: Maybe have userService.me() cached? Should probably use a BehaviorSubject
         // in the user service and:
-        // - call /users/me if it's null
+        // - call /users/me if it's currently null
         // - next it if the user gets updated
         // - next it if to null if the user logs out or gets deleted
         // Then replace calls to userService.me() with userService.me$

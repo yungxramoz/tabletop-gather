@@ -75,6 +75,7 @@ export class PlanEventComponent implements AfterViewInit {
 
   public planEventValue$!: Observable<PlanEventFormValue | null>;
 
+  // TODO: Load games from backend
   public readonly mockGames: Game[] = MOCK_GAME_DTOS_LARGE;
 
   public constructor(
