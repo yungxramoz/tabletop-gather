@@ -1,6 +1,6 @@
 import { Model } from '../utils/types';
+import { Dto } from './base.dto';
 import { CreateGathering } from './create-gathering.dto';
-import { Dto } from './dto.base';
 import { GameDto } from './game.dto';
 
 /**

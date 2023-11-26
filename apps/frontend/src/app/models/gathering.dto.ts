@@ -1,5 +1,5 @@
 import { Model } from '../utils/types';
-import { Dto } from './dto.base';
+import { Dto } from './base.dto';
 import { GuestDto } from './guest.dto';
 import { UserDto } from './user.dto';
 

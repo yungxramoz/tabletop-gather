@@ -1,6 +1,6 @@
 import { Model } from '../utils/types';
+import { Dto } from './base.dto';
 import { DetailGatheringDto } from './detail-gathering.dto';
-import { Dto } from './dto.base';
 import { GameDto } from './game.dto';
 import { UserDto } from './user.dto';
 
