@@ -57,7 +57,8 @@ import {
               <tg-event-card
                 [overviewPlanDto]="plan"
                 [isOwner]="true"
-                (viewClicked)="viewEvent(plan.id)"
+                (cardClicked)="viewEvent(plan.id)"
+                (editClicked)="editMyEvent(plan.id)"
                 (deleteClicked)="deleteMyEvent(plan.id)"
               >
               </tg-event-card>
@@ -78,7 +79,7 @@ import {
             <ng-container *ngFor="let plan of publicPlans">
               <tg-event-card
                 [overviewPlanDto]="plan"
-                (viewClicked)="viewEvent(plan.id)"
+                (cardClicked)="viewEvent(plan.id)"
               >
               </tg-event-card>
             </ng-container>
@@ -112,9 +113,11 @@ export class EventsComponent implements OnInit {
   ) {}
 
   public viewEvent(planId: string) {
-    console.log('view');
-
     this.router.navigate(['/' + ROUTE_VIEW_EVENT, planId]);
+  }
+
+  public editMyEvent(planId: string) {
+    alert("That's not implemented yet");
   }
 
   public deleteMyEvent(planId: string) {

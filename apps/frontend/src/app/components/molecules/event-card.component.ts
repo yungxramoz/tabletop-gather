@@ -16,7 +16,7 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
   imports: [NgIf, NbCardModule, NbButtonModule, NbIconModule, TruncatePipe],
   template: `
     <nb-card>
-      <nb-card-header>
+      <nb-card-header class="tg-clickable" (click)="cardClicked.emit()">
         <div class="tg-flex-row tg-justify-between">
           <div class="tg-flex-col tg-align-start">
             <p class="caption-2">
@@ -32,14 +32,13 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
           ></nb-icon>
         </div>
       </nb-card-header>
-      <nb-card-body>
+      <nb-card-body class="tg-clickable" (click)="cardClicked.emit()">
         {{ overviewPlanDto.description | truncate }}
       </nb-card-body>
-      <nb-card-footer>
+      <nb-card-footer *ngIf="isOwner">
         <div class="tg-flex-row tg-justify-end">
           <button
             nbButton
-            *ngIf="isOwner"
             ghost
             status="danger"
             shape="semi-round"
@@ -51,11 +50,11 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
           <button
             nbButton
             ghost
-            status="primary"
+            status="warning"
             shape="semi-round"
-            (click)="viewClicked.emit()"
+            (click)="editClicked.emit()"
           >
-            <nb-icon icon="arrow-forward-outline"></nb-icon>
+            <nb-icon icon="edit-2-outline"></nb-icon>
           </button>
         </div>
       </nb-card-footer>
@@ -67,7 +66,12 @@ export class EventCardComponent {
   @Input({ required: true }) public overviewPlanDto!: OverviewPlanDto;
   @Input() public isOwner = false;
 
-  @Output() public viewClicked: EventEmitter<void> = new EventEmitter();
+  @Output()
+  public cardClicked: EventEmitter<void> = new EventEmitter();
+
   @Output()
   public deleteClicked: EventEmitter<void> = new EventEmitter();
+
+  @Output()
+  public editClicked: EventEmitter<void> = new EventEmitter();
 }
