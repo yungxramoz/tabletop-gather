@@ -79,7 +79,7 @@ export class AuthService {
    */
   public signup(registerUser: RegisterUser): Observable<UserDto> {
     return this.http
-      .post<UserDto>(`${this.authBaseUrl}/signup`, registerUser, {
+      .post<object>(`${this.authBaseUrl}/signup`, registerUser, {
         observe: 'response',
         responseType: 'json',
       })

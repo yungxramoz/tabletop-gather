@@ -33,7 +33,7 @@ export class UsersService {
    */
   public getAllUsers(): Observable<UserDto[]> {
     return this.http
-      .get<string[]>(this.usersUrl, {
+      .get<object[]>(this.usersUrl, {
         responseType: 'json',
         observe: 'response',
       })
@@ -41,7 +41,7 @@ export class UsersService {
         // TODO: Use LoadingWrapper
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as string[]),
+        map((response) => response?.body as object[]),
         map((usersJson) =>
           usersJson.map((user: unknown) => UserDto.fromJson(user))
         )
@@ -124,14 +124,14 @@ export class UsersService {
    */
   public me(): Observable<UserDto> {
     return this.http
-      .get(`${this.usersUrl}/me`, {
+      .get<object>(`${this.usersUrl}/me`, {
         observe: 'response',
         responseType: 'json',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as string),
+        map((response) => response?.body as object),
         map((userJson) => UserDto.fromJson(userJson))
       );
   }

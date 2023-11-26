@@ -33,14 +33,14 @@ export class PlanService {
    */
   public getAllPublicPlans(): Observable<OverviewPlanDto[]> {
     return this.http
-      .get<string[]>(this.plansUrl, {
+      .get<object[]>(this.plansUrl, {
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as string[]),
+        map((response) => response?.body as object[]),
         map((overviewPlansJson) =>
           overviewPlansJson.map((plan: unknown) =>
             OverviewPlanDto.fromJson(plan)
@@ -56,14 +56,14 @@ export class PlanService {
    */
   public getAllMyPlans(): Observable<OverviewPlanDto[]> {
     return this.http
-      .get<string[]>(`${this.plansUrl}/me`, {
+      .get<object[]>(`${this.plansUrl}/me`, {
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as string[]),
+        map((response) => response?.body as object[]),
         map((overviewPlansJson) =>
           overviewPlansJson.map((plan: unknown) =>
             OverviewPlanDto.fromJson(plan)
@@ -80,14 +80,14 @@ export class PlanService {
    */
   public getPlanById(id: Uuid): Observable<DetailPlanDto> {
     return this.http
-      .get(`${this.plansUrl}/${id}`, {
+      .get<object>(`${this.plansUrl}/${id}`, {
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
-        map((response) => response?.body as DetailPlanDto),
+        map((response) => response?.body as object),
         map((detailPlanJson) => DetailPlanDto.fromJson(detailPlanJson))
       );
   }
