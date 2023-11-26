@@ -2,7 +2,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbTabsetModule } from '@nebular/theme';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { DetailPlanDto } from '../../models/detail-plan.dto';
 import { PlanService } from '../../services/plan.service';
 import { VoidComponent } from '../atoms/void.component';
@@ -53,12 +53,10 @@ export class ViewEventComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.detailPlan$ = this.route.params
-      .pipe(tap((params) => console.log(params)))
-      .pipe(
-        map((params) => params['eventId']),
-        switchMap((eventId) => this.planService.getPlanById(eventId))
-      );
+    this.detailPlan$ = this.route.params.pipe(
+      map((params) => params['eventId']),
+      switchMap((eventId) => this.planService.getPlanById(eventId))
+    );
 
     this.detailPlan$.subscribe();
   }

@@ -3,10 +3,7 @@ import { Injectable, Injector } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Observable, catchError, of, pipe, tap, throwError } from 'rxjs';
 import {
-  ApiException,
   ApiExceptionToastMessageMap,
-  DEFAULT_API_EXCEPTION_MESSAGES,
-  DEFAULT_HTTP_ERROR_STATUS_MESSAGES,
   HttpErrorStatusToastMessageMap,
   friendlyErrorReponse,
 } from '../resources/error-responses.resources';
@@ -45,6 +42,7 @@ export class ResponseHandler {
     source$: Observable<HttpResponse<T>>
   ) => Observable<HttpResponse<T> | null>) => {
     const thisConfig = { ...DEFAULT_CONFIG, ...config };
+
     return pipe(
       catchError((error: HttpErrorResponse) => {
         const { message, title } = friendlyErrorReponse(
@@ -56,7 +54,7 @@ export class ResponseHandler {
         this.toastService.danger(message, title);
 
         if (thisConfig.propagateError) {
-          return throwError(() => new Error(error.message));
+          return throwError(() => new Error(title + '\n' + message));
         }
 
         return of(null);
@@ -73,6 +71,7 @@ export class ResponseHandler {
     source$: Observable<HttpResponse<T>>
   ) => Observable<HttpResponse<T> | null>) => {
     const thisConfig = { ...DEFAULT_CONFIG, ...config };
+
     return pipe(
       tap((response) => {
         const title = thisConfig.successTitleOverride ?? 'Success';
