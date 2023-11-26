@@ -14,11 +14,11 @@ import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
 import { OverviewPlanDto } from '../../models/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
 import { VoidComponent } from '../atoms/void.component';
-import { EventCardComponent } from '../molecules/event-card.component';
 import {
   DeleteDialogComponent,
   DeleteDialogResult,
 } from '../organisms/delete-dialog.component';
+import { EventCardComponent } from '../organisms/event-card.component';
 
 @Component({
   standalone: true,

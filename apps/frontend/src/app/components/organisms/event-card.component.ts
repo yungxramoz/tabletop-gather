@@ -16,7 +16,13 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
   imports: [NgIf, NbCardModule, NbButtonModule, NbIconModule, TruncatePipe],
   template: `
     <nb-card>
-      <nb-card-header class="tg-clickable" (click)="cardClicked.emit()">
+      <nb-card-header
+        class="tg-clickable"
+        (click)="cardClicked.emit()"
+        (keydown.enter)="cardClicked.emit()"
+        role="button"
+        tabindex="0"
+      >
         <div class="tg-flex-row tg-justify-between">
           <div class="tg-flex-col tg-align-start">
             <p class="caption-2">
@@ -32,7 +38,12 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
           ></nb-icon>
         </div>
       </nb-card-header>
-      <nb-card-body class="tg-clickable" (click)="cardClicked.emit()">
+      <nb-card-body
+        class="tg-clickable"
+        (click)="cardClicked.emit()"
+        (keydown.enter)="cardClicked.emit()"
+        role="button"
+      >
         {{ overviewPlanDto.description | truncate }}
       </nb-card-body>
       <nb-card-footer *ngIf="isOwner">
