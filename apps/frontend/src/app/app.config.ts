@@ -24,7 +24,10 @@ import {
 } from '@nebular/theme';
 import { appRoutes } from './app.routes';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { JsonParseInterceptor } from './interceptors/json-parse.interceptor';
 import { GlobalErrorHandler } from './utils/global-error-handler';
+import { JsonParser } from './utils/json-parser/base.json-parser';
+import { DtoJsonParser } from './utils/json-parser/dto.json-parser';
 
 export const API_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
   'API_BASE_URL'
@@ -57,6 +60,17 @@ const provideAuthInterceptor = (): Provider => ({
   provide: HTTP_INTERCEPTORS,
   useClass: AuthInterceptor,
   multi: true,
+});
+
+const provideJsonParseInterceptor = (): Provider => ({
+  provide: HTTP_INTERCEPTORS,
+  useClass: JsonParseInterceptor,
+  multi: true,
+});
+
+const provideDtoJsonParser = (): Provider => ({
+  provide: JsonParser,
+  useClass: DtoJsonParser,
 });
 
 const provideLocalStorage = (): Provider => ({
@@ -95,6 +109,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     ...provideNebular(),
     provideAuthInterceptor(),
+    provideJsonParseInterceptor(),
+    provideDtoJsonParser(),
     provideErrorHandler(),
     provideBaseUrlsForDevelopment(),
     provideLocalStorage(),

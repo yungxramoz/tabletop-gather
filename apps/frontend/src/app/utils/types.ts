@@ -1,5 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { Dto } from '../models/dto.base';
+import { Dto } from '../models/base.dto';
 
 /**
  * Type for a single digit.

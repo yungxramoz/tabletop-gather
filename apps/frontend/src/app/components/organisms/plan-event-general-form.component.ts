@@ -12,15 +12,19 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { MaxValidatorDirective } from '../../directives/max-validator.directive';
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
-import { Game } from '../../models/game.dto';
-import { Plan } from '../../models/plan.dto';
+import { Game, GameDto } from '../../models/game.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';
+import { ToggleComponent } from '../atoms/toggle.component';
 import { AutocompleteComponent } from '../molecules/autocomplete.component';
 
-type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
-  game: [Game];
+export type PlanEventGeneralFormValue = {
+  name: string;
+  description: string;
+  isPrivate: boolean;
+  playerLimit: string;
+  game: [GameDto];
 };
 
 @Component({
@@ -32,6 +36,7 @@ type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
     NbCardModule,
     NbSelectModule,
     InputComponent,
+    ToggleComponent,
     TextareaComponent,
     AutocompleteComponent,
     MinValidatorDirective,
@@ -44,6 +49,8 @@ type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
           <tg-input
             ngModel
             required
+            minlength="3"
+            maxlength="255"
             id="name"
             name="name"
             label="Title"
@@ -53,6 +60,8 @@ type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
           <tg-textarea
             ngModel
             required
+            minlength="3"
+            maxlength="2048"
             [rows]="4"
             id="description"
             name="description"
@@ -72,6 +81,14 @@ type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
             placeholder="1"
           ></tg-input>
 
+          <tg-toggle
+            ngModel
+            id="isPrivate"
+            name="isPrivate"
+            label="Visibility"
+            description="Privat event?"
+          ></tg-toggle>
+
           <tg-autocomplete
             ngModel
             id="game"
@@ -80,6 +97,7 @@ type PlanWithUnmappedGame = Omit<Partial<Plan>, 'game'> & {
             mode="single"
             [options]="games"
             [optionSelector]="gameKeySelector"
+            [optionImageUrlSelector]="gameImageUrlSelector"
             placeholder="Select a game"
           ></tg-autocomplete>
         </form>
@@ -93,10 +111,11 @@ export class PlanEventGeneralFormComponent implements AfterViewInit {
 
   @Input({ required: true }) public games!: Game[];
   @Output() public eventGeneralFormChange: EventEmitter<
-    ModelFormGroup<PlanWithUnmappedGame>
-  > = new EventEmitter<ModelFormGroup<PlanWithUnmappedGame>>();
+    ModelFormGroup<PlanEventGeneralFormValue>
+  > = new EventEmitter<ModelFormGroup<PlanEventGeneralFormValue>>();
 
   public gameKeySelector = (game: Game) => game.name;
+  public gameImageUrlSelector = (game: Game) => game.imageUrl;
 
   public ngAfterViewInit() {
     this.ngForm.form.valueChanges.subscribe(() => {

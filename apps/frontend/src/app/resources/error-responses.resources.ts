@@ -77,19 +77,27 @@ export const friendlyErrorReponse = (
   errorResponse: HttpErrorResponse,
   overrideApiError?: ApiExceptionToastMessageMap,
   overrideHttpErrorResponse?: HttpErrorStatusToastMessageMap
-): ToastErrorMessage =>
-  overrideApiError?.[errorResponse.error.exception as ApiException] ??
-  DEFAULT_API_EXCEPTION_MESSAGES[
-    errorResponse.error.exception as ApiException
-  ] ??
-  overrideHttpErrorResponse?.[
-    errorResponse.status.toString() as HttpErrorStatus
-  ] ??
-  DEFAULT_HTTP_ERROR_STATUS_MESSAGES[
-    errorResponse.status.toString() as HttpErrorStatus
-  ] ?? {
-    title: 'Unknown Error Response',
-    message: `No friendly error response found for ${errorResponse.status}, ${
-      errorResponse.statusText
-    }, ${JSON.stringify(errorResponse.error)}`,
-  };
+): ToastErrorMessage => {
+  if (errorResponse.error?.exception) {
+    return (
+      overrideApiError?.[errorResponse.error.exception as ApiException] ??
+      DEFAULT_API_EXCEPTION_MESSAGES[
+        errorResponse.error.exception as ApiException
+      ]
+    );
+  }
+
+  return (
+    overrideHttpErrorResponse?.[
+      errorResponse.status.toString() as HttpErrorStatus
+    ] ??
+    DEFAULT_HTTP_ERROR_STATUS_MESSAGES[
+      errorResponse.status.toString() as HttpErrorStatus
+    ] ?? {
+      title: 'Unknown Error Response',
+      message: `No friendly error response found for ${errorResponse.status}, ${
+        errorResponse.statusText
+      }, ${JSON.stringify(errorResponse.error)}`,
+    }
+  );
+};

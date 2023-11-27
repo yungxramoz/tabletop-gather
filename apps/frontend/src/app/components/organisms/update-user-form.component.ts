@@ -74,33 +74,32 @@ import { InputComponent } from '../atoms/input.component';
             label="Email"
             placeholder="john@doe.com"
           ></tg-input>
-
-          <div class="tg-flex-row tg-mt-2">
-            <button
-              nbButton
-              fullWidth
-              ghost
-              status="primary"
-              shape="semi-round"
-              (click)="resetForm(updateUserForm)"
-            >
-              Reset
-            </button>
-            <div class="tg-m-1"></div>
-            <button
-              nbButton
-              fullWidth
-              status="primary"
-              shape="semi-round"
-              type="submit"
-              [disabled]="updateUserForm.invalid"
-              (click)="updateUser()"
-            >
-              Save
-            </button>
-          </div>
         </form>
       </nb-card-body>
+      <nb-card-footer>
+        <div class="tg-flex-row tg-justify-end">
+          <button
+            nbButton
+            ghost
+            status="control"
+            shape="semi-round"
+            (click)="resetForm(updateUserForm)"
+          >
+            Reset
+          </button>
+          <div class="tg-m-1"></div>
+          <button
+            nbButton
+            status="primary"
+            shape="semi-round"
+            type="submit"
+            [disabled]="updateUserForm.invalid"
+            (click)="updateUser()"
+          >
+            Save
+          </button>
+        </div>
+      </nb-card-footer>
     </nb-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

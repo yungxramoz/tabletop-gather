@@ -15,8 +15,9 @@ import {
   NbInputModule,
   NbListModule,
 } from '@nebular/theme';
-import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
+import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { LabelComponent } from '../atoms/label.component';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   standalone: true,
@@ -32,6 +33,7 @@ import { LabelComponent } from '../atoms/label.component';
     NgFor,
     ValidationErrorsComponent,
     LabelComponent,
+    GatheringDateComponent,
   ],
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
@@ -62,8 +64,7 @@ import { LabelComponent } from '../atoms/label.component';
         *ngFor="let selected of value; index as i"
       >
         <p class="tg-medium-weight" p>
-          {{ selected | date : 'mediumDate' }} at
-          {{ selected | date : 'shortTime' }}
+          <tg-gathering-date [date]="selected"></tg-gathering-date>
         </p>
         <button
           nbButton
@@ -109,7 +110,6 @@ export class DatepickerComponent implements ControlValueAccessor {
     @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
-      this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
   }

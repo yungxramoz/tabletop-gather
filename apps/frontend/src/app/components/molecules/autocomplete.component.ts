@@ -19,8 +19,9 @@ import {
   NbListModule,
 } from '@nebular/theme';
 import { Observable, map, of } from 'rxjs';
-import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 import { LabelComponent } from '../atoms/label.component';
+import { LazyImageComponent } from '../atoms/lazy-image.component';
+import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
 @Component({
   standalone: true,
@@ -36,6 +37,7 @@ import { LabelComponent } from '../atoms/label.component';
     NgFor,
     ValidationErrorsComponent,
     LabelComponent,
+    LazyImageComponent,
   ],
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
@@ -58,24 +60,34 @@ import { LabelComponent } from '../atoms/label.component';
       <nb-option
         *ngFor="let option of filteredOptions$ | async"
         [value]="option"
-        class="tg-basic-bg"
+        class="tg-input-basic-bg"
       >
+        <tg-lazy-image
+          *ngIf="optionImageUrlSelector"
+          [src]="optionImageUrlSelector(option)"
+          class="tg-mr-1"
+        ></tg-lazy-image>
         {{ optionSelector(option) }}
       </nb-option>
     </nb-autocomplete>
 
     <nb-list fullWidth class="tg-mt-1">
       <nb-list-item
-        class="tg-flex-row"
+        class="tg-flex-row tg-justify-start"
         *ngFor="let selected of value; index as i"
       >
+        <tg-lazy-image
+          *ngIf="optionImageUrlSelector"
+          [src]="optionImageUrlSelector(selected)"
+          class="tg-mr-1"
+        ></tg-lazy-image>
         <p class="tg-medium-weight">{{ optionSelector(selected) }}</p>
         <button
           nbButton
           size="large"
           ghost
           status="danger"
-          class="tg-p-0"
+          class="tg-p-0 tg-ml-auto"
           (click)="onSelectedRemove(i)"
         >
           <nb-icon icon="trash-2-outline"></nb-icon>
@@ -90,17 +102,15 @@ import { LabelComponent } from '../atoms/label.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutocompleteComponent<T extends { toString: () => string }>
-  implements ControlValueAccessor, OnInit
-{
+export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('searchInput')
   public readonly inputElement!: ElementRef<HTMLInputElement>;
+  @Input({ required: true }) public options!: T[];
+  @Input({ required: true }) public optionSelector!: (option: T) => string;
+  @Input() public optionImageUrlSelector: ((option: T) => string) | undefined;
   @Input() public label: string | undefined;
-  @Input() public options!: T[];
   @Input() public placeholder: string | undefined;
   @Input() public mode: 'single' | 'multiple' | 'unique' = 'single';
-  @Input() public optionSelector: (option: T) => string = (option) =>
-    option.toString();
 
   public readonly id = `tg-autocomplete-${AutocompleteComponent.uniqueId++}`;
   public onChange: undefined | ((event: T[]) => void);
@@ -122,7 +132,6 @@ export class AutocompleteComponent<T extends { toString: () => string }>
     @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
-      this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
   }

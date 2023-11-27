@@ -2,3 +2,24 @@ div.overlay-backdrop {
   backdrop-filter: blur(3px);
   background: var(--overlay-backdrop-background-color);
 }
+
+span.custom-checkbox, div.toggle {
+  border-color: var(--input-basic-border-color) !important;
+}
+
+div.toggle:not(.toggle.checked) {
+  border-color: var(--input-basic-border-color) !important;
+  background-color: var(--input-basic-background-color) !important;
+}
+
+span.toggle-switcher {
+  background-color: var(--card-background-color) !important;
+}
+
+nb-card-header {
+  border-bottom: none !important;
+}
+
+nb-card-footer {
+  border-top: none !important;
+}

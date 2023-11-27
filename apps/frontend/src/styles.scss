@@ -22,7 +22,7 @@ p {
 
 /* Colors */
 
-.tg-basic-bg {
+.tg-input-basic-bg {
   background-color: var(--input-basic-background-color);
   &:hover {
     background-color: var(--input-basic-hover-background-color);
@@ -66,6 +66,14 @@ p {
   padding: 1rem;
 }
 
+.tg-pt-1 {
+  padding-top: 0.5rem;
+}
+
+.tg-pt-2 {
+  padding-top: 1rem;
+}
+
 /* Margins */
 
 .tg-m-1 {
@@ -103,6 +111,14 @@ p {
   margin-top: 1rem;
 }
 
+.tg-mr-1 {
+  margin-right: 0.5rem;
+}
+
+.tg-ml-auto {
+  margin-left: auto;
+}
+
 .tg-mb-2 {
   margin-bottom: 1rem;
 }
@@ -127,6 +143,10 @@ p {
   justify-content: space-between;
 }
 
+.tg-align-start {
+  align-items: flex-start;
+}
+
 .tg-justify-around {
   justify-content: space-around;
 }
@@ -135,17 +155,35 @@ p {
   justify-content: center;
 }
 
+.tg-justify-start {
+  justify-content: flex-start;
+}
+
+.tg-justify-end {
+  justify-content: flex-end;
+}
+
 .tg-flex-grow {
   flex-grow: 1;
 }
 
 /* Misc */
 
+.tg-tab-no-px {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 .tg-dialog {
   display: block;
   margin: 0 1rem;
   width: -webkit-fill-available;
   max-width: 50rem;
+}
+
+.tg-img-center {
+  display: block;
+  margin: auto;
 }
 
 .tg-resize-vertical {
@@ -162,6 +200,11 @@ p {
 
 .tg-clickable {
   cursor: pointer;
+}
+
+.tg-sticky {
+  position: sticky;
+  bottom: 0;
 }
 
 ::-webkit-scrollbar {

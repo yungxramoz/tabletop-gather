@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
 import { NbInputModule } from '@nebular/theme';
-import { ValidationErrorsComponent } from './validation-errors.component';
 import { LabelComponent } from './label.component';
+import { ValidationErrorsComponent } from './validation-errors.component';
 
 @Component({
   standalone: true,
@@ -54,7 +54,6 @@ export class InputComponent implements ControlValueAccessor {
   public set value(value: string | number) {
     this._value = value;
   }
-
   public get value(): string | number {
     return this._value;
   }
@@ -70,7 +69,6 @@ export class InputComponent implements ControlValueAccessor {
     @Self() @Optional() public readonly ngModel: NgModel
   ) {
     if (this.ngModel) {
-      this.ngModel = ngModel;
       this.ngModel.valueAccessor = this;
     }
   }

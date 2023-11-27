@@ -1,5 +1,13 @@
-import { Observable } from 'rxjs';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  NbButtonModule,
+  NbDialogModule,
+  NbDialogService,
+  NbIconModule,
+} from '@nebular/theme';
+import {
+  Observable,
   filter,
   map,
   mergeMap,
@@ -7,16 +15,7 @@ import {
   startWith,
   switchMap,
   tap,
-} from 'rxjs/operators';
-
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  NbButtonModule,
-  NbDialogModule,
-  NbDialogService,
-} from '@nebular/theme';
-
+} from 'rxjs';
 import { PasswordUpdate } from '../../models/password-update.dto';
 import { UserUpdate } from '../../models/user-update.dto';
 import { User, UserDto } from '../../models/user.dto';
@@ -25,6 +24,7 @@ import { UsersService } from '../../services/user.service';
 import { AvatarComponent } from '../atoms/avatar.component';
 import {
   DeleteDialogComponent,
+  DeleteDialogData,
   DeleteDialogResult,
 } from '../organisms/delete-dialog.component';
 import {
@@ -45,6 +45,7 @@ import { UpdateUserFormComponent } from '../organisms/update-user-form.component
     NgIf,
     NbButtonModule,
     NbDialogModule,
+    NbIconModule,
     UpdateUserFormComponent,
     AvatarComponent,
   ],
@@ -79,6 +80,7 @@ import { UpdateUserFormComponent } from '../organisms/update-user-form.component
         shape="semi-round"
         (click)="deleteProfile()"
       >
+        <nb-icon icon="trash-2-outline"></nb-icon>
         Delete Profile
       </button>
     </ng-container>
@@ -144,7 +146,11 @@ export class ProfileComponent implements OnInit {
       .pipe(
         mergeMap(() =>
           this.dialogService
-            .open(DeleteDialogComponent)
+            .open(DeleteDialogComponent, {
+              context: {
+                message: 'Do you really want to delete this profile?',
+              } as DeleteDialogData,
+            })
             .onClose.pipe(
               filter((result: DeleteDialogResult) => result !== undefined)
             )

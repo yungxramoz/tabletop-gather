@@ -1,5 +1,6 @@
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
+import { aOrAn } from './language.utility';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -15,14 +16,33 @@ export class GlobalErrorHandler implements ErrorHandler {
   public handleError(error: unknown) {
     // TODO: See if the circular dependency issue is fixed
     try {
-      this.toastService.danger(
-        JSON.stringify(error, null, 2),
-        'Oh no! Something went really wrong!'
-      );
+      const { message, title } = this.interpretError(error);
+      this.toastService.danger(message, title);
     } catch (error) {
       console.error('Error while handling error 🫠');
     }
 
     console.error(error);
+  }
+
+  private interpretError(error: unknown): { message: string; title: string } {
+    if (error instanceof Error) {
+      return {
+        message: error.message,
+        title: `Whoops, something threw ${aOrAn(error.name)}`,
+      };
+    }
+
+    if (typeof error === 'string') {
+      return {
+        message: error,
+        title: 'Oh no! Something went really wrong!',
+      };
+    }
+
+    return {
+      message: JSON.stringify(error, null, 2),
+      title: 'Oh no! Something went really wrong!',
+    };
   }
 }
