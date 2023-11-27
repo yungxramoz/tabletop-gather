@@ -37,13 +37,7 @@ public class PlanService {
                 plan.getGatherings().stream()
                         .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now()))
                     && !plan.getUser().getId().equals(userId))
-        .sorted(
-            Comparator.comparing(
-                plan ->
-                    plan.getGatherings().stream()
-                        .map(Gathering::getDate)
-                        .min(LocalDate::compareTo)
-                        .orElse(LocalDate.MAX)))
+        .sorted(planComparator)
         .map(plan -> mapToDto(plan, new OverviewPlanDto()))
         .toList();
   }
@@ -55,13 +49,22 @@ public class PlanService {
             plan ->
                 plan.getGatherings().stream()
                     .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now())))
-        .sorted(
-            Comparator.comparing(
-                plan ->
-                    plan.getGatherings().stream()
-                        .map(Gathering::getDate)
-                        .min(LocalDate::compareTo)
-                        .orElse(LocalDate.MAX)))
+        .sorted(planComparator)
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
+  }
+
+  public List<OverviewPlanDto> findAllAttending(UUID userId) {
+    final List<Plan> plans = planRepository.findAll();
+    return plans.stream()
+        .filter(
+            plan ->
+                plan.getGatherings().stream()
+                    .anyMatch(
+                        gathering ->
+                            gathering.getUsers().stream()
+                                .anyMatch(user -> user.getId().equals(userId))))
+        .sorted(planComparator)
         .map(plan -> mapToDto(plan, new OverviewPlanDto()))
         .toList();
   }
@@ -223,4 +226,20 @@ public class PlanService {
     plan.setGame(game);
     return plan;
   }
+
+  private Comparator<Plan> planComparator =
+      new Comparator<Plan>() {
+        @Override
+        public int compare(Plan plan1, Plan plan2) {
+          return plan1.getGatherings().stream()
+              .map(Gathering::getDate)
+              .min(LocalDate::compareTo)
+              .orElse(LocalDate.MAX)
+              .compareTo(
+                  plan2.getGatherings().stream()
+                      .map(Gathering::getDate)
+                      .min(LocalDate::compareTo)
+                      .orElse(LocalDate.MAX));
+        }
+      };
 }

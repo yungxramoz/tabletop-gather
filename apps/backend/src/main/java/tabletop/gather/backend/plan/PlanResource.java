@@ -36,7 +36,7 @@ public class PlanResource {
   }
 
   /**
-   * Get al my plans
+   * Get all my plans
    *
    * @return all plans
    */
@@ -45,6 +45,19 @@ public class PlanResource {
       @RequestHeader("Authorization") final String token) {
     UUID userId = jwtService.getUserByToken(token).getId();
     return ResponseEntity.ok(planService.findAll(userId));
+  }
+
+  /**
+   * Get all plans a user is attending
+   *
+   * @param token the token of the authenticated user
+   * @return all plans filtered by user and attending
+   */
+  @GetMapping("/attending")
+  public ResponseEntity<List<OverviewPlanDto>> getAttendingPlans(
+      @RequestHeader("Authorization") final String token) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    return ResponseEntity.ok(planService.findAllAttending(userId));
   }
 
   /**
