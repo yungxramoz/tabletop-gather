@@ -29,7 +29,6 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
               {{ overviewPlanDto.gatheringDates.join(', ') }}
             </p>
             {{ overviewPlanDto.name }}
-            <p class="caption-2">by {{ overviewPlanDto.ownerName }}</p>
           </div>
           <nb-icon
             icon="lock-outline"
@@ -46,27 +45,33 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
       >
         {{ overviewPlanDto.description | truncate }}
       </nb-card-body>
-      <nb-card-footer *ngIf="isOwner">
+      <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">
-          <button
-            nbButton
-            ghost
-            status="danger"
-            shape="semi-round"
-            (click)="deleteClicked.emit()"
-          >
-            <nb-icon icon="trash-2-outline"></nb-icon>
-          </button>
-          <div class="tg-m-1"></div>
-          <button
-            nbButton
-            ghost
-            status="warning"
-            shape="semi-round"
-            (click)="editClicked.emit()"
-          >
-            <nb-icon icon="edit-2-outline"></nb-icon>
-          </button>
+          <div class="tg-mr-auto">
+            <p class="caption-2">by {{ overviewPlanDto.ownerName }}</p>
+          </div>
+
+          <ng-container *ngIf="isOwner">
+            <button
+              nbButton
+              ghost
+              status="danger"
+              shape="semi-round"
+              (click)="deleteClicked.emit()"
+            >
+              <nb-icon icon="trash-2-outline"></nb-icon>
+            </button>
+            <div class="tg-m-1"></div>
+            <button
+              nbButton
+              ghost
+              status="warning"
+              shape="semi-round"
+              (click)="editClicked.emit()"
+            >
+              <nb-icon icon="edit-2-outline"></nb-icon>
+            </button>
+          </ng-container>
         </div>
       </nb-card-footer>
     </nb-card>
