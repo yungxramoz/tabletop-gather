@@ -28,14 +28,42 @@ public class PlanService {
     this.gameRepository = gameRepository;
   }
 
-  public List<OverviewPlanDto> findAll() {
+  public List<OverviewPlanDto> findAllExceptUser(UUID userId) {
     final List<Plan> plans = planRepository.findAllByIsPrivateFalse();
-    return plans.stream().map(plan -> mapToDto(plan, new OverviewPlanDto())).toList();
+
+    return plans.stream()
+        .filter(
+            plan ->
+                plan.getGatherings().stream()
+                        .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now()))
+                    && !plan.getUser().getId().equals(userId))
+        .sorted(
+            Comparator.comparing(
+                plan ->
+                    plan.getGatherings().stream()
+                        .map(Gathering::getDate)
+                        .min(LocalDate::compareTo)
+                        .orElse(LocalDate.MAX)))
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
   }
 
   public List<OverviewPlanDto> findAll(UUID userId) {
     final List<Plan> plans = planRepository.findAllByUserId(userId);
-    return plans.stream().map(plan -> mapToDto(plan, new OverviewPlanDto())).toList();
+    return plans.stream()
+        .filter(
+            plan ->
+                plan.getGatherings().stream()
+                    .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now())))
+        .sorted(
+            Comparator.comparing(
+                plan ->
+                    plan.getGatherings().stream()
+                        .map(Gathering::getDate)
+                        .min(LocalDate::compareTo)
+                        .orElse(LocalDate.MAX)))
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
   }
 
   public DetailPlanDto getDetail(final UUID id) {

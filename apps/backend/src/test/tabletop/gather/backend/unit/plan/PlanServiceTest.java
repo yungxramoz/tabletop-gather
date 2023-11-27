@@ -3,6 +3,7 @@ package tabletop.gather.backend.unit.plan;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,31 +32,57 @@ public class PlanServiceTest {
   }
 
   @Test
-  public void testFindAll() {
-    Plan plan = new Plan();
-    User user = new User();
-    user.setId(UUID.randomUUID());
-    plan.setUser(user);
-    plan.setGatherings(new HashSet<>(Arrays.asList(new Gathering())));
-    plan.setGame(new Game());
+  public void testFindAllExceptUser() {
+    User user1 = new User();
+    user1.setId(UUID.randomUUID());
+    Gathering gathering1 = new Gathering();
+    gathering1.setDate(LocalDate.now().plusDays(1));
+    Plan plan1 = new Plan();
+    plan1.setId(UUID.randomUUID());
+    plan1.setUser(user1);
+    plan1.setGatherings(new HashSet<>(Arrays.asList(gathering1)));
+    plan1.setGame(new Game());
 
-    when(planRepository.findAllByIsPrivateFalse()).thenReturn(Arrays.asList(plan));
+    User user2 = new User();
+    user2.setId(UUID.randomUUID());
+    Gathering gathering2 = new Gathering();
+    gathering2.setDate(LocalDate.now().plusDays(1));
+    Plan plan2 = new Plan();
+    plan2.setId(UUID.randomUUID());
+    plan2.setUser(user2);
+    plan2.setGatherings(new HashSet<>(Arrays.asList(gathering2)));
+    plan2.setGame(new Game());
 
-    List<OverviewPlanDto> response = planService.findAll();
+    Gathering gathering3 = new Gathering();
+    gathering3.setDate(LocalDate.now().minusDays(1));
+    Plan plan3 = new Plan();
+    plan3.setId(UUID.randomUUID());
+    plan3.setUser(user2);
+    plan3.setGatherings(new HashSet<>(Arrays.asList(gathering2)));
+    plan3.setGame(new Game());
+
+    when(planRepository.findAllByIsPrivateFalse()).thenReturn(Arrays.asList(plan1, plan2));
+
+    List<OverviewPlanDto> response = planService.findAllExceptUser(user1.getId());
 
     assertEquals(1, response.size());
+    assertEquals(plan2.getId(), response.get(0).getId());
   }
 
   @Test
   public void testFindAllByUserId() {
     UUID userId = UUID.randomUUID();
-    Plan plan = new Plan();
     User user = new User();
     user.setId(userId);
     user.setFirstName("Mock");
     user.setLastName("Mockito");
+    Gathering gathering1 = new Gathering();
+    gathering1.setDate(LocalDate.now().plusDays(2));
+    Gathering gathering2 = new Gathering();
+    gathering2.setDate(LocalDate.now().minusDays(1));
+    Plan plan = new Plan();
     plan.setUser(user);
-    plan.setGatherings(new HashSet<>(Arrays.asList(new Gathering())));
+    plan.setGatherings(new HashSet<>(Arrays.asList(gathering1)));
     plan.setGame(new Game());
 
     when(planRepository.findAllByUserId(userId)).thenReturn(Arrays.asList(plan));

@@ -32,10 +32,15 @@ public class PlanResourceTest {
 
   @Test
   public void testGetAllPlans() {
+    String token = "Bearer testToken";
+    UUID userId = UUID.randomUUID();
+    UserDto userDto = new UserDto();
+    userDto.setId(userId);
     OverviewPlanDto planDto = new OverviewPlanDto();
-    when(planService.findAll()).thenReturn(Arrays.asList(planDto));
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
+    when(planService.findAllExceptUser(userId)).thenReturn(Arrays.asList(planDto));
 
-    ResponseEntity<List<OverviewPlanDto>> response = planResource.getAllPlans();
+    ResponseEntity<List<OverviewPlanDto>> response = planResource.getAllPlans(token);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(Arrays.asList(planDto), response.getBody());
@@ -43,15 +48,16 @@ public class PlanResourceTest {
 
   @Test
   public void testGetAllPlansForUser() {
+    String token = "Bearer testToken";
     UUID userId = UUID.randomUUID();
     UserDto userDto = new UserDto();
     userDto.setId(userId);
-    when(jwtService.getUserByToken(anyString())).thenReturn(userDto);
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
 
     OverviewPlanDto planDto = new OverviewPlanDto();
-    when(planService.findAll(userId)).thenReturn(Arrays.asList(planDto));
+    when(planService.findAllExceptUser(userId)).thenReturn(Arrays.asList(planDto));
 
-    ResponseEntity<List<OverviewPlanDto>> response = planResource.getAllPlans("Bearer testToken");
+    ResponseEntity<List<OverviewPlanDto>> response = planResource.getAllPlans(token);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(Arrays.asList(planDto), response.getBody());

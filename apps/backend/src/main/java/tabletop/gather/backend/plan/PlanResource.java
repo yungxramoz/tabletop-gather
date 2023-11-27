@@ -29,8 +29,10 @@ public class PlanResource {
    * @return all plans
    */
   @GetMapping
-  public ResponseEntity<List<OverviewPlanDto>> getAllPlans() {
-    return ResponseEntity.ok(planService.findAll());
+  public ResponseEntity<List<OverviewPlanDto>> getAllPlans(
+      @RequestHeader("Authorization") final String token) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    return ResponseEntity.ok(planService.findAllExceptUser(userId));
   }
 
   /**
@@ -39,7 +41,7 @@ public class PlanResource {
    * @return all plans
    */
   @GetMapping("/me")
-  public ResponseEntity<List<OverviewPlanDto>> getAllPlans(
+  public ResponseEntity<List<OverviewPlanDto>> getMyPlans(
       @RequestHeader("Authorization") final String token) {
     UUID userId = jwtService.getUserByToken(token).getId();
     return ResponseEntity.ok(planService.findAll(userId));
