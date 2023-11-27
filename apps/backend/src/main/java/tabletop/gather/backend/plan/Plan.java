@@ -1,6 +1,9 @@
 package tabletop.gather.backend.plan;
 
 import jakarta.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.Set;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,11 +14,6 @@ import tabletop.gather.backend.comment.Comment;
 import tabletop.gather.backend.game.Game;
 import tabletop.gather.backend.gathering.Gathering;
 import tabletop.gather.backend.user.User;
-
-import java.time.OffsetDateTime;
-import java.util.Set;
-import java.util.UUID;
-
 
 @Entity
 @Table(name = "Plans")
@@ -30,7 +28,6 @@ public class Plan {
   @GeneratedValue(generator = "uuid")
   private UUID id;
 
-
   @Column(nullable = false)
   private String name;
 
@@ -40,8 +37,7 @@ public class Plan {
   @Column(columnDefinition = "TEXT", nullable = false)
   private String description;
 
-  @Column()
-  private int playerLimit;
+  @Column() private int playerLimit;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
@@ -64,5 +60,4 @@ public class Plan {
   @LastModifiedDate
   @Column(nullable = false)
   private OffsetDateTime lastUpdated;
-
 }

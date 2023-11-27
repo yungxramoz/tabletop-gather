@@ -2,6 +2,8 @@ package tabletop.gather.backend.user;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import tabletop.gather.backend.auth.AuthenticationService;
 import tabletop.gather.backend.jwt.JwtDto;
 import tabletop.gather.backend.jwt.JwtService;
-
-import java.util.List;
-import java.util.UUID;
 
 @RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
@@ -22,7 +21,10 @@ public class UserResource {
 
   private final AuthenticationService authenticationService;
 
-  public UserResource(final UserService userService, final JwtService jwtService, final AuthenticationService authenticationService) {
+  public UserResource(
+      final UserService userService,
+      final JwtService jwtService,
+      final AuthenticationService authenticationService) {
     this.userService = userService;
     this.jwtService = jwtService;
     this.authenticationService = authenticationService;
@@ -57,8 +59,9 @@ public class UserResource {
    * @return JWT token with expiration time
    */
   @PutMapping("/me")
-  public ResponseEntity<JwtDto> updateAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                                                        @RequestBody @Valid final UserUpdateDto userDto) {
+  public ResponseEntity<JwtDto> updateAuthenticatedUser(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+      @RequestBody @Valid final UserUpdateDto userDto) {
     UserDto user = jwtService.getUserByToken(token);
     authenticationService.verifyEmailPassword(user.getEmail(), userDto.getPassword());
     User updatedUser = userService.update(user.getId(), userDto, user.getEmail());
@@ -75,7 +78,8 @@ public class UserResource {
    */
   @DeleteMapping("/me")
   @ApiResponse(responseCode = "204")
-  public ResponseEntity<Void> deleteAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  public ResponseEntity<Void> deleteAuthenticatedUser(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     UserDto user = jwtService.getUserByToken(token);
     userService.delete(user.getId());
     return ResponseEntity.noContent().build();
@@ -89,7 +93,8 @@ public class UserResource {
    */
   @GetMapping("/me")
   @ApiResponse(responseCode = "200")
-  public ResponseEntity<UserDto> getAuthenticatedUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  public ResponseEntity<UserDto> getAuthenticatedUser(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     UserDto user = jwtService.getUserByToken(token);
     return ResponseEntity.ok(user);
   }
@@ -103,8 +108,9 @@ public class UserResource {
    */
   @PutMapping("/me/password")
   @ApiResponse(responseCode = "200")
-  public ResponseEntity<JwtDto> updatePassword(@RequestBody @Valid final PasswordUpdateDto passwordUpdateDto,
-                                               @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+  public ResponseEntity<JwtDto> updatePassword(
+      @RequestBody @Valid final PasswordUpdateDto passwordUpdateDto,
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     UserDto user = jwtService.getUserByToken(token);
     authenticationService.verifyEmailPassword(user.getEmail(), passwordUpdateDto.getPassword());
     User newUser = userService.updatePassword(user.getId(), passwordUpdateDto);

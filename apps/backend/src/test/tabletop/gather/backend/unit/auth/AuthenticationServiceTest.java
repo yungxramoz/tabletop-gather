@@ -1,5 +1,9 @@
 package tabletop.gather.backend.unit.auth;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,27 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import tabletop.gather.backend.auth.*;
 import tabletop.gather.backend.user.*;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 public class AuthenticationServiceTest {
 
-  @InjectMocks
-  private AuthenticationService authenticationService;
+  @InjectMocks private AuthenticationService authenticationService;
 
-  @Mock
-  private UserRepository userRepository;
+  @Mock private UserRepository userRepository;
 
-  @Mock
-  private UserService userService;
+  @Mock private UserService userService;
 
-  @Mock
-  private AuthenticationManager authenticationManager;
+  @Mock private AuthenticationManager authenticationManager;
 
-  @Mock
-  private PasswordEncoder passwordEncoder;
+  @Mock private PasswordEncoder passwordEncoder;
 
   @BeforeEach
   public void init() {
@@ -80,7 +74,8 @@ public class AuthenticationServiceTest {
     User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
     assertEquals(user, authenticatedUser);
-    verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
+    verify(authenticationManager, times(1))
+        .authenticate(any(UsernamePasswordAuthenticationToken.class));
     verify(userRepository, times(1)).findByEmail(anyString());
   }
 

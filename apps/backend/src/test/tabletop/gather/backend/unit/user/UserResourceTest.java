@@ -1,5 +1,11 @@
 package tabletop.gather.backend.unit.user;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,26 +18,15 @@ import tabletop.gather.backend.jwt.JwtDto;
 import tabletop.gather.backend.jwt.JwtService;
 import tabletop.gather.backend.user.*;
 
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 public class UserResourceTest {
 
-  @InjectMocks
-  private UserResource userResource;
+  @InjectMocks private UserResource userResource;
 
-  @Mock
-  private UserService userService;
+  @Mock private UserService userService;
 
-  @Mock
-  private JwtService jwtService;
+  @Mock private JwtService jwtService;
 
-  @Mock
-  AuthenticationService authenticationService;
+  @Mock AuthenticationService authenticationService;
 
   @BeforeEach
   public void init() {
@@ -81,7 +76,7 @@ public class UserResourceTest {
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(jwtDto.getToken(), response.getBody().getToken());
     assertEquals(jwtDto.getExpiresIn(), response.getBody().getExpiresIn());
-    verify(authenticationService, times(1)). verifyEmailPassword(any(), any());
+    verify(authenticationService, times(1)).verifyEmailPassword(any(), any());
   }
 
   @Test

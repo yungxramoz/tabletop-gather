@@ -1,5 +1,9 @@
 package tabletop.gather.backend.unit.auth;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,21 +20,13 @@ import tabletop.gather.backend.jwt.JwtService;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserDto;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
 public class AuthenticationResourceTest {
 
-  @InjectMocks
-  private AuthenticationResource authenticationResource;
+  @InjectMocks private AuthenticationResource authenticationResource;
 
-  @Mock
-  private JwtService jwtService;
+  @Mock private JwtService jwtService;
 
-  @Mock
-  private AuthenticationService authenticationService;
+  @Mock private AuthenticationService authenticationService;
 
   @BeforeEach
   public void init() {

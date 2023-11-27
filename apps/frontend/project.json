@@ -82,6 +82,9 @@
         "ci": {
           "ci": true,
           "codeCoverage": true
+        },
+        "coverage": {
+          "collectCoverage": true
         }
       }
     },
