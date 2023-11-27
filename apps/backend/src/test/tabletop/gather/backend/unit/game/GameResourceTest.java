@@ -1,5 +1,12 @@
 package tabletop.gather.backend.unit.game;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,24 +18,13 @@ import tabletop.gather.backend.game.*;
 import tabletop.gather.backend.jwt.*;
 import tabletop.gather.backend.user.UserDto;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-
 public class GameResourceTest {
 
-  @InjectMocks
-  private GameResource gameResource;
+  @InjectMocks private GameResource gameResource;
 
-  @Mock
-  private GameService gameService;
+  @Mock private GameService gameService;
 
-  @Mock
-  private JwtService jwtService;
+  @Mock private JwtService jwtService;
 
   @BeforeEach
   public void init() {

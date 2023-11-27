@@ -1,5 +1,7 @@
 package tabletop.gather.backend.plan;
 
+import java.time.LocalDate;
+import java.util.*;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.game.Game;
 import tabletop.gather.backend.game.GameDto;
@@ -10,9 +12,6 @@ import tabletop.gather.backend.user.UserDto;
 import tabletop.gather.backend.user.UserRepository;
 import tabletop.gather.backend.util.NotFoundException;
 
-import java.time.LocalDate;
-import java.util.*;
-
 @Service
 public class PlanService {
 
@@ -20,7 +19,9 @@ public class PlanService {
   private final UserRepository userRepository;
   private final GameRepository gameRepository;
 
-  public PlanService(final PlanRepository planRepository, final UserRepository userRepository,
+  public PlanService(
+      final PlanRepository planRepository,
+      final UserRepository userRepository,
       final GameRepository gameRepository) {
     this.planRepository = planRepository;
     this.userRepository = userRepository;
@@ -29,26 +30,24 @@ public class PlanService {
 
   public List<OverviewPlanDto> findAll() {
     final List<Plan> plans = planRepository.findAllByIsPrivateFalse();
-    return plans.stream()
-        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
-        .toList();
+    return plans.stream().map(plan -> mapToDto(plan, new OverviewPlanDto())).toList();
   }
 
   public List<OverviewPlanDto> findAll(UUID userId) {
     final List<Plan> plans = planRepository.findAllByUserId(userId);
-    return plans.stream()
-        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
-        .toList();
+    return plans.stream().map(plan -> mapToDto(plan, new OverviewPlanDto())).toList();
   }
 
   public DetailPlanDto getDetail(final UUID id) {
-    return planRepository.findById(id)
+    return planRepository
+        .findById(id)
         .map(plan -> mapToDto(plan, new DetailPlanDto()))
         .orElseThrow(() -> new NotFoundException("plan not found"));
   }
 
   public PlanDto get(final UUID id) {
-    return planRepository.findById(id)
+    return planRepository
+        .findById(id)
         .map(plan -> mapToDto(plan, new PlanDto()))
         .orElseThrow(() -> new NotFoundException("plan not found"));
   }
@@ -56,14 +55,14 @@ public class PlanService {
   public UUID create(final CreatePlanDto planDto, final UUID userId) {
     final Plan plan = new Plan();
     mapToEntity(planDto, plan);
-    plan.setUser(userRepository.findById(userId)
-        .orElseThrow(() -> new NotFoundException("user not found")));
+    plan.setUser(
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found")));
     return planRepository.save(plan).getId();
   }
 
   public void update(final UUID id, final UpdatePlanDto planDto) {
-    final Plan plan = planRepository.findById(id)
-        .orElseThrow(() -> new NotFoundException("plan not found"));
+    final Plan plan =
+        planRepository.findById(id).orElseThrow(() -> new NotFoundException("plan not found"));
     mapToEntity(planDto, plan);
     planRepository.save(plan);
   }
@@ -141,14 +140,15 @@ public class PlanService {
 
     Set<Gathering> gatherings = plan.getGatherings();
     List<DetailGatheringDto> gatheringDtos = new ArrayList<>();
-    gatherings.forEach(gathering -> {
-      DetailGatheringDto gatheringDto = new DetailGatheringDto();
-      gatheringDto.setId(gathering.getId());
-      gatheringDto.setDate(gathering.getDate());
-      gatheringDto.setStartTime(gathering.getStartTime());
-      gatheringDto.setParticipantCount(gathering.getUsers().size());
-      gatheringDtos.add(gatheringDto);
-    });
+    gatherings.forEach(
+        gathering -> {
+          DetailGatheringDto gatheringDto = new DetailGatheringDto();
+          gatheringDto.setId(gathering.getId());
+          gatheringDto.setDate(gathering.getDate());
+          gatheringDto.setStartTime(gathering.getStartTime());
+          gatheringDto.setParticipantCount(gathering.getUsers().size());
+          gatheringDtos.add(gatheringDto);
+        });
     planDto.setGatherings(gatheringDtos);
 
     return planDto;
@@ -159,18 +159,24 @@ public class PlanService {
     plan.setIsPrivate(planDto.getIsPrivate());
     plan.setDescription(planDto.getDescription());
     plan.setPlayerLimit(planDto.getPlayerLimit());
-    final Game game = planDto.getGameId() == null ? null
-        : gameRepository.findById(planDto.getGameId())
-            .orElseThrow(() -> new NotFoundException("game not found"));
+    final Game game =
+        planDto.getGameId() == null
+            ? null
+            : gameRepository
+                .findById(planDto.getGameId())
+                .orElseThrow(() -> new NotFoundException("game not found"));
     plan.setGame(game);
     Set<Gathering> gatherings = new HashSet<>();
-    planDto.getGatherings().forEach(gatheringDto -> {
-      Gathering gathering = new Gathering();
-      gathering.setPlan(plan);
-      gathering.setDate(gatheringDto.getDate());
-      gathering.setStartTime(gatheringDto.getStartTime());
-      gatherings.add(gathering);
-    });
+    planDto
+        .getGatherings()
+        .forEach(
+            gatheringDto -> {
+              Gathering gathering = new Gathering();
+              gathering.setPlan(plan);
+              gathering.setDate(gatheringDto.getDate());
+              gathering.setStartTime(gatheringDto.getStartTime());
+              gatherings.add(gathering);
+            });
     plan.setGatherings(gatherings);
     return plan;
   }
@@ -180,9 +186,12 @@ public class PlanService {
     plan.setIsPrivate(planDto.getIsPrivate());
     plan.setDescription(planDto.getDescription());
     plan.setPlayerLimit(planDto.getPlayerLimit());
-    final Game game = planDto.getGame() == null ? null
-        : gameRepository.findById(planDto.getGame())
-            .orElseThrow(() -> new NotFoundException("game not found"));
+    final Game game =
+        planDto.getGame() == null
+            ? null
+            : gameRepository
+                .findById(planDto.getGame())
+                .orElseThrow(() -> new NotFoundException("game not found"));
     plan.setGame(game);
     return plan;
   }

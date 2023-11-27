@@ -1,5 +1,11 @@
 package tabletop.gather.backend.unit.plan;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,23 +17,13 @@ import tabletop.gather.backend.jwt.JwtService;
 import tabletop.gather.backend.plan.*;
 import tabletop.gather.backend.user.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 public class PlanResourceTest {
 
-  @InjectMocks
-  private PlanResource planResource;
+  @InjectMocks private PlanResource planResource;
 
-  @Mock
-  private PlanService planService;
+  @Mock private PlanService planService;
 
-  @Mock
-  private JwtService jwtService;
+  @Mock private JwtService jwtService;
 
   @BeforeEach
   public void init() {
@@ -103,7 +99,8 @@ public class PlanResourceTest {
     when(planService.get(planId)).thenReturn(planDto);
 
     UpdatePlanDto updatePlanDto = new UpdatePlanDto();
-    ResponseEntity<UUID> response = planResource.updatePlan("Bearer testToken", planId, updatePlanDto);
+    ResponseEntity<UUID> response =
+        planResource.updatePlan("Bearer testToken", planId, updatePlanDto);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(planId, response.getBody());

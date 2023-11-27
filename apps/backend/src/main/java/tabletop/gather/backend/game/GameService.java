@@ -1,15 +1,13 @@
 package tabletop.gather.backend.game;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserRepository;
 import tabletop.gather.backend.util.NotFoundException;
-
-import java.util.List;
-import java.util.UUID;
-
 
 @Service
 @Transactional
@@ -31,9 +29,7 @@ public class GameService {
    */
   public List<GameDto> findByUserId(final String name) {
     final List<Game> games = gameRepository.findByNameContaining(name, Sort.by("name"));
-    return games.stream()
-      .map(game -> mapToDto(game, new GameDto()))
-      .toList();
+    return games.stream().map(game -> mapToDto(game, new GameDto())).toList();
   }
 
   /**
@@ -43,12 +39,9 @@ public class GameService {
    * @return all games by user
    */
   public List<GameDto> findByUserId(final UUID userId) {
-    userRepository.findById(userId)
-      .orElseThrow(() -> new NotFoundException("User not found"));
+    userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
     final List<Game> games = gameRepository.findByUsers_Id(userId, Sort.by("name"));
-    return games.stream()
-      .map(game -> mapToDto(game, new GameDto()))
-      .toList();
+    return games.stream().map(game -> mapToDto(game, new GameDto())).toList();
   }
 
   /**
@@ -58,9 +51,10 @@ public class GameService {
    * @return the game
    */
   public GameDto get(final UUID id) {
-    return gameRepository.findById(id)
-      .map(game -> mapToDto(game, new GameDto()))
-      .orElseThrow(() -> new NotFoundException("Game not found"));
+    return gameRepository
+        .findById(id)
+        .map(game -> mapToDto(game, new GameDto()))
+        .orElseThrow(() -> new NotFoundException("Game not found"));
   }
 
   /**
@@ -71,10 +65,10 @@ public class GameService {
    * @return the id of the game
    */
   public void addUser(final UUID id, final UUID userId) {
-    final Game game = gameRepository.findById(id)
-      .orElseThrow(() -> new NotFoundException("Game not found"));
-    final User user = userRepository.findById(userId)
-      .orElseThrow(() -> new NotFoundException("User not found"));
+    final Game game =
+        gameRepository.findById(id).orElseThrow(() -> new NotFoundException("Game not found"));
+    final User user =
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
     user.getGames().add(game);
     game.getUsers().add(user);
     gameRepository.save(game);
@@ -87,10 +81,10 @@ public class GameService {
    * @param userId the user to remove the game from
    */
   public void removeUser(final UUID id, final UUID userId) {
-    final Game game = gameRepository.findById(id)
-      .orElseThrow(() -> new NotFoundException("Game not found"));
-    final User user = userRepository.findById(userId)
-      .orElseThrow(() -> new NotFoundException("User not found"));
+    final Game game =
+        gameRepository.findById(id).orElseThrow(() -> new NotFoundException("Game not found"));
+    final User user =
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
     user.getGames().remove(game);
     game.getUsers().remove(user);
     gameRepository.save(game);

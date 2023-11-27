@@ -1,5 +1,9 @@
 package tabletop.gather.backend.unit.game;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,21 +13,13 @@ import org.springframework.data.domain.Sort;
 import tabletop.gather.backend.game.*;
 import tabletop.gather.backend.user.*;
 
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 public class GameServiceTest {
 
-  @InjectMocks
-  private GameService gameService;
+  @InjectMocks private GameService gameService;
 
-  @Mock
-  private GameRepository gameRepository;
+  @Mock private GameRepository gameRepository;
 
-  @Mock
-  private UserRepository userRepository;
+  @Mock private UserRepository userRepository;
 
   @BeforeEach
   public void init() {
@@ -34,7 +30,8 @@ public class GameServiceTest {
   public void testFindByUserId() {
     String name = "game";
     Game game = new Game();
-    when(gameRepository.findByNameContaining(name, Sort.by("name"))).thenReturn(Arrays.asList(game));
+    when(gameRepository.findByNameContaining(name, Sort.by("name")))
+        .thenReturn(Arrays.asList(game));
 
     List<GameDto> response = gameService.findByUserId(name);
 

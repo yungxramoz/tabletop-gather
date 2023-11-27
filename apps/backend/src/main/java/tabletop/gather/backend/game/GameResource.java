@@ -1,15 +1,13 @@
 package tabletop.gather.backend.game;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tabletop.gather.backend.jwt.JwtService;
-
-import java.util.List;
-import java.util.UUID;
-
 
 @RestController
 @RequestMapping(value = "/api/games", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,7 +40,8 @@ public class GameResource {
    * @return all games filtered by user
    */
   @GetMapping("/me")
-  public ResponseEntity<List<GameDto>> getMyGames(@RequestHeader("Authorization") final String token) {
+  public ResponseEntity<List<GameDto>> getMyGames(
+      @RequestHeader("Authorization") final String token) {
     UUID userId = jwtService.getUserByToken(token).getId();
     return ResponseEntity.ok(gameService.findByUserId(userId));
   }
@@ -54,7 +53,8 @@ public class GameResource {
    * @return all games filtered by user
    */
   @GetMapping("/user/{userId}")
-  public ResponseEntity<List<GameDto>> getGamesByUser(@PathVariable(name = "userId") final UUID userId) {
+  public ResponseEntity<List<GameDto>> getGamesByUser(
+      @PathVariable(name = "userId") final UUID userId) {
     return ResponseEntity.ok(gameService.findByUserId(userId));
   }
 
@@ -77,8 +77,9 @@ public class GameResource {
    */
   @PostMapping("/{id}/add")
   @ApiResponse(responseCode = "201")
-  public ResponseEntity<Void> addGameToUser(@RequestHeader("Authorization") final String token,
-                                            @PathVariable(name = "id") final UUID id) {
+  public ResponseEntity<Void> addGameToUser(
+      @RequestHeader("Authorization") final String token,
+      @PathVariable(name = "id") final UUID id) {
     UUID userId = jwtService.getUserByToken(token).getId();
     gameService.addUser(id, userId);
     return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -92,8 +93,9 @@ public class GameResource {
    */
   @DeleteMapping("/{id}/remove")
   @ApiResponse(responseCode = "204")
-  public ResponseEntity<Void> removeGameFromUser(@RequestHeader("Authorization") final String token,
-                                                 @PathVariable(name = "id") final UUID id) {
+  public ResponseEntity<Void> removeGameFromUser(
+      @RequestHeader("Authorization") final String token,
+      @PathVariable(name = "id") final UUID id) {
     UUID userId = jwtService.getUserByToken(token).getId();
     gameService.removeUser(id, userId);
     return ResponseEntity.noContent().build();
