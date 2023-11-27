@@ -42,7 +42,7 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
     PlanEventSummaryComponent,
   ],
   template: `
-    <nb-stepper>
+    <nb-stepper #stepper>
       <nb-step label="Event">
         <ng-template nbStepLabel>Event</ng-template>
         <tg-plan-event-general-form
@@ -63,6 +63,30 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
         ></tg-plan-event-summary>
       </nb-step>
     </nb-stepper>
+
+    <div class="tg-flex-row tg-justify-end">
+      <button
+        nbButton
+        ghost
+        status="control"
+        shape="semi-round"
+        [disabled]="((stepper.stepChange | async) ?? { index: 0 }).index === 0"
+        (click)="stepper.previous()"
+      >
+        Previous
+      </button>
+      <div class="tg-m-1"></div>
+      <button
+        nbButton
+        status="primary"
+        shape="semi-round"
+        type="submit"
+        [disabled]="(stepper.stepChange | async)?.index === 2"
+        (click)="stepper.next()"
+      >
+        Next
+      </button>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
