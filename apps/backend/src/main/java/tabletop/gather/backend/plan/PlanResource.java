@@ -35,7 +35,7 @@ public class PlanResource {
 
   /**
    * Get all my plans
-   * 
+   *
    * @return all plans
    */
   @GetMapping("/me")
