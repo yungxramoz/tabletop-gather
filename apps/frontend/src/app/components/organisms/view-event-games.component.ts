@@ -2,8 +2,8 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
-import { DetailPlanDto } from '../../models/detail-plan.dto';
-import { GameDto } from '../../models/game.dto';
+import { GameDto } from '../../models/game/game.dto';
+import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { GameCardComponent } from '../molecules/game-card.component';
 
 @Component({

@@ -1,4 +1,4 @@
-import { GameDto } from '../models/game.dto';
+import { GameDto } from '../models/game/game.dto';
 
 export const MOCK_GAME_DTOS_LARGE: GameDto[] = [
   {

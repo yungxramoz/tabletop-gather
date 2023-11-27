@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DetailGathering } from '../../models/detail-gathering.dto';
-import { Gathering } from '../../models/gathering.dto';
+import { DetailGathering } from '../../models/gathering/detail-gathering.dto';
+import { Gathering } from '../../models/gathering/gathering.dto';
 import { get24HourTime, getDateCHFormat } from '../../utils/date.utility';
 
 @Component({

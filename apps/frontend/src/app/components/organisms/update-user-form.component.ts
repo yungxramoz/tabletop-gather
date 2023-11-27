@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
-import { User } from '../../models/user.dto';
+import { User } from '../../models/user/user.dto';
 import { InputComponent } from '../atoms/input.component';
 
 @Component({

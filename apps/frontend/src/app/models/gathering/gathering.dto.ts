@@ -1,7 +1,7 @@
-import { Model } from '../utils/types';
-import { Dto } from './base.dto';
-import { GuestDto } from './guest.dto';
-import { UserDto } from './user.dto';
+import { Model } from '../../utils/types';
+import { Dto } from '../base.dto';
+import { GuestDto } from '../guest/guest.dto';
+import { UserDto } from '../user/user.dto';
 
 /**
  * Dto for gatherings.

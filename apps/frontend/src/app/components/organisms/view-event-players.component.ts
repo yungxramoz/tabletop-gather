@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NbCardModule } from '@nebular/theme';
-import { DetailPlanDto } from '../../models/detail-plan.dto';
+import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 
 @Component({
   standalone: true,

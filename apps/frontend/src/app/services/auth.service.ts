@@ -6,9 +6,9 @@ import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { LoginUser } from '../models/login-user.dto';
-import { RegisterUser } from '../models/register-user.dto';
-import { UserDto } from '../models/user.dto';
+import { LoginUser } from '../models/user/login-user.dto';
+import { RegisterUser } from '../models/user/register-user.dto';
+import { UserDto } from '../models/user/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
 /**

@@ -1,8 +1,8 @@
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DetailPlan } from '../../models/detail-plan.dto';
-import { GameDto } from '../../models/game.dto';
-import { OverviewPlan } from '../../models/overview-plan.dto';
+import { GameDto } from '../../models/game/game.dto';
+import { DetailPlan } from '../../models/plan/detail-plan.dto';
+import { OverviewPlan } from '../../models/plan/overview-plan.dto';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';

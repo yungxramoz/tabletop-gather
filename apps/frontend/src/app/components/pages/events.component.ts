@@ -18,7 +18,7 @@ import {
 } from '@nebular/theme';
 import { BehaviorSubject, filter, map, switchMap, withLatestFrom } from 'rxjs';
 import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
-import { OverviewPlanDto } from '../../models/overview-plan.dto';
+import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
 import { VoidComponent } from '../atoms/void.component';
 import {

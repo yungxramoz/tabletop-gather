@@ -4,12 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { API_BASE_URL } from '../app.config';
-import { CreatePlan } from '../models/create-plan.dto';
-import { DetailPlanDto } from '../models/detail-plan.dto';
-import { GameDto } from '../models/game.dto';
-import { OverviewPlanDto } from '../models/overview-plan.dto';
-import { UpdatePlan } from '../models/update-plan.dto';
-import { UserDto } from '../models/user.dto';
+import { GameDto } from '../models/game/game.dto';
+import { CreatePlan } from '../models/plan/create-plan.dto';
+import { DetailPlanDto } from '../models/plan/detail-plan.dto';
+import { OverviewPlanDto } from '../models/plan/overview-plan.dto';
+import { UpdatePlan } from '../models/plan/update-plan.dto';
+import { UserDto } from '../models/user/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 import { PlanService } from './plan.service';
 

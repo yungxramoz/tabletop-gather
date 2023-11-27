@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
-import { OverviewPlanDto } from '../../models/overview-plan.dto';
+import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 @Component({

@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 import { API_BASE_URL } from '../app.config';
-import { CreatePlan } from '../models/create-plan.dto';
-import { DetailPlanDto } from '../models/detail-plan.dto';
-import { OverviewPlanDto } from '../models/overview-plan.dto';
-import { UpdatePlan } from '../models/update-plan.dto';
+import { CreatePlan } from '../models/plan/create-plan.dto';
+import { DetailPlanDto } from '../models/plan/detail-plan.dto';
+import { OverviewPlanDto } from '../models/plan/overview-plan.dto';
+import { UpdatePlan } from '../models/plan/update-plan.dto';
 import { ResponseHandler } from '../utils/response.handler';
 import { Uuid } from '../utils/types';
 
