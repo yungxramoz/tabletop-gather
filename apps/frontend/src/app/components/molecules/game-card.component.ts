@@ -73,7 +73,8 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 })
 export class GameCardComponent {
   @Input({ required: true }) public game!: GamePlan;
-
+COMBAK: MAKE 3D EFFECT WORK
+COMBAK: FIX AUTOCOMPLETE FIELD: IT NEEDS TO IGNORE CASING
   private flipped = false;
 
   private readonly animationSubject = new BehaviorSubject<{
