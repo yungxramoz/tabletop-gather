@@ -21,7 +21,6 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
     LazyImageComponent,
   ],
   template: `
-    <div class="tg-animation-perspective"></div>
     <nb-card
       *ngIf="animation$ | async as animation"
       class="tg-animation-perspective"
