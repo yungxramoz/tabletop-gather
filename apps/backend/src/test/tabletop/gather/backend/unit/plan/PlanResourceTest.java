@@ -64,6 +64,23 @@ public class PlanResourceTest {
   }
 
   @Test
+  public void testGetAttendingPlans() {
+    String token = "Bearer testToken";
+    UUID userId = UUID.randomUUID();
+    UserDto userDto = new UserDto();
+    userDto.setId(userId);
+    when(jwtService.getUserByToken(token)).thenReturn(userDto);
+
+    OverviewPlanDto overviewPlanDto = new OverviewPlanDto();
+    when(planService.findAllAttending(userId)).thenReturn(Arrays.asList(overviewPlanDto));
+
+    ResponseEntity<List<OverviewPlanDto>> response = planResource.getAttendingPlans(token);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(Arrays.asList(overviewPlanDto), response.getBody());
+  }
+
+  @Test
   public void testGetPlan() {
     UUID planId = UUID.randomUUID();
     DetailPlanDto planDto = new DetailPlanDto();

@@ -96,6 +96,38 @@ public class PlanServiceTest {
   }
 
   @Test
+  public void testFindAllAttending() {
+    User user1 = new User();
+    user1.setId(UUID.randomUUID());
+    Gathering gathering1 = new Gathering();
+    gathering1.setDate(LocalDate.now().plusDays(1));
+    gathering1.setUsers(new HashSet<>(Arrays.asList(user1)));
+    Plan plan1 = new Plan();
+    plan1.setId(UUID.randomUUID());
+    plan1.setUser(user1);
+    plan1.setGatherings(new HashSet<>(Arrays.asList(gathering1)));
+    plan1.setGame(new Game());
+
+    User user2 = new User();
+    user2.setId(UUID.randomUUID());
+    Gathering gathering2 = new Gathering();
+    gathering2.setDate(LocalDate.now().plusDays(1));
+    gathering2.setUsers(new HashSet<>(Arrays.asList(user2)));
+    Plan plan2 = new Plan();
+    plan2.setId(UUID.randomUUID());
+    plan2.setUser(user2);
+    plan2.setGatherings(new HashSet<>(Arrays.asList(gathering2)));
+    plan2.setGame(new Game());
+
+    when(planRepository.findAll()).thenReturn(Arrays.asList(plan1, plan2));
+
+    List<OverviewPlanDto> response = planService.findAllAttending(user1.getId());
+
+    assertEquals(1, response.size());
+    assertEquals(plan1.getId(), response.get(0).getId());
+  }
+
+  @Test
   public void testGetDetail() {
     UUID planId = UUID.randomUUID();
     Plan plan = new Plan();
