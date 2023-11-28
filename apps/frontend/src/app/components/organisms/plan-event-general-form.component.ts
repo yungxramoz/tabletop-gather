@@ -120,8 +120,7 @@ export class PlanEventGeneralFormComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     this.ngForm.form.valueChanges.subscribe(() => {
-      if (this.ngForm.form.valid)
-        this.eventGeneralFormChange.emit(this.ngForm.form);
+      this.eventGeneralFormChange.emit(this.ngForm.form);
     });
   }
 }
