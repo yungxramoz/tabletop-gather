@@ -228,3 +228,33 @@ p {
 ::-webkit-scrollbar-track {
   background: nb-theme(background-basic-color-2);
 }
+
+/* Animations */
+
+.tg-animation-perspective {
+  display: block;
+  
+  perspective: 60px;
+  -moz-perspective: 60px;
+  -webkit-perspective: 60px;
+  
+  transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  
+  transition: transform 300ms;
+  -moz-transition: transform 300ms;
+  -webkit-transition: transform 300ms;
+}
+
+.tg-flip-away-animation {
+  transform: rotateY(90deg);
+  -moz-transform: rotateY(90deg);
+  -webkit-transform: rotateY(90deg);
+}
+
+.tg-flip-in-animation {
+  transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+}

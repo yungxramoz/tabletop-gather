@@ -1,7 +1,8 @@
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
-import { Game } from '../../models/game/game.dto';
+import { BehaviorSubject, delay, of, tap } from 'rxjs';
+import { GamePlan } from '../../models/game/game-plan.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 
@@ -10,6 +11,8 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
   selector: 'tg-game-card',
   imports: [
     NgIf,
+    AsyncPipe,
+    NgTemplateOutlet,
     NbCardModule,
     NbButtonModule,
     NbIconModule,
@@ -17,82 +20,97 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
     LazyImageComponent,
   ],
   template: `
-    <nb-flip-card #flipCard [showToggleButton]="false">
-      <nb-card-front>
-        <nb-card>
-          <nb-card-header>
-            {{ game.name }}
-          </nb-card-header>
+    <nb-card
+      class="tg-animation-perspective"
+      *ngIf="animation$ | async as animation"
+      [class]="animation.className"
+    >
+      <nb-card-header>
+        {{ game.name }}
+      </nb-card-header>
 
-          <nb-card-body>
-            <div class="tg-flex-row tg-align-center tg-justify-beween">
-              <tg-lazy-image
-                class="tg-mr-2"
-                [src]="game.imageUrl"
-              ></tg-lazy-image>
-              <p class="tg-p-1"></p>
-              <p>{{ game.description | truncate }}</p>
-            </div>
-          </nb-card-body>
+      <nb-card-body>
+        <!-- Frontside content -->
+        <ng-container *ngIf="!animation.flipped; else backside">
+          <div class="tg-flex-row tg-align-center tg-justify-beween">
+            <tg-lazy-image
+              class="tg-mr-2"
+              [src]="game.imageUrl"
+            ></tg-lazy-image>
+            <p class="tg-p-1"></p>
+            <p>{{ game.description | truncate }}</p>
+          </div>
+        </ng-container>
 
-          <nb-card-footer>
-            <div class="tg-flex-row tg-justify-end">
-              <div class="tg-mr-auto">
-                <p *ngIf="owners as o" class="caption">
-                  Owned by {{ o.join(', ') }}
-                </p>
-              </div>
+        <!-- Backside content -->
+        <ng-template #backside>
+          <p>{{ game.description }}</p>
+        </ng-template>
+      </nb-card-body>
 
-              <button
-                nbButton
-                ghost
-                status="warning"
-                shape="semi-round"
-                (click)="flipCard.toggle()"
-              >
-                <nb-icon icon="flip-2-outline"></nb-icon>
-              </button>
-            </div>
-          </nb-card-footer>
-        </nb-card>
-      </nb-card-front>
+      <nb-card-footer>
+        <div class="tg-flex-row tg-justify-end">
+          <div class="tg-mr-auto">
+            <p *ngIf="game.owners as owners" class="caption">
+              Owned by {{ owners.join(', ') }}
+            </p>
+          </div>
 
-      <nb-card-back>
-        <nb-card>
-          <nb-card-header>
-            {{ game.name }}
-          </nb-card-header>
-
-          <nb-card-body>
-            <p *ngIf="flipCard.flipped">{{ game.description }}</p>
-          </nb-card-body>
-
-          <nb-card-footer>
-            <div class="tg-flex-row tg-justify-end">
-              <div class="tg-mr-auto">
-                <p *ngIf="owners as o" class="caption">
-                  Owned by {{ o.join(', ') }}
-                </p>
-              </div>
-
-              <button
-                nbButton
-                ghost
-                status="warning"
-                shape="semi-round"
-                (click)="flipCard.toggle()"
-              >
-                <nb-icon icon="flip-2-outline"></nb-icon>
-              </button>
-            </div>
-          </nb-card-footer>
-        </nb-card>
-      </nb-card-back>
-    </nb-flip-card>
+          <button
+            nbButton
+            ghost
+            status="warning"
+            shape="semi-round"
+            (click)="toggle()"
+          >
+            <nb-icon icon="flip-2-outline"></nb-icon>
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameCardComponent {
-  @Input({ required: true }) public game!: Game;
-  @Input({ required: true }) public owners!: string[] | null;
+  @Input({ required: true }) public game!: GamePlan;
+
+  private flipped = false;
+
+  private readonly animationSubject = new BehaviorSubject<{
+    className: string;
+    flipped: boolean;
+  }>({
+    className: '',
+    flipped: this.flipped,
+  });
+
+  public readonly animation$ = this.animationSubject.asObservable();
+
+  public toggle(): void {
+    of('')
+      .pipe(
+        tap(() =>
+          this.animationSubject.next({
+            className: 'tg-flip-away-animation',
+            flipped: this.flipped,
+          })
+        ),
+        delay(300),
+        tap(() => (this.flipped = !this.flipped)),
+        tap(() =>
+          this.animationSubject.next({
+            className: 'tg-flip-in-animation',
+            flipped: this.flipped,
+          })
+        ),
+        delay(300),
+        tap(() =>
+          this.animationSubject.next({
+            className: '',
+            flipped: this.flipped,
+          })
+        )
+      )
+      .subscribe();
+  }
 }
