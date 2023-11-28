@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { DateTimeGathering } from '../../models/gathering/date-time-gathering.dto';
 import { DetailGathering } from '../../models/gathering/detail-gathering.dto';
 import { Gathering } from '../../models/gathering/gathering.dto';
 import { get24HourTime, getDateCHFormat } from '../../utils/date.utility';
@@ -12,16 +13,20 @@ import { get24HourTime, getDateCHFormat } from '../../utils/date.utility';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GatheringDateComponent {
-  @Input({ required: true }) public date!: Date | Gathering | DetailGathering;
+  @Input({ required: true }) public date!:
+    | Date
+    | Gathering
+    | DetailGathering
+    | DateTimeGathering;
 
-  public getDateString(data: Date | Gathering | DetailGathering) {
+  public getDateString(data: typeof this.date) {
     if (data instanceof Date) return getDateCHFormat(data);
     if (typeof data.date === 'string')
       return getDateCHFormat(new Date(data.date));
     return getDateCHFormat(data.date);
   }
 
-  public getTimeString(data: Date | Gathering | DetailGathering) {
+  public getTimeString(data: typeof this.date) {
     if (data instanceof Date) return get24HourTime(data);
     return data.startTime;
   }
