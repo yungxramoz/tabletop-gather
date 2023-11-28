@@ -28,14 +28,45 @@ public class PlanService {
     this.gameRepository = gameRepository;
   }
 
-  public List<OverviewPlanDto> findAll() {
+  public List<OverviewPlanDto> findAllExceptUser(UUID userId) {
     final List<Plan> plans = planRepository.findAllByIsPrivateFalse();
-    return plans.stream().map(plan -> mapToDto(plan, new OverviewPlanDto())).toList();
+
+    return plans.stream()
+        .filter(
+            plan ->
+                plan.getGatherings().stream()
+                        .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now()))
+                    && !plan.getUser().getId().equals(userId))
+        .sorted(planComparator)
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
   }
 
   public List<OverviewPlanDto> findAll(UUID userId) {
     final List<Plan> plans = planRepository.findAllByUserId(userId);
-    return plans.stream().map(plan -> mapToDto(plan, new OverviewPlanDto())).toList();
+    return plans.stream()
+        .filter(
+            plan ->
+                plan.getGatherings().stream()
+                    .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now())))
+        .sorted(planComparator)
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
+  }
+
+  public List<OverviewPlanDto> findAllAttending(UUID userId) {
+    final List<Plan> plans = planRepository.findAll();
+    return plans.stream()
+        .filter(
+            plan ->
+                plan.getGatherings().stream()
+                    .anyMatch(
+                        gathering ->
+                            gathering.getUsers().stream()
+                                .anyMatch(user -> user.getId().equals(userId))))
+        .sorted(planComparator)
+        .map(plan -> mapToDto(plan, new OverviewPlanDto()))
+        .toList();
   }
 
   public DetailPlanDto getDetail(final UUID id) {
@@ -195,4 +226,20 @@ public class PlanService {
     plan.setGame(game);
     return plan;
   }
+
+  private Comparator<Plan> planComparator =
+      new Comparator<Plan>() {
+        @Override
+        public int compare(Plan plan1, Plan plan2) {
+          return plan1.getGatherings().stream()
+              .map(Gathering::getDate)
+              .min(LocalDate::compareTo)
+              .orElse(LocalDate.MAX)
+              .compareTo(
+                  plan2.getGatherings().stream()
+                      .map(Gathering::getDate)
+                      .min(LocalDate::compareTo)
+                      .orElse(LocalDate.MAX));
+        }
+      };
 }
