@@ -1,7 +1,7 @@
-import { Model } from '../utils/types';
-import { Dto } from './base.dto';
-import { PlanDto } from './plan.dto';
-import { UserDto } from './user.dto';
+import { Model } from '../../utils/types';
+import { Dto } from '../base.dto';
+import { PlanDto } from '../plan/plan.dto';
+import { UserDto } from '../user/user.dto';
 
 /**
  * Dto for comments.

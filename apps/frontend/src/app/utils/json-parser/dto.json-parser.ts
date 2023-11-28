@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Gathering } from '../../models/gathering.dto';
+import { Gathering } from '../../models/gathering/gathering.dto';
 import { JsonParser } from './base.json-parser';
 
 @Injectable()

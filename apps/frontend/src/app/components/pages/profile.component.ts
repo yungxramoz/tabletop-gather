@@ -16,9 +16,9 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { PasswordUpdate } from '../../models/password-update.dto';
-import { UserUpdate } from '../../models/user-update.dto';
-import { User, UserDto } from '../../models/user.dto';
+import { PasswordUpdate } from '../../models/user/password-update.dto';
+import { UserUpdate } from '../../models/user/user-update.dto';
+import { User, UserDto } from '../../models/user/user.dto';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/user.service';
 import { AvatarComponent } from '../atoms/avatar.component';

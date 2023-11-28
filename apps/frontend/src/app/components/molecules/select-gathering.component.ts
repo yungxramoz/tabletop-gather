@@ -2,7 +2,7 @@ import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NbCheckboxModule } from '@nebular/theme';
-import { DetailPlan } from '../../models/detail-plan.dto';
+import { DetailPlan } from '../../models/plan/detail-plan.dto';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 
 @Component({

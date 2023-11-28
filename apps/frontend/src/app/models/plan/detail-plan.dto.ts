@@ -1,8 +1,8 @@
-import { Model } from '../utils/types';
-import { Dto } from './base.dto';
-import { DetailGatheringDto } from './detail-gathering.dto';
-import { GameDto } from './game.dto';
-import { UserDto } from './user.dto';
+import { Model } from '../../utils/types';
+import { Dto } from '../base.dto';
+import { GameDto } from '../game/game.dto';
+import { DetailGatheringDto } from '../gathering/detail-gathering.dto';
+import { UserDto } from '../user/user.dto';
 
 /**
  * Dto for plan details.

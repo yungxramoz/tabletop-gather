@@ -4,12 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { API_BASE_URL } from '../app.config';
-import { CreatePlan } from '../models/create-plan.dto';
-import { DetailPlanDto } from '../models/detail-plan.dto';
-import { GameDto } from '../models/game.dto';
-import { OverviewPlanDto } from '../models/overview-plan.dto';
-import { UpdatePlan } from '../models/update-plan.dto';
-import { UserDto } from '../models/user.dto';
+import { GameDto } from '../models/game/game.dto';
+import { CreatePlan } from '../models/plan/create-plan.dto';
+import { DetailPlanDto } from '../models/plan/detail-plan.dto';
+import { OverviewPlanDto } from '../models/plan/overview-plan.dto';
+import { UpdatePlan } from '../models/plan/update-plan.dto';
+import { UserDto } from '../models/user/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 import { PlanService } from './plan.service';
 
@@ -117,6 +117,45 @@ describe(PlanService.name, () => {
 
       // Assert
       const req = httpMock.expectOne(`${apiBaseUrl}/plans/me`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockPlans);
+    });
+  });
+
+  describe('getAllAttendingPlans', () => {
+    it('should return an Observable of OverviewPlanDto[]', () => {
+      // Arrange
+      const mockPlans: OverviewPlanDto[] = [
+        {
+          id: '1',
+          name: 'Plan 1',
+          description: 'Plan 1 description',
+          game: {} as GameDto,
+          gatheringDates: [],
+          isPrivate: false,
+          playerLimit: 0,
+          ownerName: 'Hans',
+        },
+        {
+          id: '2',
+          name: 'Plan 2',
+          description: 'Plan 2 description',
+          game: {} as GameDto,
+          gatheringDates: [],
+          isPrivate: false,
+          playerLimit: 0,
+          ownerName: 'Hans',
+        },
+      ];
+
+      // Act
+      service.getAllAttendingPlans().subscribe((plans) => {
+        // Assert
+        expect(plans).toEqual(mockPlans);
+      });
+
+      // Assert
+      const req = httpMock.expectOne(`${apiBaseUrl}/plans/attending`);
       expect(req.request.method).toBe('GET');
       req.flush(mockPlans);
     });

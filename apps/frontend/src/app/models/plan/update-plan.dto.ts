@@ -1,5 +1,5 @@
-import { Model, Uuid } from '../utils/types';
-import { Dto } from './base.dto';
+import { Model, Uuid } from '../../utils/types';
+import { Dto } from '../base.dto';
 
 /**
  * Dto for creating a plan

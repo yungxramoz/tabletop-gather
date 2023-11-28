@@ -1,5 +1,5 @@
-import { Model } from '../utils/types';
-import { Dto } from './base.dto';
+import { Model } from '../../utils/types';
+import { Dto } from '../base.dto';
 
 /**
  * Dto for games.

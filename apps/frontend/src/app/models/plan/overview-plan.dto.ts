@@ -1,6 +1,6 @@
-import { Model } from '../utils/types';
-import { Dto } from './base.dto';
-import { GameDto } from './game.dto';
+import { Model } from '../../utils/types';
+import { Dto } from '../base.dto';
+import { GameDto } from '../game/game.dto';
 
 /**
  * Dto for plan overview

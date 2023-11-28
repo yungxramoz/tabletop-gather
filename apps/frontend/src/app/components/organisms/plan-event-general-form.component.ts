@@ -12,7 +12,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { NbCardModule, NbSelectModule } from '@nebular/theme';
 import { MaxValidatorDirective } from '../../directives/max-validator.directive';
 import { MinValidatorDirective } from '../../directives/min-validator.directive';
-import { Game, GameDto } from '../../models/game.dto';
+import { Game, GameDto } from '../../models/game/game.dto';
 import { ModelFormGroup } from '../../utils/types';
 import { InputComponent } from '../atoms/input.component';
 import { TextareaComponent } from '../atoms/textarea.component';

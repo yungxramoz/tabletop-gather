@@ -1,4 +1,4 @@
-import { Model } from '../utils/types';
+import { Model } from '../../utils/types';
 import { UserDto } from './user.dto';
 
 /**

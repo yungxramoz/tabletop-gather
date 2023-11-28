@@ -8,7 +8,7 @@ import {
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
-import { RegisterUser } from '../../models/register-user.dto';
+import { RegisterUser } from '../../models/user/register-user.dto';
 import { InputComponent } from '../atoms/input.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 

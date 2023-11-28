@@ -1,7 +1,7 @@
-import { Model } from '../utils/types';
-import { Dto } from './base.dto';
-import { GameDto } from './game.dto';
-import { UserDto } from './user.dto';
+import { Model } from '../../utils/types';
+import { Dto } from '../base.dto';
+import { GameDto } from '../game/game.dto';
+import { UserDto } from '../user/user.dto';
 
 /**
  * Dto for creating plans.

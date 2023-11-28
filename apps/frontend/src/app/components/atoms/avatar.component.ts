@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { User } from '../../models/user.dto';
+import { User } from '../../models/user/user.dto';
 
 @Component({
   standalone: true,
