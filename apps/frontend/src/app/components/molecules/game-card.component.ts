@@ -39,14 +39,17 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
               class="tg-mr-2"
               [src]="game.imageUrl"
             ></tg-lazy-image>
-            <p class="tg-p-1"></p>
-            <p>{{ game.description | truncate }}</p>
+            <div class="tg-p-1"></div>
+            <div
+              class="paragraph"
+              [innerHTML]="game.description | truncate : 200"
+            ></div>
           </div>
         </ng-container>
 
         <!-- Backside content -->
         <ng-template #backside>
-          <p>{{ game.description }}</p>
+          <div class="paragraph" [innerHTML]="game.description"></div>
         </ng-template>
       </nb-card-body>
 
