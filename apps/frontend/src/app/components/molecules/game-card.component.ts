@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { BehaviorSubject, delay, of, tap } from 'rxjs';
 import { GamePlan } from '../../models/game/game-plan.dto';
+import { Game } from '../../models/game/game.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 
@@ -51,10 +52,8 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 
       <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">
-          <div class="tg-mr-auto">
-            <p *ngIf="game.owners as owners" class="caption">
-              Owned by {{ owners.join(', ') }}
-            </p>
+          <div class="tg-mr-auto" *ngIf="getOwners() as owners">
+            <p class="caption">Owned by {{ owners.join(', ') }}</p>
           </div>
 
           <button
@@ -73,7 +72,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameCardComponent {
-  @Input({ required: true }) public game!: GamePlan;
+  @Input({ required: true }) public game!: GamePlan | Game;
 
   private flipped = false;
 
@@ -87,6 +86,13 @@ export class GameCardComponent {
 
   public readonly animation$ = this.animationSubject.asObservable();
 
+  public getOwners(): string[] | null {
+    if ('owners' in this.game) {
+      return this.game.owners;
+    }
+
+    return null;
+  }
   public toggle(): void {
     of('')
       .pipe(
