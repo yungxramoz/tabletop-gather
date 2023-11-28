@@ -16,7 +16,7 @@ import {
   NbTabComponent,
   NbTabsetModule,
 } from '@nebular/theme';
-import { BehaviorSubject, filter, map, switchMap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
@@ -158,9 +158,6 @@ export class EventsComponent implements AfterViewInit {
     this.getPlans();
   }
 
-  // TODO (decide): Does the backend filter out public plans that are mine?
-  // TODO (decide): Does the backend filter out public plans that have already happened?
-  // TODO (decide): How do we handle events that have been joined? Currently, there's no overview of them
   private getPlans() {
     // Get my plans
     const subscriptionPrivate = this.planService
@@ -180,16 +177,6 @@ export class EventsComponent implements AfterViewInit {
     // Get public plans
     const subscriptionPublic = this.planService
       .getAllPublicPlans()
-      .pipe(
-        withLatestFrom(this.myPlansSubject),
-        map(([publicPlans, myPlans]) => {
-          // Only show public plans that are not mine
-          return publicPlans.filter(
-            (publicPlan) =>
-              !myPlans.some((myPlan) => myPlan.id === publicPlan.id)
-          );
-        })
-      )
       .subscribe((plans) => {
         this.publicPlansSubject.next(plans);
 
