@@ -122,6 +122,45 @@ describe(PlanService.name, () => {
     });
   });
 
+  describe('getAllAttendingPlans', () => {
+    it('should return an Observable of OverviewPlanDto[]', () => {
+      // Arrange
+      const mockPlans: OverviewPlanDto[] = [
+        {
+          id: '1',
+          name: 'Plan 1',
+          description: 'Plan 1 description',
+          game: {} as GameDto,
+          gatheringDates: [],
+          isPrivate: false,
+          playerLimit: 0,
+          ownerName: 'Hans',
+        },
+        {
+          id: '2',
+          name: 'Plan 2',
+          description: 'Plan 2 description',
+          game: {} as GameDto,
+          gatheringDates: [],
+          isPrivate: false,
+          playerLimit: 0,
+          ownerName: 'Hans',
+        },
+      ];
+
+      // Act
+      service.getAllAttendingPlans().subscribe((plans) => {
+        // Assert
+        expect(plans).toEqual(mockPlans);
+      });
+
+      // Assert
+      const req = httpMock.expectOne(`${apiBaseUrl}/plans/attending`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockPlans);
+    });
+  });
+
   describe('getPlanById', () => {
     it('should return an Observable of DetailPlanDto', () => {
       // Arrange

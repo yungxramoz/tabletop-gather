@@ -42,50 +42,54 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
     PlanEventSummaryComponent,
   ],
   template: `
-    <nb-stepper #stepper>
-      <nb-step label="Event">
-        <ng-template nbStepLabel>Event</ng-template>
-        <tg-plan-event-general-form
-          [games]="mockGames"
-        ></tg-plan-event-general-form>
-      </nb-step>
+    <div class="tg-flex-col tg-justify-between tg-full">
+      <nb-stepper #stepper class="tg-full">
+        <nb-step label="Event">
+          <ng-template nbStepLabel>Event</ng-template>
+          <tg-plan-event-general-form
+            [games]="mockGames"
+          ></tg-plan-event-general-form>
+        </nb-step>
 
-      <nb-step label="Dates">
-        <ng-template nbStepLabel>Dates</ng-template>
-        <tg-plan-event-dates-form></tg-plan-event-dates-form>
-      </nb-step>
+        <nb-step label="Dates">
+          <ng-template nbStepLabel>Dates</ng-template>
+          <tg-plan-event-dates-form></tg-plan-event-dates-form>
+        </nb-step>
 
-      <nb-step label="Summary">
-        <ng-template nbStepLabel>Summary</ng-template>
-        <tg-plan-event-summary
-          [event]="planEventValue$ | async"
-          (createEvent)="onCreateEvent($event)"
-        ></tg-plan-event-summary>
-      </nb-step>
-    </nb-stepper>
+        <nb-step label="Summary">
+          <ng-template nbStepLabel>Summary</ng-template>
+          <tg-plan-event-summary
+            [event]="planEventValue$ | async"
+            (createEvent)="onCreateEvent($event)"
+          ></tg-plan-event-summary>
+        </nb-step>
+      </nb-stepper>
 
-    <div class="tg-flex-row tg-justify-end">
-      <button
-        nbButton
-        ghost
-        status="control"
-        shape="semi-round"
-        [disabled]="((stepper.stepChange | async) ?? { index: 0 }).index === 0"
-        (click)="stepper.previous()"
-      >
-        Previous
-      </button>
-      <div class="tg-m-1"></div>
-      <button
-        nbButton
-        status="primary"
-        shape="semi-round"
-        type="submit"
-        [disabled]="(stepper.stepChange | async)?.index === 2"
-        (click)="stepper.next()"
-      >
-        Next
-      </button>
+      <div class="tg-flex-row tg-justify-end tg-m-4">
+        <button
+          nbButton
+          ghost
+          status="control"
+          shape="semi-round"
+          [disabled]="
+            ((stepper.stepChange | async) ?? { index: 0 }).index === 0
+          "
+          (click)="stepper.previous()"
+        >
+          Previous
+        </button>
+        <div class="tg-m-1"></div>
+        <button
+          nbButton
+          status="primary"
+          shape="semi-round"
+          type="submit"
+          [disabled]="(stepper.stepChange | async)?.index === 2"
+          (click)="stepper.next()"
+        >
+          Next
+        </button>
+      </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

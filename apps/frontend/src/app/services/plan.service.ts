@@ -73,6 +73,29 @@ export class PlanService {
   }
 
   /**
+   * Gets all attending plans.
+   *
+   * @returns {Observable<OverviewPlanDto[]>} - The plans
+   */
+  public getAllAttendingPlans(): Observable<OverviewPlanDto[]> {
+    return this.http
+      .get<object[]>(`${this.plansUrl}/attending`, {
+        responseType: 'json',
+        observe: 'response',
+      })
+      .pipe(
+        this.responseHandler.handleErrorResponse(),
+        filter((response) => response !== null),
+        map((response) => response?.body as object[]),
+        map((overviewPlansJson) =>
+          overviewPlansJson.map((plan: unknown) =>
+            OverviewPlanDto.fromJson(plan)
+          )
+        )
+      );
+  }
+
+  /**
    * Gets a plan by id.
    *
    * @param {Uuid} id - The id of the plan

@@ -84,10 +84,8 @@ export class EventCardComponent {
 
   @Output()
   public cardClicked: EventEmitter<void> = new EventEmitter();
-
   @Output()
   public deleteClicked: EventEmitter<void> = new EventEmitter();
-
   @Output()
   public editClicked: EventEmitter<void> = new EventEmitter();
 }
