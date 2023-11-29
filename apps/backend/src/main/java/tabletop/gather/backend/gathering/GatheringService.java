@@ -1,15 +1,10 @@
 package tabletop.gather.backend.gathering;
 
 import jakarta.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import tabletop.gather.backend.guest.Guest;
 import tabletop.gather.backend.guest.GuestRepository;
-import tabletop.gather.backend.plan.Plan;
 import tabletop.gather.backend.plan.PlanRepository;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserRepository;
@@ -37,6 +32,7 @@ public class GatheringService {
 
   /**
    * Remove all gatherings from plan and add the ones from the dto where canAttend is true.
+   *
    * @param upsertGatheringDtos the gathering attendance status
    * @param userId the id of the user
    */
