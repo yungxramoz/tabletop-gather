@@ -14,6 +14,7 @@ import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { MOCK_USER_DTOS } from '../../mocks/user.mock';
 import { GamePlanDto } from '../../models/game/game-plan.dto';
 import { DateTimeGatheringDto } from '../../models/gathering/date-time-gathering.dto';
+import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { UserPlanDto } from '../../models/user/user-plan.dto';
 import { PlanService } from '../../services/plan.service';
@@ -43,6 +44,7 @@ import { ViewEventPlayersComponent } from '../organisms/view-event-players.compo
           <tg-view-event-general
             [isOwner]="isOwner$ | async"
             [detailPlan]="detailPlan"
+            (gatheringUpserted)="onGatheringUpserted($event)"
           ></tg-view-event-general>
         </nb-tab>
 
@@ -83,6 +85,11 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     private readonly userService: UsersService
   ) {}
 
+  public onGatheringUpserted(upsertGatheringDtos: UpsertGatheringDto[]) {
+    // TODO: Call api when endpoint is ready
+    console.log('onGatheringUpserted', upsertGatheringDtos);
+  }
+
   public ngOnInit() {
     this.detailPlan$ = this.route.params.pipe(
       map((params) => params['eventId']),
@@ -90,7 +97,6 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     );
   }
 
-  // TODO (decide): How do we push the selected gathering to the backend?
   public ngAfterViewInit() {
     this.isOwner$ = this.detailPlan$.pipe(
       switchMap((plan) =>
@@ -98,7 +104,7 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
         // in the user service and:
         // - call /users/me if it's currently null
         // - next it if the user gets updated
-        // - next it if to null if the user logs out or gets deleted
+        // - next it to null if the user logs out or gets deleted
         // Then replace calls to userService.me() with userService.me$
         this.userService.me().pipe(map((me) => me.email === plan.owner.email))
       )
