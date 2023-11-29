@@ -6,9 +6,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { LoginUser, LoginUserDto } from '../models/login-user.dto';
-import { RegisterUser } from '../models/register-user.dto';
-import { UserDto } from '../models/user.dto';
+import { LoginUser, LoginUserDto } from '../models/user/login-user.dto';
+import { RegisterUser } from '../models/user/register-user.dto';
+import { UserDto } from '../models/user/user.dto';
 import { AuthService, LS_EXPIRES_AT_KEY, LS_TOKEN_KEY } from './auth.service';
 
 describe(AuthService.name, () => {

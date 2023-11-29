@@ -141,7 +141,9 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
     this.filteredOptions$ = of(this.options).pipe(
       map((options) =>
         options.filter((option) =>
-          this.optionSelector(option).includes(inputValue)
+          this.optionSelector(option)
+            .toLowerCase()
+            .includes(inputValue.toLowerCase())
         )
       )
     );

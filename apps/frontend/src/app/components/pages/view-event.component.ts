@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbTabsetModule } from '@nebular/theme';
 import { Observable, map, switchMap } from 'rxjs';
-import { DetailPlanDto } from '../../models/detail-plan.dto';
+import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { PlanService } from '../../services/plan.service';
 import { UsersService } from '../../services/user.service';
 import { VoidComponent } from '../atoms/void.component';

@@ -6,9 +6,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { API_BASE_URL } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
-import { PasswordUpdate } from '../models/password-update.dto';
-import { UserUpdateDto } from '../models/user-update.dto';
-import { UserDto } from '../models/user.dto';
+import { PasswordUpdate } from '../models/user/password-update.dto';
+import { UserUpdateDto } from '../models/user/user-update.dto';
+import { UserDto } from '../models/user/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
 import { UsersService } from './user.service';
 

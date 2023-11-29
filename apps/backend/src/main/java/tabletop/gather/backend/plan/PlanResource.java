@@ -29,8 +29,10 @@ public class PlanResource {
    * @return all plans
    */
   @GetMapping
-  public ResponseEntity<List<OverviewPlanDto>> getAllPlans() {
-    return ResponseEntity.ok(planService.findAll());
+  public ResponseEntity<List<OverviewPlanDto>> getAllPlans(
+      @RequestHeader("Authorization") final String token) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    return ResponseEntity.ok(planService.findAllExceptUser(userId));
   }
 
   /**
@@ -39,10 +41,23 @@ public class PlanResource {
    * @return all plans
    */
   @GetMapping("/me")
-  public ResponseEntity<List<OverviewPlanDto>> getAllPlans(
+  public ResponseEntity<List<OverviewPlanDto>> getMyPlans(
       @RequestHeader("Authorization") final String token) {
     UUID userId = jwtService.getUserByToken(token).getId();
     return ResponseEntity.ok(planService.findAll(userId));
+  }
+
+  /**
+   * Get all plans a user is attending
+   *
+   * @param token the token of the authenticated user
+   * @return all plans filtered by user and attending
+   */
+  @GetMapping("/attending")
+  public ResponseEntity<List<OverviewPlanDto>> getAttendingPlans(
+      @RequestHeader("Authorization") final String token) {
+    UUID userId = jwtService.getUserByToken(token).getId();
+    return ResponseEntity.ok(planService.findAllAttending(userId));
   }
 
   /**
