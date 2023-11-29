@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GameRepository extends JpaRepository<Game, UUID> {
-  List<Game> findByNameContaining(String name, Sort sort);
+  List<Game> findByNameContainingIgnoreCase(String name, Sort sort);
 
   List<Game> findByUsers_Id(UUID userId, Sort sort);
 

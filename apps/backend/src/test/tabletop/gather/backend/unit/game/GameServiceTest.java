@@ -30,7 +30,7 @@ public class GameServiceTest {
   public void testFindByUserId() {
     String name = "game";
     Game game = new Game();
-    when(gameRepository.findByNameContaining(name, Sort.by("name")))
+    when(gameRepository.findByNameContainingIgnoreCase(name, Sort.by("name")))
         .thenReturn(Arrays.asList(game));
 
     List<GameDto> response = gameService.findByUserId(name);
