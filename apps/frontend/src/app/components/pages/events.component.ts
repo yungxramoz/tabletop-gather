@@ -48,7 +48,6 @@ import { EventCardComponent } from '../organisms/event-card.component';
     <nb-card>
       <button
         nbButton
-        outline
         status="primary"
         shape="semi-round"
         [routerLink]="[routePlanEvent]"

@@ -55,24 +55,24 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
       </nb-card-body>
 
       <nb-card-footer>
-        <div class="tg-flex-row tg-justify-end">
+        <div class="tg-flex-row tg-justify-between">
           <div class="tg-mr-auto" *ngIf="getOwners() as owners">
             <p class="caption">Owned by {{ owners.join(', ') }}</p>
           </div>
 
-          <div class="tg-ml-auto tg-p-1">
-            <div
-              class="tg-flex-row tg-align-center"
-              *ngIf="getMinMaxPlayer() as playerRange"
-            >
-              <nb-icon
-                class="tg-mr-1"
-                status="primary"
-                icon="people-outline"
-              ></nb-icon>
-              <p class="caption">{{ playerRange }}</p>
-            </div>
+          <div
+            class="tg-flex-row tg-align-center"
+            *ngIf="getMinMaxPlayer() as playerRange"
+          >
+            <nb-icon
+              class="tg-mr-1"
+              status="primary"
+              icon="people-outline"
+            ></nb-icon>
+            <p class="caption">{{ playerRange }}</p>
           </div>
+
+          <div class="tg-m-1"></div>
 
           <button
             nbButton

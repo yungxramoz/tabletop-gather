@@ -26,7 +26,7 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
         <div class="tg-flex-row tg-justify-between">
           <div class="tg-flex-col tg-align-start">
             <p class="caption-2">
-              {{ overviewPlanDto.gatheringDates.join(', ') }}
+              {{ overviewPlanDto.gatheringDates.join(' | ') }}
             </p>
             {{ overviewPlanDto.name }}
           </div>
@@ -61,7 +61,9 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
             >
               <nb-icon icon="trash-2-outline"></nb-icon>
             </button>
+
             <div class="tg-m-1"></div>
+
             <button
               nbButton
               ghost
