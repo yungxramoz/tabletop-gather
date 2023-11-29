@@ -58,6 +58,20 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             <p class="caption">Owned by {{ owners.join(', ') }}</p>
           </div>
 
+          <div class="tg-ml-auto tg-p-1">
+            <div
+              class="tg-flex-row tg-align-center"
+              *ngIf="getMinMaxPlayer() as playerRange"
+            >
+              <nb-icon
+                class="tg-mr-1"
+                status="primary"
+                icon="people-outline"
+              ></nb-icon>
+              <p class="caption">{{ playerRange }}</p>
+            </div>
+          </div>
+
           <button
             nbButton
             ghost
@@ -91,6 +105,20 @@ export class GameCardComponent {
   public getOwners(): string[] | null {
     if ('owners' in this.game) {
       return this.game.owners;
+    }
+
+    return null;
+  }
+
+  public getMinMaxPlayer(): string | null {
+    const minPlayerProp: keyof Game = 'minPlayer';
+    const maxPlayerProp: keyof Game = 'maxPlayer';
+
+    if (minPlayerProp in this.game && maxPlayerProp in this.game) {
+      if (this.game[minPlayerProp] === this.game[maxPlayerProp]) {
+        return `${this.game[minPlayerProp]}`;
+      }
+      return `${this.game[minPlayerProp]} - ${this.game[maxPlayerProp]}`;
     }
 
     return null;
