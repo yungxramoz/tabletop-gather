@@ -52,6 +52,10 @@ p {
   height: 100%;
 }
 
+.tg-full-width {
+  width: 100%;
+}
+
 /* Paddings */
 
 .tg-p-0 {
@@ -171,9 +175,14 @@ p {
   justify-content: flex-end;
 }
 
-.tg-flex-grow {
+.tg-flex-grow-1 {
   flex-grow: 1;
 }
+
+.tg-flex-grow-0 {
+  flex-grow: 0;
+}
+
 
 /* Misc */
 
@@ -240,11 +249,11 @@ p {
   perspective: 600px;
   -moz-perspective: 600px;
   -webkit-perspective: 600px;
-  
+
   transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  
+
   transition: transform 300ms;
   -moz-transition: transform 300ms;
   -webkit-transition: transform 300ms;

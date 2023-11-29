@@ -1,23 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbCardModule } from '@nebular/theme';
-import {InputComponent} from "../atoms/input.component";
-import {FormsModule} from "@angular/forms";
+import {CollectionActionsComponent} from "../molecules/collection-actions.component";
 
 @Component({
   standalone: true,
   selector: 'tg-collection',
-  imports: [NbCardModule, InputComponent, FormsModule],
+  imports: [CollectionActionsComponent],
   template: `
-    <nb-card>
-      <tg-input
-        ngModel
-        id="search"
-        name="search"
-        icon="search"
-        placeholder="Search"
-        [isSearch]="true"
-      ></tg-input>
-    </nb-card>
+    <tg-collection-actions></tg-collection-actions>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
