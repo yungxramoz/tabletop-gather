@@ -9,4 +9,6 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
   List<Game> findByNameContaining(String name, Sort sort);
 
   List<Game> findByUsers_Id(UUID userId, Sort sort);
+
+  List<Game> findByUsersGatheringsPlanId(UUID id);
 }

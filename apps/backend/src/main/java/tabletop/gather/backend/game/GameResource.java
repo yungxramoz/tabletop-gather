@@ -70,6 +70,17 @@ public class GameResource {
   }
 
   /**
+   * Get all games of attending users on a plan
+   *
+   * @param id the id of the plan
+   * @return all games filtered by min max player
+   */
+  @GetMapping("/plan/{id}")
+  public List<GamePlanDto> getGamesByPlanId(@PathVariable final UUID id) {
+    return gameService.findByAttendingOnPlan(id);
+  }
+
+  /**
    * Add a game to collection of authenticated user
    *
    * @param id the game to add

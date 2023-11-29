@@ -38,9 +38,9 @@ public class UserService {
    */
   public UserDto get(final UUID id) {
     return userRepository
-      .findById(id)
-      .map(user -> mapToDto(user, new UserDto()))
-      .orElseThrow(() -> new NotFoundException("user not found"));
+        .findById(id)
+        .map(user -> mapToDto(user, new UserDto()))
+        .orElseThrow(() -> new NotFoundException("user not found"));
   }
 
   /**
@@ -58,6 +58,7 @@ public class UserService {
 
   /**
    * Gets all users attending the plan with the given id.
+   *
    * @param id the id of the plan
    * @return the list of users attending the plan
    */
@@ -75,7 +76,8 @@ public class UserService {
    * @return the updated user entity
    */
   public User update(final UUID id, final UserUpdateDto userDto, final String currentEmail) {
-    final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+    final User user =
+        userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     mapToEntity(userDto, user);
     userRepository.save(user);
     return user;
@@ -98,7 +100,8 @@ public class UserService {
    * @return the updated user entity
    */
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
-    final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+    final User user =
+        userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     user.setPasswordHash(passwordEncoder.encode(passwordUpdateDto.getNewPassword()));
     userRepository.save(user);
     return user;
@@ -122,14 +125,16 @@ public class UserService {
 
   private UserPlanDto mapToDto(final User user, final UserPlanDto userPlanDto) {
     userPlanDto.setFullName(String.format("%s %s", user.getFirstName(), user.getLastName()));
-    final List<DateTimeGatheringDto> gatheringsDto = user.getGatherings().stream()
-        .map(gathering -> {
-          DateTimeGatheringDto dto = new DateTimeGatheringDto();
-          dto.setTime(gathering.getStartTime());
-          dto.setDate(gathering.getDate());
-          return dto;
-        })
-        .toList();
+    final List<DateTimeGatheringDto> gatheringsDto =
+        user.getGatherings().stream()
+            .map(
+                gathering -> {
+                  DateTimeGatheringDto dto = new DateTimeGatheringDto();
+                  dto.setTime(gathering.getStartTime());
+                  dto.setDate(gathering.getDate());
+                  return dto;
+                })
+            .toList();
     userPlanDto.setAttendingGatherings(gatheringsDto);
     return userPlanDto;
   }

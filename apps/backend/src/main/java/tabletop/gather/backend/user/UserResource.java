@@ -58,7 +58,8 @@ public class UserResource {
    * @return List of all users attending the plan
    */
   @GetMapping("/plan/{id}")
-  public ResponseEntity<List<UserPlanDto>> getUsersByPlanId(@PathVariable(name = "id") final UUID id) {
+  public ResponseEntity<List<UserPlanDto>> getUsersByPlanId(
+      @PathVariable(name = "id") final UUID id) {
     return ResponseEntity.ok(userService.findByPlanId(id));
   }
 

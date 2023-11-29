@@ -1,10 +1,9 @@
 package tabletop.gather.backend.user;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import tabletop.gather.backend.gathering.DateTimeGatheringDto;
-
-import java.util.List;
 
 @Getter
 @Setter
