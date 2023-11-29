@@ -4,9 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
   Optional,
+  Output,
   Self,
   ViewChild,
 } from '@angular/core';
@@ -69,6 +71,10 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
         ></tg-lazy-image>
         {{ optionSelector(option) }}
       </nb-option>
+
+      <nb-option *ngIf="!(filteredOptions$ | async)?.length" disabled>
+        No results found
+      </nb-option>
     </nb-autocomplete>
 
     <nb-list fullWidth class="tg-mt-1">
@@ -105,12 +111,15 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
 export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('searchInput')
   public readonly inputElement!: ElementRef<HTMLInputElement>;
-  @Input({ required: true }) public options!: T[];
+
+  @Input({ required: true }) public options!: T[] | null;
   @Input({ required: true }) public optionSelector!: (option: T) => string;
   @Input() public optionImageUrlSelector: ((option: T) => string) | undefined;
   @Input() public label: string | undefined;
   @Input() public placeholder: string | undefined;
   @Input() public mode: 'single' | 'multiple' | 'unique' = 'single';
+
+  @Output() public readonly searchTerm = new EventEmitter<string>();
 
   public readonly id = `tg-autocomplete-${AutocompleteComponent.uniqueId++}`;
   public onChange: undefined | ((event: T[]) => void);
@@ -138,15 +147,20 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
 
   public onInputChange(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
+
+    this.searchTerm.emit(inputValue);
+
     this.filteredOptions$ = of(this.options).pipe(
-      map((options) =>
-        options.filter((option) =>
-          this.optionSelector(option)
-            .toLowerCase()
-            .includes(inputValue.toLowerCase())
-        )
+      map(
+        (options) =>
+          options?.filter((option) =>
+            this.optionSelector(option)
+              .toLowerCase()
+              .includes(inputValue.toLowerCase())
+          ) ?? []
       )
     );
+
     if (this.onChange) this.onChange(this.value);
   }
 
@@ -192,6 +206,6 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
   }
 
   public ngOnInit() {
-    this.filteredOptions$ = of(this.options);
+    this.filteredOptions$ = of(this.options ?? []);
   }
 }
