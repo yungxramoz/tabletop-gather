@@ -35,35 +35,11 @@ public class GatheringService {
     this.userRepository = userRepository;
   }
 
-  public List<GatheringDto> findAll() {
-    final List<Gathering> gatherings = gatheringRepository.findAll(Sort.by("id"));
-    return gatherings.stream().map(gathering -> mapToDto(gathering, new GatheringDto())).toList();
-  }
-
-  public GatheringDto get(final UUID id) {
-    return gatheringRepository
-        .findById(id)
-        .map(gathering -> mapToDto(gathering, new GatheringDto()))
-        .orElseThrow(NotFoundException::new);
-  }
-
-  public UUID create(final GatheringDto gatheringDto) {
-    final Gathering gathering = new Gathering();
-    mapToEntity(gatheringDto, gathering);
-    return gatheringRepository.save(gathering).getId();
-  }
-
-  public void update(final UUID id, final GatheringDto gatheringDto) {
-    final Gathering gathering =
-        gatheringRepository.findById(id).orElseThrow(NotFoundException::new);
-    mapToEntity(gatheringDto, gathering);
-    gatheringRepository.save(gathering);
-  }
-
-  public void delete(final UUID id) {
-    gatheringRepository.deleteById(id);
-  }
-
+  /**
+   * Remove all gatherings from plan and add the ones from the dto where canAttend is true.
+   * @param upsertGatheringDtos the gathering attendance status
+   * @param userId the id of the user
+   */
   public void removeAndAdd(final List<UpsertGatheringDto> upsertGatheringDtos, UUID userId) {
     final User user =
         userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
@@ -92,42 +68,5 @@ public class GatheringService {
               user.getGatherings().add(gathering);
               gatheringRepository.save(gathering);
             });
-  }
-
-  private GatheringDto mapToDto(final Gathering gathering, final GatheringDto gatheringDto) {
-    gatheringDto.setId(gathering.getId());
-    gatheringDto.setDate(gathering.getDate());
-    gatheringDto.setStartTime(gathering.getStartTime());
-    gatheringDto.setPlan(gathering.getPlan() == null ? null : gathering.getPlan().getId());
-    gatheringDto.setGuests(gathering.getGuests().stream().map(guest -> guest.getId()).toList());
-    gatheringDto.setUsers(gathering.getUsers().stream().map(user -> user.getId()).toList());
-    return gatheringDto;
-  }
-
-  private Gathering mapToEntity(final GatheringDto gatheringDto, final Gathering gathering) {
-    gathering.setDate(gatheringDto.getDate());
-    gathering.setStartTime(gatheringDto.getStartTime());
-    final Plan plan =
-        gatheringDto.getPlan() == null
-            ? null
-            : planRepository
-                .findById(gatheringDto.getPlan())
-                .orElseThrow(() -> new NotFoundException("plan not found"));
-    gathering.setPlan(plan);
-    final List<Guest> guests =
-        guestRepository.findAllById(
-            gatheringDto.getGuests() == null ? Collections.emptyList() : gatheringDto.getGuests());
-    if (guests.size() != (gatheringDto.getGuests() == null ? 0 : gatheringDto.getGuests().size())) {
-      throw new NotFoundException("one of guests not found");
-    }
-    gathering.setGuests(guests.stream().collect(Collectors.toSet()));
-    final List<User> users =
-        userRepository.findAllById(
-            gatheringDto.getUsers() == null ? Collections.emptyList() : gatheringDto.getUsers());
-    if (users.size() != (gatheringDto.getUsers() == null ? 0 : gatheringDto.getUsers().size())) {
-      throw new NotFoundException("one of users not found");
-    }
-    gathering.setUsers(users.stream().collect(Collectors.toSet()));
-    return gathering;
   }
 }

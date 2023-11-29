@@ -23,23 +23,13 @@ public class GatheringResource {
     this.jwtService = jwtService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<GatheringDto>> getAllGatherings() {
-    return ResponseEntity.ok(gatheringService.findAll());
-  }
-
-  @GetMapping("/{id}")
-  public ResponseEntity<GatheringDto> getGathering(@PathVariable(name = "id") final UUID id) {
-    return ResponseEntity.ok(gatheringService.get(id));
-  }
-
-  @PostMapping
-  @ApiResponse(responseCode = "201")
-  public ResponseEntity<UUID> createGathering(@RequestBody @Valid final GatheringDto gatheringDto) {
-    final UUID createdId = gatheringService.create(gatheringDto);
-    return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-  }
-
+  /**
+   * Set the user's attendance for gatherings
+   *
+   * @param token the token of the authenticated user
+   * @param upsertGatheringDtos the gatherings attendance status
+   * @return 201 if successful
+   */
   @PostMapping("/attend")
   @ApiResponse(responseCode = "201")
   public ResponseEntity<UUID> attendGathering(
@@ -48,20 +38,5 @@ public class GatheringResource {
     final UUID userId = jwtService.getUserByToken(token).getId();
     gatheringService.removeAndAdd(upsertGatheringDtos, userId);
     return new ResponseEntity<>(HttpStatus.CREATED);
-  }
-
-  @PutMapping("/{id}")
-  public ResponseEntity<UUID> updateGathering(
-      @PathVariable(name = "id") final UUID id,
-      @RequestBody @Valid final GatheringDto gatheringDto) {
-    gatheringService.update(id, gatheringDto);
-    return ResponseEntity.ok(id);
-  }
-
-  @DeleteMapping("/{id}")
-  @ApiResponse(responseCode = "204")
-  public ResponseEntity<Void> deleteGathering(@PathVariable(name = "id") final UUID id) {
-    gatheringService.delete(id);
-    return ResponseEntity.noContent().build();
   }
 }
