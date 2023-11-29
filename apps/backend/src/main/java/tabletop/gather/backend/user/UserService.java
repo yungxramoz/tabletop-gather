@@ -40,7 +40,7 @@ public class UserService {
     return userRepository
       .findById(id)
       .map(user -> mapToDto(user, new UserDto()))
-      .orElseThrow(NotFoundException::new);
+      .orElseThrow(() -> new NotFoundException("user not found"));
   }
 
   /**
@@ -53,7 +53,7 @@ public class UserService {
     return userRepository
         .findByEmail(email)
         .map(user -> mapToDto(user, new UserDto()))
-        .orElseThrow(NotFoundException::new);
+        .orElseThrow(() -> new NotFoundException("user not found"));
   }
 
   /**
@@ -75,7 +75,7 @@ public class UserService {
    * @return the updated user entity
    */
   public User update(final UUID id, final UserUpdateDto userDto, final String currentEmail) {
-    final User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+    final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     mapToEntity(userDto, user);
     userRepository.save(user);
     return user;
@@ -84,7 +84,7 @@ public class UserService {
   /**
    * Deletes the user with the given id.
    *
-   * @param id
+   * @param id the id of the user to delete
    */
   public void delete(final UUID id) {
     userRepository.deleteById(id);
@@ -93,12 +93,12 @@ public class UserService {
   /**
    * Updates the password of the user with the given id.
    *
-   * @param id
-   * @param passwordUpdateDto
+   * @param id the id of the user to update
+   * @param passwordUpdateDto the password update Dto containing the updated password
    * @return the updated user entity
    */
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
-    final User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+    final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     user.setPasswordHash(passwordEncoder.encode(passwordUpdateDto.getNewPassword()));
     userRepository.save(user);
     return user;
@@ -120,7 +120,7 @@ public class UserService {
     return userDto;
   }
 
-  public UserPlanDto mapToDto(final User user, final UserPlanDto userPlanDto) {
+  private UserPlanDto mapToDto(final User user, final UserPlanDto userPlanDto) {
     userPlanDto.setFullName(String.format("%s %s", user.getFirstName(), user.getLastName()));
     final List<DateTimeGatheringDto> gatheringsDto = user.getGatherings().stream()
         .map(gathering -> {
