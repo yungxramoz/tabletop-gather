@@ -37,11 +37,13 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             <tg-lazy-image
               class="tg-mr-2"
               [src]="game.imageUrl"
+              [width]="115"
+              [height]="115"
             ></tg-lazy-image>
             <div class="tg-p-1"></div>
             <div
               class="paragraph"
-              [innerHTML]="game.description | truncate : 200"
+              [innerHTML]="game.description | truncate : 180"
             ></div>
           </div>
         </ng-container>
