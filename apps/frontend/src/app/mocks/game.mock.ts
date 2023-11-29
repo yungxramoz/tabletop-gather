@@ -501,3 +501,65 @@ export const MOCK_GAME_DTOS_LARGE: GameDto[] = [
       'https://cf.geekdo-images.com/QnIOe-1wb8_zuxglKjAwOQ__original/img/KVIx8Af2rXVkyaUA8lxjl_H1aWc=/0x0/filters:format(png)/pic2037509.png',
   },
 ];
+export const MOCK_GAME_OWN_COLLECTION: GameDto[] = [
+  {
+    id: '52524d6e-10dc-5261-aa36-8b2efcbaa5f0',
+    name: 'CATAN',
+    description:
+      "In CATAN (formerly The Settlers of Catan), players try to be the dominant force on the island of Catan by building settlements, cities, and roads. On each turn dice are rolled to determine what resources the island produces. Players build by spending resources (sheep, wheat, wood, brick and ore) that are depicted by these resource cards; each land type, with the exception of the unproductive desert, produces a specific resource: hills produce brick, forests produce wood, mountains produce ore, fields produce wheat, and pastures produce sheep.&#10;&#10;Set-up includes randomly placing large hexagonal tiles (each showing a resource or the desert) in a honeycomb shape and surrounding them with water tiles, some of which contain ports of exchange. Number disks, which will correspond to die rolls (two 6-sided dice are used), are placed on each resource tile. Each player is given two settlements (think: houses) and roads (sticks) which are, in turn, placed on intersections and borders of the resource tiles. Players collect a hand of resource cards based on which hex tiles their last-placed house is adjacent to. A robber pawn is placed on the desert tile.&#10;&#10;A turn consists of possibly playing a development card, rolling the dice, everyone (perhaps) collecting resource cards based on the roll and position of houses (or upgraded cities&mdash;think: hotels) unless a 7 is rolled, turning in resource cards (if possible and desired) for improvements, trading cards at a port, and trading resource cards with other players. If a 7 is rolled, the active player moves the robber to a new hex tile and steals resource cards from other players who have built structures adjacent to that tile.&#10;&#10;Points are accumulated by building settlements and cities, having the longest road and the largest army (from some of the development cards), and gathering certain development cards that simply award victory points. When a player has gathered 10 points (some of which may be held in secret), he announces his total and claims the win.&#10;&#10;CATAN has won multiple awards and is one of the most popular games in recent history due to its amazing ability to appeal to experienced gamers as well as those new to the hobby.&#10;&#10;Die Siedler von Catan was originally published by KOSMOS and has gone through multiple editions. It was licensed by Mayfair and has undergone four editions as The Settlers of Catan. In 2015, it was formally renamed CATAN to better represent itself as the core and base game of the CATAN series. It has been re-published in two travel editions, portable edition and compact edition, as a special gallery edition (replaced in 2009 with a family edition), as an anniversary wooden edition, as a deluxe 3D collector's edition, in the basic Simply Catan, as a beginner version, and with an entirely new theme in Japan and Asia as Settlers of Catan: Rockman Edition. Numerous spin-offs and expansions have also been made for the game.&#10;&#10;",
+    minPlayer: 3,
+    maxPlayer: 4,
+    imageUrl:
+      'https://cf.geekdo-images.com/W3Bsga_uLP9kO91gZ7H8yw__original/img/xV7oisd3RQ8R-k18cdWAYthHXsA=/0x0/filters:format(jpeg)/pic2419375.jpg',
+  },
+  {
+    id: '681046ff-9129-5ade-b11c-769864e02184',
+    name: 'Airlines',
+    description:
+      "Airlines' theme is exactly as suggested by the title. The game is similar to the Sid Sackson classic, Acquire, in that players are competing to become majority stockholders in several highly-abstracted companies' with the player owning the most valuable portfolio at the end being the winner.&#10;&#10;Each turn, a player chooses from one of two actions: expand an airline and put stock into his hand, or play stock from his hand. Expanding an airline adds to its route(s) on the board and increases it's value but the trick is that when a scoring card shows up (randomly), only played stock counts as a player's holdings.&#10;&#10;",
+    minPlayer: 2,
+    maxPlayer: 6,
+    imageUrl:
+      'https://cf.geekdo-images.com/rfKJrXZv8obmM8DGF_xNaw__original/img/Z4wTGCyzjBcZM3o_ZfD83_OAnXU=/0x0/filters:format(jpeg)/pic9562.jpg',
+  },
+  {
+    id: 'c13d0b5d-1ca3-57b6-a23f-8586bca44928',
+    name: 'David & Goliath',
+    description:
+      'This game adds a very interesting twist to the standard trick-taking genre.  There are five suits and players must follow suit, if they can.  However, the winner of the trick is the highest card played, regardless of suit.  The winner gets all the cards from the trick, minus the card he won it with.  That card is given to the player that played the lowest card.  After all tricks have been played, the scoring begins.  Players score the face-value of the cards in the suits that they only collected one or two of, and one point per card for suits with more than two.  The player with the most points after a number of hands wins the game.&#10;&#10;',
+    minPlayer: 3,
+    maxPlayer: 6,
+    imageUrl:
+      'https://cf.geekdo-images.com/XTkkx0j13h77fnCG7mYI3A__original/img/a08G83lXvnLaMCgSA9cExpDTvII=/0x0/filters:format(jpeg)/pic359902.jpg',
+  },
+  {
+    id: '7c411b5e-9d3f-50b5-9c28-62096e41c4ed',
+    name: 'Perudo',
+    description:
+      "Liar's Dice, a.k.a. Bluff, Perudo or Dudo, is a South American dice game in which each player is given five dice and cup to roll and hide them with. Players make successively higher declarations regarding the results of all the dice remaining in the game, e.g. &quot;there are ten sixes&quot;. However, someone can always contest the bid. When that happens, all the dice are revealed and either the bidder or the caller loses dice, depending on who was correct. The last player with dice is the winner.&#10;&#10;As a public domain dice game, there are a number of variants or similar games called Liar's Dice. This includes one that is often played with Poker Dice, and differs from the marketed versions in that players only declare on their own hand's value (as opposed to all dice being in play), using poker-hand values.&#10;&#10;",
+    minPlayer: 2,
+    maxPlayer: 6,
+    imageUrl:
+      'https://cf.geekdo-images.com/UCiGSoCqbOsXS8JzZZC_SA__original/img/wjGWTdm1oFcxipprcBZT9_OZYRc=/0x0/filters:format(png)/pic3949242.png',
+  },
+  {
+    id: 'f825aafe-6696-5121-b263-6b2c408b7f43',
+    name: 'Medici',
+    description:
+      "Another Reiner Knizia standby, this game plays very well with varying numbers of people.  The object is to accrue the most points during three rounds, which you do by spending your points to bid on sets of cards.  Each turn the current player turns up one to three cards for all the players to bid on, with the highest bid taking all cards.  The cards denote a commodity type and quantity/value.  The round ends when each player's ships are full, or the commodity card deck is exhausted.  After each round, points are awarded to each player having the most of a given commodity, and to the one with the most valuable total &quot;cargo load&quot;.&#10;&#10;Part of the Knizia auction trilogy.&#10;One of the Knizia Florentine auction games.&#10;&#10; Related Games: &#10;&#10;&#10;     Medici vs Strozzi (two-player version)&#10;     Strozzi&#10;     Mercator, included in Neue Spiele im alten Rom (ancestor to Medici).&#10;&#10;&#10;",
+    minPlayer: 2,
+    maxPlayer: 6,
+    imageUrl:
+      'https://cf.geekdo-images.com/iif2Nv17Vhw8puN2bATaaw__original/img/imp-iw4Sq2_rv7pEWbGRIpcmVTw=/0x0/filters:format(png)/pic7794273.png',
+  },
+  {
+    id: 'f2b4caea-61c3-5bed-8ce7-d8b9d16e129e',
+    name: 'Chinatown',
+    description:
+      "This is a negotiation game in the truest sense of the word. In it, players acquire ownership of sections of city blocks then place tiles, representing businesses, onto the block-sections.  At the end of each turn, each tile you've laid gives you some sort of payout, but completed businesses (formed of three to six connected tiles of the same type) pay quite a bit better.  All these resources are dealt to the players randomly, however, so players must trade to get matching businesses and adjacent locations.&#10;&#10;This game is #2 in the Alea big box series.&#10;&#10;",
+    minPlayer: 3,
+    maxPlayer: 5,
+    imageUrl:
+      'https://cf.geekdo-images.com/QnIOe-1wb8_zuxglKjAwOQ__original/img/KVIx8Af2rXVkyaUA8lxjl_H1aWc=/0x0/filters:format(png)/pic2037509.png',
+  },
+]
