@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,6 +103,21 @@ public class UserResourceTest {
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(userDto, response.getBody());
+  }
+
+  @Test
+  public void testGetUsersByPlanId() {
+    UUID planId = UUID.randomUUID();
+    UserPlanDto userPlanDto = new UserPlanDto();
+    userPlanDto.setFullName("fullName");
+    when(userService.findByPlanId(planId)).thenReturn(Arrays.asList(userPlanDto));
+
+    ResponseEntity<List<UserPlanDto>> response = userResource.getUsersByPlanId(planId);
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(1, response.getBody().size());
+    assertEquals(userPlanDto.getFullName(), response.getBody().get(0).getFullName());
+    verify(userService, times(1)).findByPlanId(planId);
   }
 
   @Test
