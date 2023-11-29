@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tabletop.gather.backend.jwt.JwtService;
 
 @RestController
 @RequestMapping(value = "/api/gatherings", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -15,8 +16,11 @@ public class GatheringResource {
 
   private final GatheringService gatheringService;
 
-  public GatheringResource(final GatheringService gatheringService) {
+  private final JwtService jwtService;
+
+  public GatheringResource(final GatheringService gatheringService, final JwtService jwtService) {
     this.gatheringService = gatheringService;
+    this.jwtService = jwtService;
   }
 
   @GetMapping
@@ -34,6 +38,16 @@ public class GatheringResource {
   public ResponseEntity<UUID> createGathering(@RequestBody @Valid final GatheringDto gatheringDto) {
     final UUID createdId = gatheringService.create(gatheringDto);
     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+  }
+
+  @PostMapping("/attend")
+  @ApiResponse(responseCode = "201")
+  public ResponseEntity<UUID> attendGathering(
+      @RequestHeader("Authorization") final String token,
+      @RequestBody @Valid final List<UpsertGatheringDto> upsertGatheringDtos) {
+    final UUID userId = jwtService.getUserByToken(token).getId();
+    gatheringService.removeAndAdd(upsertGatheringDtos, userId);
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")

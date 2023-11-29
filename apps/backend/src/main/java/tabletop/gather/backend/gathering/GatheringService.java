@@ -64,6 +64,36 @@ public class GatheringService {
     gatheringRepository.deleteById(id);
   }
 
+  public void removeAndAdd(final List<UpsertGatheringDto> upsertGatheringDtos, UUID userId) {
+    final User user =
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
+    gatheringRepository.findAllByUsers_Id(userId).stream()
+        .filter(
+            gathering ->
+                upsertGatheringDtos.stream()
+                    .anyMatch(
+                        upsertGatheringDto -> upsertGatheringDto.getId().equals(gathering.getId())))
+        .forEach(
+            gathering -> {
+              gathering.getUsers().remove(user);
+              user.getGatherings().remove(gathering);
+              gatheringRepository.save(gathering);
+            });
+
+    upsertGatheringDtos.stream()
+        .filter(upsertGatheringDto -> upsertGatheringDto.isCanAttend())
+        .forEach(
+            upsertGatheringDto -> {
+              final Gathering gathering =
+                  gatheringRepository
+                      .findById(upsertGatheringDto.getId())
+                      .orElseThrow(() -> new NotFoundException("gathering not found"));
+              gathering.getUsers().add(user);
+              user.getGatherings().add(gathering);
+              gatheringRepository.save(gathering);
+            });
+  }
+
   private GatheringDto mapToDto(final Gathering gathering, final GatheringDto gatheringDto) {
     gatheringDto.setId(gathering.getId());
     gatheringDto.setDate(gathering.getDate());
