@@ -103,8 +103,10 @@ export class GameCardComponent {
   public readonly animation$ = this.animationSubject.asObservable();
 
   public getOwners(): string[] | null {
-    if ('owners' in this.game) {
-      return this.game.owners;
+    const ownersProp: keyof GamePlan = 'owners';
+
+    if (ownersProp in this.game) {
+      return this.game[ownersProp];
     }
 
     return null;
