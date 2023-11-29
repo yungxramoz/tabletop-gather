@@ -8,7 +8,7 @@ import {
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
-import { NbInputModule } from '@nebular/theme';
+import {NbFormFieldModule, NbIconModule, NbInputModule} from '@nebular/theme';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
@@ -21,22 +21,27 @@ import { ValidationErrorsComponent } from './validation-errors.component';
     NgFor,
     ValidationErrorsComponent,
     LabelComponent,
+    NbFormFieldModule,
+    NbIconModule,
   ],
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
 
-    <input
-      nbInput
-      fullWidth
-      shape="semi-round"
-      [type]="type"
-      [id]="id"
-      [value]="value"
-      (input)="valueChange($event)"
-      (blur)="onBlur()"
-      [placeholder]="placeholder"
-      [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
-    />
+    <nb-form-field>
+      <nb-icon *ngIf="icon" nbPrefix [icon]="icon" pack="eva"></nb-icon>
+      <input
+        nbInput
+        fullWidth
+        shape="semi-round"
+        [type]="type"
+        [id]="id"
+        [value]="value"
+        (input)="valueChange($event)"
+        (blur)="onBlur()"
+        [placeholder]="placeholder"
+        [status]="ngModel.invalid && !ngModel.pristine ? 'danger' : 'basic'"
+      />
+    </nb-form-field>
 
     <tg-validation-errors
       [model]="ngModel.control"
@@ -49,6 +54,9 @@ export class InputComponent implements ControlValueAccessor {
   @Input() public label: string | undefined;
   @Input() public type: 'text' | 'number' | 'password' = 'text';
   @Input() public placeholder: string | undefined;
+  @Input() public icon: string | undefined;
+  @Input() public isSearch = false;
+
 
   private _value!: string | number;
   public set value(value: string | number) {
@@ -74,8 +82,12 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   public valueChange(event: Event) {
-    this.value = (event.target as HTMLInputElement).value;
-    if (this.onChange) this.onChange(this.value);
+    if (!this.isSearch) {
+      this.value = (event.target as HTMLInputElement).value;
+      if (this.onChange) this.onChange(this.value);
+    } else {
+      console.log(event)
+    }
   }
 
   public onBlur() {
