@@ -30,7 +30,7 @@ public class GameResource {
    */
   @GetMapping
   public ResponseEntity<List<GameDto>> getAllGames(final String name) {
-    return ResponseEntity.ok(gameService.findByUserId(name));
+    return ResponseEntity.ok(gameService.findByName(name));
   }
 
   /**

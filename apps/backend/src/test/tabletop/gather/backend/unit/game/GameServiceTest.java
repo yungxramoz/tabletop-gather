@@ -33,7 +33,7 @@ public class GameServiceTest {
     when(gameRepository.findByNameContaining(name, Sort.by("name")))
         .thenReturn(Arrays.asList(game));
 
-    List<GameDto> response = gameService.findByUserId(name);
+    List<GameDto> response = gameService.findByName(name);
 
     assertEquals(1, response.size());
   }
