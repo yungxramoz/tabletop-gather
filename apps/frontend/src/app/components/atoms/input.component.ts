@@ -2,9 +2,9 @@ import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, EventEmitter,
   Input,
-  Optional,
+  Optional, Output,
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
@@ -57,6 +57,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() public icon: string | undefined;
   @Input() public isSearch = false;
 
+  @Output() private searchInput = new EventEmitter<string>();
+
 
   private _value!: string | number;
   public set value(value: string | number) {
@@ -82,11 +84,10 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   public valueChange(event: Event) {
-    if (!this.isSearch) {
-      this.value = (event.target as HTMLInputElement).value;
-      if (this.onChange) this.onChange(this.value);
-    } else {
-      console.log(event)
+    this.value = (event.target as HTMLInputElement).value;
+    if (this.onChange) this.onChange(this.value);
+    if (this.isSearch) {
+      this.searchInput.emit(this.value);
     }
   }
 

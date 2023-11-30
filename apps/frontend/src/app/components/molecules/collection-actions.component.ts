@@ -1,14 +1,15 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from "@angular/core";
 import {InputComponent} from "../atoms/input.component";
 import {FormsModule} from "@angular/forms";
 import {NbActionsModule, NbButtonModule, NbIconModule} from '@nebular/theme';
 import {ROUTE_ADD_TO_COLLECTION} from "../../constants";
 import {RouterLink} from "@angular/router";
+import {AutocompleteComponent} from "./autocomplete.component";
 
 @Component({
   standalone: true,
   selector: 'tg-collection-actions',
-  imports: [InputComponent, FormsModule, NbIconModule, NbButtonModule, NbActionsModule, RouterLink],
+  imports: [InputComponent, FormsModule, NbIconModule, NbButtonModule, NbActionsModule, RouterLink, AutocompleteComponent],
   template: `
     <nb-actions class="tg-flex-row">
       <nb-action class="tg-flex-grow-1">
@@ -20,6 +21,7 @@ import {RouterLink} from "@angular/router";
           icon="search"
           placeholder="Search"
           [isSearch]="true"
+          (searchInput)="handleSearchInput($event)"
         ></tg-input>
       </nb-action>
       <nb-action class="tg-flex-grow-0">
@@ -38,5 +40,11 @@ import {RouterLink} from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionActionsComponent {
+  @Output() private searchInput = new EventEmitter<string>();
+
   public readonly routeAddToCollection = `/${ROUTE_ADD_TO_COLLECTION}`
+
+  public handleSearchInput(searchInput: string) {
+    this.searchInput.emit(searchInput);
+  }
 }

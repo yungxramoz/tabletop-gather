@@ -21,7 +21,6 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
     LazyImageComponent,
   ],
   template: `
-    <div class="tg-animation-perspective"></div>
     <nb-card
       *ngIf="animation$ | async as animation"
       class="tg-animation-perspective"
@@ -38,11 +37,13 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             <tg-lazy-image
               class="tg-mr-2"
               [src]="game.imageUrl"
+              [width]="115"
+              [height]="115"
             ></tg-lazy-image>
             <div class="tg-p-1"></div>
             <div
               class="paragraph"
-              [innerHTML]="game.description | truncate : 200"
+              [innerHTML]="game.description | truncate : 180"
             ></div>
           </div>
         </ng-container>
@@ -57,6 +58,20 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
         <div class="tg-flex-row tg-justify-end">
           <div class="tg-mr-auto" *ngIf="getOwners() as owners">
             <p class="caption">Owned by {{ owners.join(', ') }}</p>
+          </div>
+
+          <div class="tg-ml-auto tg-p-1">
+            <div
+              class="tg-flex-row tg-align-center"
+              *ngIf="getMinMaxPlayer() as playerRange"
+            >
+              <nb-icon
+                class="tg-mr-1"
+                status="primary"
+                icon="people-outline"
+              ></nb-icon>
+              <p class="caption">{{ playerRange }}</p>
+            </div>
           </div>
 
           <button
@@ -90,12 +105,29 @@ export class GameCardComponent {
   public readonly animation$ = this.animationSubject.asObservable();
 
   public getOwners(): string[] | null {
-    if ('owners' in this.game) {
-      return this.game.owners;
+    const ownersProp: keyof GamePlan = 'owners';
+
+    if (ownersProp in this.game) {
+      return this.game[ownersProp];
     }
 
     return null;
   }
+
+  public getMinMaxPlayer(): string | null {
+    const minPlayerProp: keyof Game = 'minPlayer';
+    const maxPlayerProp: keyof Game = 'maxPlayer';
+
+    if (minPlayerProp in this.game && maxPlayerProp in this.game) {
+      if (this.game[minPlayerProp] === this.game[maxPlayerProp]) {
+        return `${this.game[minPlayerProp]}`;
+      }
+      return `${this.game[minPlayerProp]} - ${this.game[maxPlayerProp]}`;
+    }
+
+    return null;
+  }
+
   public toggle(): void {
     of('')
       .pipe(
