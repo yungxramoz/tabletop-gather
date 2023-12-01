@@ -1,6 +1,7 @@
 package tabletop.gather.backend.game;
 
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Sort;
@@ -64,7 +65,7 @@ public class GameService {
    * @return all games attending on the plan
    */
   public List<GamePlanDto> findByAttendingOnPlan(final UUID id) {
-    final List<Game> games = gameRepository.findByUsersGatheringsPlanId(id);
+    final List<Game> games = new ArrayList<>(gameRepository.findByUsersGatheringsPlanId(id));
     final List<User> attendees = userRepository.findByGatheringsPlanId(id);
     games.removeIf(
         game -> game.getMinPlayer() > attendees.size() || game.getMaxPlayer() < attendees.size());
@@ -116,7 +117,7 @@ public class GameService {
 
   private GamePlanDto mapToDto(
       final Game game, final List<User> atendees, final GamePlanDto gamePlanDto) {
-    gamePlanDto.setGameId(game.getId());
+    gamePlanDto.setId(game.getId());
     gamePlanDto.setName(game.getName());
     gamePlanDto.setDescription(game.getDescription());
     gamePlanDto.setMinPlayer(game.getMinPlayer());

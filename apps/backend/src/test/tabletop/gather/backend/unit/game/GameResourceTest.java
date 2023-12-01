@@ -85,6 +85,20 @@ public class GameResourceTest {
   }
 
   @Test
+  public void testGetGamesByPlanId() {
+    UUID planId = UUID.randomUUID();
+    GamePlanDto gamePlanDto = new GamePlanDto();
+    gamePlanDto.setId(UUID.randomUUID());
+    when(gameService.findByAttendingOnPlan(planId)).thenReturn(Arrays.asList(gamePlanDto));
+
+    List<GamePlanDto> gamePlanDtos = gameResource.getGamesByPlanId(planId);
+
+    assertEquals(1, gamePlanDtos.size());
+    assertEquals(gamePlanDto.getId(), gamePlanDtos.get(0).getId());
+    verify(gameService, times(1)).findByAttendingOnPlan(planId);
+  }
+
+  @Test
   public void testAddGameToUser() {
     UUID gameId = UUID.randomUUID();
     UUID userId = UUID.randomUUID();

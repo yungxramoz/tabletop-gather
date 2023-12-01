@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class GamePlanDto {
 
-  private UUID gameId;
+  private UUID id;
 
   private String name;
 

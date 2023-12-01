@@ -66,6 +66,38 @@ public class GameServiceTest {
   }
 
   @Test
+  public void testFindByAttendingOnPlan() {
+    User user = new User();
+    user.setId(UUID.randomUUID());
+    List<User> users = new ArrayList<>();
+    users.add(user);
+
+    UUID planId = UUID.randomUUID();
+    Game game1 = new Game();
+    game1.setId(UUID.randomUUID());
+    game1.setMinPlayer(1);
+    game1.setMaxPlayer(5);
+    game1.setUsers(new HashSet<>(users));
+
+    Game game2 = new Game();
+    game2.setId(UUID.randomUUID());
+    game2.setMinPlayer(99);
+    game2.setMaxPlayer(100);
+    game2.setUsers(new HashSet<>(users));
+    when(gameRepository.findByUsersGatheringsPlanId(planId))
+        .thenReturn(Arrays.asList(game1, game2));
+
+    when(userRepository.findByGatheringsPlanId(planId)).thenReturn(users);
+
+    List<GamePlanDto> gamePlanDtos = gameService.findByAttendingOnPlan(planId);
+
+    assertEquals(1, gamePlanDtos.size());
+    assertEquals(game1.getId(), gamePlanDtos.get(0).getId());
+    verify(gameRepository, times(1)).findByUsersGatheringsPlanId(planId);
+    verify(userRepository, times(1)).findByGatheringsPlanId(planId);
+  }
+
+  @Test
   public void testAddUser() {
     UUID gameId = UUID.randomUUID();
     Game game = new Game();
