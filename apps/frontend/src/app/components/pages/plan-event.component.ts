@@ -101,7 +101,6 @@ export class PlanEventComponent implements AfterViewInit {
   private generalFormComponent!: PlanEventGeneralFormComponent;
 
   public planEventValue$!: Observable<PlanEventFormValue | null>;
-
   public readonly games$: Observable<Game[]> = this.gameService.getAllMyGames();
 
   public constructor(

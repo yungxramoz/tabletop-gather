@@ -20,6 +20,7 @@ import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
+import { updateNumberBadge } from '../../utils/nebular.utility';
 import { VoidComponent } from '../atoms/void.component';
 import {
   DeleteDialogComponent,
@@ -195,7 +196,7 @@ export class EventsComponent implements AfterViewInit {
         this.myPlansSubject.next(plans);
 
         // Update badge
-        this.updateBadge(this.tabs.first, plans.length);
+        updateNumberBadge(this.tabs.first, plans.length);
 
         subscriptionPrivate.unsubscribe();
       });
@@ -207,7 +208,7 @@ export class EventsComponent implements AfterViewInit {
         this.publicPlansSubject.next(plans);
 
         // Update badge
-        this.updateBadge(this.tabs.get(1)!, plans.length);
+        updateNumberBadge(this.tabs.get(1)!, plans.length);
 
         subscriptionPublic.unsubscribe();
       });
@@ -219,20 +220,9 @@ export class EventsComponent implements AfterViewInit {
         this.attendingPlansSubject.next(plans);
 
         // Update badge
-        this.updateBadge(this.tabs.last, plans.length);
+        updateNumberBadge(this.tabs.last, plans.length);
 
         subscriptionAttending.unsubscribe();
       });
-  }
-
-  private updateBadge(tab: NbTabComponent, count: number) {
-    if (count === 0) {
-      tab.badgeText = '';
-      tab.badgeStatus = 'basic';
-      return;
-    }
-
-    tab.badgeText = `${count > 100 ? '99+' : count}`;
-    tab.badgeStatus = 'primary';
   }
 }

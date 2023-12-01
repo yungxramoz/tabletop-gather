@@ -71,8 +71,11 @@ export class EventOverviewComponent {
   public mapGatheringsFromFormValue(
     plan: PlanEventFormValue | OverviewPlan | DetailPlan
   ): Date[] {
+    const gatheringProp: keyof DetailPlan = 'gatherings';
+
     const gatherings =
-      'gatherings' in plan ? plan.gatherings : plan.gatheringDates;
+      gatheringProp in plan ? plan[gatheringProp] : plan.gatheringDates;
+
     return gatherings.map((gathering) =>
       gathering instanceof Date ? gathering : gathering.date
     );
