@@ -35,7 +35,7 @@ public class GameResourceTest {
   public void testGetAllGames() {
     String name = "game";
     GameDto gameDto = new GameDto();
-    when(gameService.findByUserId(name)).thenReturn(Arrays.asList(gameDto));
+    when(gameService.findByName(name)).thenReturn(Arrays.asList(gameDto));
 
     ResponseEntity<List<GameDto>> response = gameResource.getAllGames(name);
 

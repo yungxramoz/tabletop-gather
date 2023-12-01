@@ -27,7 +27,7 @@ public class GameService {
    * @param name part of the game name
    * @return all games containing the name
    */
-  public List<GameDto> findByUserId(final String name) {
+  public List<GameDto> findByName(final String name) {
     final List<Game> games = gameRepository.findByNameContaining(name, Sort.by("name"));
     return games.stream().map(game -> mapToDto(game, new GameDto())).toList();
   }
