@@ -14,4 +14,6 @@ public interface GatheringRepository extends JpaRepository<Gathering, UUID> {
   List<Gathering> findAllByUsers(User user);
 
   List<Gathering> findAllByPlanId(UUID planId, Sort sort);
+
+  List<Gathering> findAllByUsers_Id(UUID userId);
 }

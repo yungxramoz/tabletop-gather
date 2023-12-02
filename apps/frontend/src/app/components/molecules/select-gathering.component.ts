@@ -28,6 +28,7 @@ export class SelectGatheringComponent {
   @Input({ required: true }) public gatherings!: DetailPlan['gatherings'];
 
   public updateGatheringEnrollment(index: number) {
+    // TODO: Continue here when the endpoint is ready
     console.log(index);
   }
 }

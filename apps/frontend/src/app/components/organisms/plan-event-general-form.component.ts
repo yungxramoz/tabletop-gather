@@ -109,7 +109,8 @@ export type PlanEventGeneralFormValue = {
 export class PlanEventGeneralFormComponent implements AfterViewInit {
   @ViewChild('eventGeneralForm') public readonly ngForm!: NgForm;
 
-  @Input({ required: true }) public games!: Game[];
+  @Input({ required: true }) public games!: Game[] | null;
+
   @Output() public eventGeneralFormChange: EventEmitter<
     ModelFormGroup<PlanEventGeneralFormValue>
   > = new EventEmitter<ModelFormGroup<PlanEventGeneralFormValue>>();
@@ -119,8 +120,7 @@ export class PlanEventGeneralFormComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     this.ngForm.form.valueChanges.subscribe(() => {
-      if (this.ngForm.form.valid)
-        this.eventGeneralFormChange.emit(this.ngForm.form);
+      this.eventGeneralFormChange.emit(this.ngForm.form);
     });
   }
 }

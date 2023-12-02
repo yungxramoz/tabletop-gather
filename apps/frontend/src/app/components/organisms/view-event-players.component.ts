@@ -1,21 +1,22 @@
-import { JsonPipe } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NbCardModule } from '@nebular/theme';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
+import { UserPlan } from '../../models/user/user-plan.dto';
+import { UserCardComponent } from '../molecules/user-card.component';
 
 @Component({
   standalone: true,
   selector: 'tg-view-event-players',
-  imports: [JsonPipe, NbCardModule],
+  imports: [NgFor, NgIf, UserCardComponent],
   template: `
-    <nb-card>
-      <nb-card-body>
-        {{ detailPlan | json }}
-      </nb-card-body>
-    </nb-card>
+    <ng-container *ngFor="let user of attendees">
+      <tg-user-card [user]="user"></tg-user-card>
+    </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewEventPlayersComponent {
   @Input({ required: true }) public detailPlan!: DetailPlanDto | null;
+
+  @Input({ required: true }) public attendees!: UserPlan[] | null;
 }

@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 import { NbButtonModule, NbStepperModule } from '@nebular/theme';
 import { Observable, combineLatest, map } from 'rxjs';
 import { ROUTE_VIEW_EVENT } from '../../constants';
-import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { Game } from '../../models/game/game.dto';
 import { CreatePlan } from '../../models/plan/create-plan.dto';
+import { GameService } from '../../services/game.service';
 import { PlanService } from '../../services/plan.service';
 import { get24HourTime } from '../../utils/date.utility';
 import { PlanEventSummaryComponent } from '../molecules/plan-event-summary.component';
@@ -47,7 +47,7 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
         <nb-step label="Event">
           <ng-template nbStepLabel>Event</ng-template>
           <tg-plan-event-general-form
-            [games]="mockGames"
+            [games]="games$ | async"
           ></tg-plan-event-general-form>
         </nb-step>
 
@@ -97,17 +97,15 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
 export class PlanEventComponent implements AfterViewInit {
   @ViewChild(PlanEventDatesFormComponent)
   private datesFormComponent!: PlanEventDatesFormComponent;
-
   @ViewChild(PlanEventGeneralFormComponent)
   private generalFormComponent!: PlanEventGeneralFormComponent;
 
   public planEventValue$!: Observable<PlanEventFormValue | null>;
-
-  // TODO: Load games from backend
-  public readonly mockGames: Game[] = MOCK_GAME_DTOS_LARGE;
+  public readonly games$: Observable<Game[]> = this.gameService.getAllMyGames();
 
   public constructor(
     private readonly planService: PlanService,
+    private readonly gameService: GameService,
     private readonly router: Router
   ) {}
 

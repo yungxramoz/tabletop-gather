@@ -143,7 +143,6 @@ export class GameCardComponent {
 
     return null;
   }
-
   public toggle(): void {
     of('')
       .pipe(
