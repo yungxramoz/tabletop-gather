@@ -7,6 +7,8 @@ import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
 import {Observable, of} from "rxjs";
 import {AsyncPipe, NgForOf} from '@angular/common';
+import {Game, GameDto} from "../../models/game/game.dto";
+import {GameService} from "../../services/game.service";
 
 @Component({
   standalone: true,
@@ -31,7 +33,7 @@ import {AsyncPipe, NgForOf} from '@angular/common';
         (searchInput)="handleSearchInput($event)"
       ></tg-input>
       <ng-container *ngFor="let game of filteredOptions$ | async">
-        <tg-game-card [game]="game"></tg-game-card>
+        <tg-game-card [game]="game" [hasAddToCollectionButton]="true" (addToCollection)="handleAddToCollection($event)"></tg-game-card>
       </ng-container>
     </ng-container>
   `,
@@ -41,7 +43,7 @@ export class AddToCollectionComponent {
   public searchInput = '';
   public filteredOptions$!: Observable<GamePlan[]>;
 
-  private constructor() {
+  public constructor(private readonly gameService: GameService) {
     this.filteredOptions$ = this.games$;
   }
 
@@ -53,6 +55,11 @@ export class AddToCollectionComponent {
         )
       )
     )
+  }
+
+  public handleAddToCollection(game: GameDto) {
+    console.log(game.id);
+    this.gameService.addGameToCollection(game.id).subscribe()
   }
 
   // TODO: Get from API

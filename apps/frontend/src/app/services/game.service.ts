@@ -62,4 +62,22 @@ export class GameService {
         )
       );
   }
+
+  public addGameToCollection(gameId: string): Observable<GameDto> {
+    // TODO: implement correct call
+    return this.http
+      .post<object>(`${this.gamesUrl}/${gameId}/add`, { gameId }, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          successMessageOverride: 'You have successfully added the game to your collection',
+          successTitleOverride: 'That worked! 👌',
+        }),
+        filter((response) => response !== null),
+        map((response) => GameDto.fromJson(response?.body))
+      )
+  }
+
 }
