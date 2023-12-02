@@ -106,7 +106,7 @@ export class GameCardComponent {
   @Input({ required: true }) public game!: GamePlan | Game;
   @Input() public hasAddToCollectionButton = false;
 
-  @Output() addToCollection = new EventEmitter<GameDto>();
+  @Output() public addToCollection = new EventEmitter<GameDto>();
 
   private flipped = false;
 

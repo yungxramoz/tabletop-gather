@@ -15,10 +15,6 @@ import {GamePlan} from "../../models/game/game-plan.dto";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ViewCollectionOwnComponent<T> {
+export class ViewCollectionOwnComponent {
   @Input({ required: true }) public games!: Observable<GamePlan[]>;
-
-  public onSearchInputChange(event: Event) {
-    const searchInputValue = (event.target as HTMLInputElement).value;
-  }
 }

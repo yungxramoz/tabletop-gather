@@ -7,7 +7,7 @@ import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
 import {Observable, of} from "rxjs";
 import {AsyncPipe, NgForOf} from '@angular/common';
-import {Game, GameDto} from "../../models/game/game.dto";
+import {GameDto} from "../../models/game/game.dto";
 import {GameService} from "../../services/game.service";
 
 @Component({
