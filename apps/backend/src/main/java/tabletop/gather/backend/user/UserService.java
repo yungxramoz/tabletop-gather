@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tabletop.gather.backend.gathering.DateTimeGatheringDto;
 import tabletop.gather.backend.util.NotFoundException;
 
 @Service
@@ -30,19 +31,6 @@ public class UserService {
   }
 
   /**
-   * Returns the user with the given email.
-   *
-   * @param email the email of the user to return
-   * @return the user dto with the given email
-   */
-  public UserDto getByEmail(final String email) {
-    return userRepository
-        .findByEmail(email)
-        .map(user -> mapToDto(user, new UserDto()))
-        .orElseThrow(NotFoundException::new);
-  }
-
-  /**
    * Returns the user with the given id.
    *
    * @param id the id of the user to return
@@ -52,7 +40,31 @@ public class UserService {
     return userRepository
         .findById(id)
         .map(user -> mapToDto(user, new UserDto()))
-        .orElseThrow(NotFoundException::new);
+        .orElseThrow(() -> new NotFoundException("user not found"));
+  }
+
+  /**
+   * Returns the user with the given email.
+   *
+   * @param email the email of the user to return
+   * @return the user dto with the given email
+   */
+  public UserDto getByEmail(final String email) {
+    return userRepository
+        .findByEmail(email)
+        .map(user -> mapToDto(user, new UserDto()))
+        .orElseThrow(() -> new NotFoundException("user not found"));
+  }
+
+  /**
+   * Gets all users attending the plan with the given id.
+   *
+   * @param id the id of the plan
+   * @return the list of users attending the plan
+   */
+  public List<UserPlanDto> findByPlanId(final UUID id) {
+    final List<User> users = userRepository.findByGatheringsPlanId(id);
+    return users.stream().map(user -> mapToDto(user, new UserPlanDto())).toList();
   }
 
   /**
@@ -64,7 +76,8 @@ public class UserService {
    * @return the updated user entity
    */
   public User update(final UUID id, final UserUpdateDto userDto, final String currentEmail) {
-    final User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+    final User user =
+        userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     mapToEntity(userDto, user);
     userRepository.save(user);
     return user;
@@ -73,7 +86,7 @@ public class UserService {
   /**
    * Deletes the user with the given id.
    *
-   * @param id
+   * @param id the id of the user to delete
    */
   public void delete(final UUID id) {
     userRepository.deleteById(id);
@@ -82,12 +95,13 @@ public class UserService {
   /**
    * Updates the password of the user with the given id.
    *
-   * @param id
-   * @param passwordUpdateDto
+   * @param id the id of the user to update
+   * @param passwordUpdateDto the password update Dto containing the updated password
    * @return the updated user entity
    */
   public User updatePassword(final UUID id, final PasswordUpdateDto passwordUpdateDto) {
-    final User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+    final User user =
+        userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     user.setPasswordHash(passwordEncoder.encode(passwordUpdateDto.getNewPassword()));
     userRepository.save(user);
     return user;
@@ -107,6 +121,22 @@ public class UserService {
     userDto.setLastName(user.getLastName());
     userDto.setEmail(user.getEmail());
     return userDto;
+  }
+
+  private UserPlanDto mapToDto(final User user, final UserPlanDto userPlanDto) {
+    userPlanDto.setFullName(String.format("%s %s", user.getFirstName(), user.getLastName()));
+    final List<DateTimeGatheringDto> gatheringsDto =
+        user.getGatherings().stream()
+            .map(
+                gathering -> {
+                  DateTimeGatheringDto dto = new DateTimeGatheringDto();
+                  dto.setTime(gathering.getStartTime());
+                  dto.setDate(gathering.getDate());
+                  return dto;
+                })
+            .toList();
+    userPlanDto.setAttendingGatherings(gatheringsDto);
+    return userPlanDto;
   }
 
   private User mapToEntity(final UserDto userDto, final User user) {
