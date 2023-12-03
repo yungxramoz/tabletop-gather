@@ -1,16 +1,16 @@
 import { Model } from '../../utils/types';
 import { Dto } from '../base.dto';
-import { GatheringDto } from './gathering.dto';
+import { DetailGatheringDto } from './detail-gathering.dto';
 
 /**
  * Dto for creating gatherings.
  *
- * @property {GatheringDto['date']} date - The date of the gathering
- * @property {GatheringDto['startTime']} startTime - e.g. "18:30" The start time of the gathering
+ * @property {DetailGatheringDto['date']} date - The date of the gathering
+ * @property {DetailGatheringDto['startTime']} startTime - e.g. "18:30" The start time of the gathering
  */
 export class DateTimeGatheringDto extends Dto {
-  public date!: GatheringDto['date'];
-  public startTime!: GatheringDto['startTime'];
+  public date!: DetailGatheringDto['date'];
+  public startTime!: DetailGatheringDto['startTime'];
 }
 
 export type DateTimeGathering = Model<DateTimeGatheringDto>;

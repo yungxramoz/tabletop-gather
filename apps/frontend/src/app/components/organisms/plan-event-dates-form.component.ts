@@ -50,9 +50,7 @@ export class PlanEventDatesFormComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     this.ngForm.form.valueChanges.subscribe(() => {
-      if (this.ngForm.form.valid) {
-        this.eventDateFormChange.emit(this.ngForm.form);
-      }
+      this.eventDateFormChange.emit(this.ngForm.form);
     });
   }
 }

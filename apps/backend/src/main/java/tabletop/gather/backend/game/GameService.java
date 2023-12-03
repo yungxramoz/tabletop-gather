@@ -28,7 +28,7 @@ public class GameService {
    * @param name part of the game name
    * @return all games containing the name
    */
-  public List<GameDto> findByUserId(final String name) {
+  public List<GameDto> findByName(final String name) {
     final List<Game> games = gameRepository.findByNameContainingIgnoreCase(name, Sort.by("name"));
     return games.stream().map(game -> mapToDto(game, new GameDto())).toList();
   }
@@ -75,15 +75,13 @@ public class GameService {
   /**
    * Add a game to collection of a user.
    *
-   * @param id the game to add
+   * @param id     the game to add
    * @param userId the user to add the game to
    * @return the id of the game
    */
   public void addUser(final UUID id, final UUID userId) {
-    final Game game =
-        gameRepository.findById(id).orElseThrow(() -> new NotFoundException("Game not found"));
-    final User user =
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+    final Game game = gameRepository.findById(id).orElseThrow(() -> new NotFoundException("Game not found"));
+    final User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
     user.getGames().add(game);
     game.getUsers().add(user);
     gameRepository.save(game);
@@ -92,14 +90,12 @@ public class GameService {
   /**
    * Remove a game from collection of a user.
    *
-   * @param id the game to remove
+   * @param id     the game to remove
    * @param userId the user to remove the game from
    */
   public void removeUser(final UUID id, final UUID userId) {
-    final Game game =
-        gameRepository.findById(id).orElseThrow(() -> new NotFoundException("Game not found"));
-    final User user =
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+    final Game game = gameRepository.findById(id).orElseThrow(() -> new NotFoundException("Game not found"));
+    final User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
     user.getGames().remove(game);
     game.getUsers().remove(user);
     gameRepository.save(game);
