@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, HostListener, ChangeDetectorRef} fro
 import {FormsModule} from "@angular/forms";
 import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
-import {concatMap, finalize, Observable, of} from "rxjs";
+import {concatMap, debounceTime, finalize, Observable, of, Subject} from "rxjs";
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Game, GameDto} from "../../models/game/game.dto";
 import {GameService} from "../../services/game.service";
@@ -46,11 +46,21 @@ export class AddToCollectionComponent {
 
   private games: GameDto[] = [];
   private currentPage = 0;
+  private searchInput$ = new Subject<string>();
 
   public constructor(
     private readonly gameService: GameService,
     private readonly cdr: ChangeDetectorRef
   ) {
+    this.searchInput$
+      .pipe(debounceTime(300)) // Adjust the debounce time as needed
+      .subscribe((searchInput: string) => {
+        this.searchInput = searchInput;
+        this.games = [];
+        this.currentPage = 0;
+        this.loadGames();
+      });
+
     this.loadGames();
   }
 
@@ -77,10 +87,7 @@ export class AddToCollectionComponent {
   }
 
   public handleSearchInput(searchInput: string) {
-    this.searchInput = searchInput;
-    this.games = [];
-    this.currentPage = 0;
-    this.loadGames();
+    this.searchInput$.next(searchInput);
   }
 
   public handleAddToCollection(game: GameDto) {
