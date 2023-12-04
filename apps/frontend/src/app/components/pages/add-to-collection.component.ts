@@ -1,12 +1,9 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
-import {GamePlan} from "../../models/game/game-plan.dto";
-import {MOCK_GAME_DTOS_LARGE} from "../../mocks/game.mock";
-import {map} from "rxjs/operators";
+import {ChangeDetectionStrategy, Component, HostListener, ChangeDetectorRef} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
-import {Observable, of} from "rxjs";
-import {AsyncPipe, NgForOf} from '@angular/common';
+import {concatMap, finalize, Observable, of} from "rxjs";
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Game, GameDto} from "../../models/game/game.dto";
 import {GameService} from "../../services/game.service";
 
@@ -18,7 +15,8 @@ import {GameService} from "../../services/game.service";
     InputComponent,
     GameCardComponent,
     AsyncPipe,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   template: `
     <ng-container>
@@ -32,9 +30,10 @@ import {GameService} from "../../services/game.service";
         [isSearch]="true"
         (searchInput)="handleSearchInput($event)"
       ></tg-input>
-      <ng-container *ngFor="let game of filteredOptions$ | async">
+      <ng-container *ngFor="let game of (filteredOptions$ | async) || []">
         <tg-game-card [game]="game" [hasAddToCollectionButton]="true" (addToCollection)="handleAddToCollection($event)"></tg-game-card>
       </ng-container>
+      <div *ngIf="isLoading">Loading...</div>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,18 +41,62 @@ import {GameService} from "../../services/game.service";
 export class AddToCollectionComponent {
   public searchInput = '';
   public filteredOptions$!: Observable<Game[]>;
-  public readonly games$: Observable<Game[]> = this.gameService.getAllGames('');
 
-  public constructor(private readonly gameService: GameService) {
-    this.filteredOptions$ = this.games$;
+  protected isLoading = false;
+
+  private games: GameDto[] = [];
+  private currentPage = 0;
+
+  public constructor(
+    private readonly gameService: GameService,
+    private readonly cdr: ChangeDetectorRef
+  ) {
+    this.loadGames();
+  }
+
+  private loadGames(): void {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
+    this.gameService.getAllGames(this.searchInput, this.currentPage + 1)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }),
+        concatMap((newGames) => {
+          this.games.push(...newGames);
+          this.currentPage++;
+          return of(this.games);
+        })
+      )
+      .subscribe((games) => {
+        this.filteredOptions$ = of(this.games);
+      });
   }
 
   public handleSearchInput(searchInput: string) {
-    this.filteredOptions$ = this.gameService.getAllGames(searchInput);
+    this.searchInput = searchInput;
+    this.games = [];
+    this.currentPage = 0;
+    this.loadGames();
   }
 
   public handleAddToCollection(game: GameDto) {
     console.log(game.id);
     this.gameService.addGameToCollection(game.id).subscribe()
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  private onScroll(event: any): void {
+    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body, html = document.documentElement;
+    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    const windowBottom = windowHeight + window.pageYOffset;
+
+    if (windowBottom >= docHeight - 1) {
+      this.loadGames();
+    }
   }
 }
