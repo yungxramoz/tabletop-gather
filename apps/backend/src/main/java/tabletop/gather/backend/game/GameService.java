@@ -4,6 +4,10 @@ import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.user.User;
@@ -25,12 +29,18 @@ public class GameService {
   /**
    * Find all games containing the name.
    *
-   * @param name part of the game name
-   * @return all games containing the name
+   * @param name
+   * @param pageable
+   * @return all games with given params
    */
-  public List<GameDto> findByName(final String name) {
-    final List<Game> games = gameRepository.findByNameContainingIgnoreCase(name, Sort.by("name"));
-    return games.stream().map(game -> mapToDto(game, new GameDto())).toList();
+  public Page<GameDto> findByName(String name, Pageable pageable) {
+    Page<Game> gamesPage = gameRepository.findByNameContainingIgnoreCase(name, pageable);
+    List<GameDto> gameDtos = gamesPage.getContent()
+      .stream()
+      .map(game -> mapToDto(game, new GameDto()))
+      .toList();
+
+    return new PageImpl<>(gameDtos, pageable, gamesPage.getTotalElements());
   }
 
   /**

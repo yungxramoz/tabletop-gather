@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import tabletop.gather.backend.game.*;
@@ -34,13 +35,17 @@ public class GameResourceTest {
   @Test
   public void testGetAllGames() {
     String name = "game";
-    GameDto gameDto = new GameDto();
-    when(gameService.findByName(name)).thenReturn(Arrays.asList(gameDto));
+    Pageable pageable = PageRequest.of(0, 20, Sort.by("name"));
 
-    ResponseEntity<List<GameDto>> response = gameResource.getAllGames(name);
+    List<GameDto> gameDtos = Arrays.asList(new GameDto());
+    Page<GameDto> gameDtoPage = new PageImpl<>(gameDtos, pageable, gameDtos.size());
+
+    when(gameService.findByName(name, pageable)).thenReturn(gameDtoPage);
+
+    ResponseEntity<Page<GameDto>> response = gameResource.getAllGames(name, 0, 20);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(Arrays.asList(gameDto), response.getBody());
+    assertEquals(gameDtos, response.getBody().getContent());
   }
 
   @Test

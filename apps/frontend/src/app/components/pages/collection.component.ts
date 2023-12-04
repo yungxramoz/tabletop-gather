@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {CollectionActionsComponent} from "../molecules/collection-actions.component";
 import {ViewCollectionOwnComponent} from "../organisms/view-collection-own.component";
 import {map, Observable, of} from "rxjs";
-import {GamePlan} from "../../models/game/game-plan.dto";
-import {MOCK_GAME_OWN_COLLECTION} from "../../mocks/game.mock";
+import {GameService} from "../../services/game.service";
+import {Game} from "../../models/game/game.dto";
 
 @Component({
   standalone: true,
@@ -19,9 +19,10 @@ import {MOCK_GAME_OWN_COLLECTION} from "../../mocks/game.mock";
 })
 export class CollectionComponent {
   public searchInput = '';
-  public filteredOptions$!: Observable<GamePlan[]>;
+  public filteredOptions$!: Observable<Game[]>;
+  public readonly games$: Observable<Game[]> = this.gameService.getAllMyGames();
 
-  private constructor() {
+  public constructor(private readonly gameService: GameService) {
     this.filteredOptions$ = this.games$;
   }
 
@@ -36,10 +37,10 @@ export class CollectionComponent {
   }
 
   // TODO: Get from API
-  public games$: Observable<GamePlan[]> = of(
+  /*public games$: Observable<GamePlan[]> = of(
     MOCK_GAME_OWN_COLLECTION.map((game) => ({
       ...game,
       owners: ['John Doe', 'Jane Doe'],
     }))
-  );
+  );*/
 }

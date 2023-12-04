@@ -7,7 +7,7 @@ import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
 import {Observable, of} from "rxjs";
 import {AsyncPipe, NgForOf} from '@angular/common';
-import {GameDto} from "../../models/game/game.dto";
+import {Game, GameDto} from "../../models/game/game.dto";
 import {GameService} from "../../services/game.service";
 
 @Component({
@@ -41,32 +41,19 @@ import {GameService} from "../../services/game.service";
 })
 export class AddToCollectionComponent {
   public searchInput = '';
-  public filteredOptions$!: Observable<GamePlan[]>;
+  public filteredOptions$!: Observable<Game[]>;
+  public readonly games$: Observable<Game[]> = this.gameService.getAllGames('');
 
   public constructor(private readonly gameService: GameService) {
     this.filteredOptions$ = this.games$;
   }
 
   public handleSearchInput(searchInput: string) {
-    this.filteredOptions$ = this.games$.pipe(
-      map((games) =>
-        games.filter((game) =>
-          game.name.toLowerCase().includes(searchInput.toLowerCase())
-        )
-      )
-    )
+    this.filteredOptions$ = this.gameService.getAllGames(searchInput);
   }
 
   public handleAddToCollection(game: GameDto) {
     console.log(game.id);
     this.gameService.addGameToCollection(game.id).subscribe()
   }
-
-  // TODO: Get from API
-  public games$: Observable<GamePlan[]> = of(
-    MOCK_GAME_DTOS_LARGE.map((game) => ({
-      ...game,
-      owners: ['John Doe', 'Jane Doe'],
-    }))
-  );
 }

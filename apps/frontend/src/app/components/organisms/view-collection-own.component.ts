@@ -2,7 +2,7 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GameCardComponent } from '../molecules/game-card.component';
 import {Observable} from "rxjs";
-import {GamePlan} from "../../models/game/game-plan.dto";
+import {Game} from "../../models/game/game.dto";
 
 @Component({
   standalone: true,
@@ -16,5 +16,5 @@ import {GamePlan} from "../../models/game/game-plan.dto";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewCollectionOwnComponent {
-  @Input({ required: true }) public games!: Observable<GamePlan[]>;
+  @Input({ required: true }) public games!: Observable<Game[]>;
 }

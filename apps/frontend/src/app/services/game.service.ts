@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
 import { API_BASE_URL } from '../app.config';
@@ -25,19 +25,23 @@ export class GameService {
    *
    * @returns {Observable<GameDto[]>} - The games
    */
-  public getAllGames(name: string): Observable<GameDto[]> {
+  public getAllGames(name = '', page = 1, pageSize = 20): Observable<GameDto[]> {
+    const params = new HttpParams()
+      .set('name', name)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString())
+
     return this.http
-      .get<object[]>(this.gamesUrl, {
-        params: { name },
+      .get<object>(this.gamesUrl, {
+        params,
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
-        filter((response) => response !== null),
-        map((response) => response?.body as object[]),
+        map((response) => response?.body as { content: object[] }),
         map((gamesJson) =>
-          gamesJson.map((plan: unknown) => GameDto.fromJson(plan))
+          gamesJson.content.map((plan: unknown) => GameDto.fromJson(plan))
         )
       );
   }
