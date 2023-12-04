@@ -81,7 +81,7 @@ export class AddToCollectionComponent {
           return of(this.games);
         })
       )
-      .subscribe((games) => {
+      .subscribe(() => {
         this.filteredOptions$ = of(this.games);
       });
   }
@@ -96,7 +96,7 @@ export class AddToCollectionComponent {
   }
 
   @HostListener('window:scroll', ['$event'])
-  private onScroll(event: any): void {
+  private onScroll(): void {
     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
     const body = document.body, html = document.documentElement;
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);

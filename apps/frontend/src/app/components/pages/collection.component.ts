@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {CollectionActionsComponent} from "../molecules/collection-actions.component";
 import {ViewCollectionOwnComponent} from "../organisms/view-collection-own.component";
-import {map, Observable, of} from "rxjs";
+import {map, Observable} from "rxjs";
 import {GameService} from "../../services/game.service";
 import {Game} from "../../models/game/game.dto";
 
