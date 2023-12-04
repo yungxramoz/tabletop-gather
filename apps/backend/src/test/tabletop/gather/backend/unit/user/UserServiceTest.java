@@ -3,9 +3,7 @@ package tabletop.gather.backend.unit.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tabletop.gather.backend.gathering.Gathering;
+import tabletop.gather.backend.plan.Plan;
 import tabletop.gather.backend.user.*;
 
 public class UserServiceTest {
@@ -61,6 +61,36 @@ public class UserServiceTest {
 
     assertEquals(user.getId(), userDto.getId());
     verify(userRepository, times(1)).findById(any(UUID.class));
+  }
+
+  @Test
+  public void testFindByPlanId() {
+    UUID planId = UUID.randomUUID();
+    UUID gatheringId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
+
+    Plan plan = new Plan();
+    plan.setId(planId);
+
+    Gathering gathering = new Gathering();
+    gathering.setId(gatheringId);
+    gathering.setPlan(plan);
+    plan.setGatherings(new HashSet<>(Arrays.asList(gathering)));
+
+    User user = new User();
+    user.setId(userId);
+    user.setFirstName("Mock");
+    user.setLastName("Mockito");
+    user.setGatherings(new HashSet<>(Arrays.asList(gathering)));
+    gathering.setUsers(new HashSet<>(Arrays.asList(user)));
+
+    when(userRepository.findByGatheringsPlanId(planId)).thenReturn(Arrays.asList(user));
+
+    List<UserPlanDto> userPlanDtos = userService.findByPlanId(planId);
+
+    assertEquals(1, userPlanDtos.size());
+    assertEquals("Mock Mockito", userPlanDtos.get(0).getFullName());
+    verify(userRepository, times(1)).findByGatheringsPlanId(planId);
   }
 
   @Test
