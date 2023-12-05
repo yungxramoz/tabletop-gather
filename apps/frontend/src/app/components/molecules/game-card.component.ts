@@ -57,13 +57,13 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
       <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">
           <button
-            *ngIf="hasAddToCollectionButton; else owners"
+            *ngIf="hasActionButton; else owners"
             nbButton
             status="primary"
             shape="semi-round"
-            (click)="onAddToCollection()"
+            (click)="onActionButtonClicked()"
           >
-            Hinzufügen
+            {{ actionButtonLabel }}
           </button>
 
           <ng-template #owners>
@@ -104,9 +104,10 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 })
 export class GameCardComponent {
   @Input({ required: true }) public game!: GamePlan | Game;
-  @Input() public hasAddToCollectionButton = false;
+  @Input() public hasActionButton = false;
+  @Input() public actionButtonLabel = '';
 
-  @Output() public addToCollection = new EventEmitter<GameDto>();
+  @Output() public actionButtonClicked = new EventEmitter<GameDto>();
 
   private flipped = false;
 
@@ -171,7 +172,7 @@ export class GameCardComponent {
       .subscribe();
   }
 
-  public onAddToCollection(): void {
-    this.addToCollection.emit(this.game as GameDto);
+  public onActionButtonClicked(): void {
+    this.actionButtonClicked.emit(this.game as GameDto);
   }
 }

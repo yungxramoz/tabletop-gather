@@ -31,7 +31,12 @@ import {GameService} from "../../services/game.service";
         (searchInput)="handleSearchInput($event)"
       ></tg-input>
       <ng-container *ngFor="let game of (filteredOptions$ | async) || []">
-        <tg-game-card [game]="game" [hasAddToCollectionButton]="true" (addToCollection)="handleAddToCollection($event)"></tg-game-card>
+        <tg-game-card
+          [game]="game"
+          [hasActionButton]="true"
+          [actionButtonLabel]="'Hinzufügen'"
+          (actionButtonClicked)="handleAddToCollection($event)"
+        ></tg-game-card>
       </ng-container>
       <div *ngIf="isLoading">Loading...</div>
     </ng-container>
@@ -91,7 +96,6 @@ export class AddToCollectionComponent {
   }
 
   public handleAddToCollection(game: GameDto) {
-    console.log(game.id);
     this.gameService.addGameToCollection(game.id).subscribe()
   }
 

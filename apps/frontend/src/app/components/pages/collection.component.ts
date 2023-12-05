@@ -13,18 +13,30 @@ import {NbLayoutModule} from "@nebular/theme";
   template: `
     <ng-container>
       <tg-collection-actions (searchInput)="handleSearchInput($event)"></tg-collection-actions>
-      <tg-view-collection-own [games]="filteredOptions$"></tg-view-collection-own>
+      <tg-view-collection-own [games]="filteredOptions$" (afterGameRemoved)="handleAfterGameRemoved()"></tg-view-collection-own>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionComponent {
-  public searchInput = '';
   public filteredOptions$!: Observable<Game[]>;
-  public readonly games$: Observable<Game[]> = this.gameService.getAllMyGames();
+  public games$!: Observable<Game[]>;
+
+  protected isLoading = false;
 
   public constructor(private readonly gameService: GameService) {
+    this.loadGames();
+  }
+
+  private loadGames() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
+    this.games$ = this.gameService.getAllMyGames();
     this.filteredOptions$ = this.games$;
+
+    this.isLoading = false;
   }
 
   public handleSearchInput(searchInput: string) {
@@ -37,11 +49,7 @@ export class CollectionComponent {
     )
   }
 
-  // TODO: Get from API
-  /*public games$: Observable<GamePlan[]> = of(
-    MOCK_GAME_OWN_COLLECTION.map((game) => ({
-      ...game,
-      owners: ['John Doe', 'Jane Doe'],
-    }))
-  );*/
+  public handleAfterGameRemoved() {
+    this.loadGames();
+  }
 }

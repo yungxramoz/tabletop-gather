@@ -83,4 +83,20 @@ export class GameService {
       )
   }
 
+  public deleteFromCollection(gameId: string): Observable<GameDto> {
+    return this.http
+      .delete<object>(`${this.gamesUrl}/${gameId}/remove`, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          successMessageOverride: 'You have successfully removed the game from your collection',
+          successTitleOverride: 'That worked! 👌',
+        }),
+        filter((response) => response !== null),
+        map((response) => GameDto.fromJson(response?.body))
+      );
+  }
+
 }
