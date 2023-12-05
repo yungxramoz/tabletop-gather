@@ -11,8 +11,8 @@ import {AutocompleteComponent} from "./autocomplete.component";
   selector: 'tg-collection-actions',
   imports: [InputComponent, FormsModule, NbIconModule, NbButtonModule, NbActionsModule, RouterLink, AutocompleteComponent],
   template: `
-    <nb-actions class="tg-flex-row">
-      <nb-action class="tg-flex-grow-1">
+    <nb-actions class="tg-flex-row tg-mb-4">
+      <nb-action class="tg-flex-grow-1 tg-p-0">
         <tg-input
           class="tg-full-width"
           ngModel

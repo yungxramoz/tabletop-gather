@@ -4,11 +4,12 @@ import {ViewCollectionOwnComponent} from "../organisms/view-collection-own.compo
 import {map, Observable} from "rxjs";
 import {GameService} from "../../services/game.service";
 import {Game} from "../../models/game/game.dto";
+import {NbLayoutModule} from "@nebular/theme";
 
 @Component({
   standalone: true,
   selector: 'tg-collection',
-  imports: [CollectionActionsComponent, ViewCollectionOwnComponent],
+  imports: [CollectionActionsComponent, ViewCollectionOwnComponent, NbLayoutModule],
   template: `
     <ng-container>
       <tg-collection-actions (searchInput)="handleSearchInput($event)"></tg-collection-actions>

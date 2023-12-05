@@ -21,7 +21,7 @@ import {GameService} from "../../services/game.service";
   template: `
     <ng-container>
       <tg-input
-        class="tg-full-width"
+        class="tg-full-width tg-mb-4 tg-block"
         ngModel
         id="search"
         name="search"
