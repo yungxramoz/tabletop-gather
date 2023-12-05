@@ -68,7 +68,6 @@ export class GameService {
   }
 
   public addGameToCollection(gameId: string): Observable<GameDto> {
-    // TODO: implement correct call
     return this.http
       .post<object>(`${this.gamesUrl}/${gameId}/add`, { gameId }, {
         observe: 'response',
