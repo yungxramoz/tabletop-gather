@@ -55,7 +55,7 @@ describe(GameService.name, () => {
       });
 
       const req = httpMock.expectOne(
-        `http://api.example.com/games?name=${name}&page=1&pageSize=20`
+        `http://api.example.com/games?name=${name}&page=0&pageSize=20`
       );
       expect(req.request.method).toBe('GET');
       req.flush(games);
