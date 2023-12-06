@@ -34,7 +34,7 @@ import {GameService} from "../../services/game.service";
         <tg-game-card
           [game]="game"
           [hasActionButton]="true"
-          [actionButtonLabel]="'Hinzufügen'"
+          [actionButtonLabel]="'Add to collection'"
           (actionButtonClicked)="handleAddToCollection($event)"
         ></tg-game-card>
       </ng-container>

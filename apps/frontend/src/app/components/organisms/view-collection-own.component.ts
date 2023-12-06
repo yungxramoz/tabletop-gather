@@ -16,7 +16,7 @@ import {DeleteDialogComponent, DeleteDialogResult} from "./delete-dialog.compone
       <tg-game-card
         [game]="game"
         [hasActionButton]="true"
-        [actionButtonLabel]="'Entfernen'"
+        [actionButtonLabel]="'Remove from collection'"
         (actionButtonClicked)="handleRemoveFromCollection($event)"
       ></tg-game-card>
     </ng-container>
