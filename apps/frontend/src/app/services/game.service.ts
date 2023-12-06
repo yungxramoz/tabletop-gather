@@ -25,7 +25,7 @@ export class GameService {
    *
    * @returns {Observable<GameDto[]>} - The games
    */
-  public getAllGames(name = '', page = 1, pageSize = 20): Observable<GameDto[]> {
+  public getAllGames(name = '', page = 0, pageSize = 20): Observable<GameDto[]> {
     const params = new HttpParams()
       .set('name', name)
       .set('page', page.toString())

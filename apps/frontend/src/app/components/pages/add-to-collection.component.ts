@@ -74,7 +74,7 @@ export class AddToCollectionComponent {
 
     this.isLoading = true;
 
-    this.gameService.getAllGames(this.searchInput, this.currentPage + 1)
+    this.gameService.getAllGames(this.searchInput, this.currentPage)
       .pipe(
         finalize(() => {
           this.isLoading = false;
