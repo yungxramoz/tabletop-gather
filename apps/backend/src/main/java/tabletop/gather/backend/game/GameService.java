@@ -1,6 +1,7 @@
 package tabletop.gather.backend.game;
 
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Sort;
@@ -27,8 +28,8 @@ public class GameService {
    * @param name part of the game name
    * @return all games containing the name
    */
-  public List<GameDto> findByUserId(final String name) {
-    final List<Game> games = gameRepository.findByNameContaining(name, Sort.by("name"));
+  public List<GameDto> findByName(final String name) {
+    final List<Game> games = gameRepository.findByNameContainingIgnoreCase(name, Sort.by("name"));
     return games.stream().map(game -> mapToDto(game, new GameDto())).toList();
   }
 
@@ -55,6 +56,20 @@ public class GameService {
         .findById(id)
         .map(game -> mapToDto(game, new GameDto()))
         .orElseThrow(() -> new NotFoundException("Game not found"));
+  }
+
+  /**
+   * Get all games of attending users on a plan.
+   *
+   * @param id the id of the plan
+   * @return all games attending on the plan
+   */
+  public List<GamePlanDto> findByAttendingOnPlan(final UUID id) {
+    final List<Game> games = new ArrayList<>(gameRepository.findByUsersGatheringsPlanId(id));
+    final List<User> attendees = userRepository.findByGatheringsPlanId(id);
+    games.removeIf(
+        game -> game.getMinPlayer() > attendees.size() || game.getMaxPlayer() < attendees.size());
+    return games.stream().map(game -> mapToDto(game, attendees, new GamePlanDto())).toList();
   }
 
   /**
@@ -98,5 +113,21 @@ public class GameService {
     gameDto.setMaxPlayer(game.getMaxPlayer());
     gameDto.setImageUrl(game.getImageUrl());
     return gameDto;
+  }
+
+  private GamePlanDto mapToDto(
+      final Game game, final List<User> atendees, final GamePlanDto gamePlanDto) {
+    gamePlanDto.setId(game.getId());
+    gamePlanDto.setName(game.getName());
+    gamePlanDto.setDescription(game.getDescription());
+    gamePlanDto.setMinPlayer(game.getMinPlayer());
+    gamePlanDto.setMaxPlayer(game.getMaxPlayer());
+    gamePlanDto.setImageUrl(game.getImageUrl());
+    List<User> owners = game.getUsers().stream().filter(atendees::contains).toList();
+    gamePlanDto.setOwners(
+        owners.stream()
+            .map(user -> String.format("%s %s", user.getFirstName(), user.getLastName()))
+            .toList());
+    return gamePlanDto;
   }
 }

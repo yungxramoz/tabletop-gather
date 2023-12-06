@@ -30,7 +30,7 @@ public class GameResource {
    */
   @GetMapping
   public ResponseEntity<List<GameDto>> getAllGames(final String name) {
-    return ResponseEntity.ok(gameService.findByUserId(name));
+    return ResponseEntity.ok(gameService.findByName(name));
   }
 
   /**
@@ -67,6 +67,17 @@ public class GameResource {
   @GetMapping("/{id}")
   public ResponseEntity<GameDto> getGame(@PathVariable(name = "id") final UUID id) {
     return ResponseEntity.ok(gameService.get(id));
+  }
+
+  /**
+   * Get all games of attending users on a plan
+   *
+   * @param id the id of the plan
+   * @return all games filtered by min max player
+   */
+  @GetMapping("/plan/{id}")
+  public List<GamePlanDto> getGamesByPlanId(@PathVariable final UUID id) {
+    return gameService.findByAttendingOnPlan(id);
   }
 
   /**

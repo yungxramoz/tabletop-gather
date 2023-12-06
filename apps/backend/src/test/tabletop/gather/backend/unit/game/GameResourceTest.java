@@ -35,7 +35,7 @@ public class GameResourceTest {
   public void testGetAllGames() {
     String name = "game";
     GameDto gameDto = new GameDto();
-    when(gameService.findByUserId(name)).thenReturn(Arrays.asList(gameDto));
+    when(gameService.findByName(name)).thenReturn(Arrays.asList(gameDto));
 
     ResponseEntity<List<GameDto>> response = gameResource.getAllGames(name);
 
@@ -82,6 +82,20 @@ public class GameResourceTest {
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(gameDto, response.getBody());
+  }
+
+  @Test
+  public void testGetGamesByPlanId() {
+    UUID planId = UUID.randomUUID();
+    GamePlanDto gamePlanDto = new GamePlanDto();
+    gamePlanDto.setId(UUID.randomUUID());
+    when(gameService.findByAttendingOnPlan(planId)).thenReturn(Arrays.asList(gamePlanDto));
+
+    List<GamePlanDto> gamePlanDtos = gameResource.getGamesByPlanId(planId);
+
+    assertEquals(1, gamePlanDtos.size());
+    assertEquals(gamePlanDto.getId(), gamePlanDtos.get(0).getId());
+    verify(gameService, times(1)).findByAttendingOnPlan(planId);
   }
 
   @Test

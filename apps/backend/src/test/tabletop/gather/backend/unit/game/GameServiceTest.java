@@ -30,10 +30,10 @@ public class GameServiceTest {
   public void testFindByUserId() {
     String name = "game";
     Game game = new Game();
-    when(gameRepository.findByNameContaining(name, Sort.by("name")))
+    when(gameRepository.findByNameContainingIgnoreCase(name, Sort.by("name")))
         .thenReturn(Arrays.asList(game));
 
-    List<GameDto> response = gameService.findByUserId(name);
+    List<GameDto> response = gameService.findByName(name);
 
     assertEquals(1, response.size());
   }
@@ -63,6 +63,38 @@ public class GameServiceTest {
     GameDto response = gameService.get(gameId);
 
     assertEquals(gameId, response.getId());
+  }
+
+  @Test
+  public void testFindByAttendingOnPlan() {
+    User user = new User();
+    user.setId(UUID.randomUUID());
+    List<User> users = new ArrayList<>();
+    users.add(user);
+
+    UUID planId = UUID.randomUUID();
+    Game game1 = new Game();
+    game1.setId(UUID.randomUUID());
+    game1.setMinPlayer(1);
+    game1.setMaxPlayer(5);
+    game1.setUsers(new HashSet<>(users));
+
+    Game game2 = new Game();
+    game2.setId(UUID.randomUUID());
+    game2.setMinPlayer(99);
+    game2.setMaxPlayer(100);
+    game2.setUsers(new HashSet<>(users));
+    when(gameRepository.findByUsersGatheringsPlanId(planId))
+        .thenReturn(Arrays.asList(game1, game2));
+
+    when(userRepository.findByGatheringsPlanId(planId)).thenReturn(users);
+
+    List<GamePlanDto> gamePlanDtos = gameService.findByAttendingOnPlan(planId);
+
+    assertEquals(1, gamePlanDtos.size());
+    assertEquals(game1.getId(), gamePlanDtos.get(0).getId());
+    verify(gameRepository, times(1)).findByUsersGatheringsPlanId(planId);
+    verify(userRepository, times(1)).findByGatheringsPlanId(planId);
   }
 
   @Test

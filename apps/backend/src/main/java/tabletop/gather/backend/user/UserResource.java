@@ -52,6 +52,18 @@ public class UserResource {
   }
 
   /**
+   * Returns all users attending the plan with the given id.
+   *
+   * @param id the id of the plan
+   * @return List of all users attending the plan
+   */
+  @GetMapping("/plan/{id}")
+  public ResponseEntity<List<UserPlanDto>> getUsersByPlanId(
+      @PathVariable(name = "id") final UUID id) {
+    return ResponseEntity.ok(userService.findByPlanId(id));
+  }
+
+  /**
    * Updates the authenticated user.
    *
    * @param token the JWT token
