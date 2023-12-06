@@ -3,7 +3,6 @@ package tabletop.gather.backend.game;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +34,9 @@ public class GameResource {
    */
   @GetMapping
   public ResponseEntity<Page<GameDto>> getAllGames(
-    @RequestParam(name = "name", required = false) String name,
-    @RequestParam(name = "page", defaultValue = "0") int page,
-    @RequestParam(name = "pageSize", defaultValue = "20") int pageSize
-  ) {
+      @RequestParam(name = "name", required = false) String name,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize) {
     Pageable pageable = PageRequest.of(page, pageSize, Sort.by("name"));
     return ResponseEntity.ok(gameService.findByName(name, pageable));
   }

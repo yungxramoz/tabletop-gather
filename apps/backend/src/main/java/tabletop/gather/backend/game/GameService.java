@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +34,8 @@ public class GameService {
    */
   public Page<GameDto> findByName(String name, Pageable pageable) {
     Page<Game> gamesPage = gameRepository.findByNameContainingIgnoreCase(name, pageable);
-    List<GameDto> gameDtos = gamesPage.getContent()
-      .stream()
-      .map(game -> mapToDto(game, new GameDto()))
-      .toList();
+    List<GameDto> gameDtos =
+        gamesPage.getContent().stream().map(game -> mapToDto(game, new GameDto())).toList();
 
     return new PageImpl<>(gameDtos, pageable, gamesPage.getTotalElements());
   }
