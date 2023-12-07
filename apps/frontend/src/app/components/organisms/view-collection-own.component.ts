@@ -14,8 +14,7 @@ import {DeleteDialogComponent, DeleteDialogResult} from "./delete-dialog.compone
     <ng-container *ngFor="let game of games | async">
       <tg-game-card
         [game]="game"
-        [hasActionButton]="true"
-        [actionButtonLabel]="'Remove from collection'"
+        [actionButton]="{icon: 'trash-2-outline', status: 'danger'}"
         (actionButtonClicked)="handleRemoveFromCollection($event)"
       ></tg-game-card>
     </ng-container>

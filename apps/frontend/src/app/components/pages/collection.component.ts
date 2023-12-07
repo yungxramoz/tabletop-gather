@@ -48,6 +48,7 @@ export class CollectionComponent {
     this.games$.subscribe({
       complete: () => {
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     })
   }

@@ -36,8 +36,7 @@ import {NbSpinnerModule} from "@nebular/theme";
       <ng-container *ngFor="let game of (filteredOptions$ | async) || []">
         <tg-game-card
           [game]="game"
-          [hasActionButton]="true"
-          [actionButtonLabel]="'Add to collection'"
+          [actionButton]="{icon: 'plus', status: 'primary'}"
           (actionButtonClicked)="handleAddToCollection($event)"
         ></tg-game-card>
       </ng-container>

@@ -56,16 +56,6 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 
       <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">
-          <button
-            *ngIf="hasActionButton; else owners"
-            nbButton
-            status="primary"
-            shape="semi-round"
-            (click)="onActionButtonClicked()"
-          >
-            {{ actionButtonLabel }}
-          </button>
-
           <ng-template #owners>
             <div class="tg-mr-auto" *ngIf="getOwners() as owners">
               <p class="caption">Owned by {{ owners.join(', ') }}</p>
@@ -96,6 +86,18 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
           >
             <nb-icon icon="flip-2-outline"></nb-icon>
           </button>
+          <button
+            *ngIf="actionButton"
+            nbButton
+            ghost
+            [status]="actionButton.status || 'primary'"
+            shape="semi-round"
+            (click)="onActionButtonClicked()"
+          >
+            <nb-icon [icon]="actionButton!.icon || ''"></nb-icon>
+            <span *ngIf="actionButton.label">{{ actionButton.label}}</span>
+          </button>
+
         </div>
       </nb-card-footer>
     </nb-card>
@@ -104,8 +106,11 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 })
 export class GameCardComponent {
   @Input({ required: true }) public game!: GamePlan | Game;
-  @Input() public hasActionButton = false;
-  @Input() public actionButtonLabel = '';
+  @Input() public actionButton?: {
+    icon?: string,
+    label?: string,
+    status?: string,
+  };
 
   @Output() public actionButtonClicked = new EventEmitter<GameDto>();
 
