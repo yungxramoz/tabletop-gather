@@ -1,38 +1,37 @@
 import {ChangeDetectionStrategy, Component, HostListener, ChangeDetectorRef} from "@angular/core";
 import {FormsModule} from "@angular/forms";
-import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
 import {concatMap, debounceTime, finalize, Observable, of, Subject} from "rxjs";
 import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Game, GameDto} from "../../models/game/game.dto";
 import {GameService} from "../../services/game.service";
 import {NbSpinnerModule} from "@nebular/theme";
+import {SearchInputComponent} from "../atoms/search-input.component";
 
 @Component({
   standalone: true,
   selector: 'tg-add-to-collection',
   imports: [
     FormsModule,
-    InputComponent,
     GameCardComponent,
     AsyncPipe,
     NgForOf,
     NgIf,
     NbSpinnerModule,
-    NgClass
+    NgClass,
+    SearchInputComponent
   ],
   template: `
     <ng-container>
-      <tg-input
+      <tg-search-input
         class="tg-full-width tg-mb-4 tg-block"
         ngModel
         id="search"
         name="search"
         icon="search"
         placeholder="Search"
-        [isSearch]="true"
         (searchInput)="handleSearchInput($event)"
-      ></tg-input>
+      ></tg-search-input>
       <ng-container *ngFor="let game of (filteredOptions$ | async) || []">
         <tg-game-card
           [game]="game"
