@@ -69,6 +69,18 @@ export class AddToCollectionComponent {
     this.loadGames();
   }
 
+  @HostListener('window:scroll', ['$event'])
+  private onScroll(): void {
+    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body, html = document.documentElement;
+    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    const windowBottom = windowHeight + window.pageYOffset;
+
+    if (windowBottom >= docHeight - 1) {
+      this.loadGames();
+    }
+  }
+
   private loadGames(): void {
     if (this.isLoading) return;
 
@@ -97,17 +109,5 @@ export class AddToCollectionComponent {
 
   public handleAddToCollection(game: GameDto) {
     this.gameService.addGameToCollection(game.id).subscribe()
-  }
-
-  @HostListener('window:scroll', ['$event'])
-  private onScroll(): void {
-    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-    const body = document.body, html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-    const windowBottom = windowHeight + window.pageYOffset;
-
-    if (windowBottom >= docHeight - 1) {
-      this.loadGames();
-    }
   }
 }

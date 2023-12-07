@@ -12,7 +12,7 @@ import {AutocompleteComponent} from "./autocomplete.component";
   imports: [InputComponent, FormsModule, NbIconModule, NbButtonModule, NbActionsModule, RouterLink, AutocompleteComponent],
   template: `
     <nb-actions class="tg-flex-row tg-mb-4">
-      <nb-action class="tg-flex-grow-1 tg-p-0">
+      <nb-action class="tg-grow tg-p-0">
         <tg-input
           class="tg-full-width"
           ngModel
@@ -24,7 +24,7 @@ import {AutocompleteComponent} from "./autocomplete.component";
           (searchInput)="handleSearchInput($event)"
         ></tg-input>
       </nb-action>
-      <nb-action class="tg-flex-grow-0">
+      <nb-action class="tg-grow-0">
         <button
           nbButton
           shape="round"
@@ -40,11 +40,11 @@ import {AutocompleteComponent} from "./autocomplete.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionActionsComponent {
-  @Output() private searchInput = new EventEmitter<string>();
+  @Output() private searchTerm = new EventEmitter<string>();
 
   public readonly routeAddToCollection = `/${ROUTE_ADD_TO_COLLECTION}`
 
   public handleSearchInput(searchInput: string) {
-    this.searchInput.emit(searchInput);
+    this.searchTerm.emit(searchInput);
   }
 }

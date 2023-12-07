@@ -1,10 +1,9 @@
 import { AsyncPipe, NgFor } from '@angular/common';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import { GameCardComponent } from '../molecules/game-card.component';
-import {filter, Observable, switchMap} from "rxjs";
+import {filter, Observable} from "rxjs";
 import {Game, GameDto} from "../../models/game/game.dto";
 import {NbDialogService} from "@nebular/theme";
-import {GameService} from "../../services/game.service";
 import {DeleteDialogComponent, DeleteDialogResult} from "./delete-dialog.component";
 
 @Component({
@@ -25,11 +24,10 @@ import {DeleteDialogComponent, DeleteDialogResult} from "./delete-dialog.compone
 })
 export class ViewCollectionOwnComponent {
   @Input({ required: true }) public games!: Observable<Game[]>;
-  @Output() public afterGameRemoved = new EventEmitter<void>();
+  @Output() public deleteFromCollection = new EventEmitter<GameDto>();
 
   public constructor(
     private readonly dialogService: NbDialogService,
-    private readonly gameService: GameService
   ) {}
 
   public handleRemoveFromCollection(game: GameDto) {
@@ -40,12 +38,9 @@ export class ViewCollectionOwnComponent {
       .onClose.pipe(
         filter((result: DeleteDialogResult) => result !== undefined),
         filter((result) => result.delete),
-        switchMap(() => {
-          return this.gameService.deleteFromCollection(game.id);
-        })
       )
       .subscribe(() => {
-        this.afterGameRemoved.emit();
+        this.deleteFromCollection.emit(game);
       });
   }
 }

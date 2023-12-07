@@ -32,16 +32,16 @@ export class GameService {
       .set('pageSize', pageSize.toString())
 
     return this.http
-      .get<object>(this.gamesUrl, {
+      .get<{ content: object[] }>(this.gamesUrl, {
         params,
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
-        map((response) => response?.body as { content: object[] }),
+        map((response) => response?.body),
         map((gamesJson) =>
-          gamesJson.content.map((plan: unknown) => GameDto.fromJson(plan))
+          (gamesJson?.content ?? []).map((plan: unknown) => GameDto.fromJson(plan))
         )
       );
   }
@@ -67,6 +67,10 @@ export class GameService {
       );
   }
 
+  /**
+   * Adds a game to the collection.
+   * @param gameId
+   */
   public addGameToCollection(gameId: string): Observable<GameDto> {
     return this.http
       .post<object>(`${this.gamesUrl}/${gameId}/add`, { gameId }, {
@@ -83,6 +87,10 @@ export class GameService {
       )
   }
 
+  /**
+   * Deletes a game from the collection.
+   * @param gameId
+   */
   public deleteFromCollection(gameId: string): Observable<GameDto> {
     return this.http
       .delete<object>(`${this.gamesUrl}/${gameId}/remove`, {

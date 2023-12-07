@@ -31,7 +31,7 @@ import { AuthService } from './services/auth.service';
           class="tg-m-1 tg-clickable"
           [routerLink]="['/']"
         />
-        <div class="tg-flex-grow-1"></div>
+        <div class="tg-grow"></div>
         <button nbButton ghost size="large" status="primary" (click)="logout()">
           <nb-icon icon="log-out-outline"></nb-icon>
         </button>
