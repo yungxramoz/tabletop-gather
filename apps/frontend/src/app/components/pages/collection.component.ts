@@ -4,16 +4,20 @@ import {ViewCollectionOwnComponent} from "../organisms/view-collection-own.compo
 import {map, Observable} from "rxjs";
 import {GameService} from "../../services/game.service";
 import {Game, GameDto} from "../../models/game/game.dto";
-import {NbLayoutModule} from "@nebular/theme";
+import {NbLayoutModule, NbSpinnerModule} from "@nebular/theme";
+import {AsyncPipe, NgClass, NgIf} from "@angular/common";
 
 @Component({
   standalone: true,
   selector: 'tg-collection',
-  imports: [CollectionActionsComponent, ViewCollectionOwnComponent, NbLayoutModule],
+  imports: [CollectionActionsComponent, ViewCollectionOwnComponent, NbLayoutModule, AsyncPipe, NbSpinnerModule, NgIf, NgClass],
   template: `
     <ng-container>
       <tg-collection-actions (searchTerm)="handleSearchInput($event)"></tg-collection-actions>
       <tg-view-collection-own [games]="filteredOptions$" (deleteFromCollection)="handleRemoveFromCollection($event)"></tg-view-collection-own>
+      <ng-container *ngIf="isLoading">
+        <nb-spinner status="primary" size="large"></nb-spinner>
+      </ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,9 +45,11 @@ export class CollectionComponent {
     this.games$ = this.gameService.getAllMyGames();
     this.filteredOptions$ = this.games$;
 
-    this.cdr.detectChanges();
-
-    this.isLoading = false;
+    this.games$.subscribe({
+      complete: () => {
+        this.isLoading = false;
+      }
+    })
   }
 
   public handleSearchInput(searchTerm: string) {

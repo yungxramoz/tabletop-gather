@@ -3,9 +3,10 @@ import {FormsModule} from "@angular/forms";
 import {InputComponent} from "../atoms/input.component";
 import {GameCardComponent} from "../molecules/game-card.component";
 import {concatMap, debounceTime, finalize, Observable, of, Subject} from "rxjs";
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Game, GameDto} from "../../models/game/game.dto";
 import {GameService} from "../../services/game.service";
+import {NbSpinnerModule} from "@nebular/theme";
 
 @Component({
   standalone: true,
@@ -16,7 +17,9 @@ import {GameService} from "../../services/game.service";
     GameCardComponent,
     AsyncPipe,
     NgForOf,
-    NgIf
+    NgIf,
+    NbSpinnerModule,
+    NgClass
   ],
   template: `
     <ng-container>
@@ -38,7 +41,9 @@ import {GameService} from "../../services/game.service";
           (actionButtonClicked)="handleAddToCollection($event)"
         ></tg-game-card>
       </ng-container>
-      <div *ngIf="isLoading">Loading...</div>
+      <ng-container *ngIf="isLoading">
+        <nb-spinner [ngClass]="{'tg-relative': (filteredOptions$ | async)?.length}" status="primary" size="large"></nb-spinner>
+      </ng-container>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
