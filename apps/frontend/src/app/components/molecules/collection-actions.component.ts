@@ -1,17 +1,36 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {NbActionsModule, NbButtonModule, NbIconModule} from '@nebular/theme';
-import {ROUTE_ADD_TO_COLLECTION} from "../../constants";
-import {RouterLink} from "@angular/router";
-import {AutocompleteComponent} from "./autocomplete.component";
-import {SearchInputComponent} from "../atoms/search-input.component";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+} from '@nebular/theme';
+import { ROUTE_ADD_TO_COLLECTION } from '../../constants';
+import { SearchInputComponent } from '../atoms/search-input.component';
+import { AutocompleteComponent } from './autocomplete.component';
 
 @Component({
   standalone: true,
   selector: 'tg-collection-actions',
-  imports: [FormsModule, NbIconModule, NbButtonModule, NbActionsModule, RouterLink, AutocompleteComponent, SearchInputComponent],
+  imports: [
+    FormsModule,
+    NbCardModule,
+    NbIconModule,
+    NbButtonModule,
+    NbActionsModule,
+    RouterLink,
+    AutocompleteComponent,
+    SearchInputComponent,
+  ],
   template: `
-    <nb-actions class="tg-flex-row tg-mb-4">
+    <nb-actions size="medium" class="tg-flex-row tg-mb-4">
       <nb-action class="tg-grow tg-p-0">
         <tg-search-input
           class="tg-full-width"
@@ -26,12 +45,13 @@ import {SearchInputComponent} from "../atoms/search-input.component";
       <nb-action class="tg-grow-0">
         <button
           nbButton
-          shape="round"
-          size="large"
+          outline
+          shape="semi-round"
+          size="medium"
           status="primary"
           [routerLink]="routeAddToCollection"
         >
-          <nb-icon icon="plus" pack="eva"></nb-icon>
+          <nb-icon icon="plus" status="primary" pack="eva"></nb-icon>
         </button>
       </nb-action>
     </nb-actions>
@@ -41,7 +61,7 @@ import {SearchInputComponent} from "../atoms/search-input.component";
 export class CollectionActionsComponent {
   @Output() private searchTerm = new EventEmitter<string>();
 
-  public readonly routeAddToCollection = `/${ROUTE_ADD_TO_COLLECTION}`
+  public readonly routeAddToCollection = `/${ROUTE_ADD_TO_COLLECTION}`;
 
   public handleSearchInput(searchInput: string) {
     this.searchTerm.emit(searchInput);

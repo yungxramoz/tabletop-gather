@@ -2,13 +2,15 @@ import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, EventEmitter,
+  Component,
+  EventEmitter,
   Input,
-  Optional, Output,
+  Optional,
+  Output,
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NgModel } from '@angular/forms';
-import {NbFormFieldModule, NbIconModule, NbInputModule} from '@nebular/theme';
+import { NbFormFieldModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
@@ -27,8 +29,8 @@ import { ValidationErrorsComponent } from './validation-errors.component';
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
 
-    <nb-form-field>
-      <nb-icon *ngIf="icon" nbPrefix [icon]="icon" pack="eva"></nb-icon>
+    <nb-form-field class="tg-p-0 tg-m-0">
+      <nb-icon ghost *ngIf="icon" nbPrefix [icon]="icon"></nb-icon>
       <input
         nbInput
         fullWidth
@@ -56,7 +58,6 @@ export class SearchInputComponent implements ControlValueAccessor {
   @Input() public icon: string | undefined;
 
   @Output() private searchInput = new EventEmitter<string>();
-
 
   private _value!: string | number;
   public set value(value: string | number) {
