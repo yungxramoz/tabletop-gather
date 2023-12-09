@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule, JsonPipe, Location } from '@angular/common';
+import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { NbButtonModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
@@ -29,8 +29,7 @@ import { AuthService } from './services/auth.service';
           width="50"
           height="50"
           class="tg-m-1 tg-clickable"
-          [routerLink]="isHomePage() ? ['/'] : null"
-          (click)="navigateBackIfApplicable()"
+          [routerLink]="['/']"
         />
         <div class="tg-grow"></div>
         <button nbButton ghost size="large" status="primary" (click)="logout()">
@@ -55,8 +54,7 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private readonly authService: AuthService,
-    public readonly router: Router,
-    private readonly location: Location
+    public readonly router: Router
 
   ) {}
 
@@ -75,15 +73,5 @@ export class AppComponent implements OnInit {
         this.showFooterSubject.next(showFooter);
       }
     });
-  }
-
-  public isHomePage(): boolean {
-    return this.router.url === '/' + ROUTE_EVENTS;
-  }
-
-  public navigateBackIfApplicable(): void {
-    this.isHomePage()
-      ? this.router.navigate(['/' + ROUTE_EVENTS])
-      : this.location.back();
   }
 }

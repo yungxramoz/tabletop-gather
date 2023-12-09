@@ -22,7 +22,7 @@ import {AsyncPipe, NgClass, NgIf} from "@angular/common";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CollectionComponent {
+export class CollectionComponent implements OnInit {
   public filteredOptions$!: Observable<Game[]>;
   public games$!: Observable<Game[]>;
 
