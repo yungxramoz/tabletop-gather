@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { FooterMenuComponent } from './components/molecules/footer-menu.component';
 import { ROUTE_COLLECTION, ROUTE_EVENTS, ROUTE_PROFILE } from './constants';
 import { AuthService } from './services/auth.service';
+import {NavigationService} from "./services/navigation.service";
 
 @Component({
   standalone: true,
@@ -37,6 +38,16 @@ import { AuthService } from './services/auth.service';
         </button>
       </nb-layout-header>
       <nb-layout-column class="tg-max-w-70 tg-mx-auto">
+        <button
+          nbButton
+          ghost
+          size="large"
+          status="primary"
+          *ngIf="navigationService.showBackButton()"
+          (click)="navigationService.back()"
+        >
+          <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
         <router-outlet></router-outlet>
       </nb-layout-column>
       <nb-layout-footer fixed class="tg-sticky" *ngIf="showFooter$ | async">
@@ -54,8 +65,8 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private readonly authService: AuthService,
+    public readonly navigationService: NavigationService,
     public readonly router: Router
-
   ) {}
 
   public logout() {

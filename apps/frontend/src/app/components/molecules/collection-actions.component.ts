@@ -42,7 +42,7 @@ import { AutocompleteComponent } from './autocomplete.component';
           (searchInput)="handleSearchInput($event)"
         ></tg-search-input>
       </nb-action>
-      <nb-action class="tg-grow-0">
+      <nb-action class="tg-grow-0 tg-pr-0">
         <button
           nbButton
           outline
