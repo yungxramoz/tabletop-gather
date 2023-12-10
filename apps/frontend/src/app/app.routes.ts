@@ -9,6 +9,7 @@ import { ProfileComponent } from './components/pages/profile.component';
 import { SampleDesignComponent } from './components/pages/sample-design.component';
 import { ViewEventComponent } from './components/pages/view-event.component';
 import {
+  ROUTE_ADD_TO_COLLECTION,
   ROUTE_COLLECTION,
   ROUTE_DESIGN,
   ROUTE_EVENTS,
@@ -18,6 +19,7 @@ import {
   ROUTE_VIEW_EVENT,
 } from './constants';
 import { isAuthenticatedOrRedirectToLogin } from './guards/auth.guard';
+import {AddToCollectionComponent} from "./components/pages/add-to-collection.component";
 
 export const appRoutes: Route[] = [
   {
@@ -47,6 +49,11 @@ export const appRoutes: Route[] = [
   {
     path: ROUTE_COLLECTION,
     component: CollectionComponent,
+    canActivate: [isAuthenticatedOrRedirectToLogin],
+  },
+  {
+    path: ROUTE_ADD_TO_COLLECTION,
+    component: AddToCollectionComponent,
     canActivate: [isAuthenticatedOrRedirectToLogin],
   },
   {

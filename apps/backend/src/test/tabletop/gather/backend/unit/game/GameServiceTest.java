@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import tabletop.gather.backend.game.*;
 import tabletop.gather.backend.user.*;
 
@@ -29,13 +29,16 @@ public class GameServiceTest {
   @Test
   public void testFindByUserId() {
     String name = "game";
-    Game game = new Game();
-    when(gameRepository.findByNameContainingIgnoreCase(name, Sort.by("name")))
-        .thenReturn(Arrays.asList(game));
+    Pageable pageable = PageRequest.of(0, 20, Sort.by("name"));
 
-    List<GameDto> response = gameService.findByName(name);
+    List<Game> games = Arrays.asList(new Game());
+    Page<Game> gamePage = new PageImpl<>(games, pageable, games.size());
 
-    assertEquals(1, response.size());
+    when(gameRepository.findByNameContainingIgnoreCase(name, pageable)).thenReturn(gamePage);
+
+    Page<GameDto> response = gameService.findByName(name, pageable);
+
+    assertEquals(1, response.getContent().size());
   }
 
   @Test

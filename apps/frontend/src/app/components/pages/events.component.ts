@@ -45,18 +45,17 @@ import { EventCardComponent } from '../organisms/event-card.component';
     VoidComponent,
   ],
   template: `
-    <nb-card>
-      <button
-        nbButton
-        outline
-        status="primary"
-        shape="semi-round"
-        [routerLink]="[routePlanEvent]"
-      >
-        <nb-icon icon="plus-outline"></nb-icon>
-        Create Event
-      </button>
-    </nb-card>
+    <button
+      nbButton
+      outline
+      class="tg-full-width tg-mb-4"
+      status="primary"
+      shape="semi-round"
+      [routerLink]="[routePlanEvent]"
+    >
+      <nb-icon icon="plus-outline"></nb-icon>
+      Create Event
+    </button>
 
     <nb-tabset fullWidth>
       <nb-tab tabTitle="Mine" class="tg-tab-no-px">

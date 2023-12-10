@@ -13,6 +13,7 @@ import { GameService } from './game.service';
 describe(GameService.name, () => {
   let service: GameService;
   let httpMock: HttpTestingController;
+  let apiBaseUrl: string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,6 +24,7 @@ describe(GameService.name, () => {
         ResponseHandler,
       ],
     });
+    apiBaseUrl = TestBed.inject(API_BASE_URL);
     service = TestBed.inject(GameService);
     httpMock = TestBed.inject(HttpTestingController);
   });
@@ -53,7 +55,7 @@ describe(GameService.name, () => {
       });
 
       const req = httpMock.expectOne(
-        `http://api.example.com/games?name=${name}`
+        `http://api.example.com/games?name=${name}&page=0&pageSize=20`
       );
       expect(req.request.method).toBe('GET');
       req.flush(games);
@@ -79,6 +81,34 @@ describe(GameService.name, () => {
       const req = httpMock.expectOne(`http://api.example.com/games/me`);
       expect(req.request.method).toBe('GET');
       req.flush(myGames);
+    });
+  });
+
+  describe('addGameToCollection', () => {
+    it('should add a game to the collection', () => {
+      const gameId = '123abc';
+
+      service.addGameToCollection(gameId).subscribe((response) => {
+        expect(response).toEqual({});
+      });
+
+      const req = httpMock.expectOne(`${apiBaseUrl}/games/${gameId}/add`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({ gameId });
+
+    });
+  });
+
+  describe('deleteFromCollection', () => {
+    it('should delete a game from the collection', () => {
+      const gameId = '123abc';
+
+      service.deleteFromCollection(gameId).subscribe((response) => {
+        expect(response).toEqual({});
+      });
+
+      const req = httpMock.expectOne(`${apiBaseUrl}/games/${gameId}/remove`);
+      expect(req.request.method).toBe('DELETE');
     });
   });
 });

@@ -5,7 +5,9 @@ import { JsonParser } from './base.json-parser';
 @Injectable()
 export class DtoJsonParser implements JsonParser {
   public parse(text: string): unknown {
-    return JSON.parse(text, dtoMappingReviver);
+    return text && text.length
+      ? JSON.parse(text, dtoMappingReviver)
+      : '{}'
   }
 }
 

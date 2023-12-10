@@ -3,6 +3,10 @@ package tabletop.gather.backend.game;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +33,12 @@ public class GameResource {
    * @return all games filtered by containing name
    */
   @GetMapping
-  public ResponseEntity<List<GameDto>> getAllGames(final String name) {
-    return ResponseEntity.ok(gameService.findByName(name));
+  public ResponseEntity<Page<GameDto>> getAllGames(
+      @RequestParam(name = "name", required = false) String name,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize) {
+    Pageable pageable = PageRequest.of(page, pageSize, Sort.by("name"));
+    return ResponseEntity.ok(gameService.findByName(name, pageable));
   }
 
   /**

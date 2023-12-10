@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
 import { API_BASE_URL } from '../app.config';
@@ -25,19 +25,23 @@ export class GameService {
    *
    * @returns {Observable<GameDto[]>} - The games
    */
-  public getAllGames(name: string): Observable<GameDto[]> {
+  public getAllGames(name = '', page = 0, pageSize = 20): Observable<GameDto[]> {
+    const params = new HttpParams()
+      .set('name', name)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString())
+
     return this.http
-      .get<object[]>(this.gamesUrl, {
-        params: { name },
+      .get<{ content: object[] }>(this.gamesUrl, {
+        params,
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
-        filter((response) => response !== null),
-        map((response) => response?.body as object[]),
+        map((response) => response?.body),
         map((gamesJson) =>
-          gamesJson.map((plan: unknown) => GameDto.fromJson(plan))
+          (gamesJson?.content ?? []).map((plan: unknown) => GameDto.fromJson(plan))
         )
       );
   }
@@ -62,4 +66,45 @@ export class GameService {
         )
       );
   }
+
+  /**
+   * Adds a game to the collection.
+   * @param gameId
+   */
+  public addGameToCollection(gameId: string): Observable<GameDto> {
+    return this.http
+      .post<object>(`${this.gamesUrl}/${gameId}/add`, { gameId }, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          successMessageOverride: 'You have successfully added the game to your collection',
+          successTitleOverride: 'That worked! 👌',
+        }),
+        filter((response) => response !== null),
+        map((response) => GameDto.fromJson(response?.body))
+      )
+  }
+
+  /**
+   * Deletes a game from the collection.
+   * @param gameId
+   */
+  public deleteFromCollection(gameId: string): Observable<GameDto> {
+    return this.http
+      .delete<object>(`${this.gamesUrl}/${gameId}/remove`, {
+        observe: 'response',
+        responseType: 'json',
+      })
+      .pipe(
+        this.responseHandler.handleResponse({
+          successMessageOverride: 'You have successfully removed the game from your collection',
+          successTitleOverride: 'That worked! 👌',
+        }),
+        filter((response) => response !== null),
+        map((response) => GameDto.fromJson(response?.body))
+      );
+  }
+
 }
