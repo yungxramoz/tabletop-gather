@@ -1,5 +1,9 @@
 package tabletop.gather.backend.unit.guest;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,10 +20,6 @@ import tabletop.gather.backend.util.NotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 public class GuestServiceTest {
 
@@ -84,7 +84,7 @@ public class GuestServiceTest {
   @Test
   void update() {
     when(guestRepository.findById(id)).thenReturn(Optional.of(guest));
-    when(guestRepository.save(any(Guest.class))).thenReturn(guest); // mock the save method
+    when(guestRepository.save(any(Guest.class))).thenReturn(guest);
 
     guestService.update(id, guestDto);
 
@@ -117,5 +117,4 @@ public class GuestServiceTest {
 
     assertThrows(NotFoundException.class, () -> guestService.delete(id));
   }
-
 }

@@ -85,5 +85,4 @@ public class GuestResourceTest {
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     verify(guestService, times(1)).delete(guestId);
   }
-
 }
