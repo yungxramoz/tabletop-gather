@@ -107,7 +107,8 @@ public class GameServiceTest {
     gathering.setUsers(new HashSet<>(users));
 
     when(planRepository.findById(planId)).thenReturn(Optional.of(new Plan()));
-    when(gatheringRepository.findAllByPlanId(planId, Sort.by("date"))).thenReturn(Arrays.asList(gathering));
+    when(gatheringRepository.findAllByPlanId(planId, Sort.by("date")))
+        .thenReturn(Arrays.asList(gathering));
     when(gameRepository.findByUsersGatheringsPlanId(planId)).thenReturn(Arrays.asList(game1));
 
     List<GamePlanDto> response = gameService.findByAttendingOnPlan(planId);
@@ -118,7 +119,9 @@ public class GameServiceTest {
     assertEquals(1, response.get(0).getGames().size()); // game2 is filtered out
     assertEquals(game1.getId(), response.get(0).getGames().get(0).getId());
     assertEquals(1, response.get(0).getGames().get(0).getOwners().size());
-    assertEquals(user.getFirstName() + " " + user.getLastName(), response.get(0).getGames().get(0).getOwners().get(0));
+    assertEquals(
+        user.getFirstName() + " " + user.getLastName(),
+        response.get(0).getGames().get(0).getOwners().get(0));
 
     verify(planRepository, times(1)).findById(planId);
     verify(gatheringRepository, times(1)).findAllByPlanId(planId, Sort.by("date"));

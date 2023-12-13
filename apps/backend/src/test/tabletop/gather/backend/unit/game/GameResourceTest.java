@@ -89,17 +89,17 @@ public class GameResourceTest {
     assertEquals(gameDto, response.getBody());
   }
 
-    @Test
-    public void testGetGamesByPlanId() {
-      UUID planId = UUID.randomUUID();
-      GamePlanDto gamePlanDto = new GamePlanDto();
-      when(gameService.findByAttendingOnPlan(planId)).thenReturn(Arrays.asList(gamePlanDto));
+  @Test
+  public void testGetGamesByPlanId() {
+    UUID planId = UUID.randomUUID();
+    GamePlanDto gamePlanDto = new GamePlanDto();
+    when(gameService.findByAttendingOnPlan(planId)).thenReturn(Arrays.asList(gamePlanDto));
 
-      List<GamePlanDto> gamePlanDtos = gameResource.getGamesByPlanId(planId);
+    List<GamePlanDto> gamePlanDtos = gameResource.getGamesByPlanId(planId);
 
-      assertEquals(1, gamePlanDtos.size());
-      verify(gameService, times(1)).findByAttendingOnPlan(planId);
-    }
+    assertEquals(1, gamePlanDtos.size());
+    verify(gameService, times(1)).findByAttendingOnPlan(planId);
+  }
 
   @Test
   public void testAddGameToUser() {
