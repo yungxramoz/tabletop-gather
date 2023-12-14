@@ -59,7 +59,7 @@ import { AutocompleteComponent } from './autocomplete.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionActionsComponent {
-  @Output() private searchTerm = new EventEmitter<string>();
+  @Output() public searchTerm = new EventEmitter<string>();
 
   public readonly routeAddToCollection = `/${ROUTE_ADD_TO_COLLECTION}`;
 
