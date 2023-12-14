@@ -1,5 +1,7 @@
 package tabletop.gather.backend.comment;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
 import lombok.Getter;
@@ -9,12 +11,13 @@ import lombok.Setter;
 @Setter
 public class CommentDto {
 
-  private UUID id;
+  @NotNull private UUID id;
 
-  @Size(max = 4000)
+  @NotEmpty(message = "Comment has to be provided")
+  @Size(max = 4000, message = "Comment cannot be longer than 4000 characters")
   private String comment;
 
-  private UUID user;
+  @NotNull private UUID user;
 
-  private UUID plan;
+  @NotNull private UUID plan;
 }

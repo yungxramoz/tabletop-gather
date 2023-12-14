@@ -1,6 +1,7 @@
 package tabletop.gather.backend.auth;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +28,15 @@ public class AuthenticationResource {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<UserDto> register(@RequestBody RegisterUserDto registerUserDto) {
+  public ResponseEntity<UserDto> register(
+      @RequestBody @Valid final RegisterUserDto registerUserDto) {
     UserDto registeredUser = authenticationService.signup(registerUserDto);
 
     return ResponseEntity.ok(registeredUser);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<JwtDto> authenticate(@RequestBody LoginUserDto loginUserDto) {
+  public ResponseEntity<JwtDto> authenticate(@RequestBody @Valid final LoginUserDto loginUserDto) {
     User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
     String jwtToken = jwtService.generateToken(authenticatedUser);

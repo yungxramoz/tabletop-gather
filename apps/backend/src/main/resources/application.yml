@@ -33,3 +33,7 @@ spring:
 springdoc:
   path: /api-docs
   pathsToMatch: /api/**, /auth/**
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
