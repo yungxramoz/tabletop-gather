@@ -11,12 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NbTabComponent, NbTabsetModule } from '@nebular/theme';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
-import { MOCK_USER_DTOS } from '../../mocks/user.mock';
 import { GamePlanDto } from '../../models/game/game-plan.dto';
-import { DateTimeGatheringDto } from '../../models/gathering/date-time-gathering.dto';
 import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { UserPlanDto } from '../../models/user/user-plan.dto';
+import { GatheringService } from '../../services/gathering.service';
 import { PlanService } from '../../services/plan.service';
 import { UsersService } from '../../services/user.service';
 import { updateNumberBadge } from '../../utils/nebular.utility';
@@ -82,12 +81,12 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
   public constructor(
     private readonly route: ActivatedRoute,
     private readonly planService: PlanService,
-    private readonly userService: UsersService
+    private readonly userService: UsersService,
+    private readonly gatheringService: GatheringService
   ) {}
 
   public onGatheringUpserted(upsertGatheringDtos: UpsertGatheringDto[]) {
-    // TODO: Call api when endpoint is ready
-    console.log('onGatheringUpserted', upsertGatheringDtos);
+    this.gatheringService.attendGathering(upsertGatheringDtos).subscribe();
   }
 
   public ngOnInit() {
@@ -111,27 +110,10 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     );
 
     this.attendees$ = this.detailPlan$.pipe(
-      map((plan) => {
-        // TODO: Get from api
-        const users = MOCK_USER_DTOS.map((user, index) => {
-          const fullName = `${user.firstName} ${user.lastName}`;
-          const attendingGatherings = plan?.gatherings
-            .slice(0, Math.ceil(Math.random() * plan.gatherings.length))
-            .map((gathering) => {
-              delete (gathering as any).participantCount;
-              return gathering as DateTimeGatheringDto;
-            });
-
-          return <UserPlanDto>{
-            id: index.toString(),
-            fullName,
-            attendingGatherings,
-          };
-        });
-
-        return users.slice(0, plan.playerLimit);
-      }),
-      tap((users) => updateNumberBadge(this.tabs.get(1)!, users.length))
+      switchMap((plan) => this.userService.getUsersByPlanId(plan.id)),
+      tap((users) =>
+        updateNumberBadge(this.tabs.get(1) ?? undefined, users.length)
+      )
     );
 
     this.availableGames$ = of(
