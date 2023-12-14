@@ -37,31 +37,47 @@ public class PlanServiceTest {
     user1.setId(UUID.randomUUID());
     Gathering gathering1 = new Gathering();
     gathering1.setDate(LocalDate.now().plusDays(1));
+    gathering1.setUsers(new HashSet<>(Arrays.asList()));
     Plan plan1 = new Plan();
     plan1.setId(UUID.randomUUID());
     plan1.setUser(user1);
     plan1.setGatherings(new HashSet<>(Arrays.asList(gathering1)));
     plan1.setGame(new Game());
+    plan1.setPlayerLimit(0);
 
     User user2 = new User();
     user2.setId(UUID.randomUUID());
     Gathering gathering2 = new Gathering();
     gathering2.setDate(LocalDate.now().plusDays(1));
+    gathering2.setUsers(new HashSet<>(Arrays.asList()));
     Plan plan2 = new Plan();
     plan2.setId(UUID.randomUUID());
     plan2.setUser(user2);
     plan2.setGatherings(new HashSet<>(Arrays.asList(gathering2)));
     plan2.setGame(new Game());
+    plan1.setPlayerLimit(0);
 
     Gathering gathering3 = new Gathering();
     gathering3.setDate(LocalDate.now().minusDays(1));
+    gathering3.setUsers(new HashSet<>(Arrays.asList()));
     Plan plan3 = new Plan();
     plan3.setId(UUID.randomUUID());
     plan3.setUser(user2);
-    plan3.setGatherings(new HashSet<>(Arrays.asList(gathering2)));
+    plan3.setGatherings(new HashSet<>(Arrays.asList(gathering3)));
     plan3.setGame(new Game());
+    plan1.setPlayerLimit(0);
 
-    when(planRepository.findAllByIsPrivateFalse()).thenReturn(Arrays.asList(plan1, plan2));
+    Gathering gathering4 = new Gathering();
+    gathering4.setDate(LocalDate.now().plusDays(1));
+    gathering4.setUsers(new HashSet<>(Arrays.asList(user2)));
+    Plan plan4 = new Plan();
+    plan4.setId(UUID.randomUUID());
+    plan4.setUser(user2);
+    plan4.setGatherings(new HashSet<>(Arrays.asList(gathering4)));
+    plan4.setPlayerLimit(1);
+
+    when(planRepository.findAllByIsPrivateFalse())
+        .thenReturn(Arrays.asList(plan1, plan2, plan3, plan4));
 
     List<OverviewPlanDto> response = planService.findAllExceptUser(user1.getId());
 
