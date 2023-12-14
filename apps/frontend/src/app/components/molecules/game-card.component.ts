@@ -1,9 +1,15 @@
 import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { BehaviorSubject, delay, of, tap } from 'rxjs';
 import { GamePlan } from '../../models/game/game-plan.dto';
-import { Game } from '../../models/game/game.dto';
+import { Game, GameDto } from '../../models/game/game.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 
@@ -55,10 +61,12 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
       </nb-card-body>
 
       <nb-card-footer>
-        <div class="tg-flex-row tg-justify-between">
-          <div class="tg-mr-auto" *ngIf="getOwners() as owners">
-            <p class="caption">Owned by {{ owners.join(', ') }}</p>
-          </div>
+        <div class="tg-flex-row tg-justify-end">
+          <ng-template #owners>
+            <div class="tg-mr-auto" *ngIf="getOwners() as owners">
+              <p class="caption">Owned by {{ owners.join(', ') }}</p>
+            </div>
+          </ng-template>
 
           <div
             class="tg-flex-row tg-align-center"
@@ -83,6 +91,17 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
           >
             <nb-icon icon="flip-2-outline"></nb-icon>
           </button>
+          <button
+            *ngIf="actionButton"
+            nbButton
+            ghost
+            [status]="actionButton.status || 'primary'"
+            shape="semi-round"
+            (click)="onActionButtonClicked()"
+          >
+            <nb-icon [icon]="actionButton!.icon || ''"></nb-icon>
+            <span *ngIf="actionButton.label">{{ actionButton.label }}</span>
+          </button>
         </div>
       </nb-card-footer>
     </nb-card>
@@ -91,6 +110,13 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 })
 export class GameCardComponent {
   @Input({ required: true }) public game!: GamePlan | Game;
+  @Input() public actionButton?: {
+    icon?: string;
+    label?: string;
+    status?: string;
+  };
+
+  @Output() public actionButtonClicked = new EventEmitter<GameDto>();
 
   private flipped = false;
 
@@ -153,5 +179,9 @@ export class GameCardComponent {
         )
       )
       .subscribe();
+  }
+
+  public onActionButtonClicked(): void {
+    this.actionButtonClicked.emit(this.game as GameDto);
   }
 }
