@@ -48,7 +48,7 @@ describe(AuthService.name, () => {
     expect(authService).toBeTruthy();
   });
 
-  describe('login', () => {
+  describe(AuthService.prototype.login.name, () => {
     it('should send a POST request to the login endpoint and return the login result', () => {
       // Arrange
       const loginUser: LoginUser = {} as LoginUserDto;
@@ -67,7 +67,7 @@ describe(AuthService.name, () => {
     });
   });
 
-  describe('signup', () => {
+  describe(AuthService.prototype.signup.name, () => {
     it('should send a POST request to the signup endpoint and return the user DTO', () => {
       // Arrange
       const registerUser: RegisterUser = {} as RegisterUser;
@@ -86,7 +86,7 @@ describe(AuthService.name, () => {
     });
   });
 
-  describe('getToken', () => {
+  describe(AuthService.prototype.getToken.name, () => {
     it('should return the token from local storage if the user is logged in', () => {
       // Arrange
       const expiresAt = new Date();
@@ -135,7 +135,7 @@ describe(AuthService.name, () => {
     });
   });
 
-  describe('logout', () => {
+  describe(AuthService.prototype.logout.name, () => {
     it('should remove the token and expiration from local storage and update the login status', () => {
       // Arrange
       jest.spyOn(localStorageMock, 'removeItem');

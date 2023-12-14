@@ -43,7 +43,7 @@ describe(UsersService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getAllUsers', () => {
+  describe(UsersService.prototype.getAllUsers.name, () => {
     it('should return an Observable of UserDto[]', () => {
       // Arrange
       const mockUsers: UserDto[] = [
@@ -76,7 +76,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('deleteMe', () => {
+  describe(UsersService.prototype.deleteMe.name, () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
@@ -94,7 +94,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('updateMe', () => {
+  describe(UsersService.prototype.updateMe.name, () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
@@ -120,7 +120,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('updateMyPassword', () => {
+  describe(UsersService.prototype.updateMyPassword.name, () => {
     it('should return an Observable of JwtDto', () => {
       // Arrange
       const mockJwtDto = {} as unknown as JwtDto;
@@ -144,7 +144,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('me', () => {
+  describe(UsersService.prototype.me.name, () => {
     it('should send a GET request to the me endpoint and return the user DTO', () => {
       // Arrange
       const expectedUserDto: UserDto = {} as unknown as UserDto;

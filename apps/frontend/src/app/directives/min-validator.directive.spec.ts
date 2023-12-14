@@ -17,7 +17,7 @@ describe(MinValidatorDirective.name, () => {
     expect(directive).toBeTruthy();
   });
 
-  describe('validate', () => {
+  describe(MinValidatorDirective.prototype.validate.name, () => {
     it('should return null if value is greater than or equal to tgMinValidator', () => {
       // Arrange
       directive.tgMinValidator = 5;

@@ -44,7 +44,7 @@ describe(PlanService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getAllPublicPlans', () => {
+  describe(PlanService.prototype.getAllPublicPlans.name, () => {
     it('should return an Observable of OverviewPlanDto[]', () => {
       // Arrange
       const mockPlans: OverviewPlanDto[] = [
@@ -83,7 +83,7 @@ describe(PlanService.name, () => {
     });
   });
 
-  describe('getAllMyPlans', () => {
+  describe(PlanService.prototype.getAllMyPlans.name, () => {
     it('should return an Observable of OverviewPlanDto[]', () => {
       // Arrange
       const mockPlans: OverviewPlanDto[] = [
@@ -122,7 +122,7 @@ describe(PlanService.name, () => {
     });
   });
 
-  describe('getAllAttendingPlans', () => {
+  describe(PlanService.prototype.getAllAttendingPlans.name, () => {
     it('should return an Observable of OverviewPlanDto[]', () => {
       // Arrange
       const mockPlans: OverviewPlanDto[] = [
@@ -161,7 +161,7 @@ describe(PlanService.name, () => {
     });
   });
 
-  describe('getPlanById', () => {
+  describe(PlanService.prototype.getPlanById.name, () => {
     it('should return an Observable of DetailPlanDto', () => {
       // Arrange
       const mockPlanId = '1';
@@ -189,7 +189,7 @@ describe(PlanService.name, () => {
     });
   });
 
-  describe('createPlan', () => {
+  describe(PlanService.prototype.createPlan.name, () => {
     it('should return an Observable of Uuid', () => {
       // Arrange
       const mockPlan: CreatePlan = {
@@ -215,7 +215,7 @@ describe(PlanService.name, () => {
     });
   });
 
-  describe('updatePlan', () => {
+  describe(PlanService.prototype.updatePlan.name, () => {
     it('should return an Observable of Uuid', () => {
       // Arrange
       const mockPlanId = '1';
@@ -241,7 +241,7 @@ describe(PlanService.name, () => {
     });
   });
 
-  describe('deletePlan', () => {
+  describe(PlanService.prototype.deletePlan.name, () => {
     it('should return an Observable of void', () => {
       // Arrange
       const mockPlanId = '1';
