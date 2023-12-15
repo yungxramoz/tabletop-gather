@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import tabletop.gather.backend.game.GameDto;
+import tabletop.gather.backend.gathering.OverviewGatheringDto;
 
 @Getter
 @Setter
@@ -24,5 +25,5 @@ public class OverviewPlanDto {
 
   private GameDto game;
 
-  private List<LocalDate> gatheringDates;
+  private List<OverviewGatheringDto> gatheringDtos;
 }

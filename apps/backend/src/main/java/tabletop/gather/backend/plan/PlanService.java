@@ -2,6 +2,7 @@ package tabletop.gather.backend.plan;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import tabletop.gather.backend.game.Game;
 import tabletop.gather.backend.game.GameDto;
@@ -57,13 +58,19 @@ public class PlanService {
   public List<OverviewPlanDto> findAllAttending(UUID userId) {
     final List<Plan> plans = planRepository.findAll();
     return plans.stream()
-        .filter(
-            plan ->
-                plan.getGatherings().stream()
-                    .anyMatch(
-                        gathering ->
-                            gathering.getUsers().stream()
-                                .anyMatch(user -> user.getId().equals(userId))))
+        .filter(plan -> {
+          HashSet<Gathering> gatherings = plan.getGatherings().stream()
+                                                .filter(
+                                                    gathering -> 
+                                                      gathering.getUsers().stream()
+                                                            .anyMatch(user -> user.getId().equals(userId)))
+                                                .collect(Collectors.toCollection(HashSet::new)); // Collect the filtered gatherings into a HashSet
+          if (!gatherings.isEmpty()) { 
+            plan.setGatherings(gatherings);
+            return true;
+          }
+          return false;
+        })
         .sorted(planComparator)
         .map(plan -> mapToDto(plan, new OverviewPlanDto()))
         .toList();
@@ -136,9 +143,16 @@ public class PlanService {
     }
 
     Set<Gathering> gatherings = plan.getGatherings();
-    List<LocalDate> gatheringDates = new ArrayList<>();
-    gatherings.forEach(gathering -> gatheringDates.add(gathering.getDate()));
-    overviewPlanDto.setGatheringDates(gatheringDates.stream().sorted().toList());
+    List<OverviewGatheringDto> gatheringDtos = new ArrayList<>();
+    gatherings.forEach(
+        gathering -> {
+          OverviewGatheringDto gatheringDto = new OverviewGatheringDto();
+          gatheringDto.setId(gathering.getId());
+          gatheringDto.setDate(gathering.getDate());
+          gatheringDto.setStartTime(gathering.getStartTime());
+          gatheringDtos.add(gatheringDto);
+        });
+    overviewPlanDto.setGatheringDtos(gatheringDtos);
 
     return overviewPlanDto;
   }

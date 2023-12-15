@@ -73,7 +73,7 @@ export class PlanService {
   }
 
   /**
-   * Gets all attending plans.
+   * Gets all plans the current user is attending.
    *
    * @returns {Observable<OverviewPlanDto[]>} - The plans
    */
