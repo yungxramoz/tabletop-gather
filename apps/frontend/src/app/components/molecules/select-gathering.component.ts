@@ -11,6 +11,7 @@ import {
 import { FormsModule, NgForm } from '@angular/forms';
 import { NbCheckboxModule } from '@nebular/theme';
 import { Dto } from '../../models/base.dto';
+import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlan } from '../../models/plan/detail-plan.dto';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
@@ -44,6 +45,18 @@ export class SelectGatheringComponent implements AfterViewInit {
   @ViewChild('selectedGatheringsForm') public readonly ngForm!: NgForm;
 
   @Input({ required: true }) public gatherings!: DetailPlan['gatherings'];
+  @Input({ required: true }) public set alreadyAttending(
+    value: OverviewGatheringDto[] | null
+  ) {
+    if (value) {
+      value.forEach((detailGathering) => {
+        this.ngForm?.form.patchValue(
+          { [detailGathering.id]: true },
+          { emitEvent: false }
+        );
+      });
+    }
+  }
 
   @Output()
   public readonly gatheringUpserted: EventEmitter<UpsertGatheringDto[]> =

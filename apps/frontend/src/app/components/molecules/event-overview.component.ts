@@ -74,7 +74,7 @@ export class EventOverviewComponent {
     const gatheringProp: keyof DetailPlan = 'gatherings';
 
     const gatherings =
-      gatheringProp in plan ? plan[gatheringProp] : plan.gatheringDates;
+      gatheringProp in plan ? plan[gatheringProp] : plan.gatheringDtos;
 
     return gatherings.map((gathering) =>
       gathering instanceof Date ? gathering : gathering.date
