@@ -20,7 +20,7 @@ import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { ROUTE_PLAN_EVENT, ROUTE_VIEW_EVENT } from '../../constants';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { PlanService } from '../../services/plan.service';
-import { updateNumberBadge } from '../../utils/nebular.utility';
+import { updateTabBadge } from '../../utils/nebular.utility';
 import { VoidComponent } from '../atoms/void.component';
 import {
   DeleteDialogComponent,
@@ -195,7 +195,7 @@ export class EventsComponent implements AfterViewInit {
         this.myPlansSubject.next(plans);
 
         // Update badge
-        updateNumberBadge(this.tabs.first, plans.length);
+        updateTabBadge(this.tabs.first, plans.length);
 
         subscriptionPrivate.unsubscribe();
       });
@@ -207,7 +207,7 @@ export class EventsComponent implements AfterViewInit {
         this.publicPlansSubject.next(plans);
 
         // Update badge
-        updateNumberBadge(this.tabs.get(1)!, plans.length);
+        updateTabBadge(this.tabs.get(1)!, plans.length);
 
         subscriptionPublic.unsubscribe();
       });
@@ -219,7 +219,7 @@ export class EventsComponent implements AfterViewInit {
         this.attendingPlansSubject.next(plans);
 
         // Update badge
-        updateNumberBadge(this.tabs.last, plans.length);
+        updateTabBadge(this.tabs.last, plans.length);
 
         subscriptionAttending.unsubscribe();
       });

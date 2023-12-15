@@ -27,7 +27,7 @@ import { UserPlanDto } from '../../models/user/user-plan.dto';
 import { GatheringService } from '../../services/gathering.service';
 import { PlanService } from '../../services/plan.service';
 import { UsersService } from '../../services/user.service';
-import { updateNumberBadge } from '../../utils/nebular.utility';
+import { updateTabBadge } from '../../utils/nebular.utility';
 import { VoidComponent } from '../atoms/void.component';
 import { ViewEventGamesComponent } from '../organisms/view-event-games.component';
 import { ViewEventGeneralComponent } from '../organisms/view-event-general.component';
@@ -124,7 +124,7 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     this.attendees$ = this.detailPlan$.pipe(
       switchMap((plan) => this.userService.getUsersByPlanId(plan.id)),
       tap((users) =>
-        updateNumberBadge(this.tabs.get(1) ?? undefined, users.length)
+        updateTabBadge(this.tabs.get(1) ?? undefined, users.length)
       )
     );
 

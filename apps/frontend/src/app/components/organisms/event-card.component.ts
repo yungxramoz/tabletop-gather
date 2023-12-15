@@ -66,7 +66,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
       <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">
           <div class="tg-mr-auto">
-            <p class="caption-2">by {{ overviewPlanDto.ownerName }}</p>
+            <p class="caption">by {{ overviewPlanDto.ownerName }}</p>
           </div>
 
           <ng-container *ngIf="isOwner">

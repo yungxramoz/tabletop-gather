@@ -1,19 +1,25 @@
 import { NbTabComponent } from '@nebular/theme';
 
-export const updateNumberBadge = (
+export const updateTabBadge = (
   tab: NbTabComponent | undefined,
-  count: number
+  item: number | string
 ) => {
   if (!tab) {
     return;
   }
 
-  if (count === 0) {
+  if (typeof item === 'string') {
+    tab.badgeText = item;
+    tab.badgeStatus = 'primary';
+    return;
+  }
+
+  if (item === 0) {
     tab.badgeText = '';
     tab.badgeStatus = 'basic';
     return;
   }
 
-  tab.badgeText = `${count > 100 ? '99+' : count}`;
+  tab.badgeText = `${item > 100 ? '99+' : item}`;
   tab.badgeStatus = 'primary';
 };
