@@ -8,7 +8,9 @@ import { API_BASE_URL } from '../app.config';
 import { GameDto } from '../models/game/game.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
+import { GameOwnersDto } from '../models/game/game-owners.dto';
 import { GamePlanDto } from '../models/game/game-plan.dto';
+import { DateTimeGathering } from '../models/gathering/date-time-gathering.dto';
 import { GameService } from './game.service';
 
 describe(GameService.name, () => {
@@ -89,8 +91,14 @@ describe(GameService.name, () => {
     it('should return an array of GamePlanDto objects', () => {
       // Arrange
       const myGames: GamePlanDto[] = [
-        { id: '1', name: 'My Game 1' } as GamePlanDto,
-        { id: '2', name: 'My Game 2' } as GamePlanDto,
+        {
+          games: [{ id: '1', name: 'My Game 1' } as GameOwnersDto],
+          gatheringDto: {} as DateTimeGathering,
+        } as GamePlanDto,
+        {
+          games: [{ id: '2', name: 'My Game 2' } as GameOwnersDto],
+          gatheringDto: {} as DateTimeGathering,
+        } as GamePlanDto,
       ];
 
       // Act
