@@ -37,7 +37,7 @@ import { SelectGatheringComponent } from '../molecules/select-gathering.componen
 
         <tg-select-gathering
           *ngIf="!isOwner; else selectGatherings"
-          [gatherings]="detailPlan.gatherings"
+          [gatherings]="sortGatherings(detailPlan.gatherings)"
           [alreadyAttending]="myGatheringsForThisPlan"
           (gatheringUpserted)="gatheringUpserted.emit($event)"
         >

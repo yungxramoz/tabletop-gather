@@ -9,7 +9,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbTabComponent, NbTabsetModule } from '@nebular/theme';
-import { Observable, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import {
+  Observable,
+  map,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { GamePlanDto } from '../../models/game/game-plan.dto';
 import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
@@ -95,7 +103,8 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.detailPlan$ = this.route.params.pipe(
       map((params) => params['eventId']),
-      switchMap((eventId) => this.planService.getPlanById(eventId))
+      switchMap((eventId) => this.planService.getPlanById(eventId)),
+      shareReplay(1)
     );
   }
 
