@@ -23,7 +23,7 @@ describe(GatheringDateComponent.name, () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getDateString', () => {
+  describe(GatheringDateComponent.prototype.getDateString.name, () => {
     it('should format date correctly for Date input', () => {
       const date = new Date(2023, 4, 15);
       expect(component.getDateString(date)).toBe('15.05.2023');
@@ -47,7 +47,7 @@ describe(GatheringDateComponent.name, () => {
     });
   });
 
-  describe('getTimeString', () => {
+  describe(GatheringDateComponent.prototype.getTimeString.name, () => {
     it('should format time correctly for Date input', () => {
       const date = new Date(2023, 4, 15, 14, 30);
       expect(component.getTimeString(date)).toBe('14:30');
