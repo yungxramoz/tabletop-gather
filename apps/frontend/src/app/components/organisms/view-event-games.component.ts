@@ -25,37 +25,39 @@ import { GameCardComponent } from '../molecules/game-card.component';
     </nb-alert>
 
     <ng-container *ngIf="availableGames as gamePlans; else noGames">
-      <nb-accordion *ngFor="let gamePlan of gamePlans">
-        <nb-accordion-item [expanded]="true">
-          <nb-accordion-item-header>
-            <p>
-              Common games on
-              <b>
-                <tg-gathering-date
-                  [date]="gamePlan.gatheringDto"
-                ></tg-gathering-date>
-              </b>
-            </p>
-          </nb-accordion-item-header>
+      <ng-container *ngFor="let gamePlan of gamePlans">
+        <nb-accordion *ngIf="gamePlan">
+          <nb-accordion-item [expanded]="true">
+            <nb-accordion-item-header>
+              <p>
+                Common games on
+                <b>
+                  <tg-gathering-date
+                    [date]="gamePlan.gatheringDto"
+                  ></tg-gathering-date>
+                </b>
+              </p>
+            </nb-accordion-item-header>
 
-          <nb-accordion-item-body>
-            <ng-container
-              *ngIf="gamePlan.games?.length; else noGamesForThisGathering"
-            >
-              <tg-game-card
-                *ngFor="let game of gamePlan.games"
-                [game]="game"
-              ></tg-game-card>
-            </ng-container>
+            <nb-accordion-item-body>
+              <ng-container
+                *ngIf="gamePlan.games.length; else noGamesForThisGathering"
+              >
+                <tg-game-card
+                  *ngFor="let game of gamePlan.games"
+                  [game]="game"
+                ></tg-game-card>
+              </ng-container>
 
-            <ng-template #noGamesForThisGathering>
-              <tg-void
-                message="There are no common games for this gathering"
-              ></tg-void>
-            </ng-template>
-          </nb-accordion-item-body>
-        </nb-accordion-item>
-      </nb-accordion>
+              <ng-template #noGamesForThisGathering>
+                <tg-void
+                  message="There are no common games for this gathering"
+                ></tg-void>
+              </ng-template>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+        </nb-accordion>
+      </ng-container>
     </ng-container>
 
     <ng-template #noGames>
