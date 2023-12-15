@@ -6,12 +6,10 @@ import { LandingPageComponent } from './components/pages/landing-page.component'
 import { LoginComponent } from './components/pages/login.component';
 import { PlanEventComponent } from './components/pages/plan-event.component';
 import { ProfileComponent } from './components/pages/profile.component';
-import { SampleDesignComponent } from './components/pages/sample-design.component';
 import { ViewEventComponent } from './components/pages/view-event.component';
 import {
   ROUTE_ADD_TO_COLLECTION,
   ROUTE_COLLECTION,
-  ROUTE_DESIGN,
   ROUTE_EVENTS,
   ROUTE_LOGIN,
   ROUTE_PLAN_EVENT,
@@ -59,11 +57,6 @@ export const appRoutes: Route[] = [
   {
     path: ROUTE_PROFILE,
     component: ProfileComponent,
-    canActivate: [isAuthenticatedOrRedirectToLogin],
-  },
-  {
-    path: ROUTE_DESIGN,
-    component: SampleDesignComponent,
     canActivate: [isAuthenticatedOrRedirectToLogin],
   },
   {

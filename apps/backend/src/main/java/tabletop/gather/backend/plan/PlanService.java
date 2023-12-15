@@ -36,7 +36,11 @@ public class PlanService {
         .filter(
             plan ->
                 plan.getGatherings().stream()
-                        .anyMatch(gathering -> gathering.getDate().isAfter(LocalDate.now()))
+                        .anyMatch(
+                            gathering ->
+                                gathering.getDate().isAfter(LocalDate.now())
+                                    && (plan.getPlayerLimit() == 0
+                                        || gathering.getUsers().size() < plan.getPlayerLimit()))
                     && !plan.getUser().getId().equals(userId))
         .sorted(planComparator)
         .map(plan -> mapToDto(plan, new OverviewPlanDto()))
