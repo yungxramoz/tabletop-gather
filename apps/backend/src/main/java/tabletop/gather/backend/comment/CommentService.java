@@ -26,31 +26,84 @@ public class CommentService {
     this.planRepository = planRepository;
   }
 
+  /**
+   * Find all comments.
+   *
+   * @return A list of comments.
+   */
   public List<CommentDto> findAll() {
-    final List<Comment> comments = commentRepository.findAll(Sort.by("id"));
+    final List<Comment> comments = commentRepository.findAll(Sort.by("dateCreated"));
     return comments.stream().map(comment -> mapToDto(comment, new CommentDto())).toList();
   }
 
+  /**
+   * Find all comments by plan id.
+   *
+   * @param id The plan id.
+   * @return A list of comments.
+   */
+  public List<CommentItemDto> findByPlanId(UUID id) {
+    planRepository.findById(id).orElseThrow(() -> new NotFoundException("plan not found"));
+    final List<Comment> comments = commentRepository.findByPlanId(id, Sort.by("dateCreated"));
+    return comments.stream().map(comment -> mapToDto(comment, new CommentItemDto())).toList();
+  }
+
+  /**
+   * Find all comments by user id.
+   *
+   * @param id The user id.
+   * @return A list of comments.
+   */
   public CommentDto get(final UUID id) {
     return commentRepository
         .findById(id)
         .map(comment -> mapToDto(comment, new CommentDto()))
-        .orElseThrow(NotFoundException::new);
+        .orElseThrow(() -> new NotFoundException("comment not found"));
   }
 
-  public UUID create(final CommentDto commentDto) {
+  /**
+   * Create a comment.
+   *
+   * @param commentDto The comment DTO.
+   * @return The comment id.
+   */
+  public UUID create(final CreateCommentDto commentDto, final UUID userId) {
     final Comment comment = new Comment();
-    mapToEntity(commentDto, comment);
+    mapToEntity(commentDto, userId, comment);
     return commentRepository.save(comment).getId();
   }
 
-  public void update(final UUID id, final CommentDto commentDto) {
-    final Comment comment = commentRepository.findById(id).orElseThrow(NotFoundException::new);
-    mapToEntity(commentDto, comment);
+  /**
+   * Update a comment.
+   *
+   * @param id The comment id.
+   * @param commentDto The comment DTO.
+   */
+  public void update(final UUID id, final UpdateCommentDto commentDto, final UUID userId) {
+    final Comment comment =
+        commentRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("comment not found"));
+    if (!comment.getUser().getId().equals(userId)) {
+      throw new NotFoundException("comment not found");
+    }
+    comment.setComment(commentDto.getComment());
     commentRepository.save(comment);
   }
 
-  public void delete(final UUID id) {
+  /**
+   * Delete a comment.
+   *
+   * @param id The comment id.
+   */
+  public void delete(final UUID id, final UUID userId) {
+    final Comment comment =
+        commentRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("comment not found"));
+    if (!comment.getUser().getId().equals(userId)) {
+      throw new NotFoundException("comment not found");
+    }
     commentRepository.deleteById(id);
   }
 
@@ -62,20 +115,29 @@ public class CommentService {
     return commentDto;
   }
 
-  private Comment mapToEntity(final CommentDto commentDto, final Comment comment) {
+  private CommentItemDto mapToDto(final Comment comment, final CommentItemDto commentDto) {
+    commentDto.setComment(comment.getComment());
+    commentDto.setUser(
+        String.format("%s %s", comment.getUser().getFirstName(), comment.getUser().getLastName()));
+    commentDto.setDateCreated(comment.getDateCreated());
+    return commentDto;
+  }
+
+  private Comment mapToEntity(
+      final CreateCommentDto commentDto, final UUID userId, final Comment comment) {
     comment.setComment(commentDto.getComment());
     final User user =
-        commentDto.getUser() == null
+        userId == null
             ? null
             : userRepository
-                .findById(commentDto.getUser())
+                .findById(userId)
                 .orElseThrow(() -> new NotFoundException("user not found"));
     comment.setUser(user);
     final Plan plan =
-        commentDto.getPlan() == null
+        commentDto.getPlanId() == null
             ? null
             : planRepository
-                .findById(commentDto.getPlan())
+                .findById(commentDto.getPlanId())
                 .orElseThrow(() -> new NotFoundException("plan not found"));
     comment.setPlan(plan);
     return comment;

@@ -1,6 +1,6 @@
 package tabletop.gather.backend.auth;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,18 +8,24 @@ import lombok.Setter;
 @Setter
 public class RegisterUserDto {
 
-  @Size(max = 50)
+  @NotEmpty(message = "Username is required")
+  @Size(max = 50, message = "Username is too long")
   private String username;
 
-  @Size(max = 255)
+  @NotEmpty(message = "First name is required")
+  @Size(max = 255, message = "First name is too long")
   private String firstName;
 
-  @Size(max = 255)
+  @NotEmpty(message = "Last name is required")
+  @Size(max = 255, message = "Last name is too long")
   private String lastName;
 
-  @Size(max = 320)
+  @NotEmpty(message = "Email is required")
+  @Email(message = "Provide a valid email address")
+  @Size(max = 320, message = "Email address is too long")
   private String email;
 
-  @Size(max = 64)
+  @NotEmpty(message = "Password is required")
+  @Size(min = 3, max = 64, message = "Password must be between 3 and 64 characters")
   private String password;
 }
