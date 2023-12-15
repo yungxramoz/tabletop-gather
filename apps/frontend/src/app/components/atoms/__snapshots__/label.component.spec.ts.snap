@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabelComponent should match snapshot 1`] = `
+<tg-label
+  id={[Function String]}
+  label={[Function String]}
+>
+  <div
+    class="tg-p-1"
+  >
+    <label
+      class="label"
+      for="test-id"
+    >
+      Test Label
+    </label>
+  </div>
+</tg-label>
+`;
