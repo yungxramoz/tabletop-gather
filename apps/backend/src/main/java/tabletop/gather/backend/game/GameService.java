@@ -9,8 +9,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import tabletop.gather.backend.gathering.DateTimeGatheringDto;
 import tabletop.gather.backend.gathering.Gathering;
 import tabletop.gather.backend.gathering.GatheringRepository;
+import tabletop.gather.backend.plan.Plan;
 import tabletop.gather.backend.plan.PlanRepository;
 import tabletop.gather.backend.user.User;
 import tabletop.gather.backend.user.UserRepository;
@@ -84,11 +86,14 @@ public class GameService {
    */
   public List<GamePlanDto> findByAttendingOnPlan(final UUID id) {
     List<GamePlanDto> gamePlanDtos = new ArrayList<>();
-    planRepository.findById(id).orElseThrow(() -> new NotFoundException("Plan not found"));
+    Plan plan =
+        planRepository.findById(id).orElseThrow(() -> new NotFoundException("Plan not found"));
     final List<Gathering> gatherings = gatheringRepository.findAllByPlanId(id, Sort.by("date"));
     for (Gathering gathering : gatherings) {
-      final List<User> attendees = gathering.getUsers().stream().toList();
-      final List<Game> games = new ArrayList<>(gameRepository.findByUsersGatheringsPlanId(id));
+      List<User> attendees = new ArrayList<>(gathering.getUsers());
+      // Add the plan's owner to the attendees
+      attendees.add(plan.getUser());
+      List<Game> games = new ArrayList<>(gameRepository.findByUsersGatheringsPlanId(id));
       games.removeIf(
           game -> game.getMinPlayer() > attendees.size() || game.getMaxPlayer() < attendees.size());
       final List<GameOwnersDto> gameDtos =
@@ -156,8 +161,10 @@ public class GameService {
       final List<GameOwnersDto> gameOwnerDtos,
       final Gathering gathering,
       final GamePlanDto gamePlanDto) {
-    gamePlanDto.setGatheringDate(gathering.getDate());
-    gamePlanDto.setGatheringStartTime(gathering.getStartTime());
+    DateTimeGatheringDto gatheringDto = new DateTimeGatheringDto();
+    gatheringDto.setDate(gathering.getDate());
+    gatheringDto.setStartTime(gathering.getStartTime());
+    gamePlanDto.setGatheringDto(gatheringDto);
     gamePlanDto.setGames(gameOwnerDtos);
     return gamePlanDto;
   }

@@ -1,17 +1,22 @@
-import {TestBed, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
-import { GameCardComponent } from './game-card.component';
+import {
+  TestBed,
+  discardPeriodicTasks,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
-import { LazyImageComponent } from '../atoms/lazy-image.component';
+import { GameOwnersDto } from '../../models/game/game-owners.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
-import { GamePlan } from '../../models/game/game-plan.dto';
+import { LazyImageComponent } from '../atoms/lazy-image.component';
+import { GameCardComponent } from './game-card.component';
 
 describe(GameCardComponent.name, () => {
-  const mockGame: GamePlan = {
+  const mockGame = {
     name: 'Test Game',
     imageUrl: 'test-url',
     description: 'Test Description',
-    owners: ['Test Owner', 'Test Owner 2']
-  };
+    owners: ['Test Owner', 'Test Owner 2'],
+  } as GameOwnersDto;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,8 +26,8 @@ describe(GameCardComponent.name, () => {
         NbIconModule,
         GameCardComponent,
         LazyImageComponent,
-        TruncatePipe
-      ]
+        TruncatePipe,
+      ],
     }).compileComponents();
   });
 

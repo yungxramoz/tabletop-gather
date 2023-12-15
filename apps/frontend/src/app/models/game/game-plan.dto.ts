@@ -1,20 +1,18 @@
 import { Model } from '../../utils/types';
 import { Dto } from '../base.dto';
-import { Game } from './game.dto';
+import { DateTimeGathering } from '../gathering/date-time-gathering.dto';
+import { GameOwnersDto } from './game-owners.dto';
 
 /**
  * Dto for a game which users of a plan might own
  *
- * @property {Game['name']} name - The name of the game
- * @property {Game['description']} description - The description of the game
- * @property {Game['imageUrl']} imageUrl - The image url of the game
+ * @property {DateTimeGathering} gatheringDto - The date and time of the gathering
  * @property {string[]} owners - The attendees who own this game
+ * @extends {Dto}
  */
 export class GamePlanDto extends Dto {
-  public name!: Game['name'];
-  public description!: Game['description'];
-  public imageUrl!: Game['imageUrl'];
-  public owners!: string[];
+  public gatheringDto!: DateTimeGathering; // Not a dto
+  public games!: GameOwnersDto[];
 }
 
 export type GamePlan = Model<GamePlanDto>;

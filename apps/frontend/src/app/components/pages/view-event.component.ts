@@ -12,22 +12,21 @@ import { NbTabComponent, NbTabsetModule } from '@nebular/theme';
 import {
   Observable,
   map,
-  of,
   shareReplay,
   switchMap,
   tap,
   withLatestFrom,
 } from 'rxjs';
-import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { GamePlanDto } from '../../models/game/game-plan.dto';
 import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { UserPlanDto } from '../../models/user/user-plan.dto';
+import { GameService } from '../../services/game.service';
 import { GatheringService } from '../../services/gathering.service';
 import { PlanService } from '../../services/plan.service';
 import { UsersService } from '../../services/user.service';
-import { updateNumberBadge } from '../../utils/nebular.utility';
+import { updateTabBadge } from '../../utils/nebular.utility';
 import { VoidComponent } from '../atoms/void.component';
 import { ViewEventGamesComponent } from '../organisms/view-event-games.component';
 import { ViewEventGeneralComponent } from '../organisms/view-event-general.component';
@@ -93,7 +92,8 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     private readonly route: ActivatedRoute,
     private readonly planService: PlanService,
     private readonly userService: UsersService,
-    private readonly gatheringService: GatheringService
+    private readonly gatheringService: GatheringService,
+    private readonly gameService: GameService
   ) {}
 
   public onGatheringUpserted(upsertGatheringDtos: UpsertGatheringDto[]) {
@@ -124,16 +124,20 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     this.attendees$ = this.detailPlan$.pipe(
       switchMap((plan) => this.userService.getUsersByPlanId(plan.id)),
       tap((users) =>
-        updateNumberBadge(this.tabs.get(1) ?? undefined, users.length)
+        updateTabBadge(this.tabs.get(1) ?? undefined, users.length)
       )
     );
 
-    this.availableGames$ = of(
-      // TODO: Get from api
-      MOCK_GAME_DTOS_LARGE.map((game) => ({
-        ...game,
-        owners: ['John Doe', 'Jane Doe'],
-      }))
+    this.availableGames$ = this.detailPlan$.pipe(
+      switchMap((plan) => this.gameService.getGamesByPlanId(plan.id)),
+      tap((gamePlan) =>
+        updateTabBadge(
+          this.tabs.get(2) ?? undefined,
+          !gamePlan.length && gamePlan.every((game) => !game.games.length)
+            ? 0
+            : '!'
+        )
+      )
     );
 
     this.myGatheringsForThisPlan$ = this.planService
