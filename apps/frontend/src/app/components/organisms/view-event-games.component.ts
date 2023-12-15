@@ -41,7 +41,7 @@ import { GameCardComponent } from '../molecules/game-card.component';
 
             <nb-accordion-item-body>
               <ng-container
-                *ngIf="gamePlan.games.length; else noGamesForThisGathering"
+                *ngIf="gamePlan.games?.length; else noGamesForThisGathering"
               >
                 <tg-game-card
                   *ngFor="let game of gamePlan.games"
