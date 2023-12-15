@@ -3,6 +3,9 @@ package tabletop.gather.backend.unit.guest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,10 +16,6 @@ import org.springframework.http.ResponseEntity;
 import tabletop.gather.backend.guest.GuestDto;
 import tabletop.gather.backend.guest.GuestResource;
 import tabletop.gather.backend.guest.GuestService;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 public class GuestResourceTest {
 

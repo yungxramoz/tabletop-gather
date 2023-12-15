@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,10 +19,6 @@ import tabletop.gather.backend.guest.GuestDto;
 import tabletop.gather.backend.guest.GuestRepository;
 import tabletop.gather.backend.guest.GuestService;
 import tabletop.gather.backend.util.NotFoundException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class GuestServiceTest {
 
