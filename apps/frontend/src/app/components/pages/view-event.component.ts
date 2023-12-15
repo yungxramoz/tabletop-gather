@@ -133,9 +133,9 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
       tap((gamePlan) =>
         updateTabBadge(
           this.tabs.get(2) ?? undefined,
-          gamePlan.length || gamePlan.every((game) => !game.games.length)
+          !gamePlan.length && gamePlan.every((game) => !game.games.length)
             ? 0
-            : '❕'
+            : '!'
         )
       )
     );
