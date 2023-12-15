@@ -9,9 +9,10 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbTabComponent, NbTabsetModule } from '@nebular/theme';
-import { Observable, map, of, switchMap, tap } from 'rxjs';
+import { Observable, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
 import { GamePlanDto } from '../../models/game/game-plan.dto';
+import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { UserPlanDto } from '../../models/user/user-plan.dto';
@@ -43,6 +44,7 @@ import { ViewEventPlayersComponent } from '../organisms/view-event-players.compo
           <tg-view-event-general
             [isOwner]="isOwner$ | async"
             [detailPlan]="detailPlan"
+            [myGatheringsForThisPlan]="myGatheringsForThisPlan$ | async"
             (gatheringUpserted)="onGatheringUpserted($event)"
           ></tg-view-event-general>
         </nb-tab>
@@ -77,6 +79,7 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
   public attendees$!: Observable<UserPlanDto[]>;
   public availableGames$!: Observable<GamePlanDto[]>;
   public isOwner$!: Observable<boolean>;
+  public myGatheringsForThisPlan$!: Observable<OverviewGatheringDto[] | null>;
 
   public constructor(
     private readonly route: ActivatedRoute,
@@ -123,5 +126,29 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
         owners: ['John Doe', 'Jane Doe'],
       }))
     );
+
+    this.myGatheringsForThisPlan$ = this.planService
+      .getAllAttendingPlans()
+      .pipe(
+        withLatestFrom(this.detailPlan$),
+        map(([myAttendingPlans, detailPlan]) => {
+          const attendingPlan = myAttendingPlans.find(
+            (plan) => plan.id === detailPlan.id
+          );
+
+          // Pluck the matching DetailGatheringDtos from the detail plan
+          if (attendingPlan) {
+            const myGatherings = attendingPlan.gatheringDtos.filter(
+              (attendingGathering) =>
+                detailPlan.gatherings.some(
+                  (gathering) => attendingGathering.id === gathering.id
+                )
+            );
+
+            return myGatherings;
+          }
+          return null;
+        })
+      );
   }
 }
