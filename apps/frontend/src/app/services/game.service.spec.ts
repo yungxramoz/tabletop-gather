@@ -8,6 +8,7 @@ import { API_BASE_URL } from '../app.config';
 import { GameDto } from '../models/game/game.dto';
 import { ResponseHandler } from '../utils/response.handler';
 
+import { GamePlanDto } from '../models/game/game-plan.dto';
 import { GameService } from './game.service';
 
 describe(GameService.name, () => {
@@ -79,6 +80,28 @@ describe(GameService.name, () => {
       });
 
       const req = httpMock.expectOne(`http://api.example.com/games/me`);
+      expect(req.request.method).toBe('GET');
+      req.flush(myGames);
+    });
+  });
+
+  describe(GameService.prototype.getGamesByPlanId.name, () => {
+    it('should return an array of GamePlanDto objects', () => {
+      // Arrange
+      const myGames: GamePlanDto[] = [
+        { id: '1', name: 'My Game 1' } as GamePlanDto,
+        { id: '2', name: 'My Game 2' } as GamePlanDto,
+      ];
+
+      // Act
+      const result$: Observable<GamePlanDto[]> = service.getGamesByPlanId('1');
+
+      // Assert
+      result$.subscribe((result) => {
+        expect(result).toEqual(myGames);
+      });
+
+      const req = httpMock.expectOne(`http://api.example.com/games/plan/1`);
       expect(req.request.method).toBe('GET');
       req.flush(myGames);
     });
