@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { BehaviorSubject, delay, of, tap } from 'rxjs';
-import { GamePlan } from '../../models/game/game-plan.dto';
+import { GameOwners } from '../../models/game/game-owners.dto';
 import { Game, GameDto } from '../../models/game/game.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
@@ -62,11 +62,9 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 
       <nb-card-footer>
         <div class="tg-flex-row tg-justify-end">
-          <ng-template #owners>
-            <div class="tg-mr-auto" *ngIf="getOwners() as owners">
-              <p class="caption">Owned by {{ owners.join(', ') }}</p>
-            </div>
-          </ng-template>
+          <div class="tg-mr-auto" *ngIf="getOwners() as owners">
+            <p class="caption-2">Owned by {{ owners.join(', ') }}</p>
+          </div>
 
           <div
             class="tg-flex-row tg-align-center"
@@ -77,7 +75,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
               status="primary"
               icon="people-outline"
             ></nb-icon>
-            <p class="caption">{{ playerRange }}</p>
+            <p class="caption tg-nowrap">{{ playerRange }}</p>
           </div>
 
           <div class="tg-m-1"></div>
@@ -109,7 +107,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameCardComponent {
-  @Input({ required: true }) public game!: GamePlan | Game;
+  @Input({ required: true }) public game!: GameOwners | Game;
   @Input() public actionButton?: {
     icon?: string;
     label?: string;
@@ -131,7 +129,7 @@ export class GameCardComponent {
   public readonly animation$ = this.animationSubject.asObservable();
 
   public getOwners(): string[] | null {
-    const ownersProp: keyof GamePlan = 'owners';
+    const ownersProp: keyof GameOwners = 'owners';
 
     if (ownersProp in this.game) {
       return this.game[ownersProp];
