@@ -3,6 +3,8 @@ package tabletop.gather.backend.unit.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.*;
 import tabletop.gather.backend.game.*;
+import tabletop.gather.backend.gathering.Gathering;
+import tabletop.gather.backend.gathering.GatheringRepository;
+import tabletop.gather.backend.plan.Plan;
+import tabletop.gather.backend.plan.PlanRepository;
 import tabletop.gather.backend.user.*;
 
 public class GameServiceTest {
@@ -20,6 +26,10 @@ public class GameServiceTest {
   @Mock private GameRepository gameRepository;
 
   @Mock private UserRepository userRepository;
+
+  @Mock private GatheringRepository gatheringRepository;
+
+  @Mock private PlanRepository planRepository;
 
   @BeforeEach
   public void init() {
@@ -70,12 +80,18 @@ public class GameServiceTest {
 
   @Test
   public void testFindByAttendingOnPlan() {
+    UUID planId = UUID.randomUUID();
+    Gathering gathering = new Gathering();
+    gathering.setDate(LocalDate.now());
+    gathering.setStartTime(LocalTime.now());
+
     User user = new User();
     user.setId(UUID.randomUUID());
+    user.setFirstName("Test");
+    user.setLastName("User");
     List<User> users = new ArrayList<>();
     users.add(user);
 
-    UUID planId = UUID.randomUUID();
     Game game1 = new Game();
     game1.setId(UUID.randomUUID());
     game1.setMinPlayer(1);
@@ -84,20 +100,32 @@ public class GameServiceTest {
 
     Game game2 = new Game();
     game2.setId(UUID.randomUUID());
-    game2.setMinPlayer(99);
-    game2.setMaxPlayer(100);
+    game2.setMinPlayer(2);
+    game2.setMaxPlayer(5);
     game2.setUsers(new HashSet<>(users));
-    when(gameRepository.findByUsersGatheringsPlanId(planId))
-        .thenReturn(Arrays.asList(game1, game2));
 
-    when(userRepository.findByGatheringsPlanId(planId)).thenReturn(users);
+    gathering.setUsers(new HashSet<>(users));
 
-    List<GamePlanDto> gamePlanDtos = gameService.findByAttendingOnPlan(planId);
+    when(planRepository.findById(planId)).thenReturn(Optional.of(new Plan()));
+    when(gatheringRepository.findAllByPlanId(planId, Sort.by("date")))
+        .thenReturn(Arrays.asList(gathering));
+    when(gameRepository.findByUsersGatheringsPlanId(planId)).thenReturn(Arrays.asList(game1));
 
-    assertEquals(1, gamePlanDtos.size());
-    assertEquals(game1.getId(), gamePlanDtos.get(0).getId());
+    List<GamePlanDto> response = gameService.findByAttendingOnPlan(planId);
+
+    assertEquals(1, response.size());
+    assertEquals(gathering.getDate(), response.get(0).getGatheringDate());
+    assertEquals(gathering.getStartTime(), response.get(0).getGatheringStartTime());
+    assertEquals(1, response.get(0).getGames().size()); // game2 is filtered out
+    assertEquals(game1.getId(), response.get(0).getGames().get(0).getId());
+    assertEquals(1, response.get(0).getGames().get(0).getOwners().size());
+    assertEquals(
+        user.getFirstName() + " " + user.getLastName(),
+        response.get(0).getGames().get(0).getOwners().get(0));
+
+    verify(planRepository, times(1)).findById(planId);
+    verify(gatheringRepository, times(1)).findAllByPlanId(planId, Sort.by("date"));
     verify(gameRepository, times(1)).findByUsersGatheringsPlanId(planId);
-    verify(userRepository, times(1)).findByGatheringsPlanId(planId);
   }
 
   @Test

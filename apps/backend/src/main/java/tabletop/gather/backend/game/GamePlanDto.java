@@ -1,7 +1,8 @@
 package tabletop.gather.backend.game;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,17 +10,9 @@ import lombok.Setter;
 @Setter
 public class GamePlanDto {
 
-  private UUID id;
+  private LocalDate gatheringDate;
 
-  private String name;
+  private LocalTime gatheringStartTime;
 
-  private String description;
-
-  private String imageUrl;
-
-  private int minPlayer;
-
-  private int maxPlayer;
-
-  private List<String> owners;
+  List<GameOwnersDto> games;
 }
