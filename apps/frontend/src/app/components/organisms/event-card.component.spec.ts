@@ -1,8 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { NbButtonModule, NbCardModule, NbIconModule, NbThemeModule } from '@nebular/theme';
-import { EventCardComponent } from './event-card.component';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+  NbThemeModule,
+} from '@nebular/theme';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { EventCardComponent } from './event-card.component';
 
 describe(EventCardComponent.name, () => {
   const mockOverviewPlanDto: OverviewPlanDto = {
@@ -18,9 +23,11 @@ describe(EventCardComponent.name, () => {
       description: 'Test Description',
       minPlayer: 1,
       maxPlayer: 10,
-      imageUrl: 'https://via.placeholder.com/150'
+      imageUrl: 'https://via.placeholder.com/150',
     },
-    gatheringDates: [new Date(2023, 11, 1)],
+    gatheringDtos: [
+      { date: new Date(2023, 11, 1), startTime: '14:30', id: '1' },
+    ],
   };
 
   beforeEach(async () => {
@@ -31,8 +38,8 @@ describe(EventCardComponent.name, () => {
         NbIconModule,
         NbThemeModule.forRoot(),
         EventCardComponent,
-        TruncatePipe
-      ]
+        TruncatePipe,
+      ],
     }).compileComponents();
   });
 

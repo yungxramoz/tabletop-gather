@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
-import { EventOverviewComponent } from './event-overview.component';
+import { TestBed } from '@angular/core/testing';
+import { GameDto } from '../../models/game/game.dto';
+import { OverviewPlan } from '../../models/plan/overview-plan.dto';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
-import { GameDto } from "../../models/game/game.dto";
-import { OverviewPlan } from "../../models/plan/overview-plan.dto";
+import { EventOverviewComponent } from './event-overview.component';
 
 describe(EventOverviewComponent.name, () => {
   const mockGame: GameDto = {
@@ -14,7 +14,7 @@ describe(EventOverviewComponent.name, () => {
     description: 'Test Description',
     minPlayer: 2,
     maxPlayer: 4,
-    imageUrl: 'test-url'
+    imageUrl: 'test-url',
   };
 
   beforeEach(async () => {
@@ -23,9 +23,9 @@ describe(EventOverviewComponent.name, () => {
         EventOverviewComponent,
         LabelComponent,
         LazyImageComponent,
-        GatheringDateComponent
+        GatheringDateComponent,
       ],
-      providers: [DatePipe]
+      providers: [DatePipe],
     }).compileComponents();
   });
 
@@ -53,7 +53,9 @@ describe(EventOverviewComponent.name, () => {
       isPrivate: false,
       playerLimit: 4,
       ownerName: 'Test Owner',
-      gatheringDates: [new Date(2023, 11, 1)]
+      gatheringDtos: [
+        { date: new Date(2023, 11, 1), startTime: '14:30', id: '1' },
+      ],
     };
     const gatherings = component.mapGatheringsFromFormValue(mockPlan);
     expect(gatherings).toEqual([new Date(2023, 11, 1)]);
