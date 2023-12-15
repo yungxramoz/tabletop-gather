@@ -23,3 +23,8 @@ nb-card-header {
 nb-card-footer {
   border-top: none !important;
 }
+
+nb-accordion, nb-accordion-item {
+  border: none !important;
+  box-shadow: none !important;
+}
