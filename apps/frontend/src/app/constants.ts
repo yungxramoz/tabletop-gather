@@ -5,5 +5,3 @@ export const ROUTE_VIEW_EVENT = 'view-event';
 export const ROUTE_COLLECTION = 'collection';
 export const ROUTE_ADD_TO_COLLECTION = 'add-to-collection';
 export const ROUTE_PROFILE = 'profile';
-
-export const ROUTE_DESIGN = 'design';
