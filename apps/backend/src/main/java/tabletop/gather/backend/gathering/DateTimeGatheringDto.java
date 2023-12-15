@@ -11,5 +11,5 @@ public class DateTimeGatheringDto {
 
   private LocalDate date;
 
-  private LocalTime time;
+  private LocalTime startTime;
 }

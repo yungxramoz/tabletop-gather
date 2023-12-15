@@ -22,8 +22,6 @@ export class GatheringDateComponent {
 
   public getDateString(data: typeof this.date) {
     if (data instanceof Date) return getDateCHFormat(data);
-    if (typeof data.date === 'string')
-      return getDateCHFormat(new Date(data.date));
     return getDateCHFormat(data.date);
   }
 
