@@ -1,6 +1,5 @@
 package tabletop.gather.backend.plan;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;

@@ -58,19 +58,21 @@ public class PlanService {
   public List<OverviewPlanDto> findAllAttending(UUID userId) {
     final List<Plan> plans = planRepository.findAll();
     return plans.stream()
-        .filter(plan -> {
-          HashSet<Gathering> gatherings = plan.getGatherings().stream()
-                                                .filter(
-                                                    gathering -> 
-                                                      gathering.getUsers().stream()
-                                                            .anyMatch(user -> user.getId().equals(userId)))
-                                                .collect(Collectors.toCollection(HashSet::new)); // Collect the filtered gatherings into a HashSet
-          if (!gatherings.isEmpty()) { 
-            plan.setGatherings(gatherings);
-            return true;
-          }
-          return false;
-        })
+        .filter(
+            plan -> {
+              HashSet<Gathering> gatherings =
+                  plan.getGatherings().stream()
+                      .filter(
+                          gathering ->
+                              gathering.getUsers().stream()
+                                  .anyMatch(user -> user.getId().equals(userId)))
+                      .collect(Collectors.toCollection(HashSet::new));
+              if (!gatherings.isEmpty()) {
+                plan.setGatherings(gatherings);
+                return true;
+              }
+              return false;
+            })
         .sorted(planComparator)
         .map(plan -> mapToDto(plan, new OverviewPlanDto()))
         .toList();
