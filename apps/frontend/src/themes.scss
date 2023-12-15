@@ -53,6 +53,7 @@ $nb-themes: nb-register-theme(
     // Nebular overrides
     stepper-step-content-padding: 0rem,
     accordion-item-background-color: var(--layout-background-color),
+    tabset-tab-padding: 1rem 1rem,
     card-padding: 0.75rem 1rem,
   ),
   tg-theme,
