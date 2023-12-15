@@ -87,8 +87,7 @@ public class GameService {
     planRepository.findById(id).orElseThrow(() -> new NotFoundException("Plan not found"));
     final List<Gathering> gatherings = gatheringRepository.findAllByPlanId(id, Sort.by("date"));
     for (Gathering gathering : gatherings) {
-      final List<User> attendees = gathering.getUsers().stream().toList();
-      final List<Game> games = new ArrayList<>(gameRepository.findByUsersGatheringsPlanId(id));
+      List<User> attendees = new ArrayList<>(gathering.getUsers());
       games.removeIf(
           game -> game.getMinPlayer() > attendees.size() || game.getMaxPlayer() < attendees.size());
       final List<GameOwnersDto> gameDtos =
