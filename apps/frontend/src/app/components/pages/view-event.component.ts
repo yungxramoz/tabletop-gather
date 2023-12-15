@@ -131,7 +131,12 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
     this.availableGames$ = this.detailPlan$.pipe(
       switchMap((plan) => this.gameService.getGamesByPlanId(plan.id)),
       tap((gamePlan) =>
-        updateTabBadge(this.tabs.get(2) ?? undefined, gamePlan.length ? '!' : 0)
+        updateTabBadge(
+          this.tabs.get(2) ?? undefined,
+          gamePlan.length || gamePlan.every((game) => !game.games.length)
+            ? 0
+            : '❕'
+        )
       )
     );
 
