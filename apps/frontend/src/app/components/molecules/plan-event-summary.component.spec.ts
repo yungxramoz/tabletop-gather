@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
-import {NbButtonModule, NbCardModule, NbThemeModule} from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbThemeModule } from '@nebular/theme';
 import { PlanEventSummaryComponent } from './plan-event-summary.component';
 import { EventOverviewComponent } from './event-overview.component';
 import { LabelComponent } from '../atoms/label.component';
@@ -8,7 +8,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { VoidComponent } from '../atoms/void.component';
 import { PlanEventFormValue } from '../pages/plan-event.component'; // Adjust import paths
 
-describe('PlanEventSummaryComponent', () => {
+describe(PlanEventSummaryComponent.name, () => {
   const mockEvent: PlanEventFormValue = {
     name: 'Test Event',
     game: [

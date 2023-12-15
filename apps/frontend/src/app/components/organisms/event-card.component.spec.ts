@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {NbButtonModule, NbCardModule, NbIconModule, NbThemeModule} from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbThemeModule } from '@nebular/theme';
 import { EventCardComponent } from './event-card.component';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 
-describe('EventCardComponent', () => {
+describe(EventCardComponent.name, () => {
   const mockOverviewPlanDto: OverviewPlanDto = {
     id: '1',
     name: 'Test Event',

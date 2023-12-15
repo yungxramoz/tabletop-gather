@@ -21,7 +21,7 @@ jest.mock('../../services/game.service', () => ({
 }));
 
 // TODO: Fix tests
-describe.skip('PlanEventComponent', () => {
+describe.skip(PlanEventComponent.name, () => {
   let component: PlanEventComponent;
   let fixture: ComponentFixture<PlanEventComponent>;
   let router: Router;

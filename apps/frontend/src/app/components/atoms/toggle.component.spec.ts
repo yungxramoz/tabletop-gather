@@ -5,7 +5,7 @@ import { ToggleComponent } from './toggle.component';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
-describe('ToggleComponent', () => {
+describe(ToggleComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LazyImageComponent } from './lazy-image.component';
 
-describe('LazyImageComponent', () => {
+describe(LazyImageComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LazyImageComponent]

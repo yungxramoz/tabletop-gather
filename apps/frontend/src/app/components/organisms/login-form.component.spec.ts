@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {FormControl, FormsModule, NgForm} from '@angular/forms';
+import { FormControl, FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbThemeModule } from '@nebular/theme';
 import { LoginFormComponent } from './login-form.component';
 import { InputComponent } from '../atoms/input.component';
 
-describe('LoginFormComponent', () => {
+describe(LoginFormComponent.name, () => {
   let fixture: ComponentFixture<LoginFormComponent>;
   let component: LoginFormComponent;
 

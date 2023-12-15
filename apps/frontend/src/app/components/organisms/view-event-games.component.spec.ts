@@ -4,7 +4,7 @@ import { ViewEventGamesComponent } from './view-event-games.component';
 import { GameCardComponent } from '../molecules/game-card.component';
 import { NbAlertModule } from '@nebular/theme';
 
-describe('ViewEventGamesComponent', () => {
+describe(ViewEventGamesComponent.name, () => {
   let fixture: ComponentFixture<ViewEventGamesComponent>;
   let component: ViewEventGamesComponent;
 

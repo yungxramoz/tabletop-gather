@@ -5,7 +5,7 @@ import { PlanEventGeneralFormComponent, PlanEventGeneralFormValue } from './plan
 import { CommonModule } from '@angular/common';
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 
-describe('PlanEventGeneralFormComponent', () => {
+describe(PlanEventGeneralFormComponent.name, () => {
   let fixture: ComponentFixture<PlanEventGeneralFormComponent>;
   let component: PlanEventGeneralFormComponent;
 

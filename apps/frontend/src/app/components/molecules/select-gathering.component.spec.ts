@@ -4,7 +4,7 @@ import { NbCheckboxModule } from '@nebular/theme';
 import { SelectGatheringComponent } from './select-gathering.component';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 
-describe('SelectGatheringComponent', () => {
+describe(SelectGatheringComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

@@ -4,7 +4,7 @@ import { UserCardComponent } from './user-card.component';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { UserPlan } from '../../models/user/user-plan.dto';
 
-describe('UserCardComponent', () => {
+describe(UserCardComponent.name, () => {
   const mockUser: UserPlan = {
     fullName: 'Test User',
     attendingGatherings: [

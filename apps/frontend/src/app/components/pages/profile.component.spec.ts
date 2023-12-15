@@ -2,19 +2,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileComponent } from './profile.component';
 import { UsersService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-import {NbDialogService, NbDialogRef, NbThemeModule, NbIconLibraries} from '@nebular/theme';
+import { NbDialogService, NbDialogRef, NbThemeModule, NbIconLibraries } from '@nebular/theme';
 import { of } from 'rxjs';
 import { UserDto } from "../../models/user/user.dto";
-import {PasswordDialogComponent} from "../organisms/password-dialog.component";
-import {PasswordChangeDialogComponent} from "../organisms/password-change-dialog.component";
-import {DeleteDialogComponent} from "../organisms/delete-dialog.component";
+import { PasswordDialogComponent } from "../organisms/password-dialog.component";
+import { PasswordChangeDialogComponent } from "../organisms/password-change-dialog.component";
+import { DeleteDialogComponent } from "../organisms/delete-dialog.component";
 
-// Mock return values for dialog components
 const mockDialogRef = {
-  onClose: of({}) // Adjust as needed for different scenarios
+  onClose: of({})
 };
 
-describe('ProfileComponent', () => {
+describe(ProfileComponent.name, () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
   let usersService: UsersService;
@@ -37,7 +36,7 @@ describe('ProfileComponent', () => {
       logout: jest.fn()
     };
     const dialogServiceMock = {
-      open: jest.fn().mockReturnValue(mockDialogRef) // Mock the 'open' method
+      open: jest.fn().mockReturnValue(mockDialogRef)
     };
 
     await TestBed.configureTestingModule({
@@ -98,7 +97,7 @@ describe('ProfileComponent', () => {
   });
 
   it('should handle profile deletion correctly', () => {
-    const mockDeleteConfirmData = { delete: true }; // Simulate user confirmation
+    const mockDeleteConfirmData = { delete: true };
     jest.spyOn(dialogService, 'open').mockReturnValue({ onClose: of(mockDeleteConfirmData) } as NbDialogRef<any>);
 
     component.deleteProfile();

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FourOhFourComponent } from './four-oh-four.component';
 
-describe('FourOhFourComponent', () => {
+describe(FourOhFourComponent.name, () => {
   let component: FourOhFourComponent;
   let fixture: ComponentFixture<FourOhFourComponent>;
 

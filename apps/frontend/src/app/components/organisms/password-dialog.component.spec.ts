@@ -4,7 +4,7 @@ import { NbButtonModule, NbCardModule, NbDialogRef, NbThemeModule } from '@nebul
 import { PasswordDialogComponent, PasswordDialogResult } from './password-dialog.component';
 import { InputComponent } from '../atoms/input.component';
 
-describe('PasswordDialogComponent', () => {
+describe(PasswordDialogComponent.name, () => {
   let mockDialogRef: Partial<NbDialogRef<PasswordDialogComponent>>;
 
   beforeEach(async () => {

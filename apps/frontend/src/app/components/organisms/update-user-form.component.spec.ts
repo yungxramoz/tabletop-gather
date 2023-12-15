@@ -6,7 +6,7 @@ import { User } from '../../models/user/user.dto';
 import { InputComponent } from '../atoms/input.component';
 import { CommonModule } from '@angular/common';
 
-describe('UpdateUserFormComponent', () => {
+describe(UpdateUserFormComponent.name, () => {
   let fixture: ComponentFixture<UpdateUserFormComponent>;
   let component: UpdateUserFormComponent;
 

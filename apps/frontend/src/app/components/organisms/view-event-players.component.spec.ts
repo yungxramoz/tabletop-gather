@@ -5,7 +5,7 @@ import { UserCardComponent } from '../molecules/user-card.component';
 import { UserPlan } from '../../models/user/user-plan.dto';
 import { NbThemeModule } from "@nebular/theme";
 
-describe('ViewEventPlayersComponent', () => {
+describe(ViewEventPlayersComponent.name, () => {
   let fixture: ComponentFixture<ViewEventPlayersComponent>;
   let component: ViewEventPlayersComponent;
 

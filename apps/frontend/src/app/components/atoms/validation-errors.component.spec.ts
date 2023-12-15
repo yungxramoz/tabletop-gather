@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import { ValidationErrorsComponent } from './validation-errors.component';
 import { ValidationErrorService } from '../../services/validation-error.service';
 
-describe('ValidationErrorsComponent', () => {
+describe(ValidationErrorsComponent.name, () => {
   let mockValidationErrorService: Partial<ValidationErrorService>;
 
   beforeEach(async () => {

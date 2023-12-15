@@ -16,7 +16,7 @@ import {
 import { CommonModule, NgIf, NgClass } from '@angular/common';
 import { RouterModule } from "@angular/router";
 
-describe('CollectionComponent', () => {
+describe(CollectionComponent.name, () => {
   let fixture: ComponentFixture<CollectionComponent>;
   let component: CollectionComponent;
   let mockGameService: Partial<GameService>;

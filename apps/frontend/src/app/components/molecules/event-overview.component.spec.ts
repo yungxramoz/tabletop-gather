@@ -4,10 +4,10 @@ import { EventOverviewComponent } from './event-overview.component';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
-import {GameDto} from "../../models/game/game.dto";
-import {OverviewPlan} from "../../models/plan/overview-plan.dto";
+import { GameDto } from "../../models/game/game.dto";
+import { OverviewPlan } from "../../models/plan/overview-plan.dto";
 
-describe('EventOverviewComponent', () => {
+describe(EventOverviewComponent.name, () => {
   const mockGame: GameDto = {
     id: 'test-id',
     name: 'Test Game',

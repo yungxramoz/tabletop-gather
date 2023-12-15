@@ -1,4 +1,4 @@
-import {TestBed, ComponentFixture, tick, fakeAsync, flush} from '@angular/core/testing';
+import { TestBed, ComponentFixture, tick, fakeAsync, flush } from '@angular/core/testing';
 import { AddToCollectionComponent } from './add-to-collection.component';
 import { FormsModule } from '@angular/forms';
 import { GameCardComponent } from '../molecules/game-card.component';
@@ -9,7 +9,7 @@ import { GameService } from '../../services/game.service';
 import { of } from 'rxjs';
 import { GameDto } from '../../models/game/game.dto';
 
-describe('AddToCollectionComponent', () => {
+describe(AddToCollectionComponent.name, () => {
   let fixture: ComponentFixture<AddToCollectionComponent>;
   let component: AddToCollectionComponent;
   let mockGameService: Partial<GameService>;

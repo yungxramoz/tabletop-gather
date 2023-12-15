@@ -1,10 +1,10 @@
-import {TestBed, ComponentFixture, fakeAsync, tick} from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NbCardModule, NbDatepickerModule, NbThemeModule } from '@nebular/theme';
 import { PlanEventDatesFormComponent, PlanEventDatesFormValue } from './plan-event-dates-form.component';
 import { DatepickerComponent } from '../molecules/datepicker.component';
 
-describe('PlanEventDatesFormComponent', () => {
+describe(PlanEventDatesFormComponent.name, () => {
   let fixture: ComponentFixture<PlanEventDatesFormComponent>;
   let component: PlanEventDatesFormComponent;
 

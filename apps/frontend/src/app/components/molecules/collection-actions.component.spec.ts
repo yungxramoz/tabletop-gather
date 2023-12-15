@@ -5,7 +5,7 @@ import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbThemeMod
 import { CollectionActionsComponent } from './collection-actions.component';
 import { SearchInputComponent } from '../atoms/search-input.component';
 
-describe('CollectionActionsComponent', () => {
+describe(CollectionActionsComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

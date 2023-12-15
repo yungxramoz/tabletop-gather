@@ -5,7 +5,7 @@ import { InputComponent } from './input.component';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
-describe('InputComponent', () => {
+describe(InputComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

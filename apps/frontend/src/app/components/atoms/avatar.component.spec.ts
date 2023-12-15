@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AvatarComponent } from './avatar.component';
 import { User } from '../../models/user/user.dto';
 
-describe('AvatarComponent', () => {
+describe(AvatarComponent.name, () => {
   let component: AvatarComponent;
   let fixture: ComponentFixture<AvatarComponent>;
 
@@ -18,7 +18,6 @@ describe('AvatarComponent', () => {
   });
 
   it('should create', () => {
-    // Add fixture.detectChanges() after setting the user property
     component.user = { username: 'johndoe', firstName: 'John', lastName: 'Doe', email: 'johndoe@test.com' };
     fixture.detectChanges();
     expect(component).toBeTruthy();

@@ -5,7 +5,7 @@ import { TextareaComponent } from './textarea.component';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
-describe('TextareaComponent', () => {
+describe(TextareaComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

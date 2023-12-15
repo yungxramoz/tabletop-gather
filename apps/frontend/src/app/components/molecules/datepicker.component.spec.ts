@@ -15,7 +15,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { LabelComponent } from '../atoms/label.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
-describe('DatepickerComponent', () => {
+describe(DatepickerComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

@@ -5,7 +5,7 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { GamePlan } from '../../models/game/game-plan.dto';
 
-describe('GameCardComponent', () => {
+describe(GameCardComponent.name, () => {
   const mockGame: GamePlan = {
     name: 'Test Game',
     imageUrl: 'test-url',

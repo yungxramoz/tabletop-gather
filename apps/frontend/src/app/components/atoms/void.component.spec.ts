@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { VoidComponent } from './void.component';
 
-describe('VoidComponent', () => {
+describe(VoidComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [VoidComponent] // Import the standalone component

@@ -1,4 +1,4 @@
-import {TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { EventsComponent } from './events.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PlanService } from '../../services/plan.service';
@@ -6,7 +6,7 @@ import { NbDialogService, NbIconLibraries, NbThemeModule } from '@nebular/theme'
 import { of } from 'rxjs';
 import { ROUTE_VIEW_EVENT } from "../../constants";
 
-describe('EventsComponent', () => {
+describe(EventsComponent.name, () => {
   let fixture: ComponentFixture<EventsComponent>;
   let component: EventsComponent;
   let mockPlanService: Partial<PlanService>;

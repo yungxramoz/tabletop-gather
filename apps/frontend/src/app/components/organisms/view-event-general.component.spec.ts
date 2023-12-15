@@ -6,7 +6,7 @@ import { EventOverviewComponent } from '../molecules/event-overview.component';
 import { SelectGatheringComponent } from '../molecules/select-gathering.component';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 
-describe('ViewEventGeneralComponent', () => {
+describe(ViewEventGeneralComponent.name, () => {
   let fixture: ComponentFixture<ViewEventGeneralComponent>;
   let component: ViewEventGeneralComponent;
 

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LabelComponent } from './label.component';
 
-describe('LabelComponent', () => {
+describe(LabelComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LabelComponent]

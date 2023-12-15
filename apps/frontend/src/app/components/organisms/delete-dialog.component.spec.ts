@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {NbButtonModule, NbCardModule, NbDialogRef, NbThemeModule} from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogRef, NbThemeModule } from '@nebular/theme';
 import { DeleteDialogComponent } from './delete-dialog.component';
 import { InputComponent } from '../atoms/input.component';
 
-describe('DeleteDialogComponent', () => {
+describe(DeleteDialogComponent.name, () => {
   let mockDialogRef: Partial<NbDialogRef<DeleteDialogComponent>>;
 
   beforeEach(async () => {

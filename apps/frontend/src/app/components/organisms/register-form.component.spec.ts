@@ -7,7 +7,7 @@ import { InputComponent } from '../atoms/input.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 import { CommonModule } from '@angular/common';
 
-describe('RegisterFormComponent', () => {
+describe(RegisterFormComponent.name, () => {
   let fixture: ComponentFixture<RegisterFormComponent>;
   let component: RegisterFormComponent;
 

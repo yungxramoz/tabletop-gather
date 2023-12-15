@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { GameDto } from '../../models/game/game.dto';
 import { DeleteDialogComponent } from './delete-dialog.component';
 
-describe('ViewCollectionOwnComponent', () => {
+describe(ViewCollectionOwnComponent.name, () => {
   let fixture: ComponentFixture<ViewCollectionOwnComponent>;
   let component: ViewCollectionOwnComponent;
   let dialogServiceMock: Partial<NbDialogService>;

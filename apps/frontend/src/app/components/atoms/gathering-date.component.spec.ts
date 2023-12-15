@@ -3,7 +3,7 @@ import { GatheringDateComponent } from './gathering-date.component';
 import { DateTimeGathering } from '../../models/gathering/date-time-gathering.dto';
 import { DetailGathering } from '../../models/gathering/detail-gathering.dto';
 
-describe('GatheringDateComponent', () => {
+describe(GatheringDateComponent.name, () => {
   let component: GatheringDateComponent;
   let fixture: ComponentFixture<GatheringDateComponent>;
 

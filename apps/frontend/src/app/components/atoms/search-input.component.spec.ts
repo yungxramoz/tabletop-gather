@@ -5,7 +5,7 @@ import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 import { SearchInputComponent } from "./search-input.component";
 
-describe('SearchInputComponent', () => {
+describe(SearchInputComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

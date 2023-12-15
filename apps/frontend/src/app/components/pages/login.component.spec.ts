@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { ROUTE_EVENTS } from "../../constants";
 import { NbThemeModule } from "@nebular/theme";
 
-describe('LoginComponent', () => {
+describe(LoginComponent.name, () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let mockAuthService: Partial<AuthService>;

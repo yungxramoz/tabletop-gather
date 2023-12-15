@@ -13,7 +13,7 @@ import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
-describe('AutocompleteComponent', () => {
+describe(AutocompleteComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

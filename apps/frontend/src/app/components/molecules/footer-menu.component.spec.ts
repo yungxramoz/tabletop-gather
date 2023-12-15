@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NbButtonGroupModule, NbButtonModule, NbCardModule, NbIconModule, NbThemeModule } from '@nebular/theme';
 import { FooterMenuComponent } from './footer-menu.component';
 
-describe('FooterMenuComponent', () => {
+describe(FooterMenuComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

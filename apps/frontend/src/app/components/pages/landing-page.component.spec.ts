@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ROUTE_EVENTS, ROUTE_LOGIN } from "../../constants";
 import { NbThemeModule } from "@nebular/theme";
 
-describe('LandingPageComponent', () => {
+describe(LandingPageComponent.name, () => {
   let component: LandingPageComponent;
   let fixture: ComponentFixture<LandingPageComponent>;
   let router: Router;

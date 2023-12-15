@@ -6,7 +6,7 @@ import { InputComponent } from '../atoms/input.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
 
-describe('PasswordChangeDialogComponent', () => {
+describe(PasswordChangeDialogComponent.name, () => {
   let mockDialogRef: Partial<NbDialogRef<PasswordChangeDialogComponent>>;
 
   beforeEach(async () => {
