@@ -9,15 +9,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentDto {
-
-  @NotNull private UUID id;
+public class CreateCommentDto {
 
   @NotEmpty(message = "Comment has to be provided")
   @Size(max = 4000, message = "Comment cannot be longer than 4000 characters")
   private String comment;
 
-  @NotNull private UUID user;
-
-  @NotNull private UUID plan;
+  @NotNull(message = "planId is required")
+  private UUID planId;
 }

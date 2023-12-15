@@ -9,4 +9,5 @@ public class FieldError {
 
   private String field;
   private String errorCode;
+  private String message;
 }

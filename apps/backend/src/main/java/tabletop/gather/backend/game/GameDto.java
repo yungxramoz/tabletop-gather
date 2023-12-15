@@ -12,7 +12,6 @@ public class GameDto {
 
   private UUID id;
 
-  @NotNull
   @Size(max = 255)
   private String name;
 

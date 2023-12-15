@@ -48,6 +48,7 @@ public class RestExceptionHandler {
                   final FieldError fieldError = new FieldError();
                   fieldError.setErrorCode(error.getCode());
                   fieldError.setField(error.getField());
+                  fieldError.setMessage(error.getDefaultMessage());
                   return fieldError;
                 })
             .toList();
