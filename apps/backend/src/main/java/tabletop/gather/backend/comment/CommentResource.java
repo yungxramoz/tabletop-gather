@@ -25,6 +25,7 @@ public class CommentResource {
   /**
    * Get all comments of a plan.
    *
+   * @param id The plan id.
    * @return A list of comments.
    */
   @GetMapping("/plan/{id}")
@@ -35,9 +36,10 @@ public class CommentResource {
   }
 
   /**
-   * Get all comments of a user.
+   * Create a comment.
    *
-   * @return A list of comments.
+   * @param commentDto The comment data.
+   * @return The created comment id.
    */
   @PostMapping
   @ApiResponse(responseCode = "201")
