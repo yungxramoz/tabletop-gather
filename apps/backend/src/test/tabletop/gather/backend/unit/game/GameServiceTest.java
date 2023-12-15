@@ -114,8 +114,8 @@ public class GameServiceTest {
     List<GamePlanDto> response = gameService.findByAttendingOnPlan(planId);
 
     assertEquals(1, response.size());
-    assertEquals(gathering.getDate(), response.get(0).getGatheringDate());
-    assertEquals(gathering.getStartTime(), response.get(0).getGatheringStartTime());
+    assertEquals(gathering.getDate(), response.get(0).getGatheringDto().getDate());
+    assertEquals(gathering.getStartTime(), response.get(0).getGatheringDto().getStartTime());
     assertEquals(1, response.get(0).getGames().size()); // game2 is filtered out
     assertEquals(game1.getId(), response.get(0).getGames().get(0).getId());
     assertEquals(1, response.get(0).getGames().get(0).getOwners().size());
