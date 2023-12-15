@@ -30,7 +30,13 @@ import { ValidationErrorsComponent } from './validation-errors.component';
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
 
     <nb-form-field class="tg-p-0 tg-m-0">
-      <nb-icon ghost *ngIf="icon" nbPrefix [icon]="icon"></nb-icon>
+      <nb-icon
+        class="tg-fixed-input-prefix-icon"
+        ghost
+        *ngIf="icon"
+        nbPrefix
+        [icon]="icon"
+      ></nb-icon>
       <input
         nbInput
         fullWidth

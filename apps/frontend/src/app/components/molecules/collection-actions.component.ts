@@ -38,7 +38,7 @@ import { AutocompleteComponent } from './autocomplete.component';
           id="search"
           name="search"
           icon="search"
-          placeholder="Search"
+          placeholder="Search your collection"
           (searchInput)="handleSearchInput($event)"
         ></tg-search-input>
       </nb-action>
