@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ROUTE_ADD_TO_COLLECTION,
   ROUTE_COLLECTION,
   ROUTE_EVENTS,
-  ROUTE_PLAN_EVENT, ROUTE_PROFILE,
-  ROUTE_VIEW_EVENT
-} from "../constants";
+  ROUTE_PLAN_EVENT,
+  ROUTE_PROFILE,
+  ROUTE_VIEW_EVENT,
+} from '../constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NavigationService {
-
   public constructor(private readonly router: Router) {}
 
   public back(): void {
@@ -25,10 +25,10 @@ export class NavigationService {
     return !this.isMainFeaturePage();
   }
 
-  private isMainFeaturePage() {
-    return this.router.url === '/' + ROUTE_EVENTS
-      || this.router.url === '/' + ROUTE_COLLECTION
-      || this.router.url === '/' + ROUTE_PROFILE;
+  private isMainFeaturePage(): boolean {
+    return ['', ROUTE_EVENTS, ROUTE_COLLECTION, ROUTE_PROFILE].some(
+      (route) => this.router.url == '/' + route
+    );
   }
 
   private getParentUrl(url: string): string {
