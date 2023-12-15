@@ -20,7 +20,7 @@ import {
   NbInputModule,
   NbListModule,
 } from '@nebular/theme';
-import { Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
@@ -112,7 +112,10 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('searchInput')
   public readonly inputElement!: ElementRef<HTMLInputElement>;
 
-  @Input({ required: true }) public options!: T[] | null;
+  @Input({ required: true }) public set options(value: T[] | null) {
+    this.optionsSubject.next(value ?? []);
+  }
+
   @Input({ required: true }) public optionSelector!: (option: T) => string;
   @Input() public optionImageUrlSelector: ((option: T) => string) | undefined;
   @Input() public label: string | undefined;
@@ -127,6 +130,7 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
   public filteredOptions$!: Observable<T[]>;
 
   private static uniqueId = 0;
+  private optionsSubject = new BehaviorSubject<T[]>([]);
 
   private _value!: T[];
   public set value(value: T[] | undefined) {
@@ -150,10 +154,10 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
 
     this.searchTerm.emit(inputValue);
 
-    this.filteredOptions$ = of(this.options).pipe(
+    this.filteredOptions$ = this.optionsSubject.pipe(
       map(
-        (options) =>
-          options?.filter((option) =>
+        (currentOptions) =>
+          currentOptions?.filter((option) =>
             this.optionSelector(option)
               .toLowerCase()
               .includes(inputValue.toLowerCase())
@@ -206,6 +210,6 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
   }
 
   public ngOnInit() {
-    this.filteredOptions$ = of(this.options ?? []);
+    this.filteredOptions$ = this.optionsSubject.asObservable();
   }
 }

@@ -9,13 +9,22 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbTabComponent, NbTabsetModule } from '@nebular/theme';
-import { Observable, map, of, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  map,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { MOCK_GAME_DTOS_LARGE } from '../../mocks/game.mock';
-import { MOCK_USER_DTOS } from '../../mocks/user.mock';
 import { GamePlanDto } from '../../models/game/game-plan.dto';
-import { DateTimeGatheringDto } from '../../models/gathering/date-time-gathering.dto';
+import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
+import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { UserPlanDto } from '../../models/user/user-plan.dto';
+import { GatheringService } from '../../services/gathering.service';
 import { PlanService } from '../../services/plan.service';
 import { UsersService } from '../../services/user.service';
 import { updateNumberBadge } from '../../utils/nebular.utility';
@@ -43,6 +52,8 @@ import { ViewEventPlayersComponent } from '../organisms/view-event-players.compo
           <tg-view-event-general
             [isOwner]="isOwner$ | async"
             [detailPlan]="detailPlan"
+            [myGatheringsForThisPlan]="myGatheringsForThisPlan$ | async"
+            (gatheringUpserted)="onGatheringUpserted($event)"
           ></tg-view-event-general>
         </nb-tab>
 
@@ -76,21 +87,27 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
   public attendees$!: Observable<UserPlanDto[]>;
   public availableGames$!: Observable<GamePlanDto[]>;
   public isOwner$!: Observable<boolean>;
+  public myGatheringsForThisPlan$!: Observable<OverviewGatheringDto[] | null>;
 
   public constructor(
     private readonly route: ActivatedRoute,
     private readonly planService: PlanService,
-    private readonly userService: UsersService
+    private readonly userService: UsersService,
+    private readonly gatheringService: GatheringService
   ) {}
+
+  public onGatheringUpserted(upsertGatheringDtos: UpsertGatheringDto[]) {
+    this.gatheringService.attendGathering(upsertGatheringDtos).subscribe();
+  }
 
   public ngOnInit() {
     this.detailPlan$ = this.route.params.pipe(
       map((params) => params['eventId']),
-      switchMap((eventId) => this.planService.getPlanById(eventId))
+      switchMap((eventId) => this.planService.getPlanById(eventId)),
+      shareReplay(1)
     );
   }
 
-  // TODO (decide): How do we push the selected gathering to the backend?
   public ngAfterViewInit() {
     this.isOwner$ = this.detailPlan$.pipe(
       switchMap((plan) =>
@@ -98,34 +115,17 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
         // in the user service and:
         // - call /users/me if it's currently null
         // - next it if the user gets updated
-        // - next it if to null if the user logs out or gets deleted
+        // - next it to null if the user logs out or gets deleted
         // Then replace calls to userService.me() with userService.me$
         this.userService.me().pipe(map((me) => me.email === plan.owner.email))
       )
     );
 
     this.attendees$ = this.detailPlan$.pipe(
-      map((plan) => {
-        // TODO: Get from api
-        const users = MOCK_USER_DTOS.map((user, index) => {
-          const fullName = `${user.firstName} ${user.lastName}`;
-          const attendingGatherings = plan?.gatherings
-            .slice(0, Math.ceil(Math.random() * plan.gatherings.length))
-            .map((gathering) => {
-              delete (gathering as any).participantCount;
-              return gathering as DateTimeGatheringDto;
-            });
-
-          return <UserPlanDto>{
-            id: index.toString(),
-            fullName,
-            attendingGatherings,
-          };
-        });
-
-        return users.slice(0, plan.playerLimit);
-      }),
-      tap((users) => updateNumberBadge(this.tabs.get(1)!, users.length))
+      switchMap((plan) => this.userService.getUsersByPlanId(plan.id)),
+      tap((users) =>
+        updateNumberBadge(this.tabs.get(1) ?? undefined, users.length)
+      )
     );
 
     this.availableGames$ = of(
@@ -135,5 +135,29 @@ export class ViewEventComponent implements OnInit, AfterViewInit {
         owners: ['John Doe', 'Jane Doe'],
       }))
     );
+
+    this.myGatheringsForThisPlan$ = this.planService
+      .getAllAttendingPlans()
+      .pipe(
+        withLatestFrom(this.detailPlan$),
+        map(([myAttendingPlans, detailPlan]) => {
+          const attendingPlan = myAttendingPlans.find(
+            (plan) => plan.id === detailPlan.id
+          );
+
+          // Pluck the matching DetailGatheringDtos from the detail plan
+          if (attendingPlan) {
+            const myGatherings = attendingPlan.gatheringDtos.filter(
+              (attendingGathering) =>
+                detailPlan.gatherings.some(
+                  (gathering) => attendingGathering.id === gathering.id
+                )
+            );
+
+            return myGatherings;
+          }
+          return null;
+        })
+      );
   }
 }

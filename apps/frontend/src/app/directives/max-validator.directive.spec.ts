@@ -17,7 +17,7 @@ describe(MaxValidatorDirective.name, () => {
     expect(directive).toBeTruthy();
   });
 
-  describe('validate', () => {
+  describe(MaxValidatorDirective.prototype.validate.name, () => {
     it('should return null if value is less than or equal to tgMaxValidator', () => {
       // Arrange
       directive.tgMaxValidator = 10;

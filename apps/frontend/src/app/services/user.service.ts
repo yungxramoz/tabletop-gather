@@ -5,7 +5,9 @@ import { Inject, Injectable } from '@angular/core';
 
 import { API_BASE_URL } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
+import { DetailPlanDto } from '../models/plan/detail-plan.dto';
 import { PasswordUpdate } from '../models/user/password-update.dto';
+import { UserPlanDto } from '../models/user/user-plan.dto';
 import { UserUpdate } from '../models/user/user-update.dto';
 import { UserDto } from '../models/user/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
@@ -133,6 +135,31 @@ export class UsersService {
         filter((response) => response !== null),
         map((response) => response?.body as object),
         map((userJson) => UserDto.fromJson(userJson))
+      );
+  }
+
+  /**
+   * Gets all users attending a plan.
+   *
+   * @param {DetailPlanDto['id']} planId - The id of the plan
+   * @returns {Observable<UserPlanDto[]>} - The users attending the plan
+   *
+   */
+  public getUsersByPlanId(
+    planId: DetailPlanDto['id']
+  ): Observable<UserPlanDto[]> {
+    return this.http
+      .get<object[]>(`${this.usersUrl}/plan/${planId}`, {
+        responseType: 'json',
+        observe: 'response',
+      })
+      .pipe(
+        this.responseHandler.handleErrorResponse(),
+        filter((response) => response !== null),
+        map((response) => response?.body as object[]),
+        map((usersJson) =>
+          usersJson.map((user: unknown) => UserPlanDto.fromJson(user))
+        )
       );
   }
 }

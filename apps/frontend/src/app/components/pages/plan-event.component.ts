@@ -42,8 +42,8 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
     PlanEventSummaryComponent,
   ],
   template: `
-    <div class="tg-flex-col tg-justify-between tg-full">
-      <nb-stepper #stepper class="tg-full">
+    <div class="tg-flex-col">
+      <nb-stepper #stepper class="tg-full-width">
         <nb-step label="Event">
           <ng-template nbStepLabel>Event</ng-template>
           <tg-plan-event-general-form
@@ -65,7 +65,7 @@ export type PlanEventFormValue = PlanEventGeneralFormValue &
         </nb-step>
       </nb-stepper>
 
-      <div class="tg-flex-row tg-justify-end tg-m-4">
+      <div class="tg-flex-row tg-m-4">
         <button
           nbButton
           ghost
@@ -101,7 +101,7 @@ export class PlanEventComponent implements AfterViewInit {
   private generalFormComponent!: PlanEventGeneralFormComponent;
 
   public planEventValue$!: Observable<PlanEventFormValue | null>;
-  public readonly games$: Observable<Game[]> = this.gameService.getAllMyGames();
+  public games$: Observable<Game[]> = this.gameService.getAllMyGames();
 
   public constructor(
     private readonly planService: PlanService,

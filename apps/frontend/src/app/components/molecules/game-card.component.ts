@@ -1,9 +1,15 @@
 import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { BehaviorSubject, delay, of, tap } from 'rxjs';
 import { GamePlan } from '../../models/game/game-plan.dto';
-import {Game, GameDto} from '../../models/game/game.dto';
+import { Game, GameDto } from '../../models/game/game.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 
@@ -62,20 +68,19 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             </div>
           </ng-template>
 
-
-          <div class="tg-ml-auto tg-p-1">
-            <div
-              class="tg-flex-row tg-align-center"
-              *ngIf="getMinMaxPlayer() as playerRange"
-            >
-              <nb-icon
-                class="tg-mr-1"
-                status="primary"
-                icon="people-outline"
-              ></nb-icon>
-              <p class="caption">{{ playerRange }}</p>
-            </div>
+          <div
+            class="tg-flex-row tg-align-center"
+            *ngIf="getMinMaxPlayer() as playerRange"
+          >
+            <nb-icon
+              class="tg-mr-1"
+              status="primary"
+              icon="people-outline"
+            ></nb-icon>
+            <p class="caption">{{ playerRange }}</p>
           </div>
+
+          <div class="tg-m-1"></div>
 
           <button
             nbButton
@@ -95,9 +100,8 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
             (click)="onActionButtonClicked()"
           >
             <nb-icon [icon]="actionButton!.icon || ''"></nb-icon>
-            <span *ngIf="actionButton.label">{{ actionButton.label}}</span>
+            <span *ngIf="actionButton.label">{{ actionButton.label }}</span>
           </button>
-
         </div>
       </nb-card-footer>
     </nb-card>
@@ -107,9 +111,9 @@ import { LazyImageComponent } from '../atoms/lazy-image.component';
 export class GameCardComponent {
   @Input({ required: true }) public game!: GamePlan | Game;
   @Input() public actionButton?: {
-    icon?: string,
-    label?: string,
-    status?: string,
+    icon?: string;
+    label?: string;
+    status?: string;
   };
 
   @Output() public actionButtonClicked = new EventEmitter<GameDto>();

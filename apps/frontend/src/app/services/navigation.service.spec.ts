@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
-describe('NavigationService', () => {
+describe(NavigationService.name, () => {
   let service: NavigationService;
   let navigateByUrlMock: jest.Mock;
   let mockUrl: string;
@@ -33,7 +33,7 @@ describe('NavigationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('back', () => {
+  describe(NavigationService.prototype.back.name, () => {
     it('should navigate to /events from an event plan page', () => {
       mockUrl = '/plan-event';
       service.back();
@@ -59,7 +59,7 @@ describe('NavigationService', () => {
     });
   });
 
-  describe('showBackButton', () => {
+  describe(NavigationService.prototype.showBackButton.name, () => {
     it('should return false if the url is a main feature page', () => {
       mockUrl = '/events';
       expect(service.showBackButton()).toBeFalsy();

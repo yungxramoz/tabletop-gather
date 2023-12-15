@@ -1,12 +1,24 @@
-import {ChangeDetectionStrategy, Component, HostListener, ChangeDetectorRef} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {GameCardComponent} from "../molecules/game-card.component";
-import {concatMap, debounceTime, finalize, Observable, of, Subject} from "rxjs";
-import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
-import {Game, GameDto} from "../../models/game/game.dto";
-import {GameService} from "../../services/game.service";
-import {NbSpinnerModule} from "@nebular/theme";
-import {SearchInputComponent} from "../atoms/search-input.component";
+import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NbSpinnerModule } from '@nebular/theme';
+import {
+  Observable,
+  Subject,
+  concatMap,
+  debounceTime,
+  finalize,
+  of,
+} from 'rxjs';
+import { Game, GameDto } from '../../models/game/game.dto';
+import { GameService } from '../../services/game.service';
+import { SearchInputComponent } from '../atoms/search-input.component';
+import { GameCardComponent } from '../molecules/game-card.component';
 
 @Component({
   standalone: true,
@@ -19,7 +31,7 @@ import {SearchInputComponent} from "../atoms/search-input.component";
     NgIf,
     NbSpinnerModule,
     NgClass,
-    SearchInputComponent
+    SearchInputComponent,
   ],
   template: `
     <ng-container>
@@ -29,18 +41,22 @@ import {SearchInputComponent} from "../atoms/search-input.component";
         id="search"
         name="search"
         icon="search"
-        placeholder="Search"
+        placeholder="Search for a game"
         (searchInput)="handleSearchInput($event)"
       ></tg-search-input>
       <ng-container *ngFor="let game of (filteredOptions$ | async) || []">
         <tg-game-card
           [game]="game"
-          [actionButton]="{icon: 'plus', status: 'primary'}"
+          [actionButton]="{ icon: 'plus', status: 'primary' }"
           (actionButtonClicked)="handleAddToCollection($event)"
         ></tg-game-card>
       </ng-container>
       <ng-container *ngIf="isLoading">
-        <nb-spinner [ngClass]="{'tg-relative': (filteredOptions$ | async)?.length}" status="primary" size="large"></nb-spinner>
+        <nb-spinner
+          [ngClass]="{ 'tg-relative': (filteredOptions$ | async)?.length }"
+          status="primary"
+          size="large"
+        ></nb-spinner>
       </ng-container>
     </ng-container>
   `,
@@ -74,9 +90,19 @@ export class AddToCollectionComponent {
 
   @HostListener('window:scroll', ['$event'])
   private onScroll(): void {
-    const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-    const body = document.body, html = document.documentElement;
-    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    const windowHeight =
+      'innerHeight' in window
+        ? window.innerHeight
+        : document.documentElement.offsetHeight;
+    const body = document.body,
+      html = document.documentElement;
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
     const windowBottom = windowHeight + window.pageYOffset;
 
     if (windowBottom >= docHeight - 1) {
@@ -89,7 +115,8 @@ export class AddToCollectionComponent {
 
     this.isLoading = true;
 
-    this.gameService.getAllGames(this.searchInput, this.currentPage)
+    this.gameService
+      .getAllGames(this.searchInput, this.currentPage)
       .pipe(
         finalize(() => {
           this.isLoading = false;
@@ -111,6 +138,6 @@ export class AddToCollectionComponent {
   }
 
   public handleAddToCollection(game: GameDto) {
-    this.gameService.addGameToCollection(game.id).subscribe()
+    this.gameService.addGameToCollection(game.id).subscribe();
   }
 }

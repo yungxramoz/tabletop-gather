@@ -37,7 +37,7 @@ describe(GameService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getAllGames', () => {
+  describe(GameService.prototype.getAllGames.name, () => {
     it('should return an array of GameDto objects', () => {
       // Arrange
       const name = 'test';
@@ -62,7 +62,7 @@ describe(GameService.name, () => {
     });
   });
 
-  describe('getAllMyGames', () => {
+  describe(GameService.prototype.getAllMyGames.name, () => {
     it('should return an array of GameDto objects', () => {
       // Arrange
       const myGames: GameDto[] = [
@@ -84,7 +84,7 @@ describe(GameService.name, () => {
     });
   });
 
-  describe('addGameToCollection', () => {
+  describe(GameService.prototype.addGameToCollection.name, () => {
     it('should add a game to the collection', () => {
       const gameId = '123abc';
 
@@ -95,11 +95,10 @@ describe(GameService.name, () => {
       const req = httpMock.expectOne(`${apiBaseUrl}/games/${gameId}/add`);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual({ gameId });
-
     });
   });
 
-  describe('deleteFromCollection', () => {
+  describe(GameService.prototype.deleteFromCollection.name, () => {
     it('should delete a game from the collection', () => {
       const gameId = '123abc';
 

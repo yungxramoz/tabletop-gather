@@ -36,6 +36,7 @@ import { EventOverviewComponent } from './event-overview.component';
           <button
             nbButton
             fullWidth
+            class="tg-mt-2"
             status="primary"
             shape="semi-round"
             (click)="createEvent.emit(event!)"

@@ -30,7 +30,7 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
         <p class="tg-pt-1">{{ plan.isPrivate ? 'Private' : 'Public' }}</p>
       </div>
 
-      <div class="tg-my-2" *ngIf="showOptions">
+      <div class="tg-mt-2" *ngIf="showOptions">
         <p class="label">Options</p>
         <div class="tg-pt-1">
           <p *ngFor="let gathering of mapGatheringsFromFormValue(plan)">
@@ -39,12 +39,12 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
         </div>
       </div>
 
-      <div class="tg-my-2">
+      <div class="tg-mt-2">
         <p class="label">Player Limit</p>
         <p class="tg-pt-1">{{ plan.playerLimit }}</p>
       </div>
 
-      <div class="tg-my-2" *ngIf="mapGameFromFormValue(plan.game) as game">
+      <div class="tg-mt-2" *ngIf="mapGameFromFormValue(plan.game) as game">
         <p class="label">Game</p>
         <div class="tg-pt-1 tg-flex-row tg-justify-start">
           <tg-lazy-image [src]="game.imageUrl" class="tg-mr-1"></tg-lazy-image>
@@ -74,7 +74,7 @@ export class EventOverviewComponent {
     const gatheringProp: keyof DetailPlan = 'gatherings';
 
     const gatherings =
-      gatheringProp in plan ? plan[gatheringProp] : plan.gatheringDates;
+      gatheringProp in plan ? plan[gatheringProp] : plan.gatheringDtos;
 
     return gatherings.map((gathering) =>
       gathering instanceof Date ? gathering : gathering.date

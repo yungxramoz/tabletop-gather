@@ -7,6 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { API_BASE_URL } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
 import { PasswordUpdate } from '../models/user/password-update.dto';
+import { UserPlanDto } from '../models/user/user-plan.dto';
 import { UserUpdateDto } from '../models/user/user-update.dto';
 import { UserDto } from '../models/user/user.dto';
 import { ResponseHandler } from '../utils/response.handler';
@@ -43,7 +44,7 @@ describe(UsersService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getAllUsers', () => {
+  describe(UsersService.prototype.getAllUsers.name, () => {
     it('should return an Observable of UserDto[]', () => {
       // Arrange
       const mockUsers: UserDto[] = [
@@ -76,7 +77,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('deleteMe', () => {
+  describe(UsersService.prototype.deleteMe.name, () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
@@ -94,7 +95,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('updateMe', () => {
+  describe(UsersService.prototype.updateMe.name, () => {
     it('should return an Observable of string', () => {
       // Arrange
       const mockUserId = '1';
@@ -120,7 +121,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('updateMyPassword', () => {
+  describe(UsersService.prototype.updateMyPassword.name, () => {
     it('should return an Observable of JwtDto', () => {
       // Arrange
       const mockJwtDto = {} as unknown as JwtDto;
@@ -144,7 +145,7 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe('me', () => {
+  describe(UsersService.prototype.me.name, () => {
     it('should send a GET request to the me endpoint and return the user DTO', () => {
       // Arrange
       const expectedUserDto: UserDto = {} as unknown as UserDto;
@@ -159,6 +160,48 @@ describe(UsersService.name, () => {
       const req = httpMock.expectOne(`${apiBaseUrl}/users/me`);
       expect(req.request.method).toBe('GET');
       req.flush(expectedUserDto);
+    });
+  });
+
+  describe(UsersService.prototype.getUsersByPlanId.name, () => {
+    it('should send a GET request to the users by plan endpoint and return the user DTO', () => {
+      // Arrange
+      const planId = '1';
+      const expectedUserPlanDto: UserPlanDto[] = [
+        {
+          id: '1',
+          fullName: 'John Doe',
+          attendingGatherings: [
+            {
+              id: '1',
+              date: new Date(),
+              startTime: '12:00',
+            },
+          ],
+        },
+        {
+          id: '2',
+          fullName: 'Jane Doe',
+          attendingGatherings: [
+            {
+              id: '2',
+              date: new Date(),
+              startTime: '12:00',
+            },
+          ],
+        },
+      ];
+
+      // Act
+      service.getUsersByPlanId(planId).subscribe((userPlanDto) => {
+        // Assert
+        expect(userPlanDto).toEqual(expectedUserPlanDto);
+      });
+
+      // Assert
+      const req = httpMock.expectOne(`${apiBaseUrl}/users/plan/${planId}`);
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedUserPlanDto);
     });
   });
 });

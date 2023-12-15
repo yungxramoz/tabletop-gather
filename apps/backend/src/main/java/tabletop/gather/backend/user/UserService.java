@@ -130,7 +130,7 @@ public class UserService {
             .map(
                 gathering -> {
                   DateTimeGatheringDto dto = new DateTimeGatheringDto();
-                  dto.setTime(gathering.getStartTime());
+                  dto.setStartTime(gathering.getStartTime());
                   dto.setDate(gathering.getDate());
                   return dto;
                 })

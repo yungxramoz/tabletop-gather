@@ -13,53 +13,56 @@ describe(ValidationErrorService.name, () => {
     expect(service).toBeTruthy();
   });
 
-  describe('friendlyValidationErrors', () => {
-    it('should return an array of error messages', () => {
-      // Arrange
-      const errors = {
-        required: true,
-        minlength: {
-          requiredLength: 5,
-          actualLength: 3,
-        },
-      };
-      const fieldName = 'Test Field';
+  describe(
+    ValidationErrorService.prototype.friendlyValidationErrors.name,
+    () => {
+      it('should return an array of error messages', () => {
+        // Arrange
+        const errors = {
+          required: true,
+          minlength: {
+            requiredLength: 5,
+            actualLength: 3,
+          },
+        };
+        const fieldName = 'Test Field';
 
-      // Act
-      const result = service.friendlyValidationErrors(errors, fieldName);
+        // Act
+        const result = service.friendlyValidationErrors(errors, fieldName);
 
-      // Assert
-      expect(result).toEqual([
-        'Test Field is required',
-        'Test Field must be at least 5 characters',
-      ]);
-    });
+        // Assert
+        expect(result).toEqual([
+          'Test Field is required',
+          'Test Field must be at least 5 characters',
+        ]);
+      });
 
-    it('should return an array with default error message if mapping is missing', () => {
-      // Arrange
-      const errors = {
-        customError: true,
-      };
-      const fieldName = 'Test Field';
+      it('should return an array with default error message if mapping is missing', () => {
+        // Arrange
+        const errors = {
+          customError: true,
+        };
+        const fieldName = 'Test Field';
 
-      // Act
-      const result = service.friendlyValidationErrors(errors, fieldName);
+        // Act
+        const result = service.friendlyValidationErrors(errors, fieldName);
 
-      // Assert
-      expect(result).toEqual(['Test Field is invalid']);
-    });
+        // Assert
+        expect(result).toEqual(['Test Field is invalid']);
+      });
 
-    it('should use default field name if fieldName parameter is not provided', () => {
-      // Arrange
-      const errors = {
-        required: true,
-      };
+      it('should use default field name if fieldName parameter is not provided', () => {
+        // Arrange
+        const errors = {
+          required: true,
+        };
 
-      // Act
-      const result = service.friendlyValidationErrors(errors);
+        // Act
+        const result = service.friendlyValidationErrors(errors);
 
-      // Assert
-      expect(result).toEqual(['This field is required']);
-    });
-  });
+        // Assert
+        expect(result).toEqual(['This field is required']);
+      });
+    }
+  );
 });

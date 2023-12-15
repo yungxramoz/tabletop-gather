@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,13 +7,24 @@ import {
   Output,
 } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
+import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { getDateCHFormat } from '../../utils/date.utility';
+import { GatheringDateComponent } from '../atoms/gathering-date.component';
 
 @Component({
   standalone: true,
   selector: 'tg-event-card',
-  imports: [NgIf, NbCardModule, NbButtonModule, NbIconModule, TruncatePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    TruncatePipe,
+    GatheringDateComponent,
+  ],
   template: `
     <nb-card>
       <nb-card-header
@@ -26,7 +37,14 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
         <div class="tg-flex-row tg-justify-between">
           <div class="tg-flex-col tg-align-start">
             <p class="caption-2">
-              {{ overviewPlanDto.gatheringDates.join(', ') }}
+              <ng-container
+                *ngFor="let gathering of overviewPlanDto.gatheringDtos"
+              >
+                <tg-gathering-date
+                  [date]="gathering"
+                  [dateOnly]="true"
+                ></tg-gathering-date>
+              </ng-container>
             </p>
             {{ overviewPlanDto.name }}
           </div>
@@ -61,7 +79,9 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
             >
               <nb-icon icon="trash-2-outline"></nb-icon>
             </button>
+
             <div class="tg-m-1"></div>
+
             <button
               nbButton
               ghost
@@ -88,4 +108,11 @@ export class EventCardComponent {
   public deleteClicked: EventEmitter<void> = new EventEmitter();
   @Output()
   public editClicked: EventEmitter<void> = new EventEmitter();
+
+  public getGatheringDatesShort(gatherings: OverviewGatheringDto[]): string {
+    const dates = gatherings.map((gathering) =>
+      getDateCHFormat(gathering.date)
+    );
+    return [...new Set(dates)].join(' | ');
+  }
 }

@@ -27,7 +27,7 @@ describe(PasswordValidatorDirective.name, () => {
     expect(directive).toBeTruthy();
   });
 
-  describe('validate', () => {
+  describe(PasswordValidatorDirective.prototype.validate.name, () => {
     it('should return null if passwords match', () => {
       // Arrange
       const groupMock: Partial<AbstractControl> = {

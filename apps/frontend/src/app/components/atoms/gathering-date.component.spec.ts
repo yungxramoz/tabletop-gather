@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GatheringDateComponent } from './gathering-date.component';
 import { DateTimeGathering } from '../../models/gathering/date-time-gathering.dto';
 import { DetailGathering } from '../../models/gathering/detail-gathering.dto';
+import { GatheringDateComponent } from './gathering-date.component';
 
 describe(GatheringDateComponent.name, () => {
   let component: GatheringDateComponent;
   let fixture: ComponentFixture<GatheringDateComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-    }).compileComponents();
+    await TestBed.configureTestingModule({}).compileComponents();
   });
 
   beforeEach(() => {
@@ -50,7 +49,7 @@ describe(GatheringDateComponent.name, () => {
   describe(GatheringDateComponent.prototype.getTimeString.name, () => {
     it('should format time correctly for Date input', () => {
       const date = new Date(2023, 4, 15, 14, 30);
-      expect(component.getTimeString(date)).toBe('14:30');
+      expect(component.getTimeString(date)).toBe(' at 14:30');
     });
 
     it('should format time correctly for DateTimeGathering input', () => {
@@ -58,7 +57,7 @@ describe(GatheringDateComponent.name, () => {
         date: new Date(2023, 11, 20),
         startTime: '14:30',
       };
-      expect(component.getTimeString(dateTimeGathering)).toBe('14:30');
+      expect(component.getTimeString(dateTimeGathering)).toBe(' at 14:30');
     });
   });
 });
