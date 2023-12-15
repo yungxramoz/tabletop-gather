@@ -68,6 +68,7 @@ export class SelectGatheringComponent implements AfterViewInit {
         const upsertGatheringDtos: UpsertGatheringDto[] = Object.entries(
           values
         ).map(([id, canAttend]) => {
+          canAttend ??= false;
           return { id, canAttend };
         });
 
