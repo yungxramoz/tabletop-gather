@@ -29,6 +29,7 @@ import { ValidationErrorsComponent } from './validation-errors.component';
       nbInput
       fullWidth
       shape="semi-round"
+      [autocomplete]="id"
       [type]="type"
       [id]="id"
       [value]="value"
