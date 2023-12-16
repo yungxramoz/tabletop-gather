@@ -10,4 +10,9 @@ export class UpsertGatheringDto extends Dto {
   public canAttend!: boolean;
 }
 
+/**
+ * Model for upserting a gathering.
+ *
+ * @see {@link UpsertGatheringDto}
+ */
 export type UpsertGathering = Model<UpsertGatheringDto>;

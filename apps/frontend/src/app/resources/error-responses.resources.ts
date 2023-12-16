@@ -2,22 +2,42 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponse } from '../models/error.model';
 import { Digit } from '../utils/types';
 
+/**
+ * The title and message of a toast error message.
+ */
 export type ToastErrorMessage = {
   title: string;
   message: string;
 };
 
+/**
+ * The name of an api exception.
+ */
 export type ApiException = `${string}Exception`;
+
+/**
+ * The status of an http error.
+ */
 export type HttpErrorStatus = `${4 | 5}${Digit}${Digit}`;
 
+/**
+ * The map of api exceptions to toast error messages.
+ */
 export type ApiExceptionToastMessageMap = Record<
   ApiException,
   ToastErrorMessage
 >;
+
+/**
+ * The map of http error statuses to toast error messages.
+ */
 export type HttpErrorStatusToastMessageMap = Partial<
   Record<HttpErrorStatus, ToastErrorMessage>
 >;
 
+/**
+ * The default map of api exceptions to **friendly** toast error messages.
+ */
 export const DEFAULT_API_EXCEPTION_MESSAGES: ApiExceptionToastMessageMap = {
   NotFoundException: {
     title: "We couldn't find what you were looking for in our database",
@@ -51,6 +71,9 @@ export const DEFAULT_API_EXCEPTION_MESSAGES: ApiExceptionToastMessageMap = {
   },
 };
 
+/**
+ * The default map of http error statuses to **friendly** toast error messages.
+ */
 export const DEFAULT_HTTP_ERROR_STATUS_MESSAGES: HttpErrorStatusToastMessageMap =
   {
     '400': {
@@ -85,6 +108,16 @@ export const DEFAULT_HTTP_ERROR_STATUS_MESSAGES: HttpErrorStatusToastMessageMap 
     },
   };
 
+/**
+ * Returns a friendly error response for the given error response.
+ * It will return a friendly error response for api exceptions if the error response is a {@link HttpErrorResponse} and the error response is a {@link ErrorResponse}.
+ * Otherwise, it will return a sensible default error. You can override these messages by passing in a map of api exceptions to toast error messages and/or a map of http error statuses to toast error messages.
+ *
+ * @param {HttpErrorResponse} errorResponse - The error response from the server
+ * @param {ApiExceptionToastMessageMap} overrideApiError - The map of api exceptions to toast error messages to override the default map. {@link DEFAULT_API_EXCEPTION_MESSAGES}
+ * @param {HttpErrorStatusToastMessageMap} overrideHttpErrorResponse - The map of http error statuses to toast error messages to override the default map. {@link DEFAULT_HTTP_ERROR_STATUS_MESSAGES}
+ * @returns {ToastErrorMessage} The friendly error response
+ */
 export const friendlyErrorReponse = (
   errorResponse: HttpErrorResponse,
   overrideApiError?: ApiExceptionToastMessageMap,

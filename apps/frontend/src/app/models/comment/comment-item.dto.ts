@@ -19,4 +19,9 @@ export class CommentItemDto extends Dto {
   public dateCreated!: Date;
 }
 
+/**
+ * Model for comments.
+ *
+ * @see {@link CommentItemDto}
+ */
 export type CommentItem = Model<CommentItemDto>;

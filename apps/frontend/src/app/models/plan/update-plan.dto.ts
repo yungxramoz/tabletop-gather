@@ -18,4 +18,9 @@ export class UpdatePlanDto extends Dto {
   public game?: Uuid;
 }
 
+/**
+ * Model for creating a plan
+ *
+ * @see {@link UpdatePlanDto}
+ */
 export type UpdatePlan = Model<UpdatePlanDto>;

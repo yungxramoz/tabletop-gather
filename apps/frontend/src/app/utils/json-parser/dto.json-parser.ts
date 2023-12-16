@@ -3,8 +3,19 @@ import { CommentItem } from '../../models/comment/comment-item.dto';
 import { DetailGathering } from '../../models/gathering/detail-gathering.dto';
 import { JsonParser } from './base.json-parser';
 
+/**
+ * JSON parser which can revive dates in JSON strings
+ *
+ * @implements {JsonParser}
+ */
 @Injectable()
 export class DtoJsonParser implements JsonParser {
+  /**
+   * Will parse a JSON string and revive dates
+   *
+   * @param {string} text - The JSON to parse
+   * @returns {unknown} The parsed JSON
+   */
   public parse(text: string): unknown {
     return text && text.length ? JSON.parse(text, dtoMappingReviver) : '{}';
   }

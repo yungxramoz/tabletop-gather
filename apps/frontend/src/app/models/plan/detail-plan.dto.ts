@@ -25,4 +25,9 @@ export class DetailPlanDto extends Dto {
   public gatherings: DetailGatheringDto[] = [];
 }
 
+/**
+ * Model for plan details.
+ *
+ * @see {@link DetailPlanDto}
+ */
 export type DetailPlan = Model<DetailPlanDto>;

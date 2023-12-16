@@ -22,4 +22,9 @@ export class PlanDto extends Dto {
   public game!: GameDto['id'];
 }
 
+/**
+ * Model for creating plans.
+ *
+ * @see {@link PlanDto}
+ */
 export type Plan = Model<PlanDto>;

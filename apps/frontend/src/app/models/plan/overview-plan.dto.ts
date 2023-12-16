@@ -24,4 +24,9 @@ export class OverviewPlanDto extends Dto {
   public gatheringDtos!: OverviewGatheringDto[];
 }
 
+/**
+ * Model for plan overview
+ *
+ * @see {@link OverviewPlanDto}
+ */
 export type OverviewPlan = Model<OverviewPlanDto>;

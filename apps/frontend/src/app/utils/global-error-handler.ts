@@ -2,6 +2,12 @@ import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { aOrAn } from './language.utility';
 
+/**
+ * Global error handler which will show a toast with the error.
+ * This is used to catch errors which are not caught by Angular.
+ *
+ * @implements {ErrorHandler}
+ */
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   // See https://github.com/scttcper/ngx-toastr/issues/327
@@ -13,6 +19,12 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   public constructor(private readonly injector: Injector) {}
 
+  /**
+   * Handles the error by showing a toast with the error.
+   *
+   * @param {unknown} error - The error to handle
+   * @returns {void}
+   */
   public handleError(error: unknown) {
     // TODO: See if the circular dependency issue is fixed
     try {

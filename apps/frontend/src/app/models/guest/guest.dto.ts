@@ -12,4 +12,9 @@ export class GuestDto extends Dto {
   public email!: string;
 }
 
+/**
+ * Model for guests.
+ *
+ * @see {@link GuestDto}
+ */
 export type Guest = Model<GuestDto>;

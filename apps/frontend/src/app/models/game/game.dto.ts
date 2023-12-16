@@ -18,4 +18,9 @@ export class GameDto extends Dto {
   public imageUrl!: string;
 }
 
+/**
+ * Model for games.
+ *
+ * @see {@link GameDto}
+ */
 export type Game = Model<GameDto>;

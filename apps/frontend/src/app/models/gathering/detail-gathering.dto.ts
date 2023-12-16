@@ -14,4 +14,9 @@ export class DetailGatheringDto extends Dto {
   public participantCount!: number;
 }
 
+/**
+ * Model for gathering details.
+ *
+ * @see {@link DetailGatheringDto}
+ */
 export type DetailGathering = Model<DetailGatheringDto>;

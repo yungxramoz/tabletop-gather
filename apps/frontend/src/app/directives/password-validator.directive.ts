@@ -6,6 +6,14 @@ import {
   Validator,
 } from '@angular/forms';
 
+/**
+ * Validates that `password` and `passwordConfirmation` form controls have the same value.
+ * @example
+ * <form tgPasswordValidator>
+ *  <input type="password" name="password" />
+ * <input type="password" name="passwordConfirmation" />
+ * </form>
+ */
 @Directive({
   standalone: true,
   selector: 'form[tgPasswordValidator]',
@@ -18,6 +26,7 @@ import {
   ],
 })
 export class PasswordValidatorDirective implements Validator {
+  /** @inheritdoc */
   public validate(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password');
     const passwordConfirmation = group.get('passwordConfirmation');

@@ -14,4 +14,9 @@ export class UserPlanDto extends Dto {
   public attendingGatherings!: DateTimeGatheringDto[];
 }
 
+/**
+ * Model for a users which attends an event (plan).
+ *
+ * @see {@link UserPlanDto}
+ */
 export type UserPlan = Model<UserPlanDto>;

@@ -6,6 +6,12 @@ import {
   Validator,
 } from '@angular/forms';
 
+/**
+ * Validates that the input value is greater than or equal to the provided value.
+ * @example
+ * <input type="number" tgMinValidator="0" />
+ *
+ */
 @Directive({
   standalone: true,
   selector: '[type="number"][tgMinValidator]',
@@ -20,6 +26,7 @@ import {
 export class MinValidatorDirective implements Validator {
   @Input() public tgMinValidator: number | undefined;
 
+  /** @inheritdoc */
   public validate(control: FormControl): ValidationErrors | null {
     const value = +control.value;
 

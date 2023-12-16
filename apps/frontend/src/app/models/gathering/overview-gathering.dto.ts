@@ -12,4 +12,9 @@ export class OverviewGatheringDto extends Dto {
   public startTime!: string;
 }
 
+/**
+ * Model for gathering overview.
+ *
+ * @see {@link OverviewGatheringDto}
+ */
 export type OverviewGathering = Model<OverviewGatheringDto>;

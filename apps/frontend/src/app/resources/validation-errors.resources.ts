@@ -1,5 +1,15 @@
 import { ValidationErrors } from '@angular/forms';
 
+/**
+ * The default validation error messages.
+ *
+ * @template K - The type of error key
+ * @template U - The type of error value
+ * @param {K} error - The error key
+ * @param {U} errorValue - The error value
+ * @param {string} fieldName - The name of the field
+ * @returns {string | undefined} The error message
+ */
 export const DEFAULT_VALIDATION_ERROR_MESSAGES = <
   K extends keyof ValidationErrors,
   U extends ValidationErrors[K]

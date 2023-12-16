@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { FooterMenuComponent } from './components/molecules/footer-menu.component';
 import { ROUTE_COLLECTION, ROUTE_EVENTS, ROUTE_PROFILE } from './constants';
 import { AuthService } from './services/auth.service';
-import {NavigationService} from "./services/navigation.service";
+import { NavigationService } from './services/navigation.service';
 
 @Component({
   standalone: true,
@@ -69,11 +69,15 @@ export class AppComponent implements OnInit {
     public readonly router: Router
   ) {}
 
-  public logout() {
+  /**
+   * Logs the user out.
+   */
+  public logout(): void {
     this.authService.logout();
   }
 
-  public ngOnInit() {
+  /** @inheritdoc */
+  public ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const showFooter = [
