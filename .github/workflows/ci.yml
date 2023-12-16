@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - run: npm i --save @nx/nx-linux-x64-gnu @nx/nx-linux-x64-musl # See https://github.com/nrwl/nx/issues/19291
+      - run: npm i --save --legacy-peer-deps @nx/nx-linux-x64-gnu @nx/nx-linux-x64-musl # See https://github.com/nrwl/nx/issues/19291
         env:
           spring.security.jwt.secret-key: ${{ secrets.SPRING_SECURITY_JWT_SECRET_KEY }}
           spring.security.jwt.expiration-time: ${{ secrets.SPRING_SECURITY_JWT_EXPIRATION_TIME }}
