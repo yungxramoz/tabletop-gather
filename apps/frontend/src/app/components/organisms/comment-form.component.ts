@@ -23,6 +23,12 @@ const PLACEHOLDERS = [
   "I'm baking a cake for the party. It's a chocolate cake with vanilla frosting.",
   "Maybe someone can bring some drinks? I'm bringing a 12 pack of Coke.",
   "I'm bringing my dog, Max. He's a German Shepherd and he's super friendly.",
+  "I'll bring some homemade guacamole and chips! I make it extra spicy, just how we like it.",
+  "Got the music covered! I'll bring my portable speakers and a playlist of all our favorites.",
+  "Don't forget dessert! I'll whip up my famous lemon bars.",
+  'I can bring some veggie platters and hummus for healthier options.',
+  "I'll handle the barbecue. Bringing burgers, hot dogs, and veggie patties.",
+  "I can supply some craft beer from the local brewery. A variety for everyone's taste.",
 ];
 
 @Component({
@@ -71,9 +77,13 @@ export class CommentFormComponent implements AfterViewInit {
 
   public submitComment(ngForm: NgForm) {
     this.comment = ngForm.controls['comment'].value;
+
     this.commentSubmitted.emit({
       comment: ngForm.controls['comment'].value,
     });
+
+    this.ngForm.form.patchValue({ comment: '' }, { emitEvent: false });
+    this.ngForm.form.markAsPristine();
   }
 
   public getPlaceholder(): string {
