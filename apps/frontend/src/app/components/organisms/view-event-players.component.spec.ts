@@ -1,9 +1,9 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NgForOf, NgIf, CommonModule } from '@angular/common';
-import { ViewEventPlayersComponent } from './view-event-players.component';
-import { UserCardComponent } from '../molecules/user-card.component';
+import { CommonModule, NgForOf, NgIf } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NbThemeModule } from '@nebular/theme';
 import { UserPlan } from '../../models/user/user-plan.dto';
-import { NbThemeModule } from "@nebular/theme";
+import { UserCardComponent } from '../molecules/user-card.component';
+import { ViewEventPlayersComponent } from './view-event-players.component';
 
 describe(ViewEventPlayersComponent.name, () => {
   let fixture: ComponentFixture<ViewEventPlayersComponent>;
@@ -17,7 +17,7 @@ describe(ViewEventPlayersComponent.name, () => {
         NgIf,
         NbThemeModule.forRoot(),
         UserCardComponent,
-        ViewEventPlayersComponent
+        ViewEventPlayersComponent,
       ],
     }).compileComponents();
 
@@ -33,18 +33,19 @@ describe(ViewEventPlayersComponent.name, () => {
     const mockAttendees: UserPlan[] = [
       {
         fullName: 'John Doe',
-        attendingGatherings: []
+        attendingGatherings: [],
       },
       {
         fullName: 'Jane Doe',
-        attendingGatherings: []
+        attendingGatherings: [],
       },
     ];
     component.attendees = mockAttendees;
 
     fixture.detectChanges();
 
-    const userCardElements = fixture.nativeElement.querySelectorAll('tg-user-card');
+    const userCardElements =
+      fixture.nativeElement.querySelectorAll('tg-user-card');
     expect(userCardElements.length).toBe(mockAttendees.length);
   });
 });

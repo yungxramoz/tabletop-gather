@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LoginComponent } from './login.component';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from '../../services/auth.service';
+import { NbThemeModule } from '@nebular/theme';
 import { of } from 'rxjs';
-import { ROUTE_EVENTS } from "../../constants";
-import { NbThemeModule } from "@nebular/theme";
+import { ROUTE_EVENTS } from '../../constants';
+import { AuthService } from '../../services/auth.service';
+import { LoginComponent } from './login.component';
 
 describe(LoginComponent.name, () => {
   let component: LoginComponent;
@@ -17,18 +17,12 @@ describe(LoginComponent.name, () => {
     // Creating a mock AuthService
     mockAuthService = {
       login: jest.fn().mockReturnValue(of(null)),
-      signup: jest.fn().mockReturnValue(of(null))
+      signup: jest.fn().mockReturnValue(of(null)),
     };
 
     await TestBed.configureTestingModule({
-      imports: [
-        NbThemeModule.forRoot(),
-        LoginComponent,
-        RouterTestingModule
-      ],
-      providers: [
-        { provide: AuthService, useValue: mockAuthService }
-      ]
+      imports: [NbThemeModule.forRoot(), LoginComponent, RouterTestingModule],
+      providers: [{ provide: AuthService, useValue: mockAuthService }],
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -58,7 +52,7 @@ describe(LoginComponent.name, () => {
       firstName: 'Test',
       lastName: 'User',
       email: 'test@example.com',
-      password: 'password'
+      password: 'password',
     }; // Mock RegisterUser object
     component.onUserCreated(registerUser);
     expect(mockAuthService.signup).toHaveBeenCalledWith(registerUser);

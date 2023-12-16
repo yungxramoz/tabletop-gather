@@ -4,7 +4,7 @@ import { LazyImageComponent } from './lazy-image.component';
 describe(LazyImageComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LazyImageComponent]
+      imports: [LazyImageComponent],
     }).compileComponents();
   });
 
@@ -30,11 +30,13 @@ describe(LazyImageComponent.name, () => {
     mockImage.src = 'initial-src';
 
     const errorEvent = new Event('error');
-    Object.defineProperty(errorEvent, 'target', { writable: false, value: mockImage });
+    Object.defineProperty(errorEvent, 'target', {
+      writable: false,
+      value: mockImage,
+    });
 
     component.fallbackImage(errorEvent);
 
     expect(mockImage.src.includes('assets/tg-image-outline.svg')).toBeTruthy();
   });
-
 });

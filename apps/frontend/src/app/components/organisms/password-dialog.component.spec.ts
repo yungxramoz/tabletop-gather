@@ -1,15 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbDialogRef, NbThemeModule } from '@nebular/theme';
-import { PasswordDialogComponent, PasswordDialogResult } from './password-dialog.component';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbDialogRef,
+  NbThemeModule,
+} from '@nebular/theme';
 import { InputComponent } from '../atoms/input.component';
+import {
+  PasswordDialogComponent,
+  PasswordDialogResult,
+} from './password-dialog.component';
 
 describe(PasswordDialogComponent.name, () => {
   let mockDialogRef: Partial<NbDialogRef<PasswordDialogComponent>>;
 
   beforeEach(async () => {
     mockDialogRef = {
-      close: jest.fn()
+      close: jest.fn(),
     };
 
     await TestBed.configureTestingModule({
@@ -19,11 +27,9 @@ describe(PasswordDialogComponent.name, () => {
         NbButtonModule,
         NbThemeModule.forRoot(),
         PasswordDialogComponent,
-        InputComponent
+        InputComponent,
       ],
-      providers: [
-        { provide: NbDialogRef, useValue: mockDialogRef }
-      ]
+      providers: [{ provide: NbDialogRef, useValue: mockDialogRef }],
     }).compileComponents();
   });
 
@@ -37,7 +43,7 @@ describe(PasswordDialogComponent.name, () => {
     const fixture = TestBed.createComponent(PasswordDialogComponent);
     const component = fixture.componentInstance;
     const passwordData: PasswordDialogResult = {
-      password: 'testPassword'
+      password: 'testPassword',
     };
 
     component.confirm(passwordData);

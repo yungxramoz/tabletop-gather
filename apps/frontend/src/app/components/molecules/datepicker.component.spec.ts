@@ -8,12 +8,12 @@ import {
   NbInputModule,
   NbListModule,
   NbNativeDateService,
-  NbThemeModule
+  NbThemeModule,
 } from '@nebular/theme';
-import { DatepickerComponent } from './datepicker.component';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
 import { LabelComponent } from '../atoms/label.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
+import { DatepickerComponent } from './datepicker.component';
 
 describe(DatepickerComponent.name, () => {
   beforeEach(async () => {
@@ -29,11 +29,9 @@ describe(DatepickerComponent.name, () => {
         DatepickerComponent,
         LabelComponent,
         ValidationErrorsComponent,
-        GatheringDateComponent
+        GatheringDateComponent,
       ],
-      providers: [
-        { provide: NB_DATE_ADAPTER, useClass: NbNativeDateService },
-      ]
+      providers: [{ provide: NB_DATE_ADAPTER, useClass: NbNativeDateService }],
     }).compileComponents();
   });
 
@@ -54,7 +52,6 @@ describe(DatepickerComponent.name, () => {
 
     expect(component.value).toContain(mockDate);
   });
-
 
   it('should remove a selected date', () => {
     const fixture = TestBed.createComponent(DatepickerComponent);

@@ -1,8 +1,20 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbCardModule, NbDatepickerModule, NbThemeModule } from '@nebular/theme';
-import { PlanEventDatesFormComponent, PlanEventDatesFormValue } from './plan-event-dates-form.component';
+import {
+  NbCardModule,
+  NbDatepickerModule,
+  NbThemeModule,
+} from '@nebular/theme';
 import { DatepickerComponent } from '../molecules/datepicker.component';
+import {
+  PlanEventDatesFormComponent,
+  PlanEventDatesFormValue,
+} from './plan-event-dates-form.component';
 
 describe(PlanEventDatesFormComponent.name, () => {
   let fixture: ComponentFixture<PlanEventDatesFormComponent>;
@@ -16,8 +28,8 @@ describe(PlanEventDatesFormComponent.name, () => {
         NbThemeModule.forRoot(),
         NbDatepickerModule.forRoot(),
         PlanEventDatesFormComponent,
-        DatepickerComponent
-      ]
+        DatepickerComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PlanEventDatesFormComponent);
@@ -33,7 +45,7 @@ describe(PlanEventDatesFormComponent.name, () => {
     tick();
 
     const mockFormValue: PlanEventDatesFormValue = {
-      gatherings: [new Date()]
+      gatherings: [new Date()],
     };
 
     jest.spyOn(component.eventDateFormChange, 'emit');
@@ -41,6 +53,8 @@ describe(PlanEventDatesFormComponent.name, () => {
     component.ngForm.setValue(mockFormValue);
     tick();
 
-    expect(component.eventDateFormChange.emit).toHaveBeenCalledWith(component.ngForm.form);
+    expect(component.eventDateFormChange.emit).toHaveBeenCalledWith(
+      component.ngForm.form
+    );
   }));
 });

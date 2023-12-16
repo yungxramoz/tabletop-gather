@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbThemeModule, NbInputModule } from '@nebular/theme';
+import { NbInputModule, NbThemeModule } from '@nebular/theme';
 import { LabelComponent } from './label.component';
+import { SearchInputComponent } from './search-input.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
-import { SearchInputComponent } from "./search-input.component";
 
 describe(SearchInputComponent.name, () => {
   beforeEach(async () => {
@@ -14,7 +14,7 @@ describe(SearchInputComponent.name, () => {
         NbInputModule,
         SearchInputComponent,
         LabelComponent,
-        ValidationErrorsComponent
+        ValidationErrorsComponent,
       ],
     }).compileComponents();
   });

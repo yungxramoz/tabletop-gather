@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NbCheckboxModule } from '@nebular/theme';
-import { SelectGatheringComponent } from './select-gathering.component';
 import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { SelectGatheringComponent } from './select-gathering.component';
 
 describe(SelectGatheringComponent.name, () => {
   beforeEach(async () => {
@@ -11,8 +11,8 @@ describe(SelectGatheringComponent.name, () => {
         FormsModule,
         NbCheckboxModule,
         SelectGatheringComponent,
-        GatheringDateComponent
-      ]
+        GatheringDateComponent,
+      ],
     }).compileComponents();
   });
 

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbThemeModule, NbInputModule } from '@nebular/theme';
+import { NbInputModule, NbThemeModule } from '@nebular/theme';
 import { InputComponent } from './input.component';
 import { LabelComponent } from './label.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
@@ -14,7 +14,7 @@ describe(InputComponent.name, () => {
         NbInputModule,
         InputComponent,
         LabelComponent,
-        ValidationErrorsComponent
+        ValidationErrorsComponent,
       ],
     }).compileComponents();
   });

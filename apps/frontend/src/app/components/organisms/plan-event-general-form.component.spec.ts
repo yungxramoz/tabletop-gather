@@ -1,9 +1,17 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NbCardModule, NbSelectModule, NbThemeModule } from '@nebular/theme';
-import { PlanEventGeneralFormComponent, PlanEventGeneralFormValue } from './plan-event-general-form.component';
 import { CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NbCardModule, NbSelectModule, NbThemeModule } from '@nebular/theme';
+import {
+  PlanEventGeneralFormComponent,
+  PlanEventGeneralFormValue,
+} from './plan-event-general-form.component';
 
 describe(PlanEventGeneralFormComponent.name, () => {
   let fixture: ComponentFixture<PlanEventGeneralFormComponent>;
@@ -19,7 +27,7 @@ describe(PlanEventGeneralFormComponent.name, () => {
         NbThemeModule.forRoot(),
         NoopAnimationsModule,
         PlanEventGeneralFormComponent,
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PlanEventGeneralFormComponent);
@@ -30,8 +38,8 @@ describe(PlanEventGeneralFormComponent.name, () => {
         description: 'Test Game Description',
         minPlayer: 1,
         maxPlayer: 10,
-        imageUrl: 'test-url'
-      }
+        imageUrl: 'test-url',
+      },
     ];
   });
 
@@ -55,9 +63,9 @@ describe(PlanEventGeneralFormComponent.name, () => {
           description: 'Test Game Description',
           minPlayer: 1,
           maxPlayer: 10,
-          imageUrl: 'test-url'
-        }
-      ]
+          imageUrl: 'test-url',
+        },
+      ],
     };
 
     jest.spyOn(component.eventGeneralFormChange, 'emit');
@@ -65,6 +73,8 @@ describe(PlanEventGeneralFormComponent.name, () => {
     component.ngForm.setValue(mockFormValue);
     tick();
 
-    expect(component.eventGeneralFormChange.emit).toHaveBeenCalledWith(component.ngForm.form);
+    expect(component.eventGeneralFormChange.emit).toHaveBeenCalledWith(
+      component.ngForm.form
+    );
   }));
 });

@@ -1,10 +1,15 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbInputModule, NbThemeModule } from '@nebular/theme';
-import { UpdateUserFormComponent } from './update-user-form.component';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbInputModule,
+  NbThemeModule,
+} from '@nebular/theme';
 import { User } from '../../models/user/user.dto';
 import { InputComponent } from '../atoms/input.component';
-import { CommonModule } from '@angular/common';
+import { UpdateUserFormComponent } from './update-user-form.component';
 
 describe(UpdateUserFormComponent.name, () => {
   let fixture: ComponentFixture<UpdateUserFormComponent>;
@@ -20,8 +25,8 @@ describe(UpdateUserFormComponent.name, () => {
         NbButtonModule,
         NbThemeModule.forRoot(),
         UpdateUserFormComponent,
-        InputComponent
-      ]
+        InputComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UpdateUserFormComponent);
@@ -37,7 +42,7 @@ describe(UpdateUserFormComponent.name, () => {
       username: 'newuser',
       firstName: 'New',
       lastName: 'User',
-      email: 'newuser@example.com'
+      email: 'newuser@example.com',
     };
 
     component.user = newUser;
@@ -54,7 +59,7 @@ describe(UpdateUserFormComponent.name, () => {
       username: 'updateduser',
       firstName: 'Updated',
       lastName: 'User',
-      email: 'updateduser@example.com'
+      email: 'updateduser@example.com',
     };
 
     jest.spyOn(component.userUpdated, 'emit');

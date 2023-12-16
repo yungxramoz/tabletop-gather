@@ -1,21 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
-import { ValidationErrorsComponent } from './validation-errors.component';
 import { ValidationErrorService } from '../../services/validation-error.service';
+import { ValidationErrorsComponent } from './validation-errors.component';
 
 describe(ValidationErrorsComponent.name, () => {
   let mockValidationErrorService: Partial<ValidationErrorService>;
 
   beforeEach(async () => {
     mockValidationErrorService = {
-      friendlyValidationErrors: jest.fn()
+      friendlyValidationErrors: jest.fn(),
     };
 
     await TestBed.configureTestingModule({
       imports: [ValidationErrorsComponent],
       providers: [
-        { provide: ValidationErrorService, useValue: mockValidationErrorService }
-      ]
+        {
+          provide: ValidationErrorService,
+          useValue: mockValidationErrorService,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -30,11 +33,13 @@ describe(ValidationErrorsComponent.name, () => {
     const component = fixture.componentInstance;
     const mockControl = {
       pristine: false,
-      errors: { required: true }
+      errors: { required: true },
     } as unknown as AbstractControl;
 
     const mockErrors = ['Required field'];
-    (mockValidationErrorService.friendlyValidationErrors as jest.Mock).mockReturnValue(mockErrors);
+    (
+      mockValidationErrorService.friendlyValidationErrors as jest.Mock
+    ).mockReturnValue(mockErrors);
 
     component.model = mockControl;
     component.name = 'Test Field';
@@ -42,6 +47,8 @@ describe(ValidationErrorsComponent.name, () => {
 
     const compiled = fixture.nativeElement;
     expect(compiled.textContent).toContain('Required field');
-    expect(mockValidationErrorService.friendlyValidationErrors).toHaveBeenCalledWith(mockControl.errors, 'Test Field');
+    expect(
+      mockValidationErrorService.friendlyValidationErrors
+    ).toHaveBeenCalledWith(mockControl.errors, 'Test Field');
   });
 });

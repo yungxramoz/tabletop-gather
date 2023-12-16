@@ -1,9 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbThemeModule } from '@nebular/theme';
-import { CollectionActionsComponent } from './collection-actions.component';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+  NbThemeModule,
+} from '@nebular/theme';
 import { SearchInputComponent } from '../atoms/search-input.component';
+import { CollectionActionsComponent } from './collection-actions.component';
 
 describe(CollectionActionsComponent.name, () => {
   beforeEach(async () => {
@@ -17,8 +23,8 @@ describe(CollectionActionsComponent.name, () => {
         NbThemeModule.forRoot(),
         RouterTestingModule,
         CollectionActionsComponent,
-        SearchInputComponent
-      ]
+        SearchInputComponent,
+      ],
     }).compileComponents();
   });
 

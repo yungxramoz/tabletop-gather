@@ -1,8 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { NbCardModule, NbIconModule, NbThemeModule, NbUserModule } from '@nebular/theme';
-import { UserCardComponent } from './user-card.component';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import {
+  NbCardModule,
+  NbIconModule,
+  NbThemeModule,
+  NbUserModule,
+} from '@nebular/theme';
 import { UserPlan } from '../../models/user/user-plan.dto';
+import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { UserCardComponent } from './user-card.component';
 
 describe(UserCardComponent.name, () => {
   const mockUser: UserPlan = {
@@ -10,9 +15,9 @@ describe(UserCardComponent.name, () => {
     attendingGatherings: [
       {
         id: '1',
-        date: new Date(2023,11, 1),
-        startTime: '18:30'
-      }
+        date: new Date(2023, 11, 1),
+        startTime: '18:30',
+      },
     ],
   };
 
@@ -24,8 +29,8 @@ describe(UserCardComponent.name, () => {
         NbUserModule,
         NbThemeModule.forRoot(),
         UserCardComponent,
-        GatheringDateComponent
-      ]
+        GatheringDateComponent,
+      ],
     }).compileComponents();
   });
 
@@ -43,6 +48,8 @@ describe(UserCardComponent.name, () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('nb-card-header')?.textContent).toContain(mockUser.fullName);
+    expect(compiled.querySelector('nb-card-header')?.textContent).toContain(
+      mockUser.fullName
+    );
   });
 });
