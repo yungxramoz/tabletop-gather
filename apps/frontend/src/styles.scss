@@ -217,6 +217,10 @@ p {
   white-space: nowrap;
 }
 
+.tg-primary-border {
+  border: 3px var(--color-primary-default) solid;
+}
+
 .tg-tab-no-px {
   padding-left: 0 !important;
   padding-right: 0 !important;

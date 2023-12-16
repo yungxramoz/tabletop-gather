@@ -31,34 +31,46 @@ import {
     CommentFormComponent,
   ],
   template: `
-    <nb-card class="tg-w-90 tg-my-0" [class.tg-right]="isOwner">
-      <nb-card-header>
+    <nb-card
+      class="tg-w-90 tg-my-0"
+      [class.tg-right]="isOwner"
+      [class.tg-primary-border]="isOwner"
+    >
+      <nb-card-body>
         <div class="tg-flex-row tg-justify-between">
           <div class="tg-flex-col tg-align-start">
             <p class="caption-2">
+              {{ isOwner ? 'You' : comment.user }} commented on
               {{ getDateCreated(comment.dateCreated) }}
             </p>
-            {{ isOwner ? 'You' : comment.user }}
           </div>
 
-          <button
-            *ngIf="isOwner; else noEdit"
-            nbButton
-            ghost
-            status="warning"
-            shape="semi-round"
-            (click)="editing = !editing"
-          >
-            <nb-icon icon="edit-2-outline"></nb-icon>
-          </button>
+          <div *ngIf="isOwner; else noEdit" class="tg-flex-row tg-justify-end">
+            <button
+              nbButton
+              ghost
+              status="danger"
+              shape="semi-round"
+              (click)="onCommentDelete()"
+            >
+              <nb-icon icon="trash-2-outline"></nb-icon>
+            </button>
+
+            <button
+              nbButton
+              ghost
+              status="warning"
+              shape="semi-round"
+              (click)="editing = !editing"
+            >
+              <nb-icon icon="edit-2-outline"></nb-icon>
+            </button>
+          </div>
 
           <ng-template #noEdit>
             <nb-icon icon="message-square-outline"></nb-icon>
           </ng-template>
         </div>
-      </nb-card-header>
-
-      <nb-card-body>
         <div [innerHTML]="comment.comment"></div>
       </nb-card-body>
 
@@ -67,7 +79,7 @@ import {
           [comment]="comment.comment"
           textareaLabel="Edit comment"
           buttonLabel="Update"
-          (commentSubmitted)="onCommentUpdated($event)"
+          (commentSubmitted)="onCommentUpdate($event)"
         ></tg-comment-form>
       </nb-card-footer>
     </nb-card>
@@ -77,8 +89,10 @@ import {
 export class CommentComponent {
   @Input({ required: true }) public comment!: CommentItemDto;
   @Input() public isOwner = false;
-  @Output() public commentUpdated: EventEmitter<UpdateCommentDto> =
+  @Output() public commentUpdate: EventEmitter<UpdateCommentDto> =
     new EventEmitter<UpdateCommentDto>();
+  @Output() public commentDelete: EventEmitter<CommentItemDto> =
+    new EventEmitter<CommentItemDto>();
 
   public editing = false;
 
@@ -86,7 +100,7 @@ export class CommentComponent {
     return getDateCHFormat(date) + ' at ' + get24HourTime(date);
   }
 
-  public onCommentUpdated(event: CommentFormEvent): void {
+  public onCommentUpdate(event: CommentFormEvent): void {
     this.editing = false;
     this.comment.dateCreated = new Date();
     this.comment.comment = event['comment'];
@@ -96,6 +110,10 @@ export class CommentComponent {
       comment: event['comment'],
     };
 
-    this.commentUpdated.emit(updateCommentDto);
+    this.commentUpdate.emit(updateCommentDto);
+  }
+
+  public onCommentDelete(): void {
+    this.commentDelete.emit(this.comment);
   }
 }
