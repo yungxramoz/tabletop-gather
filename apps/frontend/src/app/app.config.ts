@@ -5,7 +5,7 @@ import {
   ErrorHandler,
   InjectionToken,
   Provider,
-  importProvidersFrom,
+  importProvidersFrom, isDevMode,
 } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -28,6 +28,7 @@ import { JsonParseInterceptor } from './interceptors/json-parse.interceptor';
 import { GlobalErrorHandler } from './utils/global-error-handler';
 import { JsonParser } from './utils/json-parser/base.json-parser';
 import { DtoJsonParser } from './utils/json-parser/dto.json-parser';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const API_BASE_URL: InjectionToken<string> = new InjectionToken<string>(
   'API_BASE_URL'
@@ -114,5 +115,9 @@ export const appConfig: ApplicationConfig = {
     provideErrorHandler(),
     provideBaseUrlsForDevelopment(),
     provideLocalStorage(),
-  ],
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000'
+    })
+],
 };
