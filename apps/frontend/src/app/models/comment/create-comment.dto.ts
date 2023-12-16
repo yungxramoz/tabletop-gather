@@ -11,7 +11,7 @@ import { PlanDto } from '../plan/plan.dto';
  */
 export class CreateCommentDto extends Dto {
   public comment!: string;
-  public plan!: PlanDto['id'];
+  public planId!: PlanDto['id'];
 }
 
 export type CreateComment = Model<CreateCommentDto>;

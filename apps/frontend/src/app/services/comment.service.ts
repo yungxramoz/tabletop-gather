@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, filter, map, tap } from 'rxjs';
 import { API_BASE_URL } from '../app.config';
 import { CommentItemDto } from '../models/comment/comment-item.dto';
 import { CreateComment } from '../models/comment/create-comment.dto';
@@ -34,15 +34,16 @@ export class CommentService {
     planId: PlanDto['id']
   ): Observable<CommentItemDto[]> {
     return this.http
-      .get<{ content: object[] }>(`${this.commentsUrl}/${planId}`, {
+      .get<object[]>(`${this.commentsUrl}/plan/${planId}`, {
         responseType: 'json',
         observe: 'response',
       })
       .pipe(
         this.responseHandler.handleErrorResponse(),
         map((response) => response?.body),
+        tap((comments) => console.log(comments)),
         map((commentsJson) =>
-          (commentsJson?.content ?? []).map((comment: unknown) =>
+          (commentsJson ?? []).map((comment: unknown) =>
             CommentItemDto.fromJson(comment)
           )
         )
