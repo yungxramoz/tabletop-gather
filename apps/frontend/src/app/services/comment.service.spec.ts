@@ -54,15 +54,17 @@ describe(CommentService.name, () => {
       expect(comments).toEqual(expectedComments);
     });
 
-    const req = httpMock.expectOne(`http://api.example.com/comments/${planId}`);
+    const req = httpMock.expectOne(
+      `http://api.example.com/comments/plan/${planId}`
+    );
     expect(req.request.method).toBe('GET');
-    req.flush({ content: expectedComments });
+    req.flush(expectedComments);
   });
 
   it('should create a new comment', () => {
     const createComment: CreateComment = {
       comment: 'Comment 1',
-      plan: '24',
+      planId: '24',
     };
     const expectedCommentId = '123';
 
