@@ -1,10 +1,14 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { EventsComponent } from './events.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PlanService } from '../../services/plan.service';
-import { NbDialogService, NbIconLibraries, NbThemeModule } from '@nebular/theme';
+import {
+  NbDialogService,
+  NbIconLibraries,
+  NbThemeModule,
+} from '@nebular/theme';
 import { of } from 'rxjs';
-import { ROUTE_VIEW_EVENT } from "../../constants";
+import { ROUTE_VIEW_EVENT } from '../../constants';
+import { PlanService } from '../../services/plan.service';
+import { EventsComponent } from './events.component';
 
 describe(EventsComponent.name, () => {
   let fixture: ComponentFixture<EventsComponent>;
@@ -30,7 +34,7 @@ describe(EventsComponent.name, () => {
           { path: ROUTE_VIEW_EVENT, component: EventsComponent },
         ]),
         NbThemeModule.forRoot(),
-        EventsComponent
+        EventsComponent,
       ],
       providers: [
         { provide: PlanService, useValue: mockPlanService },
@@ -39,7 +43,10 @@ describe(EventsComponent.name, () => {
     }).compileComponents();
 
     const iconLibraries: NbIconLibraries = TestBed.inject(NbIconLibraries);
-    iconLibraries.registerFontPack('nebular-icons', { packClass: 'nebular-icons', iconClassPrefix: 'nb' });
+    iconLibraries.registerFontPack('nebular-icons', {
+      packClass: 'nebular-icons',
+      iconClassPrefix: 'nb',
+    });
     iconLibraries.setDefaultPack('nebular-icons');
 
     fixture = TestBed.createComponent(EventsComponent);
@@ -57,21 +64,14 @@ describe(EventsComponent.name, () => {
     expect(mockPlanService.getAllAttendingPlans).toHaveBeenCalled();
   });
 
-  // TODO: fix or remove
-  /*it('should navigate to view event on viewEvent call', fakeAsync(() => {
-    const router = TestBed.inject(Router);
-    const navigateSpy = jest.spyOn(router, 'navigate');
-    component.viewEvent('123');
-    tick();
-    expect(navigateSpy).toHaveBeenCalledWith(['/' + ROUTE_VIEW_EVENT, '123']);
-  }));*/
-
   it('should open delete dialog and call deletePlan on deleteMyEvent', async () => {
     mockDialogService.open = jest.fn().mockReturnValue({
-      onClose: of({ delete: true })
+      onClose: of({ delete: true }),
     });
 
-    const deletePlanSpy = jest.spyOn(mockPlanService, 'deletePlan').mockReturnValue(of(undefined));
+    const deletePlanSpy = jest
+      .spyOn(mockPlanService, 'deletePlan')
+      .mockReturnValue(of(undefined));
 
     await component.deleteMyEvent('123');
 

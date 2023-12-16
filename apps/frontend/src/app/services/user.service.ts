@@ -40,7 +40,6 @@ export class UsersService {
         observe: 'response',
       })
       .pipe(
-        // TODO: Use LoadingWrapper
         this.responseHandler.handleErrorResponse(),
         filter((response) => response !== null),
         map((response) => response?.body as object[]),
@@ -62,7 +61,6 @@ export class UsersService {
         observe: 'response',
       })
       .pipe(
-        // TODO: Use LoadingWrapper
         this.responseHandler.handleResponse({
           successMessageOverride: `User was deleted successfully`,
           successTitleOverride: 'User deleted 👊',

@@ -65,7 +65,6 @@ import { GameCardComponent } from '../molecules/game-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewEventGamesComponent {
-  // TODO: Delete detailPlan input if not needed
   @Input({ required: true }) public detailPlan!: DetailPlanDto | null;
   @Input({ required: true }) public availableGames!: GamePlan[] | null;
 }

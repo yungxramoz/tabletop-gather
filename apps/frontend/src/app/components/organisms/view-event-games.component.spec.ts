@@ -1,8 +1,8 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NgForOf, NgIf, CommonModule } from '@angular/common';
-import { ViewEventGamesComponent } from './view-event-games.component';
-import { GameCardComponent } from '../molecules/game-card.component';
+import { CommonModule, NgForOf, NgIf } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NbAlertModule } from '@nebular/theme';
+import { GameCardComponent } from '../molecules/game-card.component';
+import { ViewEventGamesComponent } from './view-event-games.component';
 
 describe(ViewEventGamesComponent.name, () => {
   let fixture: ComponentFixture<ViewEventGamesComponent>;
@@ -16,8 +16,8 @@ describe(ViewEventGamesComponent.name, () => {
         NgIf,
         NbAlertModule,
         ViewEventGamesComponent,
-        GameCardComponent
-      ]
+        GameCardComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ViewEventGamesComponent);
@@ -27,6 +27,4 @@ describe(ViewEventGamesComponent.name, () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-
-  // TODO: Add more tests
 });

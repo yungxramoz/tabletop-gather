@@ -162,7 +162,7 @@ export class EventsComponent implements AfterViewInit {
   }
 
   public editMyEvent(planId: string) {
-    // TODO: Implement "edit event" feature
+    // TODO: Implement "edit event" stretch goal here
     alert("That's not implemented yet");
   }
 
