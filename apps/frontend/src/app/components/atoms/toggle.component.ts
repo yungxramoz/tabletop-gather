@@ -50,7 +50,9 @@ export class ToggleComponent implements ControlValueAccessor {
 
   private _value = false;
   public set value(value: boolean) {
-    if ((value as unknown) === '' || !value) value = false;
+    if ((value as unknown) === '' || !value) {
+      value = false;
+    }
     this._value = value;
   }
   public get value(): boolean {
@@ -74,11 +76,15 @@ export class ToggleComponent implements ControlValueAccessor {
 
   public valueChange(event: boolean) {
     this.value = event;
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onBlur() {
-    if (this.onTouched) this.onTouched();
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   /** @implement {@see {@link ControlValueAccessor}} */

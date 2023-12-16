@@ -85,9 +85,9 @@ describe(ProfileComponent.name, () => {
       email: 'test1@user1.com',
     };
     const mockPasswordData = { password: 'testPassword123' };
-    jest
-      .spyOn(dialogService, 'open')
-      .mockReturnValue({ onClose: of(mockPasswordData) } as NbDialogRef<any>);
+    jest.spyOn(dialogService, 'open').mockReturnValue({
+      onClose: of(mockPasswordData),
+    } as NbDialogRef<unknown>);
 
     component.onUserUpdated(mockUserUpdateData);
 
@@ -100,11 +100,9 @@ describe(ProfileComponent.name, () => {
 
   it('should handle password change correctly', () => {
     const mockPasswordChangeData = { newPassword: 'changedPassword123' };
-    jest
-      .spyOn(dialogService, 'open')
-      .mockReturnValue({
-        onClose: of(mockPasswordChangeData),
-      } as NbDialogRef<any>);
+    jest.spyOn(dialogService, 'open').mockReturnValue({
+      onClose: of(mockPasswordChangeData),
+    } as NbDialogRef<unknown>);
 
     component.changePassword();
 
@@ -116,11 +114,9 @@ describe(ProfileComponent.name, () => {
 
   it('should handle profile deletion correctly', () => {
     const mockDeleteConfirmData = { delete: true };
-    jest
-      .spyOn(dialogService, 'open')
-      .mockReturnValue({
-        onClose: of(mockDeleteConfirmData),
-      } as NbDialogRef<any>);
+    jest.spyOn(dialogService, 'open').mockReturnValue({
+      onClose: of(mockDeleteConfirmData),
+    } as NbDialogRef<unknown>);
 
     component.deleteProfile();
 

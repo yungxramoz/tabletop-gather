@@ -118,19 +118,26 @@ export class DatepickerComponent implements ControlValueAccessor {
     if (
       this.value &&
       this.value.some((value) => this.isEqualDate(value, event))
-    )
+    ) {
       return;
+    }
     this.value = [...this.value, event];
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onSelectedRemove(index: number) {
     this.value.splice(index, 1);
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onBlur() {
-    if (this.onTouched) this.onTouched();
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   /** @implement {@see {@link ControlValueAccessor}} */

@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import { BehaviorSubject } from 'rxjs';
 import { AUTH_BASE_URL, LOCAL_STORAGE } from '../app.config';
 import { JwtDto } from '../models/jwt.dto';
 import { LoginUser, LoginUserDto } from '../models/user/login-user.dto';
@@ -139,7 +140,14 @@ describe(AuthService.name, () => {
     it('should remove the token and expiration from local storage and update the login status', () => {
       // Arrange
       jest.spyOn(localStorageMock, 'removeItem');
-      jest.spyOn((authService as any).loginStatusSubject, 'next');
+      jest.spyOn(
+        (
+          authService as unknown as {
+            loginStatusSubject: BehaviorSubject<unknown>;
+          }
+        ).loginStatusSubject,
+        'next'
+      );
 
       // Act
       authService.logout();
@@ -149,9 +157,13 @@ describe(AuthService.name, () => {
       expect(localStorageMock.removeItem).toHaveBeenCalledWith(
         LS_EXPIRES_AT_KEY
       );
-      expect((authService as any).loginStatusSubject.next).toHaveBeenCalledWith(
-        false
-      );
+      expect(
+        (
+          authService as unknown as {
+            loginStatusSubject: BehaviorSubject<unknown>;
+          }
+        ).loginStatusSubject.next
+      ).toHaveBeenCalledWith(false);
     });
   });
 });

@@ -56,8 +56,9 @@ export class CollectionComponent implements OnInit {
   }
 
   private loadGames() {
-    if (this.isLoading) return;
-
+    if (this.isLoading) {
+      return;
+    }
     this.isLoading = true;
 
     this.games$ = this.gameService.getAllMyGames();

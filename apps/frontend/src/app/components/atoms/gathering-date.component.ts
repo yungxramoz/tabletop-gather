@@ -21,12 +21,16 @@ export class GatheringDateComponent {
     | OverviewGathering;
 
   public getDateString(data: typeof this.date) {
-    if (data instanceof Date) return getDateCHFormat(data);
+    if (data instanceof Date) {
+      return getDateCHFormat(data);
+    }
     return getDateCHFormat(data.date);
   }
 
   public getTimeString(data: typeof this.date) {
-    if (this.dateOnly) return '';
+    if (this.dateOnly) {
+      return '';
+    }
 
     const timeString =
       data instanceof Date ? get24HourTime(data) : data.startTime;

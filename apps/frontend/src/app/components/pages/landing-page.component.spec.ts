@@ -47,7 +47,7 @@ describe(LandingPageComponent.name, () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const button = compiled.querySelector('button');
     expect(button).toBeTruthy();
-    expect(button!.getAttribute('ng-reflect-router-link')).toContain(
+    expect(button?.getAttribute('ng-reflect-router-link')).toContain(
       ROUTE_LOGIN
     );
   });
