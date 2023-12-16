@@ -14,12 +14,12 @@ import { Dto } from '../../models/base.dto';
 import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlan } from '../../models/plan/detail-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 
 @Component({
   standalone: true,
   selector: 'tg-select-gathering',
-  imports: [NgFor, FormsModule, NbCheckboxModule, GatheringDateComponent],
+  imports: [NgFor, FormsModule, NbCheckboxModule, GatheringDatePipe],
   template: `
     <div class="tg-p-1">
       <p class="label">Options</p>
@@ -31,7 +31,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
           status="primary"
           class="tg-block tg-pt-1"
         >
-          <tg-gathering-date [date]="gathering"></tg-gathering-date>
+          {{ gathering | gatheringDate }}
           <p>
             <i>{{ gathering.participantCount }} Participants</i>
           </p>

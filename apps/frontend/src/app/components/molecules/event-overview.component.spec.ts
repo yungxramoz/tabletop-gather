@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { GameDto } from '../../models/game/game.dto';
 import { OverviewPlan } from '../../models/plan/overview-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { EventOverviewComponent } from './event-overview.component';
@@ -23,7 +23,7 @@ describe(EventOverviewComponent.name, () => {
         EventOverviewComponent,
         LabelComponent,
         LazyImageComponent,
-        GatheringDateComponent,
+        GatheringDatePipe,
       ],
       providers: [DatePipe],
     }).compileComponents();

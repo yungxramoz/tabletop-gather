@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NbCheckboxModule } from '@nebular/theme';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { SelectGatheringComponent } from './select-gathering.component';
 
 describe(SelectGatheringComponent.name, () => {
@@ -11,7 +11,7 @@ describe(SelectGatheringComponent.name, () => {
         FormsModule,
         NbCheckboxModule,
         SelectGatheringComponent,
-        GatheringDateComponent,
+        GatheringDatePipe,
       ],
     }).compileComponents();
   });

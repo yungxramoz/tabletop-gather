@@ -10,7 +10,7 @@ import {
   NbNativeDateService,
   NbThemeModule,
 } from '@nebular/theme';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { LabelComponent } from '../atoms/label.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 import { DatepickerComponent } from './datepicker.component';
@@ -29,7 +29,7 @@ describe(DatepickerComponent.name, () => {
         DatepickerComponent,
         LabelComponent,
         ValidationErrorsComponent,
-        GatheringDateComponent,
+        GatheringDatePipe,
       ],
       providers: [{ provide: NB_DATE_ADAPTER, useClass: NbNativeDateService }],
     }).compileComponents();

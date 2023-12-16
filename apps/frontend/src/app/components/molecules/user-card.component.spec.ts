@@ -6,7 +6,7 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 import { UserPlan } from '../../models/user/user-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { UserCardComponent } from './user-card.component';
 
 describe(UserCardComponent.name, () => {
@@ -29,7 +29,7 @@ describe(UserCardComponent.name, () => {
         NbUserModule,
         NbThemeModule.forRoot(),
         UserCardComponent,
-        GatheringDateComponent,
+        GatheringDatePipe,
       ],
     }).compileComponents();
   });

@@ -11,7 +11,7 @@ import { DetailGatheringDto } from '../../models/gathering/detail-gathering.dto'
 import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { UpsertGatheringDto } from '../../models/gathering/upsert-gathering.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { EventOverviewComponent } from '../molecules/event-overview.component';
 import { SelectGatheringComponent } from '../molecules/select-gathering.component';
 
@@ -24,7 +24,7 @@ import { SelectGatheringComponent } from '../molecules/select-gathering.componen
     NgFor,
     NbCardModule,
     EventOverviewComponent,
-    GatheringDateComponent,
+    GatheringDatePipe,
     SelectGatheringComponent,
   ],
   template: `
@@ -46,7 +46,7 @@ import { SelectGatheringComponent } from '../molecules/select-gathering.componen
           <p class="label">Options</p>
           <div class="tg-pt-1">
             <p *ngFor="let gathering of sortGatherings(detailPlan.gatherings)">
-              <tg-gathering-date [date]="gathering"></tg-gathering-date> -
+              {{ gathering | gatheringDate }} -
               <i>{{ gathering.participantCount }} Participants</i>
             </p>
           </div>

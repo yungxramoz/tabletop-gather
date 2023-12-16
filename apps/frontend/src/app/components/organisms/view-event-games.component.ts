@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NbAccordionModule, NbAlertModule } from '@nebular/theme';
 import { GamePlan } from '../../models/game/game-plan.dto';
 import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { VoidComponent } from '../atoms/void.component';
 import { GameCardComponent } from '../molecules/game-card.component';
 
@@ -17,7 +17,7 @@ import { GameCardComponent } from '../molecules/game-card.component';
     NbAlertModule,
     NbAccordionModule,
     VoidComponent,
-    GatheringDateComponent,
+    GatheringDatePipe,
   ],
   template: `
     <nb-alert outline="primary" *ngIf="detailPlan && detailPlan.game !== null">
@@ -31,9 +31,7 @@ import { GameCardComponent } from '../molecules/game-card.component';
             <p>
               Common games on
               <b>
-                <tg-gathering-date
-                  [date]="gamePlan.gatheringDto"
-                ></tg-gathering-date>
+                {{ gamePlan.gatheringDto | gatheringDate }}
               </b>
             </p>
           </nb-accordion-item-header>

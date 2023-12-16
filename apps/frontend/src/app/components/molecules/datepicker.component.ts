@@ -15,7 +15,7 @@ import {
   NbInputModule,
   NbListModule,
 } from '@nebular/theme';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { LabelComponent } from '../atoms/label.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
 
@@ -33,7 +33,7 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
     NgFor,
     ValidationErrorsComponent,
     LabelComponent,
-    GatheringDateComponent,
+    GatheringDatePipe,
   ],
   template: `
     <tg-label *ngIf="label" [label]="label" [id]="id"></tg-label>
@@ -64,7 +64,7 @@ import { ValidationErrorsComponent } from '../atoms/validation-errors.component'
         *ngFor="let selected of value; index as i"
       >
         <p class="tg-medium-weight" p>
-          <tg-gathering-date [date]="selected"></tg-gathering-date>
+          {{ selected | gatheringDate }}
         </p>
         <button
           nbButton

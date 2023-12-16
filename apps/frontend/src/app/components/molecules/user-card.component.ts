@@ -2,7 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NbCardModule, NbIconModule, NbUserModule } from '@nebular/theme';
 import { UserPlan } from '../../models/user/user-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 
 @Component({
   standalone: true,
@@ -13,7 +13,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
     NbCardModule,
     NbIconModule,
     NbUserModule,
-    GatheringDateComponent,
+    GatheringDatePipe,
   ],
   template: `
     <nb-card>
@@ -29,9 +29,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
             <p class="label">Can attend</p>
             <div class="tg-pt-1">
               <p *ngFor="let attendingGathering of user.attendingGatherings">
-                <tg-gathering-date
-                  [date]="attendingGathering"
-                ></tg-gathering-date>
+                {{ attendingGathering | gatheringDate }}
               </p>
             </div>
           </div>

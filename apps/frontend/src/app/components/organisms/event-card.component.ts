@@ -9,9 +9,9 @@ import {
 import { NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { OverviewGatheringDto } from '../../models/gathering/overview-gathering.dto';
 import { OverviewPlanDto } from '../../models/plan/overview-plan.dto';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 import { getDateCHFormat } from '../../utils/date.utility';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
 
 @Component({
   standalone: true,
@@ -23,7 +23,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
     NbButtonModule,
     NbIconModule,
     TruncatePipe,
-    GatheringDateComponent,
+    GatheringDatePipe,
   ],
   template: `
     <nb-card>
@@ -40,10 +40,7 @@ import { GatheringDateComponent } from '../atoms/gathering-date.component';
               <ng-container
                 *ngFor="let gathering of overviewPlanDto.gatheringDtos"
               >
-                <tg-gathering-date
-                  [date]="gathering"
-                  [dateOnly]="true"
-                ></tg-gathering-date>
+                {{ gathering | gatheringDate : true }}
               </ng-container>
             </p>
             {{ overviewPlanDto.name }}
