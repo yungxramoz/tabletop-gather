@@ -1,3 +1,5 @@
+<img src="https://github.com/shoedler/tabletop-gather/assets/38029550/524fbf1f-a4c8-4480-b94b-b013e72cbf7b" width="150"></img>
+
 # TabletopGather
 
 ✨ **This workspace is managed with [Nx, a Smart, fast and extensible build system.](https://nx.dev)** ✨
