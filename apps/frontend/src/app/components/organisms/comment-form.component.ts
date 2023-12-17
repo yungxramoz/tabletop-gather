@@ -40,7 +40,7 @@ const PLACEHOLDERS = [
       <tg-textarea
         ngModel
         required
-        minlength="3"
+        minlength="2"
         maxlength="4000"
         [rows]="4"
         id="comment"
