@@ -64,7 +64,7 @@ public class UserService {
    */
   public List<UserPlanDto> findByPlanId(final UUID id) {
     final List<User> users = userRepository.findByGatheringsPlanId(id);
-    return users.stream().map(user -> mapToDto(user, new UserPlanDto())).toList();
+    return users.stream().map(user -> mapToDto(user, id, new UserPlanDto())).toList();
   }
 
   /**
@@ -123,10 +123,11 @@ public class UserService {
     return userDto;
   }
 
-  private UserPlanDto mapToDto(final User user, final UserPlanDto userPlanDto) {
+  private UserPlanDto mapToDto(final User user, final UUID planId, final UserPlanDto userPlanDto) {
     userPlanDto.setFullName(String.format("%s %s", user.getFirstName(), user.getLastName()));
     final List<DateTimeGatheringDto> gatheringsDto =
         user.getGatherings().stream()
+            .filter(gathering -> gathering.getPlan().getId().equals(planId))
             .map(
                 gathering -> {
                   DateTimeGatheringDto dto = new DateTimeGatheringDto();
