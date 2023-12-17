@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbThemeModule } from '@nebular/theme';
-import { LoginFormComponent } from './login-form.component';
 import { InputComponent } from '../atoms/input.component';
+import { LoginFormComponent } from './login-form.component';
 
 describe(LoginFormComponent.name, () => {
   let fixture: ComponentFixture<LoginFormComponent>;
@@ -16,8 +16,8 @@ describe(LoginFormComponent.name, () => {
         NbButtonModule,
         NbThemeModule.forRoot(),
         LoginFormComponent,
-        InputComponent
-      ]
+        InputComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginFormComponent);
@@ -34,12 +34,12 @@ describe(LoginFormComponent.name, () => {
     const mockForm = {
       value: {
         email: mockEmailControl.value,
-        password: mockPasswordControl.value
+        password: mockPasswordControl.value,
       },
       controls: {
         email: mockEmailControl,
-        password: mockPasswordControl
-      }
+        password: mockPasswordControl,
+      },
     } as unknown as NgForm;
 
     jest.spyOn(component.credentialsCreated, 'emit');
@@ -47,7 +47,7 @@ describe(LoginFormComponent.name, () => {
     component.getUser(mockForm);
     expect(component.credentialsCreated.emit).toHaveBeenCalledWith({
       email: 'test@example.com',
-      password: '123456'
+      password: '123456',
     });
   });
 });

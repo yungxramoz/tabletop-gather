@@ -1,10 +1,10 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NgIf, CommonModule, JsonPipe } from '@angular/common';
-import { ViewEventGeneralComponent } from './view-event-general.component';
+import { CommonModule, JsonPipe, NgIf } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NbCardModule, NbThemeModule } from '@nebular/theme';
+import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
 import { EventOverviewComponent } from '../molecules/event-overview.component';
 import { SelectGatheringComponent } from '../molecules/select-gathering.component';
-import { DetailPlanDto } from '../../models/plan/detail-plan.dto';
+import { ViewEventGeneralComponent } from './view-event-general.component';
 
 describe(ViewEventGeneralComponent.name, () => {
   let fixture: ComponentFixture<ViewEventGeneralComponent>;
@@ -43,8 +43,8 @@ describe(ViewEventGeneralComponent.name, () => {
         NbCardModule,
         NbThemeModule.forRoot(),
         EventOverviewComponent,
-        SelectGatheringComponent
-      ]
+        SelectGatheringComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ViewEventGeneralComponent);
@@ -60,7 +60,8 @@ describe(ViewEventGeneralComponent.name, () => {
 
     fixture.detectChanges();
 
-    const eventOverviewElement = fixture.nativeElement.querySelector('tg-event-overview');
+    const eventOverviewElement =
+      fixture.nativeElement.querySelector('tg-event-overview');
     expect(eventOverviewElement).toBeTruthy();
   });
 
@@ -70,12 +71,16 @@ describe(ViewEventGeneralComponent.name, () => {
 
     fixture.detectChanges();
 
-    const selectGatheringElement = fixture.nativeElement.querySelector('tg-select-gathering');
+    const selectGatheringElement = fixture.nativeElement.querySelector(
+      'tg-select-gathering'
+    );
     expect(selectGatheringElement).toBeTruthy();
 
     component.isOwner = true;
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('tg-select-gathering')).not.toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('tg-select-gathering')
+    ).not.toBeNull();
   });
 });

@@ -25,7 +25,8 @@
             "style": "kebab-case"
           }
         ],
-        "@typescript-eslint/explicit-member-accessibility": "error"
+        "@typescript-eslint/explicit-member-accessibility": "error",
+        "curly": ["error", "all"]
       }
     },
     {

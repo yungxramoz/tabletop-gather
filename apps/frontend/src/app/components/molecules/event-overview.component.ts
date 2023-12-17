@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GameDto } from '../../models/game/game.dto';
 import { DetailPlan } from '../../models/plan/detail-plan.dto';
 import { OverviewPlan } from '../../models/plan/overview-plan.dto';
-import { GatheringDateComponent } from '../atoms/gathering-date.component';
+import { GatheringDatePipe } from '../../pipes/gathering-date.pipe';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { PlanEventFormValue } from '../pages/plan-event.component';
@@ -17,7 +17,7 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
     DatePipe,
     LabelComponent,
     LazyImageComponent,
-    GatheringDateComponent,
+    GatheringDatePipe,
   ],
   template: `
     <div class="tg-p-1">
@@ -34,7 +34,7 @@ import { PlanEventFormValue } from '../pages/plan-event.component';
         <p class="label">Options</p>
         <div class="tg-pt-1">
           <p *ngFor="let gathering of mapGatheringsFromFormValue(plan)">
-            <tg-gathering-date [date]="gathering"></tg-gathering-date>
+            {{ gathering | gatheringDate }}
           </p>
         </div>
       </div>

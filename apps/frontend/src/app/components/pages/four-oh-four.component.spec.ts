@@ -7,9 +7,8 @@ describe(FourOhFourComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ FourOhFourComponent ],
-    })
-      .compileComponents();
+      imports: [FourOhFourComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -25,6 +24,8 @@ describe(FourOhFourComponent.name, () => {
   it('should display 404 error message', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('404');
-    expect(compiled.querySelector('p')?.textContent).toContain('Page not found');
+    expect(compiled.querySelector('p')?.textContent).toContain(
+      'Page not found'
+    );
   });
 });

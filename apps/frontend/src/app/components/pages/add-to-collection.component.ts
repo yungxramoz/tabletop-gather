@@ -111,7 +111,9 @@ export class AddToCollectionComponent {
   }
 
   private loadGames(): void {
-    if (this.isLoading) return;
+    if (this.isLoading) {
+      return;
+    }
 
     this.isLoading = true;
 

@@ -15,4 +15,9 @@ export class PasswordUpdateDto extends Dto {
   public newPassword!: UserUpdate['password'];
 }
 
+/**
+ * Model for updating a user's password.
+ *
+ * @see {@link PasswordUpdateDto}
+ */
 export type PasswordUpdate = Model<PasswordUpdateDto>;

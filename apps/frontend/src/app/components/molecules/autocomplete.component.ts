@@ -165,12 +165,16 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
       )
     );
 
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onSelectedChange(event: T) {
     if (this.mode === 'unique') {
-      if (this.value && this.value.some((value) => value === event)) return;
+      if (this.value && this.value.some((value) => value === event)) {
+        return;
+      }
       this.value = [...this.value, event];
     } else if (this.mode === 'multiple') {
       this.value = [...this.value, event];
@@ -181,16 +185,22 @@ export class AutocompleteComponent<T> implements ControlValueAccessor, OnInit {
     // Clear the input
     this.inputElement.nativeElement.value = '';
 
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onSelectedRemove(index: number) {
     this.value.splice(index, 1);
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onBlur() {
-    if (this.onTouched) this.onTouched();
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   /** @implement {@see {@link ControlValueAccessor}} */

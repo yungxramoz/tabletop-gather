@@ -162,8 +162,8 @@ export class EventsComponent implements AfterViewInit {
   }
 
   public editMyEvent(planId: string) {
-    // TODO: Implement "edit event" feature
-    alert("That's not implemented yet");
+    // TODO: Implement "edit event" stretch goal here
+    alert(`That's not implemented yet. Plan id ${planId}`);
   }
 
   public deleteMyEvent(planId: string) {
@@ -205,7 +205,7 @@ export class EventsComponent implements AfterViewInit {
         this.publicPlansSubject.next(plans);
 
         // Update badge
-        updateTabBadge(this.tabs.get(1)!, plans.length);
+        updateTabBadge(this.tabs.get(1) ?? undefined, plans.length);
 
         subscriptionPublic.unsubscribe();
       });

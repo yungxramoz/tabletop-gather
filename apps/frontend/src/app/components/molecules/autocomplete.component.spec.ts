@@ -6,12 +6,12 @@ import {
   NbIconModule,
   NbInputModule,
   NbListModule,
-  NbThemeModule
+  NbThemeModule,
 } from '@nebular/theme';
-import { AutocompleteComponent } from './autocomplete.component';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
+import { AutocompleteComponent } from './autocomplete.component';
 
 describe(AutocompleteComponent.name, () => {
   beforeEach(async () => {
@@ -27,8 +27,8 @@ describe(AutocompleteComponent.name, () => {
         AutocompleteComponent,
         LabelComponent,
         LazyImageComponent,
-        ValidationErrorsComponent
-      ]
+        ValidationErrorsComponent,
+      ],
     }).compileComponents();
   });
 

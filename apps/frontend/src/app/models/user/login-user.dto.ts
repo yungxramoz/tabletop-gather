@@ -13,4 +13,9 @@ export class LoginUserDto extends Dto {
   public password!: string;
 }
 
+/**
+ * Model for logging in a user.
+ *
+ * @see {@link LoginUserDto}
+ */
 export type LoginUser = Model<LoginUserDto>;

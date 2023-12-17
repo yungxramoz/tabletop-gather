@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbThemeModule, NbInputModule } from '@nebular/theme';
-import { TextareaComponent } from './textarea.component';
+import { NbInputModule, NbThemeModule } from '@nebular/theme';
 import { LabelComponent } from './label.component';
+import { TextareaComponent } from './textarea.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
 describe(TextareaComponent.name, () => {
@@ -14,8 +14,8 @@ describe(TextareaComponent.name, () => {
         NbInputModule,
         TextareaComponent,
         LabelComponent,
-        ValidationErrorsComponent
-      ]
+        ValidationErrorsComponent,
+      ],
     }).compileComponents();
   });
 

@@ -1,13 +1,30 @@
-import { TestBed, ComponentFixture, tick, fakeAsync, flush } from '@angular/core/testing';
-import { AddToCollectionComponent } from './add-to-collection.component';
+import {
+  AsyncPipe,
+  CommonModule,
+  NgClass,
+  NgForOf,
+  NgIf,
+} from '@angular/common';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush,
+  tick,
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { GameCardComponent } from '../molecules/game-card.component';
-import { AsyncPipe, NgForOf, NgIf, CommonModule, NgClass } from '@angular/common';
-import { NbIconLibraries, NbIconModule, NbSpinnerModule, NbThemeModule } from '@nebular/theme';
-import { SearchInputComponent } from '../atoms/search-input.component';
-import { GameService } from '../../services/game.service';
+import {
+  NbIconLibraries,
+  NbIconModule,
+  NbSpinnerModule,
+  NbThemeModule,
+} from '@nebular/theme';
 import { of } from 'rxjs';
 import { GameDto } from '../../models/game/game.dto';
+import { GameService } from '../../services/game.service';
+import { SearchInputComponent } from '../atoms/search-input.component';
+import { GameCardComponent } from '../molecules/game-card.component';
+import { AddToCollectionComponent } from './add-to-collection.component';
 
 describe(AddToCollectionComponent.name, () => {
   let fixture: ComponentFixture<AddToCollectionComponent>;
@@ -16,17 +33,19 @@ describe(AddToCollectionComponent.name, () => {
 
   beforeEach(async () => {
     mockGameService = {
-      getAllGames: jest.fn().mockReturnValue(of([
-        {
-          id: '1',
-          name: 'Game 1',
-          description: 'Game 1 description',
-          minPlayer: 1,
-          maxPlayer: 2,
-          imageUrl: 'url1',
-        }
-      ])),
-      addGameToCollection: jest.fn().mockReturnValue(of({}))
+      getAllGames: jest.fn().mockReturnValue(
+        of([
+          {
+            id: '1',
+            name: 'Game 1',
+            description: 'Game 1 description',
+            minPlayer: 1,
+            maxPlayer: 2,
+            imageUrl: 'url1',
+          },
+        ])
+      ),
+      addGameToCollection: jest.fn().mockReturnValue(of({})),
     };
 
     await TestBed.configureTestingModule({
@@ -40,16 +59,19 @@ describe(AddToCollectionComponent.name, () => {
         SearchInputComponent,
         NgForOf,
         NgIf,
-        NgClass
+        NgClass,
       ],
       providers: [
         { provide: GameService, useValue: mockGameService },
-        AsyncPipe
-      ]
+        AsyncPipe,
+      ],
     }).compileComponents();
 
     const iconLibraries: NbIconLibraries = TestBed.inject(NbIconLibraries);
-    iconLibraries.registerFontPack('nebular-icons', { packClass: 'nebular-icons', iconClassPrefix: 'nb' });
+    iconLibraries.registerFontPack('nebular-icons', {
+      packClass: 'nebular-icons',
+      iconClassPrefix: 'nb',
+    });
     iconLibraries.setDefaultPack('nebular-icons');
 
     fixture = TestBed.createComponent(AddToCollectionComponent);
@@ -81,6 +103,8 @@ describe(AddToCollectionComponent.name, () => {
     };
     component.handleAddToCollection(mockGame);
 
-    expect(mockGameService.addGameToCollection).toHaveBeenCalledWith(mockGame.id);
+    expect(mockGameService.addGameToCollection).toHaveBeenCalledWith(
+      mockGame.id
+    );
   });
 });

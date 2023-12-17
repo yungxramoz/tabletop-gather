@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { AddToCollectionComponent } from './components/pages/add-to-collection.component';
 import { CollectionComponent } from './components/pages/collection.component';
 import { EventsComponent } from './components/pages/events.component';
 import { FourOhFourComponent } from './components/pages/four-oh-four.component';
@@ -17,8 +18,10 @@ import {
   ROUTE_VIEW_EVENT,
 } from './constants';
 import { isAuthenticatedOrRedirectToLogin } from './guards/auth.guard';
-import {AddToCollectionComponent} from "./components/pages/add-to-collection.component";
 
+/**
+ * The routes of the app.
+ */
 export const appRoutes: Route[] = [
   {
     path: '',

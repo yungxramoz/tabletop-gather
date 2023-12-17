@@ -6,6 +6,11 @@ import {
   Validator,
 } from '@angular/forms';
 
+/**
+ * Validates that the input value is less than or equal to the provided value.
+ * @example
+ * <input type="number" tgMaxValidator="100" />
+ */
 @Directive({
   standalone: true,
   selector: '[type="number"][tgMaxValidator]',
@@ -20,6 +25,7 @@ import {
 export class MaxValidatorDirective implements Validator {
   @Input() public tgMaxValidator: number | undefined;
 
+  /** @inheritdoc */
   public validate(control: FormControl): ValidationErrors | null {
     const value = +control.value;
 

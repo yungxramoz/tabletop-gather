@@ -11,4 +11,9 @@ export class UpdateCommentDto extends Dto {
   public comment!: string;
 }
 
+/**
+ * Model for updating comments.
+ *
+ * @see {@link UpdateCommentDto}
+ */
 export type UpdateComment = Model<UpdateCommentDto>;

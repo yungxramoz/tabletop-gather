@@ -18,4 +18,9 @@ export class RegisterUserDto extends Dto {
   public password!: string;
 }
 
+/**
+ * Model for registering a user.
+ *
+ * @see {@link RegisterUserDto}
+ */
 export type RegisterUser = Model<RegisterUserDto>;

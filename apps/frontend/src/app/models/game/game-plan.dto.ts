@@ -11,8 +11,13 @@ import { GameOwnersDto } from './game-owners.dto';
  * @extends {Dto}
  */
 export class GamePlanDto extends Dto {
-  public gatheringDto!: DateTimeGathering; // Not a dto
+  public gatheringDto!: DateTimeGathering; // Use the model bc we don't get the id
   public games!: GameOwnersDto[];
 }
 
+/**
+ * Model for a game which users of a plan might own
+ *
+ * @see {@link GamePlanDto}
+ */
 export type GamePlan = Model<GamePlanDto>;

@@ -14,4 +14,9 @@ export class CreateCommentDto extends Dto {
   public planId!: PlanDto['id'];
 }
 
+/**
+ * Model for creating comments.
+ *
+ * @see {@link CreateCommentDto}
+ */
 export type CreateComment = Model<CreateCommentDto>;

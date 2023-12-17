@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
 import { NbButtonModule, NbCardModule, NbThemeModule } from '@nebular/theme';
-import { PlanEventSummaryComponent } from './plan-event-summary.component';
-import { EventOverviewComponent } from './event-overview.component';
 import { LabelComponent } from '../atoms/label.component';
 import { LazyImageComponent } from '../atoms/lazy-image.component';
 import { VoidComponent } from '../atoms/void.component';
 import { PlanEventFormValue } from '../pages/plan-event.component'; // Adjust import paths
+import { EventOverviewComponent } from './event-overview.component';
+import { PlanEventSummaryComponent } from './plan-event-summary.component';
 
 describe(PlanEventSummaryComponent.name, () => {
   const mockEvent: PlanEventFormValue = {
@@ -19,12 +19,12 @@ describe(PlanEventSummaryComponent.name, () => {
         imageUrl: 'https://via.placeholder.com/150',
         minPlayer: 2,
         maxPlayer: 4,
-      }
+      },
     ],
     description: 'Test Description',
     isPrivate: false,
     playerLimit: '2',
-    gatherings: [new Date(2023, 11, 1)]
+    gatherings: [new Date(2023, 11, 1)],
   };
 
   beforeEach(async () => {
@@ -37,9 +37,9 @@ describe(PlanEventSummaryComponent.name, () => {
         EventOverviewComponent,
         LabelComponent,
         LazyImageComponent,
-        VoidComponent
+        VoidComponent,
       ],
-      providers: [DatePipe]
+      providers: [DatePipe],
     }).compileComponents();
   });
 

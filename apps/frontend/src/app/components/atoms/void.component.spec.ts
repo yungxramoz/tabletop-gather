@@ -4,7 +4,7 @@ import { VoidComponent } from './void.component';
 describe(VoidComponent.name, () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VoidComponent] // Import the standalone component
+      imports: [VoidComponent], // Import the standalone component
     }).compileComponents();
   });
 

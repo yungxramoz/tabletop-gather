@@ -1,17 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbDialogRef, NbThemeModule } from '@nebular/theme';
-import { PasswordChangeDialogComponent, PasswordChangeDialogResult } from './password-change-dialog.component';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbDialogRef,
+  NbThemeModule,
+} from '@nebular/theme';
+import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
 import { InputComponent } from '../atoms/input.component';
 import { ValidationErrorsComponent } from '../atoms/validation-errors.component';
-import { PasswordValidatorDirective } from '../../directives/password-validator.directive';
+import {
+  PasswordChangeDialogComponent,
+  PasswordChangeDialogResult,
+} from './password-change-dialog.component';
 
 describe(PasswordChangeDialogComponent.name, () => {
   let mockDialogRef: Partial<NbDialogRef<PasswordChangeDialogComponent>>;
 
   beforeEach(async () => {
     mockDialogRef = {
-      close: jest.fn()
+      close: jest.fn(),
     };
 
     await TestBed.configureTestingModule({
@@ -22,12 +30,12 @@ describe(PasswordChangeDialogComponent.name, () => {
         NbThemeModule.forRoot(),
         PasswordChangeDialogComponent,
         InputComponent,
-        ValidationErrorsComponent
+        ValidationErrorsComponent,
       ],
       providers: [
         { provide: NbDialogRef, useValue: mockDialogRef },
-        PasswordValidatorDirective
-      ]
+        PasswordValidatorDirective,
+      ],
     }).compileComponents();
   });
 
@@ -43,7 +51,7 @@ describe(PasswordChangeDialogComponent.name, () => {
     const passwordData: PasswordChangeDialogResult = {
       currentPassword: 'currentPass123',
       password: 'newPass123',
-      passwordConfirmation: 'newPass123'
+      passwordConfirmation: 'newPass123',
     };
 
     component.confirm(passwordData);

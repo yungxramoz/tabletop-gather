@@ -1,20 +1,25 @@
-import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
-import { CollectionComponent } from './collection.component';
-import { CollectionActionsComponent } from '../molecules/collection-actions.component';
-import { ViewCollectionOwnComponent } from '../organisms/view-collection-own.component';
-import { GameService } from '../../services/game.service';
-import { of } from 'rxjs';
-import { GameDto } from '../../models/game/game.dto';
+import { CommonModule, NgClass, NgIf } from '@angular/common';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   NB_DIALOG_CONFIG,
   NbDialogService,
   NbIconLibraries,
   NbLayoutModule,
   NbSpinnerModule,
-  NbThemeModule
+  NbThemeModule,
 } from '@nebular/theme';
-import { CommonModule, NgIf, NgClass } from '@angular/common';
-import { RouterModule } from "@angular/router";
+import { of } from 'rxjs';
+import { GameDto } from '../../models/game/game.dto';
+import { GameService } from '../../services/game.service';
+import { CollectionActionsComponent } from '../molecules/collection-actions.component';
+import { ViewCollectionOwnComponent } from '../organisms/view-collection-own.component';
+import { CollectionComponent } from './collection.component';
 
 describe(CollectionComponent.name, () => {
   let fixture: ComponentFixture<CollectionComponent>;
@@ -24,17 +29,19 @@ describe(CollectionComponent.name, () => {
 
   beforeEach(async () => {
     mockGameService = {
-      getAllMyGames: jest.fn().mockReturnValue(of([
-        {
-          id: '1',
-          name: 'test',
-          description: 'test',
-          minPlayer: 1,
-          maxPlayer: 2,
-          imageUrl: 'testurl',
-        }
-      ])),
-      deleteFromCollection: jest.fn().mockReturnValue(of({}))
+      getAllMyGames: jest.fn().mockReturnValue(
+        of([
+          {
+            id: '1',
+            name: 'test',
+            description: 'test',
+            minPlayer: 1,
+            maxPlayer: 2,
+            imageUrl: 'testurl',
+          },
+        ])
+      ),
+      deleteFromCollection: jest.fn().mockReturnValue(of({})),
     };
 
     await TestBed.configureTestingModule({
@@ -48,17 +55,20 @@ describe(CollectionComponent.name, () => {
         NgClass,
         CollectionComponent,
         CollectionActionsComponent,
-        ViewCollectionOwnComponent
+        ViewCollectionOwnComponent,
       ],
       providers: [
         { provide: GameService, useValue: mockGameService },
         { provide: NbDialogService, useClass: dialogServiceMock },
-        { provide: NB_DIALOG_CONFIG, useValue: {} }
-      ]
+        { provide: NB_DIALOG_CONFIG, useValue: {} },
+      ],
     }).compileComponents();
 
     const iconLibraries: NbIconLibraries = TestBed.inject(NbIconLibraries);
-    iconLibraries.registerFontPack('eva', { packClass: 'eva', iconClassPrefix: 'eva' });
+    iconLibraries.registerFontPack('eva', {
+      packClass: 'eva',
+      iconClassPrefix: 'eva',
+    });
     iconLibraries.setDefaultPack('eva');
 
     fixture = TestBed.createComponent(CollectionComponent);
@@ -96,6 +106,8 @@ describe(CollectionComponent.name, () => {
     component.handleRemoveFromCollection(mockGame);
     fixture.detectChanges();
 
-    expect(mockGameService.deleteFromCollection).toHaveBeenCalledWith(mockGame.id);
+    expect(mockGameService.deleteFromCollection).toHaveBeenCalledWith(
+      mockGame.id
+    );
   });
 });

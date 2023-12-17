@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { LandingPageComponent } from './landing-page.component';
-import { AuthService } from '../../services/auth.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NbThemeModule } from '@nebular/theme';
 import { BehaviorSubject } from 'rxjs';
-import { ROUTE_EVENTS, ROUTE_LOGIN } from "../../constants";
-import { NbThemeModule } from "@nebular/theme";
+import { ROUTE_EVENTS, ROUTE_LOGIN } from '../../constants';
+import { AuthService } from '../../services/auth.service';
+import { LandingPageComponent } from './landing-page.component';
 
 describe(LandingPageComponent.name, () => {
   let component: LandingPageComponent;
@@ -17,18 +17,16 @@ describe(LandingPageComponent.name, () => {
     loginStatus$ = new BehaviorSubject<boolean>(false);
 
     const mockAuthService = {
-      loginStatus$: loginStatus$.asObservable()
+      loginStatus$: loginStatus$.asObservable(),
     };
 
     await TestBed.configureTestingModule({
       imports: [
         NbThemeModule.forRoot(),
         LandingPageComponent,
-        RouterTestingModule
+        RouterTestingModule,
       ],
-      providers: [
-        { provide: AuthService, useValue: mockAuthService }
-      ]
+      providers: [{ provide: AuthService, useValue: mockAuthService }],
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -49,7 +47,9 @@ describe(LandingPageComponent.name, () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const button = compiled.querySelector('button');
     expect(button).toBeTruthy();
-    expect(button!.getAttribute('ng-reflect-router-link')).toContain(ROUTE_LOGIN);
+    expect(button?.getAttribute('ng-reflect-router-link')).toContain(
+      ROUTE_LOGIN
+    );
   });
 
   it('should navigate to events page on login', () => {

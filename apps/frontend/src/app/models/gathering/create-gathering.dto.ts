@@ -13,4 +13,9 @@ export class CreateGatheringDto extends Dto {
   public startTime!: DetailGatheringDto['startTime'];
 }
 
+/**
+ * Model for creating gatherings.
+ *
+ * @see {@link CreateGatheringDto}
+ */
 export type CreateGathering = Model<CreateGatheringDto>;

@@ -1,15 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbDialogRef, NbThemeModule } from '@nebular/theme';
-import { DeleteDialogComponent } from './delete-dialog.component';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbDialogRef,
+  NbThemeModule,
+} from '@nebular/theme';
 import { InputComponent } from '../atoms/input.component';
+import { DeleteDialogComponent } from './delete-dialog.component';
 
 describe(DeleteDialogComponent.name, () => {
   let mockDialogRef: Partial<NbDialogRef<DeleteDialogComponent>>;
 
   beforeEach(async () => {
     mockDialogRef = {
-      close: jest.fn()
+      close: jest.fn(),
     };
 
     await TestBed.configureTestingModule({
@@ -19,11 +24,9 @@ describe(DeleteDialogComponent.name, () => {
         NbButtonModule,
         NbThemeModule.forRoot(),
         DeleteDialogComponent,
-        InputComponent
+        InputComponent,
       ],
-      providers: [
-        { provide: NbDialogRef, useValue: mockDialogRef }
-      ]
+      providers: [{ provide: NbDialogRef, useValue: mockDialogRef }],
     }).compileComponents();
   });
 

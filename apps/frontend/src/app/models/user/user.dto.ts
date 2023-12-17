@@ -16,4 +16,9 @@ export class UserDto extends Dto {
   public email!: string;
 }
 
+/**
+ * Model for users.
+ *
+ * @see {@link UserDto}
+ */
 export type User = Model<UserDto>;

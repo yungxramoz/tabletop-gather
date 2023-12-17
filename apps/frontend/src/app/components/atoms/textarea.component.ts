@@ -76,11 +76,15 @@ export class TextareaComponent implements ControlValueAccessor {
 
   public valueChange(event: Event) {
     this.value = (event.target as HTMLTextAreaElement).value;
-    if (this.onChange) this.onChange(this.value);
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   public onBlur() {
-    if (this.onTouched) this.onTouched();
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   /** @implement {@see {@link ControlValueAccessor}} */

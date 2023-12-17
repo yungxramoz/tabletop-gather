@@ -18,9 +18,7 @@ import { AuthService } from '../services/auth.service';
 export class AuthInterceptor implements HttpInterceptor {
   public constructor(private readonly authService: AuthService) {}
 
-  /**
-   * @inheritdoc
-   */
+  /** @inheritdoc */
   public intercept(
     req: HttpRequest<unknown>,
     next: HttpHandler

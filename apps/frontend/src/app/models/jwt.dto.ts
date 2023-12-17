@@ -12,4 +12,9 @@ export class JwtDto extends Dto {
   public expiresIn!: number;
 }
 
+/**
+ * Model for Jwt tokens
+ *
+ * @see {@link JwtDto}
+ */
 export type Jwt = Model<JwtDto>;

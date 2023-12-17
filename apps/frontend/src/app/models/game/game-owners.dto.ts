@@ -11,4 +11,9 @@ export class GameOwnersDto extends GameDto {
   public owners!: string[];
 }
 
+/**
+ * Model for a game which users of a plan own
+ *
+ * @see {@link GameOwnersDto}
+ */
 export type GameOwners = Model<GameOwnersDto>;

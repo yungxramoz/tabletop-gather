@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NbThemeModule, NbToggleModule } from '@nebular/theme';
-import { ToggleComponent } from './toggle.component';
 import { LabelComponent } from './label.component';
+import { ToggleComponent } from './toggle.component';
 import { ValidationErrorsComponent } from './validation-errors.component';
 
 describe(ToggleComponent.name, () => {
@@ -14,8 +14,8 @@ describe(ToggleComponent.name, () => {
         NbToggleModule,
         ToggleComponent,
         LabelComponent,
-        ValidationErrorsComponent
-      ]
+        ValidationErrorsComponent,
+      ],
     }).compileComponents();
   });
 

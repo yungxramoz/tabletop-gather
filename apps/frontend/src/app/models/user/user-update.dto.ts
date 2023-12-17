@@ -11,4 +11,9 @@ export class UserUpdateDto extends UserDto {
   public password!: string;
 }
 
+/**
+ * Model for user updates
+ *
+ * @see {@link UserUpdateDto}
+ */
 export type UserUpdate = Model<UserUpdateDto>;

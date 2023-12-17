@@ -23,6 +23,10 @@ type ErrorResponseHandlingConfig = {
 
 const DEFAULT_CONFIG: ErrorResponseHandlingConfig = {};
 
+/**
+ * A service for handling responses from the server.
+ * Provides a set of rxjs operators for handling responses from the server.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -36,6 +40,14 @@ export class ResponseHandler {
 
   public constructor(private readonly injector: Injector) {}
 
+  /**
+   * Handles an error response from the server by showing a toast with the error.
+   * It uses `catchError` to catch the error in a stream from a http request.
+   * Do not use in combination with {@link handleResponse}, as it will call this method internally.
+   *
+   * @param {ErrorResponseHandlingConfig} config - The configuration for the error response handling
+   * @returns {Observable<HttpResponse<T> | null>} An observable which will emit the response if it was successful, or null if it was not
+   */
   public handleErrorResponse = <T>(
     config: ErrorResponseHandlingConfig = {} as ErrorResponseHandlingConfig
   ): ((
@@ -62,6 +74,14 @@ export class ResponseHandler {
     );
   };
 
+  /**
+   * Handles a successful response from the server by showing a toast with the success message.
+   * It uses `tap` to tap into a stream from a http request.
+   * You should specify an override for the success title and/or message, otherwise it will use the status text of the response.
+   *
+   * @param {ErrorResponseHandlingConfig & { successTitleOverride?: string; successMessageOverride?: string; }} config - The configuration for the error response handling
+   * @returns {Observable<HttpResponse<T> | null>} An observable which will emit the response if it was successful, or null if it was not
+   */
   public handleResponse = <T>(
     config: ErrorResponseHandlingConfig & {
       successTitleOverride?: string;

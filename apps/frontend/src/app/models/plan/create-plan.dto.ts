@@ -22,4 +22,9 @@ export class CreatePlanDto extends Dto {
   public gatherings: CreateGathering[] = [];
 }
 
+/**
+ * Model for creating plans.
+ *
+ * @see {@link CreatePlanDto}
+ */
 export type CreatePlan = Model<CreatePlanDto>;
