@@ -98,9 +98,10 @@ public class PlanService {
 
   public UUID create(final CreatePlanDto planDto, final UUID userId) {
     final Plan plan = new Plan();
-    mapToEntity(planDto, plan);
-    plan.setUser(
-        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found")));
+    final User owner =
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
+    mapToEntity(planDto, plan, owner);
+    plan.setUser(owner);
     return planRepository.save(plan).getId();
   }
 
@@ -205,7 +206,7 @@ public class PlanService {
     return planDto;
   }
 
-  private Plan mapToEntity(final CreatePlanDto planDto, final Plan plan) {
+  private Plan mapToEntity(final CreatePlanDto planDto, final Plan plan, final User owner) {
     plan.setName(planDto.getName());
     plan.setIsPrivate(planDto.getIsPrivate());
     plan.setDescription(planDto.getDescription());
@@ -226,6 +227,7 @@ public class PlanService {
               gathering.setPlan(plan);
               gathering.setDate(gatheringDto.getDate());
               gathering.setStartTime(gatheringDto.getStartTime());
+              gathering.setUsers(new HashSet<>(List.of(owner)));
               gatherings.add(gathering);
             });
     plan.setGatherings(gatherings);
