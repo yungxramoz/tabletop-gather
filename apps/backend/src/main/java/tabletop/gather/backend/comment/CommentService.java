@@ -116,6 +116,7 @@ public class CommentService {
   }
 
   private CommentItemDto mapToDto(final Comment comment, final CommentItemDto commentDto) {
+    commentDto.setId(comment.getId());
     commentDto.setComment(comment.getComment());
     commentDto.setUser(
         String.format("%s %s", comment.getUser().getFirstName(), comment.getUser().getLastName()));

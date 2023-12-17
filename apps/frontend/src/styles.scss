@@ -47,6 +47,10 @@ p {
   max-width: 70rem;
 }
 
+.tg-w-90 {
+  width: 90%;
+}
+
 .tg-full {
   width: 100%;
   height: 100%;
@@ -84,6 +88,7 @@ p {
 
 /* Margins */
 
+
 .tg-m-1 {
   margin: 0.5rem;
 }
@@ -94,6 +99,11 @@ p {
 
 .tg-m-4 {
   margin: 2rem;
+}
+
+.tg-my-0 {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .tg-my-2 {
@@ -143,6 +153,11 @@ p {
 
 .tg-block {
   display: block;
+}
+
+.tg-right {
+  margin-left: auto;
+  margin-right: 0;
 }
 
 .tg-flex-row {
@@ -200,6 +215,10 @@ p {
 
 .tg-nowrap {
   white-space: nowrap;
+}
+
+.tg-primary-border {
+  border: 3px var(--color-primary-default) solid;
 }
 
 .tg-tab-no-px {

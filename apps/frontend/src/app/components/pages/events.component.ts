@@ -169,14 +169,12 @@ export class EventsComponent implements AfterViewInit {
   public deleteMyEvent(planId: string) {
     this.dialogService
       .open(DeleteDialogComponent, {
-        context: 'Do you really want to delete this event?',
+        context: { message: 'Do you really want to delete this event?' },
       })
       .onClose.pipe(
         filter((result: DeleteDialogResult) => result !== undefined),
         filter((result) => result.delete),
-        switchMap(() => {
-          return this.planService.deletePlan(planId);
-        })
+        switchMap(() => this.planService.deletePlan(planId))
       )
       .subscribe(() => {
         this.getPlans();
